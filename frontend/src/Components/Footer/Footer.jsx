@@ -67,12 +67,14 @@ const Footer = () => {
             <div className="footer-socials">
 
               <a
-                href="#"
-                aria-label="Instagram"
-                className="footer-social"
-              >
-                <FaInstagram />
-              </a>
+  href="https://www.instagram.com/steelcraftprefab/"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Instagram"
+  className="footer-social"
+>
+  <FaInstagram />
+</a>
 
               <a
                 href="#"

@@ -69,7 +69,6 @@ const projects = [
     location: "Chail",
     image: projectH,
   },
-  
   {
     id: 10,
     title: "A Frame 2BHK Villa",
@@ -117,8 +116,15 @@ const Project = () => {
     });
   };
 
+  // ===================================================
+  // RENDER
+  // ===================================================
+
   return (
-    <section className="projects-section">
+    <section
+      id="projects"
+      className="projects-section"
+    >
 
       {/* =============================================
           DECORATIVE BACKGROUND
@@ -128,11 +134,13 @@ const Project = () => {
 
       <div className="projects-decoration projects-decoration-right"></div>
 
+
       {/* =============================================
           MAIN CONTAINER
       ============================================== */}
 
       <div className="projects-container">
+
 
         {/* ===========================================
             HEADER
@@ -140,7 +148,9 @@ const Project = () => {
 
         <div className="projects-header">
 
-          {/* LEFT HEADING */}
+          {/* =========================================
+              LEFT HEADING
+          ========================================== */}
 
           <div className="projects-heading">
 
@@ -154,8 +164,8 @@ const Project = () => {
 
           </div>
 
-          
         </div>
+
 
         {/* ===========================================
             PROJECT SLIDER
@@ -163,7 +173,10 @@ const Project = () => {
 
         <div className="projects-slider-wrapper">
 
-          {/* LEFT NAVIGATION */}
+
+          {/* =========================================
+              LEFT NAVIGATION
+          ========================================== */}
 
           <button
             type="button"
@@ -173,6 +186,7 @@ const Project = () => {
           >
             <span>←</span>
           </button>
+
 
           {/* =========================================
               PROJECT CARDS
@@ -190,7 +204,9 @@ const Project = () => {
                 key={project.id}
               >
 
-                {/* PROJECT IMAGE */}
+                {/* ===================================
+                    PROJECT IMAGE
+                ==================================== */}
 
                 <img
                   src={project.image}
@@ -199,11 +215,17 @@ const Project = () => {
                   loading="lazy"
                 />
 
-                {/* IMAGE GRADIENT */}
+
+                {/* ===================================
+                    IMAGE GRADIENT
+                ==================================== */}
 
                 <div className="project-overlay"></div>
 
-                {/* PROJECT INFORMATION */}
+
+                {/* ===================================
+                    PROJECT INFORMATION
+                ==================================== */}
 
                 <div className="project-info">
 
@@ -219,8 +241,6 @@ const Project = () => {
 
                   </div>
 
-                
-
                 </div>
 
               </article>
@@ -229,7 +249,10 @@ const Project = () => {
 
           </div>
 
-          {/* RIGHT NAVIGATION */}
+
+          {/* =========================================
+              RIGHT NAVIGATION
+          ========================================== */}
 
           <button
             type="button"
