@@ -1,0 +1,860 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+
+/* =========================================================
+   WHO WE SERVE
+========================================================= */
+
+.who-we-serve-section {
+  position: relative;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  padding: 55px 0 45px;
+
+  background: #faf9f5;
+
+  color: #161616;
+
+  font-family: "Inter", sans-serif;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.who-we-serve-container {
+  position: relative;
+
+  z-index: 3;
+
+  width: min(92%, 1450px);
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.who-serve-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 40px;
+
+  margin-bottom: 32px;
+}
+
+
+/* =========================================================
+   HEADING CONTAINER
+========================================================= */
+
+.who-serve-heading {
+  text-align: left;
+
+  font-family: "Inter", sans-serif;
+}
+
+
+/* =========================================================
+   SMALL LABEL
+========================================================= */
+
+.who-serve-label {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 0 0 6px;
+
+  color: #a4663c;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 11px;
+
+  font-weight: 500;
+
+  letter-spacing: 1.5px;
+
+  line-height: 1.2;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   LABEL LINE
+========================================================= */
+
+.who-serve-label::before {
+  content: "";
+
+  display: inline-block;
+
+  width: 26px;
+
+  height: 1px;
+
+  background: #a4663c;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.who-serve-heading h2 {
+  margin: 0;
+
+  color: #161616;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 30px;
+
+  font-weight: 700;
+
+  line-height: 1.15;
+
+  letter-spacing: -0.5px;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.who-serve-heading p {
+  max-width: 600px;
+
+  margin: 12px 0 0;
+
+  color: #555555;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 15px;
+
+  font-weight: 400;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================================
+   EXPLORE BUTTON
+========================================================= */
+
+.explore-applications-btn {
+  flex-shrink: 0;
+
+  margin-top: 8px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 12px 18px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #a4663c;
+
+  color: #ffffff;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+/* =========================================================
+   BUTTON HOVER
+========================================================= */
+
+.explore-applications-btn:hover {
+  background: #8f572f;
+
+  color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px
+    rgba(164, 102, 60, 0.25);
+}
+
+
+/* =========================================================
+   BUTTON ARROW
+========================================================= */
+
+.explore-arrow {
+  font-size: 17px;
+
+  line-height: 1;
+
+  transition:
+    transform 0.3s ease;
+}
+
+
+.explore-applications-btn:hover
+.explore-arrow {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   APPLICATION LIST
+========================================================= */
+
+.applications-list {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(6, minmax(0, 1fr));
+
+  align-items: start;
+
+  justify-content: center;
+}
+
+
+/* =========================================================
+   APPLICATION CARD
+========================================================= */
+
+.application-card {
+  position: relative;
+
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: flex-start;
+
+  padding: 0 18px;
+
+  cursor: pointer;
+
+  font-family: "Inter", sans-serif;
+}
+
+
+/* =========================================================
+   VERTICAL SEPARATORS
+========================================================= */
+
+.application-card:not(:last-child)::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+
+  top: 4px;
+
+  width: 1px;
+
+  height: 90px;
+
+  background: rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   IMAGE WRAPPER
+========================================================= */
+
+.application-image-wrapper {
+  position: relative;
+
+  width: 115px;
+
+  height: 115px;
+
+  overflow: hidden;
+
+  border-radius: 50%;
+
+  flex-shrink: 0;
+
+  background: #e7e4dc;
+
+  border: 1px solid #c9c6bd;
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.application-image {
+  width: 100%;
+
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  filter:
+    grayscale(100%)
+    contrast(0.95);
+
+  transform: scale(1.01);
+
+  transition:
+    filter 0.5s ease,
+    transform 0.5s ease;
+}
+
+
+/* =========================================================
+   DESKTOP HOVER
+========================================================= */
+
+.application-card:hover
+.application-image-wrapper {
+  transform: translateY(-6px);
+
+  border-color: #a4663c;
+
+  box-shadow:
+    0 12px 28px
+    rgba(0, 0, 0, 0.16);
+}
+
+
+.application-card:hover
+.application-image {
+  filter:
+    grayscale(0%)
+    saturate(1.15)
+    contrast(1);
+
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   APPLICATION TITLE
+========================================================= */
+
+.application-card h3 {
+  margin: 12px 0 0;
+
+  color: #161616;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  line-height: 1.3;
+
+  text-align: center;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+/* =========================================================
+   TITLE HOVER
+========================================================= */
+
+.application-card:hover h3 {
+  color: #a4663c;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   DECORATIVE LEAVES
+========================================================= */
+
+.serve-leaf {
+  position: absolute;
+
+  z-index: 1;
+
+  width: 180px;
+
+  height: 300px;
+
+  pointer-events: none;
+
+  opacity: 0.35;
+
+  background:
+    repeating-linear-gradient(
+      65deg,
+      transparent 0 15px,
+      rgba(87, 103, 77, 0.55) 16px 18px,
+      transparent 19px 32px
+    );
+
+  filter: blur(0.2px);
+}
+
+
+/* =========================================================
+   LEFT LEAVES
+========================================================= */
+
+.serve-leaf-left {
+  left: -95px;
+
+  top: -80px;
+
+  transform: rotate(-25deg);
+}
+
+
+/* =========================================================
+   RIGHT LEAVES
+========================================================= */
+
+.serve-leaf-right {
+  right: -95px;
+
+  bottom: -90px;
+
+  transform: rotate(155deg);
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .who-we-serve-container {
+    width: 94%;
+  }
+
+
+  .applications-list {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    row-gap: 35px;
+  }
+
+
+  .application-card {
+    padding: 0 20px;
+  }
+
+
+  .application-card:nth-child(3)::after {
+    display: none;
+  }
+
+
+  .application-card:nth-child(6)::after {
+    display: none;
+  }
+
+
+  .application-image-wrapper {
+    width: 125px;
+
+    height: 125px;
+  }
+}
+
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 850px) {
+
+  .who-serve-heading h2 {
+    font-size: 28px;
+  }
+
+
+  .who-serve-heading p {
+    font-size: 14px;
+  }
+
+
+  .application-card h3 {
+    font-size: 15px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .who-we-serve-section {
+    padding: 55px 0 60px;
+  }
+
+
+  .who-we-serve-container {
+    width: 90%;
+  }
+
+
+  /* =======================================================
+     HEADER
+  ======================================================= */
+
+  .who-serve-header {
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+    gap: 22px;
+
+    margin-bottom: 40px;
+  }
+
+
+  .who-serve-heading {
+    width: 100%;
+
+    text-align: center;
+  }
+
+
+  /* =======================================================
+     LABEL
+  ======================================================= */
+
+  .who-serve-label {
+    justify-content: center;
+
+    margin-bottom: 7px;
+
+    font-size: 10px;
+
+    font-weight: 500;
+
+    letter-spacing: 1.5px;
+  }
+
+
+  .who-serve-label::before {
+    width: 22px;
+  }
+
+
+  /* =======================================================
+     HEADING
+  ======================================================= */
+
+  .who-serve-heading h2 {
+    width: 100%;
+
+    font-size: 26px;
+
+    font-weight: 700;
+
+    line-height: 1.15;
+
+    letter-spacing: -0.3px;
+  }
+
+
+  /* =======================================================
+     DESCRIPTION
+  ======================================================= */
+
+  .who-serve-heading p {
+    max-width: 450px;
+
+    margin: 10px auto 0;
+
+    font-size: 13px;
+
+    font-weight: 400;
+
+    line-height: 1.65;
+  }
+
+
+  /* =======================================================
+     BUTTON
+  ======================================================= */
+
+  .explore-applications-btn {
+    margin-top: 0;
+
+    padding: 12px 18px;
+
+    font-size: 12px;
+  }
+
+
+  /* =======================================================
+     SINGLE COLUMN
+  ======================================================= */
+
+  .applications-list {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    row-gap: 32px;
+  }
+
+
+  /* =======================================================
+     APPLICATION CARD
+  ======================================================= */
+
+  .application-card {
+    width: 100%;
+
+    padding: 0;
+
+    align-items: center;
+  }
+
+
+  /* Remove desktop separators */
+
+  .application-card::after {
+    display: none !important;
+  }
+
+
+  /* =======================================================
+     IMAGE
+  ======================================================= */
+
+  .application-image-wrapper {
+    width: 175px;
+
+    height: 175px;
+  }
+
+
+  /* =======================================================
+     TITLE
+  ======================================================= */
+
+  .application-card h3 {
+    margin-top: 12px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+  }
+
+
+  /* =======================================================
+     MOBILE TOUCH
+  ======================================================= */
+
+  .application-card:active
+  .application-image {
+    filter:
+      grayscale(0%)
+      saturate(1.15)
+      contrast(1);
+
+    transform: scale(1.06);
+  }
+
+
+  .application-card:active
+  .application-image-wrapper {
+    border-color: #a4663c;
+
+    transform: scale(1.02);
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .who-we-serve-section {
+    padding: 45px 0 55px;
+  }
+
+
+  /* Label */
+
+  .who-serve-label {
+    font-size: 9.5px;
+
+    letter-spacing: 1.4px;
+  }
+
+
+  /* Heading */
+
+  .who-serve-heading h2 {
+    font-size: 24px;
+
+    line-height: 1.15;
+  }
+
+
+  /* Description */
+
+  .who-serve-heading p {
+    font-size: 12px;
+
+    line-height: 1.6;
+  }
+
+
+  /* Button */
+
+  .explore-applications-btn {
+    padding: 11px 17px;
+
+    font-size: 11px;
+  }
+
+
+  /* Image */
+
+  .application-image-wrapper {
+    width: 155px;
+
+    height: 155px;
+  }
+
+
+  /* Title */
+
+  .application-card h3 {
+    font-size: 15px;
+  }
+
+
+  .applications-list {
+    row-gap: 28px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 340px) {
+
+  .who-serve-label {
+    font-size: 9px;
+
+    letter-spacing: 1.2px;
+  }
+
+
+  .who-serve-heading h2 {
+    font-size: 22px;
+  }
+
+
+  .who-serve-heading p {
+    font-size: 11.5px;
+  }
+
+
+  .application-image-wrapper {
+    width: 140px;
+
+    height: 140px;
+  }
+
+
+  .application-card h3 {
+    font-size: 14px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.explore-applications-btn:focus-visible {
+  outline: 2px solid #a4663c;
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .application-image-wrapper,
+  .application-image,
+  .application-card h3,
+  .explore-applications-btn,
+  .explore-arrow {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,447 @@
+/* =====================================================
+   GOOGLE FONT
+===================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+
+/* =====================================================
+   MAIN SECTION
+===================================================== */
+
+.steel-why-section {
+  width: 100%;
+  padding: 28px 0 30px;
+  background: #f8f6f1;
+  font-family: "Inter", sans-serif;
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.steel-why-container {
+  width: min(92%, 1500px);
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.steel-why-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+
+/* =====================================================
+   HEADING
+===================================================== */
+
+.steel-why-header h2 {
+  margin: 0;
+
+  color: #111111;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 29px;
+  line-height: 1.2;
+  font-weight: 700;
+
+  letter-spacing: -0.8px;
+}
+
+
+/* =====================================================
+   FEATURES GRID
+===================================================== */
+
+.steel-why-grid {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(6, 1fr);
+
+  gap: 12px;
+
+  align-items: stretch;
+}
+
+
+/* =====================================================
+   FEATURE CARD
+===================================================== */
+
+.steel-why-card {
+  min-width: 0;
+  min-height: 145px;
+
+  padding: 15px 10px 14px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(0, 0, 0, 0.055);
+
+  border-radius: 9px;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.06);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+/* =====================================================
+   CARD HOVER
+===================================================== */
+
+.steel-why-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 7px 18px rgba(0, 0, 0, 0.10);
+
+  border-color: rgba(190, 122, 65, 0.20);
+}
+
+
+/* =====================================================
+   ACTIVE CARD
+===================================================== */
+
+.steel-why-card.active {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 7px 18px rgba(0, 0, 0, 0.10);
+
+  border-color: rgba(190, 122, 65, 0.25);
+}
+
+
+/* =====================================================
+   ICON CIRCLE
+===================================================== */
+
+.steel-why-icon {
+  width: 48px;
+  height: 48px;
+
+  margin-bottom: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #f1e3d2;
+
+  color: #bd7d4e;
+
+  font-size: 25px;
+
+  line-height: 1;
+
+  flex-shrink: 0;
+
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+/* =====================================================
+   ICON HOVER
+===================================================== */
+
+.steel-why-card:hover .steel-why-icon {
+  background: #bd7d4e;
+
+  color: #ffffff;
+
+  transform: scale(1.04);
+}
+
+
+/* =====================================================
+   ICON ACTIVE / TOUCH
+===================================================== */
+
+.steel-why-card.active .steel-why-icon {
+  background: #bd7d4e;
+
+  color: #ffffff;
+
+  transform: scale(1.04);
+}
+
+
+/* =====================================================
+   CARD TITLE
+===================================================== */
+
+.steel-why-card h3 {
+  margin: 0 0 5px;
+
+  color: #111111;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 14px;
+
+  line-height: 1.25;
+
+  font-weight: 700;
+
+  letter-spacing: -0.2px;
+}
+
+
+/* =====================================================
+   DESCRIPTION
+===================================================== */
+
+.steel-why-description {
+  color: #555555;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 11.5px;
+
+  line-height: 1.45;
+
+  font-weight: 400;
+}
+
+
+/* =====================================================
+   LARGE TABLET
+===================================================== */
+
+@media (max-width: 1200px) {
+
+  .steel-why-container {
+    width: 94%;
+  }
+
+  .steel-why-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .steel-why-card {
+    min-height: 140px;
+  }
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 768px) {
+
+  .steel-why-section {
+    padding: 30px 0;
+  }
+
+  .steel-why-container {
+    width: 90%;
+  }
+
+  .steel-why-header {
+    margin-bottom: 18px;
+  }
+
+  .steel-why-header h2 {
+    font-size: 25px;
+  }
+
+  .steel-why-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .steel-why-card {
+    min-height: 145px;
+    padding: 15px 10px;
+  }
+
+  .steel-why-icon {
+    width: 46px;
+    height: 46px;
+
+    font-size: 24px;
+
+    margin-bottom: 7px;
+  }
+
+  .steel-why-card h3 {
+    font-size: 14px;
+  }
+
+  .steel-why-description {
+    font-size: 11px;
+  }
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 520px) {
+
+  .steel-why-section {
+    padding: 28px 0;
+  }
+
+  .steel-why-container {
+    width: 90%;
+  }
+
+  .steel-why-header {
+    margin-bottom: 16px;
+  }
+
+  .steel-why-header h2 {
+    font-size: 23px;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.5px;
+  }
+
+  /*
+     TWO CARDS PER ROW
+  */
+
+  .steel-why-grid {
+    width: 100%;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 10px;
+  }
+
+  .steel-why-card {
+    width: 100%;
+
+    min-height: 150px;
+
+    padding: 15px 8px;
+
+    border-radius: 8px;
+  }
+
+  .steel-why-icon {
+    width: 44px;
+    height: 44px;
+
+    margin-bottom: 7px;
+
+    font-size: 23px;
+  }
+
+  .steel-why-card h3 {
+    margin-bottom: 5px;
+
+    font-size: 13px;
+  }
+
+  .steel-why-description {
+    font-size: 10.5px;
+
+    line-height: 1.4;
+  }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 380px) {
+
+  .steel-why-container {
+    width: 92%;
+  }
+
+  .steel-why-header h2 {
+    font-size: 21px;
+  }
+
+  .steel-why-grid {
+    gap: 8px;
+  }
+
+  .steel-why-card {
+    padding: 14px 7px;
+
+    min-height: 145px;
+  }
+
+  .steel-why-icon {
+    width: 42px;
+    height: 42px;
+
+    font-size: 21px;
+  }
+
+  .steel-why-card h3 {
+    font-size: 12.5px;
+  }
+
+  .steel-why-description {
+    font-size: 10px;
+  }
+}
+
+
+/* =====================================================
+   KEYBOARD ACCESSIBILITY
+===================================================== */
+
+.steel-why-card:focus-visible {
+  outline: 2px solid #bd7d4e;
+  outline-offset: 3px;
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .steel-why-card,
+  .steel-why-icon {
+    transition: none;
+  }
+}

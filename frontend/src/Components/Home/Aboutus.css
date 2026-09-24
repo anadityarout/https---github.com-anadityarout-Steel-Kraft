@@ -1,0 +1,1007 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* =========================================================
+   ABOUT US SECTION
+========================================================= */
+
+.aboutus-section {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  background: #faf9f5;
+
+  padding: 50px 0;
+
+  font-family: "Inter", sans-serif;
+}
+
+
+/* =========================================================
+   MAIN CONTAINER
+========================================================= */
+
+.aboutus-container {
+  width: min(90%, 1250px);
+  max-width: 1250px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  align-items: center;
+
+  gap: 0;
+
+  position: relative;
+}
+
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.aboutus-content {
+  width: 100%;
+  max-width: 600px;
+
+  margin: 0;
+  padding: 0;
+
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   LABEL
+========================================================= */
+
+.aboutus-label {
+  display: flex;
+  align-items: center;
+
+  gap: 18px;
+
+  margin: 0 0 17px;
+
+  color: #a4663c;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 11px;
+  line-height: 1;
+
+  font-weight: 600;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
+}
+
+.aboutus-label-line {
+  width: 40px;
+  height: 2px;
+
+  flex-shrink: 0;
+
+  background: #a4663c;
+}
+
+
+/* =========================================================
+   MAIN HEADING
+========================================================= */
+
+.aboutus-title {
+  margin: 0;
+
+  color: #172127;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: clamp(34px, 3vw, 48px);
+
+  line-height: 1.08;
+
+  font-weight: 700;
+
+  letter-spacing: -1.5px;
+}
+
+.aboutus-title span {
+  color: #a4663c;
+
+  font-style: italic;
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.aboutus-description {
+  width: 100%;
+  max-width: 590px;
+
+  margin: 19px 0 0;
+}
+
+.aboutus-description p {
+  margin: 0 0 11px;
+
+  color: #626a70;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 13px;
+
+  line-height: 1.55;
+
+  font-weight: 400;
+}
+
+.aboutus-description p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.aboutus-features {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+
+  margin: 23px 0 0;
+}
+
+.aboutus-feature {
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 9px;
+
+  border-right: 1px solid #ddd2c5;
+}
+
+.aboutus-feature:first-child {
+  padding-left: 0;
+}
+
+.aboutus-feature:last-child {
+  padding-right: 0;
+
+  border-right: none;
+}
+
+
+/* =========================================================
+   FEATURE ICON
+========================================================= */
+
+.aboutus-feature-icon {
+  width: 43px;
+  height: 43px;
+
+  min-width: 43px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #f0e7dc;
+
+  color: #a4663c;
+
+  font-size: 19px;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   FEATURE TEXT
+========================================================= */
+
+.aboutus-feature-content {
+  min-width: 0;
+}
+
+.aboutus-feature-content h3 {
+  margin: 0 0 3px;
+
+  color: #171717;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 10px;
+
+  line-height: 1.25;
+
+  font-weight: 700;
+}
+
+.aboutus-feature-content p {
+  margin: 0;
+
+  color: #73777a;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 7.5px;
+
+  line-height: 1.35;
+
+  font-weight: 400;
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.aboutus-stats {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  margin: 25px 0 20px;
+}
+
+.aboutus-stat {
+  padding: 0 18px;
+
+  border-right: 1px solid #d8cec3;
+}
+
+.aboutus-stat:first-child {
+  padding-left: 0;
+}
+
+.aboutus-stat:last-child {
+  padding-right: 0;
+
+  border-right: none;
+}
+
+.aboutus-stat strong {
+  display: block;
+
+  margin: 0 0 4px;
+
+  color: #a4663c;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 34px;
+
+  line-height: 1;
+
+  font-weight: 600;
+
+  letter-spacing: -1.2px;
+}
+
+.aboutus-stat span {
+  display: block;
+
+  color: #a4663c;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 8px;
+
+  line-height: 1.4;
+
+  font-weight: 600;
+
+  letter-spacing: 1.5px;
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.aboutus-button {
+  width: fit-content;
+
+  min-width: 205px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 14px;
+
+  padding: 13px 21px;
+
+  border-radius: 5px;
+
+  background: #a4663c;
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 12px;
+
+  line-height: 1;
+
+  font-weight: 600;
+
+  box-shadow: 0 6px 16px rgba(164, 102, 60, 0.15);
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.aboutus-button:hover {
+  background: #8f572f;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 9px 20px rgba(164, 102, 60, 0.22);
+}
+
+.aboutus-button-arrow {
+  font-size: 20px;
+
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+.aboutus-button:hover .aboutus-button-arrow {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   RIGHT IMAGE AREA
+========================================================= */
+
+.aboutus-visual {
+  width: 100%;
+
+  min-width: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  position: relative;
+
+  margin: 0;
+
+  padding: 0;
+}
+
+
+/* =========================================================
+   SINGLE COMPLETE IMAGE
+========================================================= */
+
+.aboutus-main-image {
+  width: 88%;
+
+  max-width: 600px;
+
+  height: auto;
+
+  display: block;
+
+  margin: 0;
+
+  padding: 0;
+
+  object-fit: contain;
+
+  /*
+    Small movement to the right.
+    Change 12px to 5px / 15px if needed.
+  */
+  transform: translateX(12px);
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1500px) {
+
+  .aboutus-section {
+    padding: 60px 0;
+  }
+
+  .aboutus-container {
+    width: min(88%, 1350px);
+
+    max-width: 1350px;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 0;
+  }
+
+  .aboutus-content {
+    max-width: 640px;
+  }
+
+  .aboutus-title {
+    font-size: 50px;
+  }
+
+  .aboutus-description p {
+    font-size: 14px;
+  }
+
+  .aboutus-main-image {
+    width: 88%;
+
+    max-width: 650px;
+
+    transform: translateX(12px);
+  }
+}
+
+
+/* =========================================================
+   LAPTOP
+========================================================= */
+
+@media (max-width: 1250px) {
+
+  .aboutus-section {
+    padding: 45px 0;
+  }
+
+  .aboutus-container {
+    width: 91%;
+
+    max-width: 1150px;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 0;
+  }
+
+  .aboutus-content {
+    max-width: 560px;
+  }
+
+  .aboutus-title {
+    font-size: 40px;
+
+    letter-spacing: -1.2px;
+  }
+
+  .aboutus-description p {
+    font-size: 12px;
+  }
+
+  .aboutus-features {
+    margin-top: 20px;
+  }
+
+  .aboutus-feature {
+    padding: 0 6px;
+
+    gap: 5px;
+  }
+
+  .aboutus-feature-icon {
+    width: 39px;
+    height: 39px;
+
+    min-width: 39px;
+
+    font-size: 17px;
+  }
+
+  .aboutus-feature-content h3 {
+    font-size: 9px;
+  }
+
+  .aboutus-feature-content p {
+    font-size: 7px;
+  }
+
+  .aboutus-stat {
+    padding: 0 13px;
+  }
+
+  .aboutus-stat strong {
+    font-size: 31px;
+  }
+
+  .aboutus-stat span {
+    font-size: 7px;
+  }
+
+  .aboutus-main-image {
+    width: 88%;
+
+    max-width: 560px;
+
+    transform: translateX(10px);
+  }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+  .aboutus-section {
+    padding: 55px 0;
+  }
+
+  .aboutus-container {
+    width: min(92%, 760px);
+
+    max-width: 760px;
+
+    grid-template-columns: 1fr;
+
+    gap: 30px;
+
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .aboutus-content {
+    width: 100%;
+
+    max-width: 700px;
+
+    margin: 0 auto;
+
+    text-align: center;
+  }
+
+  .aboutus-label {
+    justify-content: center;
+  }
+
+  .aboutus-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .aboutus-features {
+    text-align: left;
+  }
+
+  .aboutus-stats {
+    text-align: left;
+  }
+
+  .aboutus-button {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .aboutus-visual {
+    width: 100%;
+
+    margin: 0;
+
+    display: flex;
+
+    justify-content: center;
+  }
+
+  .aboutus-main-image {
+    width: 82%;
+
+    max-width: 650px;
+
+    margin: 0 auto;
+
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   MOBILE TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .aboutus-section {
+    padding: 45px 0;
+  }
+
+  .aboutus-container {
+    width: 92%;
+
+    gap: 28px;
+  }
+
+  .aboutus-title {
+    font-size: 32px;
+
+    line-height: 1.1;
+
+    letter-spacing: -1px;
+  }
+
+  .aboutus-label {
+    gap: 12px;
+
+    margin-bottom: 16px;
+
+    font-size: 10px;
+
+    letter-spacing: 1.3px;
+  }
+
+  .aboutus-label-line {
+    width: 28px;
+  }
+
+  .aboutus-description {
+    margin-top: 17px;
+  }
+
+  .aboutus-description p {
+    font-size: 13px;
+
+    line-height: 1.6;
+  }
+
+
+  /* FEATURES */
+
+  .aboutus-features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 19px 0;
+
+    margin-top: 24px;
+
+    text-align: left;
+  }
+
+  .aboutus-feature {
+    padding: 0 9px;
+  }
+
+  .aboutus-feature:first-child {
+    padding-left: 0;
+  }
+
+  .aboutus-feature:nth-child(2) {
+    padding-right: 0;
+
+    border-right: none;
+  }
+
+  .aboutus-feature:nth-child(3) {
+    padding-left: 0;
+  }
+
+  .aboutus-feature:nth-child(4) {
+    padding-right: 0;
+
+    border-right: none;
+  }
+
+  .aboutus-feature-icon {
+    width: 44px;
+    height: 44px;
+
+    min-width: 44px;
+
+    font-size: 18px;
+  }
+
+  .aboutus-feature-content h3 {
+    font-size: 10px;
+  }
+
+  .aboutus-feature-content p {
+    font-size: 7.5px;
+  }
+
+
+  /* STATS */
+
+  .aboutus-stats {
+    margin-top: 26px;
+
+    margin-bottom: 21px;
+  }
+
+  .aboutus-stat {
+    padding: 0 8px;
+  }
+
+  .aboutus-stat strong {
+    font-size: 28px;
+  }
+
+  .aboutus-stat span {
+    font-size: 7px;
+
+    letter-spacing: 0.9px;
+  }
+
+
+  /* BUTTON */
+
+  .aboutus-button {
+    min-width: 210px;
+
+    padding: 14px 20px;
+
+    font-size: 13px;
+  }
+
+
+  /* IMAGE */
+
+  .aboutus-visual {
+    width: 100%;
+
+    margin: 0;
+
+    justify-content: center;
+  }
+
+  .aboutus-main-image {
+    width: 90%;
+
+    max-width: 620px;
+
+    height: auto;
+
+    margin: 0 auto;
+
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .aboutus-section {
+    padding: 40px 0;
+  }
+
+  .aboutus-container {
+    width: 91%;
+
+    gap: 27px;
+  }
+
+  .aboutus-title {
+    font-size: 28px;
+
+    line-height: 1.1;
+
+    letter-spacing: -0.7px;
+  }
+
+  .aboutus-description p {
+    font-size: 12.5px;
+
+    line-height: 1.62;
+  }
+
+
+  /* FEATURES ONE BY ONE */
+
+  .aboutus-features {
+    grid-template-columns: 1fr;
+
+    gap: 16px;
+
+    text-align: left;
+  }
+
+  .aboutus-feature,
+  .aboutus-feature:first-child,
+  .aboutus-feature:nth-child(2),
+  .aboutus-feature:nth-child(3),
+  .aboutus-feature:nth-child(4),
+  .aboutus-feature:last-child {
+    padding: 0;
+
+    border-right: none;
+  }
+
+  .aboutus-feature-icon {
+    width: 46px;
+    height: 46px;
+
+    min-width: 46px;
+  }
+
+  .aboutus-feature-content h3 {
+    font-size: 11px;
+  }
+
+  .aboutus-feature-content p {
+    font-size: 8.5px;
+  }
+
+
+  /* STATS ONE BY ONE */
+
+  .aboutus-stats {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+
+    text-align: center;
+  }
+
+  .aboutus-stat,
+  .aboutus-stat:first-child {
+    padding: 0 0 15px;
+
+    border-right: none;
+
+    border-bottom: 1px solid #ddd2c5;
+  }
+
+  .aboutus-stat:last-child {
+    padding-bottom: 0;
+
+    border-bottom: none;
+  }
+
+  .aboutus-stat strong {
+    font-size: 33px;
+  }
+
+  .aboutus-stat span {
+    font-size: 8px;
+
+    letter-spacing: 1.2px;
+  }
+
+
+  /* BUTTON */
+
+  .aboutus-button {
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 14px 18px;
+
+    font-size: 13px;
+  }
+
+
+  /* IMAGE */
+
+  .aboutus-main-image {
+    width: 94%;
+
+    max-width: 100%;
+
+    height: auto;
+
+    display: block;
+
+    margin: 0 auto;
+
+    transform: none;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .aboutus-section {
+    padding: 35px 0;
+  }
+
+  .aboutus-container {
+    width: 90%;
+
+    gap: 24px;
+  }
+
+  .aboutus-title {
+    font-size: 25px;
+
+    letter-spacing: -0.5px;
+  }
+
+  .aboutus-description p {
+    font-size: 12px;
+  }
+
+  .aboutus-feature-icon {
+    width: 43px;
+    height: 43px;
+
+    min-width: 43px;
+  }
+
+  .aboutus-feature-content h3 {
+    font-size: 10px;
+  }
+
+  .aboutus-feature-content p {
+    font-size: 8px;
+  }
+
+  .aboutus-stat strong {
+    font-size: 30px;
+  }
+
+  .aboutus-stat span {
+    font-size: 7px;
+  }
+
+  .aboutus-main-image {
+    width: 96%;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.aboutus-button:focus-visible {
+  outline: 2px solid #a4663c;
+
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .aboutus-button,
+  .aboutus-button-arrow {
+    transition: none;
+  }
+}

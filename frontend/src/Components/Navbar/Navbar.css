@@ -1,0 +1,833 @@
+/* =========================================================
+   STEEL KRAFT NAVBAR
+========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+.sk-navbar,
+.sk-navbar *,
+.sk-mobile-menu,
+.sk-mobile-menu * {
+  box-sizing: border-box;
+}
+
+.sk-navbar a,
+.sk-mobile-menu a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.sk-navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 76px;
+
+  z-index: 1000;
+
+  background: rgba(255, 255, 255, 0.94);
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  font-family: "Inter", sans-serif;
+}
+
+
+/* =========================================================
+   NAVBAR CONTAINER
+========================================================= */
+
+.sk-navbar-container {
+  width: 100%;
+  max-width: 1450px;
+
+  height: 76px;
+
+  margin: 0 auto;
+
+  padding: 0 42px;
+
+  display: flex;
+  align-items: center;
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.sk-logo {
+  display: flex;
+  align-items: center;
+
+  width: auto;
+
+  text-decoration: none;
+
+  flex-shrink: 0;
+}
+
+.sk-logo img {
+  display: block;
+
+  width: 190px;
+  max-width: 100%;
+
+  height: auto;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   DESKTOP MENU
+========================================================= */
+
+.sk-desktop-menu {
+  display: flex;
+  align-items: center;
+
+  gap: 34px;
+
+  margin-left: auto;
+  margin-right: 34px;
+}
+
+
+/* =========================================================
+   DESKTOP MENU LINKS
+========================================================= */
+
+.sk-desktop-menu a {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  color: #1b1b1b;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  padding: 10px 0;
+
+  transition:
+    color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+
+/* =========================================================
+   DESKTOP LINK UNDERLINE
+========================================================= */
+
+.sk-desktop-menu a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: 1px;
+
+  width: 0;
+  height: 2px;
+
+  background: #bd7d4e;
+
+  border-radius: 5px;
+
+  transition: width 0.3s ease;
+}
+
+
+/* =========================================================
+   DESKTOP HOVER
+========================================================= */
+
+.sk-desktop-menu a:hover {
+  color: #bd7d4e;
+}
+
+.sk-desktop-menu a:hover::after {
+  width: 100%;
+}
+
+
+/* =========================================================
+   QUOTE BUTTON
+========================================================= */
+
+.sk-quote-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  min-width: 162px;
+  height: 42px;
+
+  padding: 0 20px;
+
+  background: #bd7d4e;
+  color: #ffffff;
+
+  border-radius: 7px;
+
+  text-decoration: none;
+
+  font-family: "Inter", sans-serif;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.sk-quote-btn span {
+  font-size: 18px;
+
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+.sk-quote-btn:hover {
+  background: #a9683d;
+
+  color: #ffffff;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 8px 20px rgba(189, 125, 78, 0.25);
+}
+
+.sk-quote-btn:hover span {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   MOBILE HAMBURGER
+========================================================= */
+
+.sk-menu-button {
+  display: none;
+
+  width: 44px;
+  height: 44px;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #101d2c;
+
+  cursor: pointer;
+
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  flex-shrink: 0;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.sk-menu-button span {
+  display: block;
+
+  width: 21px;
+  height: 2px;
+
+  background: #ffffff;
+
+  border-radius: 10px;
+
+  transition: all 0.3s ease;
+}
+
+.sk-menu-button:hover {
+  background: #bd7d4e;
+}
+
+.sk-menu-button:active {
+  transform: scale(0.95);
+}
+
+
+/* =========================================================
+   MOBILE OVERLAY
+========================================================= */
+
+.sk-mobile-overlay {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100vh;
+
+  background: rgba(0, 0, 0, 0.45);
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  pointer-events: none;
+
+  z-index: 1998;
+
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
+}
+
+.sk-mobile-overlay.active {
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+
+/* =========================================================
+   MOBILE DRAWER
+========================================================= */
+
+.sk-mobile-menu {
+  position: fixed;
+
+  top: 0;
+  right: 0;
+
+  width: 320px;
+  max-width: 88vw;
+
+  height: 100vh;
+
+  background: #ffffff;
+
+  z-index: 1999;
+
+  transform: translateX(100%);
+
+  visibility: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow:
+    -12px 0 35px rgba(0, 0, 0, 0.12);
+
+  font-family: "Inter", sans-serif;
+
+  transition:
+    transform 0.38s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.38s ease;
+
+  overflow-y: auto;
+}
+
+.sk-mobile-menu.active {
+  transform: translateX(0);
+
+  visibility: visible;
+}
+
+
+/* =========================================================
+   MOBILE HEADER
+========================================================= */
+
+.sk-mobile-header {
+  width: 100%;
+
+  min-height: 70px;
+
+  padding: 0 12px 0 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #e4e4e4;
+
+  flex-shrink: 0;
+
+  background: #ffffff;
+}
+
+
+/* =========================================================
+   MOBILE LOGO
+========================================================= */
+
+.sk-mobile-logo {
+  display: flex;
+  align-items: center;
+
+  text-decoration: none;
+
+  flex-shrink: 0;
+}
+
+.sk-mobile-logo img {
+  display: block;
+
+  width: 115px;
+  height: auto;
+
+  object-fit: contain;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.sk-close-button {
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 9px;
+
+  background: #101d2c;
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: Arial, sans-serif;
+
+  font-size: 27px;
+  font-weight: 400;
+
+  line-height: 1;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.sk-close-button:hover {
+  background: #bd7d4e;
+
+  transform: rotate(90deg);
+}
+
+
+/* =========================================================
+   MOBILE LINKS CONTAINER
+========================================================= */
+
+.sk-mobile-links {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   MOBILE LINK
+========================================================= */
+
+.sk-mobile-link {
+  position: relative;
+
+  width: 100%;
+  min-height: 62px;
+
+  padding: 0 14px;
+
+  display: flex;
+  align-items: center;
+
+  background: #ffffff;
+
+  color: #111111;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  border-bottom: 1px solid #e3e3e3;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    padding-left 0.25s ease;
+}
+
+
+/* =========================================================
+   MOBILE LINK HOVER
+========================================================= */
+
+.sk-mobile-link:hover {
+  background: #fcf4ee;
+
+  color: #bd7d4e;
+
+  padding-left: 20px;
+}
+
+
+/* =========================================================
+   MOBILE LINK ACTIVE / TOUCH
+========================================================= */
+
+.sk-mobile-link:active {
+  background: #f8ece3;
+
+  color: #bd7d4e;
+}
+
+
+/* =========================================================
+   MOBILE CTA CONTAINER
+========================================================= */
+
+.sk-mobile-cta {
+  width: 100%;
+
+  padding: 16px 14px 22px;
+
+  background: #ffffff;
+
+  margin-top: 0;
+}
+
+
+/* =========================================================
+   MOBILE CTA
+========================================================= */
+
+.sk-mobile-cta a {
+  width: 100%;
+  min-height: 48px;
+
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  background: #bd7d4e;
+
+  color: #ffffff;
+
+  border-radius: 7px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.sk-mobile-cta a span {
+  font-size: 18px;
+
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+.sk-mobile-cta a:hover {
+  background: #a9683d;
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 7px 18px rgba(189, 125, 78, 0.22);
+}
+
+.sk-mobile-cta a:hover span {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .sk-navbar-container {
+    padding: 0 28px;
+  }
+
+  .sk-logo img {
+    width: 170px;
+  }
+
+  .sk-desktop-menu {
+    gap: 23px;
+
+    margin-right: 24px;
+  }
+
+  .sk-desktop-menu a {
+    font-size: 12px;
+  }
+
+  .sk-quote-btn {
+    min-width: 135px;
+
+    padding: 0 16px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE — 768px
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .sk-navbar {
+    position: absolute;
+
+    height: 68px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .sk-navbar-container {
+    height: 68px;
+
+    padding: 0 16px;
+  }
+
+  /* Hide desktop menu */
+  .sk-desktop-menu {
+    display: none;
+  }
+
+  /* Hide desktop quote */
+  .sk-quote-btn {
+    display: none;
+  }
+
+  /* Logo */
+  .sk-logo img {
+    width: 145px;
+  }
+
+  /* Show hamburger */
+  .sk-menu-button {
+    display: flex;
+
+    margin-left: auto;
+  }
+}
+
+
+/* =========================================================
+   MOBILE — 600px
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .sk-navbar-container {
+    padding: 0 14px;
+  }
+
+  .sk-logo img {
+    width: 135px;
+  }
+
+  .sk-menu-button {
+    width: 43px;
+    height: 43px;
+  }
+
+  .sk-mobile-menu {
+    width: 310px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE — 480px
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .sk-navbar {
+    height: 64px;
+  }
+
+  .sk-navbar-container {
+    height: 64px;
+
+    padding: 0 14px;
+  }
+
+  .sk-logo img {
+    width: 130px;
+  }
+
+  .sk-menu-button {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 8px;
+  }
+
+  .sk-mobile-menu {
+    width: 310px;
+
+    max-width: 88vw;
+  }
+
+  .sk-mobile-header {
+    min-height: 70px;
+  }
+
+  .sk-mobile-logo img {
+    width: 110px;
+  }
+
+  .sk-mobile-link {
+    min-height: 62px;
+
+    font-size: 14px;
+  }
+
+  .sk-mobile-cta {
+    padding: 16px 14px 20px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES — 360px
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .sk-navbar-container {
+    padding: 0 12px;
+  }
+
+  .sk-logo img {
+    width: 115px;
+  }
+
+  .sk-menu-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sk-mobile-menu {
+    width: 290px;
+
+    max-width: 88vw;
+  }
+
+  .sk-mobile-header {
+    padding-left: 12px;
+    padding-right: 10px;
+  }
+
+  .sk-mobile-logo img {
+    width: 100px;
+  }
+
+  .sk-mobile-link {
+    min-height: 58px;
+
+    padding-left: 12px;
+
+    font-size: 13px;
+  }
+
+  .sk-mobile-cta {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.sk-menu-button:focus-visible,
+.sk-close-button:focus-visible,
+.sk-desktop-menu a:focus-visible,
+.sk-quote-btn:focus-visible,
+.sk-mobile-link:focus-visible,
+.sk-mobile-cta a:focus-visible {
+  outline: 2px solid #bd7d4e;
+
+  outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCE MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sk-navbar *,
+  .sk-mobile-menu *,
+  .sk-mobile-overlay {
+    transition: none !important;
+  }
+}
