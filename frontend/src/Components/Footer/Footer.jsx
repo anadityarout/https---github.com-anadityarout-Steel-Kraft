@@ -18,9 +18,14 @@ import {
 
 const Footer = () => {
   const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({
-      behavior: "smooth",
-    });
+    const element = document.getElementById(id);
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
 
   return (
@@ -35,46 +40,37 @@ const Footer = () => {
         <div className="footer-container">
 
           {/* =================================================
-              COLUMN 1 - BRAND
+              BRAND
           ================================================= */}
 
-          <div className="footer-brand">
-
-            {/* ================= LOGO ================= */}
+          <div className="footer-brand footer-section">
 
             <div className="footer-logo">
-
               <img
                 src={steelKraftLogo}
                 alt="Steel Kraft"
                 className="footer-logo-image"
               />
-
             </div>
 
-
-            {/* ================= DESCRIPTION ================= */}
-
             <p className="footer-description">
-              Building modern, sustainable and
-              prefabricated spaces designed for
-              better living.
+              Building modern, sustainable and prefabricated
+              spaces designed for better living.
             </p>
 
-
-            {/* ================= SOCIAL ICONS ================= */}
+            {/* SOCIAL ICONS */}
 
             <div className="footer-socials">
 
               <a
-  href="https://www.instagram.com/steelcraftprefab/"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Instagram"
-  className="footer-social"
->
-  <FaInstagram />
-</a>
+                href="https://www.instagram.com/steelcraftprefab/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="footer-social"
+              >
+                <FaInstagram />
+              </a>
 
               <a
                 href="#"
@@ -102,13 +98,7 @@ const Footer = () => {
 
             </div>
 
-
-            {/* ================= BRAND LINE ================= */}
-
             <div className="footer-brand-line"></div>
-
-
-            {/* ================= NATURE TEXT ================= */}
 
             <div className="footer-nature-text">
 
@@ -126,10 +116,10 @@ const Footer = () => {
 
 
           {/* =================================================
-              COLUMN 2 - QUICK LINKS
+              QUICK LINKS
           ================================================= */}
 
-          <div className="footer-column">
+          <div className="footer-column footer-section">
 
             <h3>
               Quick Links
@@ -193,77 +183,10 @@ const Footer = () => {
 
 
           {/* =================================================
-              COLUMN 3 - OUR SOLUTIONS
+              CONTACT
           ================================================= */}
 
-          <div className="footer-column">
-
-            <h3>
-              Our Solutions
-            </h3>
-
-            <div className="footer-title-line"></div>
-
-            <ul>
-
-              <li>
-                <a href="/prefab-homes">
-                  Prefab Homes
-                </a>
-              </li>
-
-              <li>
-                <a href="/modular-villas">
-                  Modular Villas
-                </a>
-              </li>
-
-              <li>
-                <a href="/resort-cottages">
-                  Resort Cottages
-                </a>
-              </li>
-
-              <li>
-                <a href="/farmhouses">
-                  Farmhouses
-                </a>
-              </li>
-
-              <li>
-                <a href="/holiday-homes">
-                  Holiday Homes
-                </a>
-              </li>
-
-              <li>
-                <a href="/office-cabins">
-                  Office Cabins
-                </a>
-              </li>
-
-              <li>
-                <a href="/commercial-spaces">
-                  Commercial Spaces
-                </a>
-              </li>
-
-              <li>
-                <a href="/custom-designs">
-                  Custom Designs
-                </a>
-              </li>
-
-            </ul>
-
-          </div>
-
-
-          {/* =================================================
-              COLUMN 4 - CONTACT
-          ================================================= */}
-
-          <div className="footer-column footer-contact">
+          <div className="footer-column footer-contact footer-section">
 
             <h3>
               Contact Us
@@ -280,15 +203,15 @@ const Footer = () => {
                 <FaMapMarkerAlt />
               </div>
 
-              <div>
+              <div className="footer-contact-content">
 
                 <strong>
                   Pan India Service
                 </strong>
 
                 <span>
-                  Delivering prefab solutions
-                  across every corner of India
+                  Delivering prefab solutions across
+                  every corner of India
                 </span>
 
               </div>
@@ -304,11 +227,14 @@ const Footer = () => {
                 <FaPhoneAlt />
               </div>
 
-              <div>
+              <div className="footer-contact-content">
 
-                <strong>
+                <a
+                  href="tel:+919311826565"
+                  className="footer-contact-link"
+                >
                   +91-9311826565
-                </strong>
+                </a>
 
                 <span>
                   Mon - Sat, 9:00 AM - 6:00 PM
@@ -327,11 +253,14 @@ const Footer = () => {
                 <FaEnvelope />
               </div>
 
-              <div>
+              <div className="footer-contact-content">
 
-                <strong>
-                  info@steelkraft.in
-                </strong>
+                <a
+                  href="mailto:info@steelkraft.in"
+                  className="footer-contact-link"
+                >
+                  info@steelcraft.com
+                </a>
 
                 <span>
                   We reply within 24 hours
@@ -344,13 +273,18 @@ const Footer = () => {
 
             {/* WHATSAPP */}
 
-            <div className="footer-contact-item">
+            <a
+              href="https://wa.me/919311826565"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-contact-item footer-whatsapp-link"
+            >
 
               <div className="footer-contact-icon footer-whatsapp">
                 <FaWhatsapp />
               </div>
 
-              <div>
+              <div className="footer-contact-content">
 
                 <strong>
                   Chat on WhatsApp
@@ -362,10 +296,10 @@ const Footer = () => {
 
               </div>
 
-            </div>
+            </a>
 
 
-            {/* QUOTE BUTTON */}
+            {/* QUOTE */}
 
             <button
               className="footer-quote-button"
@@ -385,14 +319,12 @@ const Footer = () => {
 
 
           {/* =================================================
-              COLUMN 5 - PAN INDIA
+              PAN INDIA
           ================================================= */}
 
-          <div className="footer-pan-india">
+          <div className="footer-pan-india footer-section">
 
             <div className="footer-pan-content">
-
-              {/* REAL INDIA MAP */}
 
               <div className="footer-map">
 
@@ -404,8 +336,6 @@ const Footer = () => {
 
               </div>
 
-
-              {/* PAN INDIA TEXT */}
 
               <div className="footer-pan-text">
 
@@ -428,12 +358,8 @@ const Footer = () => {
             </div>
 
 
-            {/* SEPARATOR */}
-
             <div className="footer-pan-line"></div>
 
-
-            {/* GREEN MESSAGE */}
 
             <div className="footer-green-message">
 
@@ -457,6 +383,13 @@ const Footer = () => {
 
 
       {/* =====================================================
+          GOLDEN DIVIDER
+      ===================================================== */}
+
+      <div className="footer-golden-divider"></div>
+
+
+      {/* =====================================================
           BOTTOM BAR
       ===================================================== */}
 
@@ -467,7 +400,6 @@ const Footer = () => {
           <p className="footer-copyright">
             © 2026 Steel Kraft. All Rights Reserved.
           </p>
-
 
           <div className="footer-bottom-links">
 
@@ -488,7 +420,6 @@ const Footer = () => {
             </a>
 
           </div>
-
 
           <p className="footer-bottom-message">
             Building a Greener, Stronger India

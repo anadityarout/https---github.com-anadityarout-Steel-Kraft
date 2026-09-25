@@ -6,25 +6,13 @@ html,
 body,
 #root {
   width: 100%;
-  min-width: 100%;
   margin: 0;
   padding: 0;
 }
 
-html {
-  overflow-x: hidden;
-}
-
+html,
 body {
-  margin: 0;
-  padding: 0;
   overflow-x: hidden;
-}
-
-#root {
-  width: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 * {
@@ -37,10 +25,7 @@ body {
 ========================================================= */
 
 .site-footer {
-  position: relative;
-
   width: 100%;
-
   margin: 0;
   padding: 0;
 
@@ -65,30 +50,24 @@ body {
 ========================================================= */
 
 .footer-main {
-  position: relative;
-
   width: 100%;
 
-  margin: 0;
-
-  padding: 55px 0 32px;
+  padding: 55px 0 45px;
 
   background:
     linear-gradient(
       180deg,
-      rgba(8, 18, 16, 0.98),
-      rgba(5, 12, 11, 1)
+      #081210 0%,
+      #06100e 100%
     );
 }
 
 
 /* =========================================================
-   MAIN CONTAINER
+   FOOTER CONTAINER
 ========================================================= */
 
 .footer-container {
-  position: relative;
-
   width: min(92%, 1500px);
 
   margin: 0 auto;
@@ -96,31 +75,59 @@ body {
   display: grid;
 
   grid-template-columns:
-    1.35fr
-    0.85fr
-    0.95fr
     1.25fr
-    0.95fr;
-
-  gap: 0;
+    0.9fr
+    1.2fr
+    1fr;
 
   align-items: stretch;
+
+  gap: 0;
 }
 
 
 /* =========================================================
-   COLUMN SEPARATORS
+   COMMON SECTION
 ========================================================= */
 
-.footer-column,
-.footer-pan-india {
-  border-left:
-    1px solid
-    rgba(255, 255, 255, 0.24);
+.footer-section {
+  min-width: 0;
 
-  padding-left: 42px;
+  position: relative;
+}
 
-  margin-left: 35px;
+
+/* =========================================================
+   GOLDEN VERTICAL DIVIDERS
+========================================================= */
+
+/*
+   Divider appears ONLY between sections.
+   No line on the extreme left.
+*/
+
+.footer-section:not(:first-child)::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  top: 5px;
+
+  width: 1px;
+
+  height: calc(100% - 10px);
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(190, 120, 62, 0.45) 10%,
+      #bd7840 50%,
+      rgba(190, 120, 62, 0.45) 90%,
+      transparent 100%
+    );
 }
 
 
@@ -129,30 +136,23 @@ body {
 ========================================================= */
 
 .footer-brand {
-  min-width: 0;
+  padding: 0 45px 0 0;
 
-  padding-right: 35px;
+  text-align: center;
 }
 
 
-/* =========================================================
-   LOGO
-========================================================= */
-
 .footer-logo {
+  width: 100%;
+
   display: flex;
 
   align-items: center;
-
-  width: fit-content;
+  justify-content: center;
 
   margin-bottom: 22px;
 }
 
-
-/* =========================================================
-   REAL STEEL KRAFT LOGO
-========================================================= */
 
 .footer-logo-image {
   display: block;
@@ -164,8 +164,6 @@ body {
   height: auto;
 
   object-fit: contain;
-
-  object-position: left center;
 }
 
 
@@ -174,17 +172,18 @@ body {
 ========================================================= */
 
 .footer-description {
-  max-width: 310px;
+  max-width: 320px;
 
-  margin:
-    0 0 22px;
+  margin: 0 auto 23px;
 
   color:
-    rgba(255, 255, 255, 0.72);
+    rgba(255, 255, 255, 0.76);
 
   font-size: 14px;
 
   line-height: 1.6;
+
+  text-align: center;
 }
 
 
@@ -196,25 +195,23 @@ body {
   display: flex;
 
   align-items: center;
+  justify-content: center;
 
-  gap: 15px;
+  gap: 14px;
 }
 
 
 .footer-social {
-  width: 45px;
+  width: 44px;
 
-  height: 45px;
+  height: 44px;
 
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
-  border:
-    1px solid
-    #b97843;
+  border: 1px solid #bd7840;
 
   border-radius: 50%;
 
@@ -225,14 +222,12 @@ body {
   text-decoration: none;
 
   transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
+    all 0.3s ease;
 }
 
 
 .footer-social:hover {
-  background: #b97843;
+  background: #bd7840;
 
   color: #ffffff;
 
@@ -245,17 +240,21 @@ body {
 ========================================================= */
 
 .footer-brand-line {
-  width: 245px;
+  width: 220px;
 
   max-width: 100%;
 
   height: 1px;
 
-  margin:
-    25px 0 16px;
+  margin: 25px auto 16px;
 
   background:
-    rgba(255, 255, 255, 0.25);
+    linear-gradient(
+      90deg,
+      transparent,
+      #bd7840,
+      transparent
+    );
 }
 
 
@@ -267,35 +266,37 @@ body {
   display: flex;
 
   align-items: center;
+  justify-content: center;
 
-  gap: 10px;
+  gap: 9px;
 
   color:
     rgba(255, 255, 255, 0.78);
 
   font-size: 13px;
+
+  text-align: center;
 }
 
 
 .footer-leaf {
-  font-size: 22px;
+  font-size: 21px;
 }
 
 
 /* =========================================================
-   FOOTER COLUMNS
+   QUICK LINKS
 ========================================================= */
 
 .footer-column {
-  min-width: 0;
+  padding: 0 35px;
+
+  text-align: center;
 }
 
 
-/* =========================================================
-   COLUMN TITLE
-========================================================= */
-
-.footer-column h3 {
+.footer-column h3,
+.footer-contact h3 {
   margin: 0;
 
   color: #ffffff;
@@ -305,27 +306,36 @@ body {
     "Times New Roman",
     serif;
 
-  font-size: 21px;
+  font-size: 22px;
 
   font-weight: 600;
 
   line-height: 1.2;
+
+  text-align: center;
 }
 
 
 /* =========================================================
-   TITLE ORANGE LINE
+   GOLDEN TITLE LINE
 ========================================================= */
 
 .footer-title-line {
-  width: 40px;
+  width: 42px;
 
   height: 3px;
 
-  margin:
-    10px 0 17px;
+  margin: 10px auto 19px;
 
-  background: #bd7840;
+  background:
+    linear-gradient(
+      90deg,
+      #a96332,
+      #d18a4d,
+      #a96332
+    );
+
+  border-radius: 2px;
 }
 
 
@@ -336,37 +346,42 @@ body {
 .footer-column ul {
   list-style: none;
 
+  margin: 0;
   padding: 0;
 
-  margin: 0;
+  text-align: center;
 }
 
 
 .footer-column li {
-  margin-bottom: 9px;
+  margin: 0 0 10px;
+
+  padding: 0;
 }
 
 
 .footer-column li a {
+  display: inline-block;
+
   color:
-    rgba(255, 255, 255, 0.72);
+    rgba(255, 255, 255, 0.76);
 
   font-size: 14px;
 
-  line-height: 1.35;
+  line-height: 1.4;
 
   text-decoration: none;
 
   transition:
     color 0.25s ease,
-    padding-left 0.25s ease;
+    transform 0.25s ease;
 }
 
 
 .footer-column li a:hover {
   color: #d18a4d;
 
-  padding-left: 4px;
+  transform: translateX(3px);
 }
 
 
@@ -374,31 +389,47 @@ body {
    CONTACT
 ========================================================= */
 
+.footer-contact {
+  padding: 0 40px;
+
+  text-align: center;
+}
+
+
 .footer-contact-item {
+  width: 100%;
+
   display: flex;
 
   align-items: flex-start;
 
-  gap: 14px;
+  justify-content: flex-start;
 
-  margin-bottom: 15px;
+  gap: 11px;
+
+  margin: 0 auto 16px;
+
+  text-align: left;
+
+  text-decoration: none;
 }
 
 
 .footer-contact-icon {
-  width: 25px;
+  width: 26px;
 
   flex-shrink: 0;
 
   display: flex;
 
+  align-items: center;
   justify-content: center;
 
   padding-top: 2px;
 
   color: #c57c43;
 
-  font-size: 20px;
+  font-size: 19px;
 }
 
 
@@ -407,18 +438,20 @@ body {
 }
 
 
-.footer-contact-item > div:last-child {
+.footer-contact-content {
   display: flex;
 
   flex-direction: column;
 
   gap: 3px;
+
+  min-width: 0;
 }
 
 
 .footer-contact-item strong {
   color:
-    rgba(255, 255, 255, 0.9);
+    rgba(255, 255, 255, 0.94);
 
   font-size: 13px;
 
@@ -428,7 +461,7 @@ body {
 
 .footer-contact-item span {
   color:
-    rgba(255, 255, 255, 0.6);
+    rgba(255, 255, 255, 0.62);
 
   font-size: 11px;
 
@@ -436,32 +469,61 @@ body {
 }
 
 
+.footer-contact-link {
+  color:
+    rgba(255, 255, 255, 0.94);
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    color 0.25s ease;
+}
+
+
+.footer-contact-link:hover {
+  color: #d18a4d;
+}
+
+
+.footer-whatsapp-link:hover strong {
+  color: #8bd143;
+}
+
+
 /* =========================================================
-   GET QUOTE BUTTON
+   GET QUOTE
 ========================================================= */
 
-.footer-quote-button {
+  .footer-quote-button {
   width: 215px;
 
   max-width: 100%;
 
-  height: 45px;
+  height: 46px;
 
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
   gap: 13px;
 
-  margin-top: 20px;
+  margin: 20px 0 0 0;
 
   border: none;
 
   border-radius: 5px;
 
-  background: #bd713a;
+  background:
+    linear-gradient(
+      135deg,
+      #c77a3d,
+      #b86b31
+    );
 
   color: #ffffff;
 
@@ -474,13 +536,17 @@ body {
   cursor: pointer;
 
   transition:
-    background 0.3s ease,
-    transform 0.3s ease;
+    all 0.3s ease;
 }
 
 
 .footer-quote-button:hover {
-  background: #a96131;
+  background:
+    linear-gradient(
+      135deg,
+      #d38a4c,
+      #bd7137
+    );
 
   transform: translateY(-2px);
 }
@@ -504,17 +570,11 @@ body {
 ========================================================= */
 
 .footer-pan-india {
-  min-width: 0;
+  padding: 0 0 0 40px;
 
-  display: flex;
-
-  flex-direction: column;
+  text-align: center;
 }
 
-
-/* =========================================================
-   PAN INDIA CONTENT
-========================================================= */
 
 .footer-pan-content {
   width: 100%;
@@ -522,13 +582,14 @@ body {
   display: flex;
 
   align-items: center;
+  justify-content: center;
 
-  gap: 14px;
+  gap: 15px;
 }
 
 
 /* =========================================================
-   REAL INDIA MAP
+   INDIA MAP
 ========================================================= */
 
 .footer-map {
@@ -541,10 +602,7 @@ body {
   display: flex;
 
   align-items: center;
-
   justify-content: center;
-
-  overflow: visible;
 }
 
 
@@ -555,13 +613,9 @@ body {
 
   height: 125px;
 
-  max-width: none;
-
   object-fit: contain;
 
   object-position: center;
-
-  opacity: 1;
 
   user-select: none;
 
@@ -574,15 +628,14 @@ body {
 ========================================================= */
 
 .footer-pan-text {
-  flex: 1;
-
   min-width: 0;
+
+  text-align: left;
 }
 
 
 .footer-pan-text h3 {
-  margin:
-    0 0 12px;
+  margin: 0 0 12px;
 
   color: #ffffff;
 
@@ -591,11 +644,11 @@ body {
     "Times New Roman",
     serif;
 
-  font-size: 20px;
+  font-size: 21px;
 
   font-weight: 600;
 
-  line-height: 1.15;
+  line-height: 1.12;
 }
 
 
@@ -603,7 +656,7 @@ body {
   margin: 0;
 
   color:
-    rgba(255, 255, 255, 0.7);
+    rgba(255, 255, 255, 0.72);
 
   font-size: 13px;
 
@@ -612,7 +665,7 @@ body {
 
 
 /* =========================================================
-   PAN INDIA LINE
+   PAN INDIA GOLDEN LINE
 ========================================================= */
 
 .footer-pan-line {
@@ -620,11 +673,15 @@ body {
 
   height: 1px;
 
-  margin:
-    20px 0;
+  margin: 22px 0;
 
   background:
-    rgba(255, 255, 255, 0.2);
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(189, 120, 64, 0.8),
+      transparent
+    );
 }
 
 
@@ -636,13 +693,14 @@ body {
   display: flex;
 
   align-items: center;
+  justify-content: center;
 
-  gap: 10px;
+  gap: 9px;
 }
 
 
 .footer-green-message .footer-leaf {
-  font-size: 27px;
+  font-size: 25px;
 }
 
 
@@ -655,6 +713,29 @@ body {
   font-size: 12px;
 
   line-height: 1.4;
+
+  text-align: left;
+}
+
+
+/* =========================================================
+   MAIN GOLDEN DIVIDER
+========================================================= */
+
+.footer-golden-divider {
+  width: 100%;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      #8f552d 15%,
+      #bd7840 50%,
+      #8f552d 85%,
+      transparent 100%
+    );
 }
 
 
@@ -665,31 +746,18 @@ body {
 .footer-bottom {
   width: 100%;
 
-  margin: 0;
-
-  padding: 0;
-
-  border-top:
-    1px solid
-    #a96738;
-
-  background:
-    #070d0c;
+  background: #070d0c;
 }
 
-
-/* =========================================================
-   BOTTOM CONTAINER
-========================================================= */
 
 .footer-bottom-container {
   width: min(92%, 1500px);
 
-  min-height: 58px;
+  min-height: 60px;
 
   margin: 0 auto;
 
-  padding: 0;
+  padding: 12px 0;
 
   display: grid;
 
@@ -700,19 +768,13 @@ body {
 
   align-items: center;
 
-  gap: 25px;
+  gap: 20px;
 }
 
-
-/* =========================================================
-   BOTTOM TEXT
-========================================================= */
 
 .footer-copyright,
 .footer-bottom-message {
   margin: 0;
-
-  padding: 0;
 
   color:
     rgba(255, 255, 255, 0.72);
@@ -726,18 +788,15 @@ body {
 }
 
 
-/* =========================================================
-   BOTTOM LINKS
-========================================================= */
-
 .footer-bottom-links {
   display: flex;
 
   align-items: center;
-
   justify-content: center;
 
-  gap: 20px;
+  flex-wrap: wrap;
+
+  gap: 12px;
 }
 
 
@@ -761,7 +820,7 @@ body {
 
 .footer-bottom-links span {
   color:
-    rgba(255, 255, 255, 0.45);
+    rgba(255, 255, 255, 0.4);
 
   font-size: 12px;
 }
@@ -777,24 +836,30 @@ body {
     width: 94%;
 
     grid-template-columns:
-      1.25fr
-      0.8fr
-      0.9fr
       1.2fr
-      0.9fr;
-  }
-
-
-  .footer-column,
-  .footer-pan-india {
-    padding-left: 25px;
-
-    margin-left: 20px;
+      0.9fr
+      1.15fr
+      1fr;
   }
 
 
   .footer-brand {
-    padding-right: 20px;
+    padding-right: 30px;
+  }
+
+
+  .footer-column {
+    padding: 0 25px;
+  }
+
+
+  .footer-contact {
+    padding: 0 25px;
+  }
+
+
+  .footer-pan-india {
+    padding-left: 25px;
   }
 
 
@@ -803,27 +868,16 @@ body {
   }
 
 
-  .footer-column li a {
-    font-size: 13px;
-  }
-
-
-  .footer-map {
-    width: 95px;
-
-    height: 115px;
-  }
-
-
+  .footer-map,
   .footer-map-image {
-    width: 95px;
+    width: 90px;
 
-    height: 115px;
+    height: 110px;
   }
 
 
   .footer-pan-text h3 {
-    font-size: 18px;
+    font-size: 19px;
   }
 
 
@@ -840,8 +894,7 @@ body {
 @media (max-width: 1000px) {
 
   .footer-main {
-    padding:
-      50px 0 40px;
+    padding: 50px 0 40px;
   }
 
 
@@ -849,93 +902,46 @@ body {
     width: 90%;
 
     grid-template-columns:
-      repeat(2, 1fr);
+      repeat(2, minmax(0, 1fr));
 
-    gap:
-      45px 25px;
+    gap: 0;
   }
 
+
+  /* REMOVE VERTICAL DIVIDERS ON TABLET */
+
+  .footer-section:not(:first-child)::before {
+    display: none;
+  }
+
+
+  /* BRAND */
 
   .footer-brand {
-    grid-column:
-      1 / -1;
+    grid-column: 1 / -1;
 
-    padding-right: 0;
-
-    text-align: center;
+    padding: 0 0 35px;
   }
 
 
-  .footer-logo {
-    justify-content: center;
-  }
-
-
-  .footer-logo-image {
-    width: 185px;
-  }
-
-
-  .footer-description {
-    margin-left: auto;
-
-    margin-right: auto;
-  }
-
-
-  .footer-socials {
-    justify-content: center;
-  }
-
-
-  .footer-brand-line {
-    margin-left: auto;
-
-    margin-right: auto;
-  }
-
-
-  .footer-nature-text {
-    justify-content: center;
-  }
-
+  /* COLUMNS */
 
   .footer-column,
+  .footer-contact,
   .footer-pan-india {
-    border-left: none;
+    padding: 35px 25px;
 
     border-top:
       1px solid
-      rgba(255, 255, 255, 0.16);
-
-    padding:
-      30px 10px 0;
-
-    margin: 0;
-
-    text-align: center;
+      rgba(189, 120, 64, 0.45);
   }
 
 
-  .footer-column h3 {
-    text-align: center;
-  }
-
-
-  .footer-title-line {
-    margin:
-      10px auto 17px;
-  }
-
+  /* CONTACT */
 
   .footer-contact-item {
-    justify-content: center;
+    max-width: 340px;
 
-    text-align: left;
-  }
-
-
-  .footer-quote-button {
     margin-left: auto;
 
     margin-right: auto;
@@ -944,22 +950,197 @@ body {
 
   /* PAN INDIA */
 
+  .footer-pan-india {
+    grid-column: 1 / -1;
+
+    padding-top: 35px;
+  }
+
+
   .footer-pan-content {
     justify-content: center;
+  }
+
+
+  .footer-pan-line {
+    width: 70%;
+
+    margin-left: auto;
+
+    margin-right: auto;
+  }
+
+
+  /* BOTTOM */
+
+  .footer-bottom-container {
+    grid-template-columns: 1fr;
+
+    gap: 12px;
+
+    padding: 20px 0;
+
+    text-align: center;
+  }
+
+
+  .footer-copyright,
+  .footer-bottom-message {
+    text-align: center;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .footer-main {
+    padding: 40px 0 30px;
+  }
+
+
+  .footer-container {
+    width: 90%;
+
+    display: flex;
+
+    flex-direction: column;
 
     align-items: center;
+  }
+
+
+  /* REMOVE VERTICAL DIVIDERS */
+
+  .footer-section:not(:first-child)::before {
+    display: none;
+  }
+
+
+  /* BRAND */
+
+  .footer-brand {
+    width: 100%;
+
+    padding: 0 0 30px;
+  }
+
+
+  .footer-logo-image {
+    width: 165px;
+  }
+
+
+  .footer-description {
+    max-width: 300px;
+
+    font-size: 13px;
+  }
+
+
+  .footer-social {
+    width: 42px;
+
+    height: 42px;
+
+    font-size: 17px;
+  }
+
+
+  .footer-brand-line {
+    width: 210px;
+  }
+
+
+  /* ALL SECTIONS */
+
+  .footer-column,
+  .footer-contact,
+  .footer-pan-india {
+    width: 100%;
+
+    padding: 30px 0;
+
+    border-top:
+      1px solid
+      rgba(189, 120, 64, 0.45);
+  }
+
+
+  /* HEADINGS */
+
+  .footer-column h3,
+  .footer-contact h3 {
+    font-size: 21px;
+  }
+
+
+  .footer-title-line {
+    width: 40px;
+
+    margin: 9px auto 18px;
+  }
+
+
+  /* LINKS */
+
+  .footer-column ul {
+    text-align: center;
+  }
+
+
+  .footer-column li {
+    margin-bottom: 10px;
+  }
+
+
+  .footer-column li a {
+    font-size: 14px;
+  }
+
+
+  /* CONTACT */
+
+  .footer-contact-item {
+    width: 100%;
+
+    max-width: 320px;
+
+    margin: 0 auto 16px;
+
+    justify-content: flex-start;
 
     text-align: left;
   }
 
 
-  .footer-map {
-    width: 100px;
+  .footer-quote-button {
+    width: 220px;
 
-    height: 120px;
+    margin: 20px auto 0;
   }
 
 
+  /* PAN INDIA */
+
+  .footer-pan-india {
+    padding: 30px 0 25px;
+  }
+
+
+  .footer-pan-content {
+    width: 100%;
+
+    justify-content: center;
+
+    gap: 12px;
+  }
+
+
+  .footer-map,
   .footer-map-image {
     width: 100px;
 
@@ -978,366 +1159,33 @@ body {
 
 
   .footer-pan-line {
-    max-width: 300px;
+    width: 80%;
 
-    margin:
-      20px auto;
+    margin: 23px auto;
   }
 
 
-  .footer-green-message {
-    justify-content: center;
+  /* GOLDEN DIVIDER */
+
+  .footer-golden-divider {
+    height: 1px;
   }
 
 
   /* BOTTOM */
 
   .footer-bottom-container {
-    grid-template-columns: 1fr;
+    width: 90%;
 
-    padding:
-      20px 0;
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
 
     gap: 13px;
 
-    text-align: center;
-  }
-
-
-  .footer-bottom-message {
-    text-align: center;
-  }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 700px) {
-
-  .site-footer {
-    width: 100%;
-
-    margin: 0;
-
-    padding: 0;
-  }
-
-
-  .footer-main {
-    width: 100%;
-
-    margin: 0;
-
-    padding:
-      45px 0 35px;
-  }
-
-
-  .footer-container {
-    width: 90%;
-
-    margin: 0 auto;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    gap: 0;
-  }
-
-
-  /* =======================================================
-     BRAND
-  ======================================================= */
-
-  .footer-brand {
-    width: 100%;
-
-    padding:
-      0 0 35px;
-
-    text-align: center;
-  }
-
-
-  .footer-logo {
-    justify-content: center;
-
-    margin-bottom: 18px;
-  }
-
-
-  .footer-logo-image {
-    width: 165px;
-  }
-
-
-  .footer-description {
-    max-width: 310px;
-
-    margin:
-      0 auto 20px;
-
-    font-size: 13px;
-
-    line-height: 1.6;
-  }
-
-
-  .footer-socials {
-    justify-content: center;
-
-    gap: 12px;
-  }
-
-
-  .footer-social {
-    width: 42px;
-
-    height: 42px;
-
-    font-size: 17px;
-  }
-
-
-  .footer-brand-line {
-    width: 220px;
-
-    margin:
-      22px auto 15px;
-  }
-
-
-  .footer-nature-text {
-    justify-content: center;
-
-    font-size: 12px;
-  }
-
-
-  /* =======================================================
-     COLUMNS
-  ======================================================= */
-
-  .footer-column,
-  .footer-pan-india {
-    width: 100%;
-
-    box-sizing: border-box;
-
-    margin: 0;
-
-    padding:
-      30px 0;
-
-    border-left: none;
-
-    border-top:
-      1px solid
-      rgba(255, 255, 255, 0.15);
-
-    text-align: center;
-  }
-
-
-  .footer-column h3 {
-    font-size: 21px;
-
-    text-align: center;
-  }
-
-
-  .footer-title-line {
-    margin:
-      10px auto 20px;
-  }
-
-
-  .footer-column li {
-    margin-bottom: 11px;
-  }
-
-
-  .footer-column li a {
-    font-size: 14px;
-  }
-
-
-  /* =======================================================
-     CONTACT
-  ======================================================= */
-
-  .footer-contact-item {
-    width: 100%;
-
-    max-width: 330px;
-
-    margin:
-      0 auto 17px;
-
-    justify-content: flex-start;
-
-    text-align: left;
-  }
-
-
-  .footer-contact-icon {
-    width: 30px;
-
-    font-size: 19px;
-  }
-
-
-  .footer-contact-item strong {
-    font-size: 13px;
-  }
-
-
-  .footer-contact-item span {
-    font-size: 11px;
-  }
-
-
-  .footer-quote-button {
-    width: 220px;
-
-    margin:
-      20px auto 0;
-  }
-
-
-  /* =======================================================
-     PAN INDIA
-  ======================================================= */
-
-  .footer-pan-india {
-    padding:
-      35px 0 25px;
-  }
-
-
-  .footer-pan-content {
-    width: 100%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 14px;
-
-    text-align: left;
-  }
-
-
-  .footer-map {
-    width: 105px;
-
-    height: 125px;
-
-    flex-shrink: 0;
-  }
-
-
-  .footer-map-image {
-    width: 105px;
-
-    height: 125px;
-
-    max-width: none;
-
-    object-fit: contain;
-  }
-
-
-  .footer-pan-text {
-    flex: 0 1 auto;
-
-    min-width: 0;
-  }
-
-
-  .footer-pan-text h3 {
-    margin:
-      0 0 10px;
-
-    font-size: 21px;
-
-    line-height: 1.1;
-  }
-
-
-  .footer-pan-text p {
-    font-size: 12px;
-
-    line-height: 1.5;
-  }
-
-
-  .footer-pan-line {
-    width: 80%;
-
-    max-width: 300px;
-
-    margin:
-      25px auto;
-  }
-
-
-  .footer-green-message {
-    justify-content: center;
-
-    text-align: left;
-
-    gap: 10px;
-  }
-
-
-  .footer-green-message .footer-leaf {
-    font-size: 27px;
-  }
-
-
-  .footer-green-message p {
-    font-size: 12px;
-
-    line-height: 1.4;
-  }
-
-
-  /* =======================================================
-     BOTTOM
-  ======================================================= */
-
-  .footer-bottom {
-    width: 100%;
-
-    margin: 0;
-
-    padding: 0;
-  }
-
-
-  .footer-bottom-container {
-    width: 90%;
-
-    min-height: auto;
-
-    margin: 0 auto;
-
-    padding:
-      20px 0 25px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 15px;
+    padding: 20px 0 24px;
 
     text-align: center;
   }
@@ -1352,12 +1200,11 @@ body {
 
 
   .footer-bottom-links {
-    flex-wrap: wrap;
+    width: 100%;
 
     justify-content: center;
 
-    gap:
-      8px 13px;
+    gap: 7px 12px;
   }
 
 
@@ -1384,11 +1231,13 @@ body {
 
 
   .footer-logo-image {
-    width: 155px;
+    width: 150px;
   }
 
 
   .footer-description {
+    max-width: 280px;
+
     font-size: 12px;
   }
 
@@ -1397,10 +1246,13 @@ body {
     width: 40px;
 
     height: 40px;
+
+    font-size: 16px;
   }
 
 
-  .footer-column h3 {
+  .footer-column h3,
+  .footer-contact h3 {
     font-size: 20px;
   }
 
@@ -1410,24 +1262,11 @@ body {
   }
 
 
-  /* PAN INDIA */
-
-  .footer-pan-content {
-    gap: 12px;
-  }
-
-
-  .footer-map {
-    width: 95px;
-
-    height: 115px;
-  }
-
-
+  .footer-map,
   .footer-map-image {
-    width: 95px;
+    width: 92px;
 
-    height: 115px;
+    height: 112px;
   }
 
 
@@ -1438,14 +1277,6 @@ body {
 
   .footer-pan-text p {
     font-size: 11px;
-  }
-
-
-  .footer-pan-line {
-    width: 82%;
-
-    margin:
-      22px auto;
   }
 
 
@@ -1461,6 +1292,11 @@ body {
 
 @media (max-width: 340px) {
 
+  .footer-container {
+    width: 94%;
+  }
+
+
   .footer-logo-image {
     width: 140px;
   }
@@ -1468,16 +1304,6 @@ body {
 
   .footer-description {
     font-size: 11px;
-  }
-
-
-  .footer-column h3 {
-    font-size: 19px;
-  }
-
-
-  .footer-column li a {
-    font-size: 12px;
   }
 
 
@@ -1490,24 +1316,22 @@ body {
   }
 
 
-  /* PAN INDIA */
-
-  .footer-pan-content {
-    gap: 10px;
+  .footer-column h3,
+  .footer-contact h3 {
+    font-size: 19px;
   }
 
 
-  .footer-map {
-    width: 85px;
-
-    height: 105px;
+  .footer-column li a {
+    font-size: 12px;
   }
 
 
+  .footer-map,
   .footer-map-image {
-    width: 85px;
+    width: 82px;
 
-    height: 105px;
+    height: 100px;
   }
 
 
@@ -1518,11 +1342,6 @@ body {
 
   .footer-pan-text p {
     font-size: 10px;
-  }
-
-
-  .footer-pan-line {
-    width: 85%;
   }
 
 
