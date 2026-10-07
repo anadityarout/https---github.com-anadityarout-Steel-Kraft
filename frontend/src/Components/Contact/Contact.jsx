@@ -122,8 +122,8 @@ function Contact() {
                   and project discussions.
                 </p>
 
-                <a href="mailto:info@kadenkopper.com">
-                  info@kadenkopper.com
+                <a href="mailto:info@steelcraftprefab.com">
+                  info@steelcraftprefab.com
                   <span>→</span>
                 </a>
 
@@ -170,8 +170,8 @@ function Contact() {
                   our team.
                 </p>
 
-                <a href="tel:+919876543210">
-                  +91 98765 43210
+                <a href="tel:+919311826565">
+                  +91 93118 26565
                   <span>→</span>
                 </a>
 
@@ -328,42 +328,14 @@ function Contact() {
                 <label htmlFor="inquiryTopic">
                   INQUIRY TOPIC <span>*</span>
                 </label>
-
-                <select
-                  id="inquiryTopic"
-                  name="inquiryTopic"
-                  defaultValue="general"
+              <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Enter your full name"
                   required
-                >
-                  <option value="general">
-                    General Inquiry
-                  </option>
-
-                  <option value="web-development">
-                    Web Development
-                  </option>
-
-                  <option value="app-development">
-                    App Development
-                  </option>
-
-                  <option value="seo">
-                    SEO
-                  </option>
-
-                  <option value="video-editor">
-                    Video Editor
-                  </option>
-
-                  <option value="graphic-designer">
-                    Graphic Designer
-                  </option>
-
-                  <option value="marketing">
-                    Marketing
-                  </option>
-                </select>
-
+                />
+                
               </div>
 
 
@@ -417,7 +389,7 @@ function Contact() {
                   type="tel"
                   id="phone"
                   name="phone"
-                  placeholder="+91 9876543210"
+                  placeholder="+91 93118 26565"
                 />
 
               </div>
@@ -566,7 +538,7 @@ function Contact() {
                 </h3>
 
                 <a href="mailto:info@kadenkoppers.com">
-                  info@kadenkoppers.com
+                  info@steelcraftprefab.com
                 </a>
 
               </div>
@@ -588,8 +560,8 @@ function Contact() {
                   Phone
                 </h3>
 
-                <a href="tel:+918130462200">
-                  +91 8130462200
+                <a href="tel:+919311826565">
+                  +91 93118 26565
                 </a>
 
                 <p>

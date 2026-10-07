@@ -256,10 +256,10 @@ const Footer = () => {
               <div className="footer-contact-content">
 
                 <a
-                  href="mailto:info@steelkraft.in"
+                  href="mailto:info@steelcraftprefab.com"
                   className="footer-contact-link"
                 >
-                  info@steelcraft.com
+                  info@steelcraftprefab.com
                 </a>
 
                 <span>
