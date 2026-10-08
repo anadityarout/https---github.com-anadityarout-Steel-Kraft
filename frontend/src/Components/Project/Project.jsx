@@ -15,48 +15,31 @@ import projectG from "../../assets/g.jpg.png";
 import projectH from "../../assets/h.jpg.png";
 import projectI from "../../assets/i.jpg.png";
 import projectJ from "../../assets/j.jpg.png";
+import Resort from "../../assets/Resort.png";
+import projecth from "../../assets/h.png";
+import projectk from "../../assets/k.png";
+import Resort12 from "../../assets/Resort12.png";
+import Resort16 from "../../assets/Resort16.png";
+import Resort32 from "../../assets/Resort32.png";
+import Resort34 from "../../assets/Resort34.png";
+import Resort35 from "../../assets/Resort35.png";
+import Resort39 from "../../assets/Resort39.png";
+import Resort36 from "../../assets/Resort36.png";
+import Resort30 from "../../assets/Resort30.png";
+import Resort28 from "../../assets/Resort28.png";
+import Resort5 from "../../assets/Resort5.png";
+import Resort13 from "../../assets/Resort13.png";
+import Resort21 from "../../assets/Resort21.png";
+import Resort22 from "../../assets/Resort22.png";
+import Resort23 from "../../assets/Resort23.png";
+import Resort31 from "../../assets/resort31.png";
 
 // =====================================================
 // PROJECT DATA
 // =====================================================
 
 const projects = [
-  {
-    id: 1,
-    title: "Auli Eco Resort",
-    location: "Uttarakhand",
-    image: projectA,
-  },
-  {
-    id: 2,
-    title: "Lonavala Villa",
-    location: "Maharashtra",
-    image: projectB,
-  },
-  {
-    id: 3,
-    title: "Coorg Retreat",
-    location: "Karnataka",
-    image: projectC,
-  },
-  {
-    id: 4,
-    title: "Rishikesh Cottage",
-    location: "Uttarakhand",
-    image: projectD,
-  },
-  {
-    id: 5,
-    title: "Goa Resort Villas",
-    location: "Goa",
-    image: projectE,
-  },
-  {
-    id: 6,
-    title: "Sheber Baag Home Stay",
-    location: "Delhi",
-    image: projectF,
-  },
+  
   {
     id: 7,
     title: "Barn House 3BHK Cottage",
@@ -81,6 +64,114 @@ const projects = [
     location: "Himachal Pradesh",
     image: projectJ,
   },
+  {
+    id: 12,
+    title: "Frame Resort Villas",
+    location: "Coorg, Karnataka",
+    image: Resort,
+  },
+  {
+    id: 13,
+    title: "Palm Grove Retreat",
+    location: "Wayanad, Kerala",
+    image: projecth,
+  },
+  {
+    id: 14,
+    title: "Aura Luxury Villas",
+    location: "Jaipur, Rajasthan",
+    image: projectk,
+  },
+  {
+   id: 15,
+   title: "Mountain View Villas",
+   location: "Manali, Himachal Pradesh",
+   image: Resort12
+  },
+  {
+    id: 16,
+    title: "Beachfront Tropical Villa",
+    location:"Goa",
+    image: Resort16
+  },
+  {
+    id: 17,
+    title: "The Valley Resort",
+    location: "Lonavala, Maharashtra",
+    image: Resort32,
+  },
+  {
+    id: 18,
+    title: "Ocean Breeze Resort",
+    location: "Goa",
+    image: Resort34,
+  },
+  {
+    id: 19,
+    title: "Ocean Pearl Resort",
+    location: "Puri, Odisha",
+    image: Resort35,
+  },
+  {
+    id: 20,
+    title: "Lakeside Palace Resort",
+    location: "Udaipur, Rajasthan",
+    image: Resort39,
+  },
+  {
+    id: 21,
+    title: "Oceanfront Palm Resort",
+    location: "Goa",
+    image: Resort36,
+  },
+  {
+    id: 22,
+    title: "Serene Garden Resort",
+    location: "Jaipur, Rajasthan",
+    image: Resort30,
+  },
+  {
+    id: 23,
+    title: "Hillview Garden Resort",
+    location: "Mussoorie, Uttarakhand",
+    image: Resort28,
+  },
+  {
+    id: 24,
+    title: "White Haven Villas",
+    location: "Udaipur, Rajasthan",
+    image: Resort5,
+  },
+  {
+    id: 25,
+    title: "Wildwood Luxury Resort",
+    location: "Jim Corbett, Uttarakhand",
+    image: Resort13,
+  },
+  {
+    id: 26,
+    title: "Lake Palace Retreat",
+    location: "Udaipur, Rajasthan",
+    image: Resort21,
+  },
+  {
+    id: 27,
+    title: "Palm Cove Resort",
+    location: "Goa",
+    image: Resort22,
+  },
+  {
+    id: 28,
+    title: "Serene Coconut Resort",
+    location: "Alappuzha, Kerala",
+    image: Resort23
+ },
+ {
+  id: 29,
+  title: "Heritage Courtyard Resort",
+  location: "Udaipur, Rajasthan",
+  image: Resort31,
+ },
 ];
 
 // =====================================================

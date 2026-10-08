@@ -1,7 +1,8 @@
 import React from "react";
 import "./Footer.css";
 
-import indiaMap from "../../assets/india-map.png";
+//import indiaMap from "../../assets/india-map.png";
+import map1 from "../../assets/map1.png";
 import steelKraftLogo from "../../assets/Steel Kraft Logo.png";
 
 import {
@@ -329,7 +330,7 @@ const Footer = () => {
               <div className="footer-map">
 
                 <img
-                  src={indiaMap}
+                  src={map1}
                   alt="India map showing Pan India service"
                   className="footer-map-image"
                 />
@@ -398,7 +399,7 @@ const Footer = () => {
         <div className="footer-bottom-container">
 
           <p className="footer-copyright">
-            © 2026 Steel Kraft. All Rights Reserved.
+            © 2026 Steel Craft. All Rights Reserved.
           </p>
 
           <div className="footer-bottom-links">

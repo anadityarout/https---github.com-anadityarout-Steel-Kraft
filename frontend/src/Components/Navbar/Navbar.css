@@ -1,5 +1,5 @@
 /* =========================================================
-   STEEL KRAFT NAVBAR
+   STEEL KRAFT NAVBAR — GLASS STYLE
 ========================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
@@ -23,27 +23,66 @@
 
 
 /* =========================================================
-   NAVBAR
+   NAVBAR — FLOATING GLASS BAR
 ========================================================= */
 
 .sk-navbar {
-    position: fixed;
-  top: 0;
+  position: fixed;
+  top: 14px;
   left: 0;
+  right: 0;
 
-  width: 100%;
-  height: 76px;
+  width: calc(100% - 28px);
+  max-width: 1320px;
+  height: 74px;
+
+  margin: 0 auto;
 
   z-index: 1000;
 
-  background: rgba(255, 255, 255, 0.94);
+  border-radius: 28px;
 
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  /* glass */
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.32) 0%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.22) 100%
+    );
 
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  backdrop-filter: blur(22px) saturate(170%);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.18);
 
   font-family: "Inter", sans-serif;
+
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+/* darker glass after scrolling, so white text stays readable on light sections */
+.sk-navbar.scrolled {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(16, 29, 44, 0.62) 0%,
+      rgba(16, 29, 44, 0.46) 100%
+    );
+
+  border-color: rgba(255, 255, 255, 0.22);
+
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 
@@ -53,16 +92,15 @@
 
 .sk-navbar-container {
   width: 100%;
-  max-width: 1450px;
+  height: 100%;
 
-  height: 76px;
-
-  margin: 0 auto;
-
-  padding: 0 42px;
+  padding: 0 34px;
 
   display: flex;
   align-items: center;
+  justify-content: center;
+
+  gap: 54px;
 }
 
 
@@ -74,8 +112,6 @@
   display: flex;
   align-items: center;
 
-  width: auto;
-
   text-decoration: none;
 
   flex-shrink: 0;
@@ -84,12 +120,13 @@
 .sk-logo img {
   display: block;
 
-  width: 190px;
+  width: 175px;
   max-width: 100%;
-
   height: auto;
 
   object-fit: contain;
+
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25));
 }
 
 
@@ -101,16 +138,8 @@
   display: flex;
   align-items: center;
 
-  gap: 34px;
-
-  margin-left: auto;
-  margin-right: 34px;
+  gap: 44px;
 }
-
-
-/* =========================================================
-   DESKTOP MENU LINKS
-========================================================= */
 
 .sk-desktop-menu a {
   position: relative;
@@ -118,63 +147,65 @@
   display: inline-flex;
   align-items: center;
 
-  color: #1b1b1b;
+  color: #ffffff;
 
   text-decoration: none;
 
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
-
   line-height: 1;
 
   white-space: nowrap;
 
-  padding: 10px 0;
+  padding: 12px 0;
+
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
 
   transition:
     color 0.3s ease,
-    opacity 0.3s ease;
+    transform 0.3s ease;
 }
 
 
-/* =========================================================
-   DESKTOP LINK UNDERLINE
-========================================================= */
-
+/* underline (slightly wider than text, like the reference) */
 .sk-desktop-menu a::after {
   content: "";
 
   position: absolute;
 
-  left: 0;
-  bottom: 1px;
+  left: -8px;
+  right: -8px;
+  bottom: -2px;
 
-  width: 0;
-  height: 2px;
+  height: 4px;
 
-  background: #bd7d4e;
+  border-radius: 10px;
 
-  border-radius: 5px;
+  background: linear-gradient(90deg, #f6bd54, #ee9a3b);
 
-  transition: width 0.3s ease;
+  box-shadow: 0 2px 10px rgba(246, 189, 84, 0.45);
+
+  opacity: 0;
+  transform: scaleX(0.4);
+
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
-
-
-/* =========================================================
-   DESKTOP HOVER
-========================================================= */
 
 .sk-desktop-menu a:hover {
-  color: #bd7d4e;
+  color: #ffe2b8;
 }
 
-.sk-desktop-menu a:hover::after {
-  width: 100%;
+.sk-desktop-menu a:hover::after,
+.sk-desktop-menu a.active::after {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 
 /* =========================================================
-   QUOTE BUTTON
+   QUOTE BUTTON — COPPER GLASS
 ========================================================= */
 
 .sk-quote-btn {
@@ -184,71 +215,87 @@
 
   gap: 10px;
 
-  min-width: 162px;
-  height: 42px;
+  min-width: 168px;
+  height: 46px;
 
-  padding: 0 20px;
+  padding: 0 22px;
 
-  background: #bd7d4e;
   color: #ffffff;
 
-  border-radius: 7px;
+  border-radius: 15px;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(206, 132, 79, 0.95),
+      rgba(165, 96, 52, 0.92)
+    );
+
+  box-shadow:
+    0 8px 22px rgba(165, 96, 52, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
   text-decoration: none;
 
   font-family: "Inter", sans-serif;
-
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
 
   white-space: nowrap;
 
+  flex-shrink: 0;
+
   transition:
-    background 0.3s ease,
     transform 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
 }
 
 .sk-quote-btn span {
   font-size: 18px;
-
   line-height: 1;
 
   transition: transform 0.3s ease;
 }
 
 .sk-quote-btn:hover {
-  background: #a9683d;
+  transform: translateY(-2px);
 
-  color: #ffffff;
-
-  transform: translateY(-1px);
+  filter: brightness(1.08);
 
   box-shadow:
-    0 8px 20px rgba(189, 125, 78, 0.25);
+    0 12px 28px rgba(165, 96, 52, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-.sk-quote-btn:hover span {
+.sk-quote-btn:hover span:last-child {
   transform: translateX(4px);
 }
 
 
 /* =========================================================
-   MOBILE HAMBURGER
+   MOBILE HAMBURGER — GLASS BUTTON
 ========================================================= */
 
 .sk-menu-button {
   display: none;
 
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
 
   padding: 0;
 
-  border: none;
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 14px;
 
-  background: #101d2c;
+  background: rgba(255, 255, 255, 0.2);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
 
   cursor: pointer;
 
@@ -275,15 +322,15 @@
 
   border-radius: 10px;
 
-  transition: all 0.3s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .sk-menu-button:hover {
-  background: #bd7d4e;
+  background: rgba(206, 132, 79, 0.65);
 }
 
 .sk-menu-button:active {
-  transform: scale(0.95);
+  transform: scale(0.94);
 }
 
 
@@ -293,19 +340,15 @@
 
 .sk-mobile-overlay {
   position: fixed;
+  inset: 0;
 
-  top: 0;
-  left: 0;
+  background: rgba(8, 16, 26, 0.35);
 
-  width: 100%;
-  height: 100vh;
-
-  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 
   opacity: 0;
-
   visibility: hidden;
-
   pointer-events: none;
 
   z-index: 1998;
@@ -317,54 +360,62 @@
 
 .sk-mobile-overlay.active {
   opacity: 1;
-
   visibility: visible;
-
   pointer-events: auto;
 }
 
 
 /* =========================================================
-   MOBILE DRAWER
+   MOBILE DRAWER — FLOATING GLASS PANEL
 ========================================================= */
 
 .sk-mobile-menu {
   position: fixed;
 
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
+  bottom: 10px;
 
-  width: 320px;
-  max-width: 88vw;
-
-  height: 100vh;
-
-  background: #ffffff;
+  width: 330px;
+  max-width: calc(100vw - 20px);
 
   z-index: 1999;
-
-  transform: translateX(100%);
-
-  visibility: hidden;
 
   display: flex;
   flex-direction: column;
 
+  border-radius: 26px;
+
+  background:
+    linear-gradient(
+      160deg,
+      rgba(30, 48, 70, 0.62) 0%,
+      rgba(16, 29, 44, 0.78) 100%
+    );
+
+  border: 1px solid rgba(255, 255, 255, 0.28);
+
+  backdrop-filter: blur(28px) saturate(170%);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+
   box-shadow:
-    -12px 0 35px rgba(0, 0, 0, 0.12);
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 
   font-family: "Inter", sans-serif;
 
-  transition:
-    transform 0.38s cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0.38s ease;
+  transform: translateX(calc(100% + 24px));
+  visibility: hidden;
 
   overflow-y: auto;
+
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.4s ease;
 }
 
 .sk-mobile-menu.active {
   transform: translateX(0);
-
   visibility: visible;
 }
 
@@ -375,26 +426,18 @@
 
 .sk-mobile-header {
   width: 100%;
+  min-height: 78px;
 
-  min-height: 70px;
-
-  padding: 0 12px 0 14px;
+  padding: 0 16px 0 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  border-bottom: 1px solid #e4e4e4;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 
   flex-shrink: 0;
-
-  background: #ffffff;
 }
-
-
-/* =========================================================
-   MOBILE LOGO
-========================================================= */
 
 .sk-mobile-logo {
   display: flex;
@@ -408,7 +451,7 @@
 .sk-mobile-logo img {
   display: block;
 
-  width: 115px;
+  width: 130px;
   height: auto;
 
   object-fit: contain;
@@ -420,15 +463,15 @@
 ========================================================= */
 
 .sk-close-button {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
 
   padding: 0;
 
-  border: none;
-  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 13px;
 
-  background: #101d2c;
+  background: rgba(255, 255, 255, 0.14);
 
   color: #ffffff;
 
@@ -439,10 +482,7 @@
   justify-content: center;
 
   font-family: Arial, sans-serif;
-
-  font-size: 27px;
-  font-weight: 400;
-
+  font-size: 28px;
   line-height: 1;
 
   transition:
@@ -451,95 +491,87 @@
 }
 
 .sk-close-button:hover {
-  background: #bd7d4e;
+  background: rgba(206, 132, 79, 0.7);
 
   transform: rotate(90deg);
 }
 
 
 /* =========================================================
-   MOBILE LINKS CONTAINER
+   MOBILE LINKS
 ========================================================= */
 
 .sk-mobile-links {
   width: 100%;
 
+  padding: 14px 14px 6px;
+
   display: flex;
   flex-direction: column;
 
+  gap: 6px;
+
   flex-shrink: 0;
 }
-
-
-/* =========================================================
-   MOBILE LINK
-========================================================= */
 
 .sk-mobile-link {
   position: relative;
 
   width: 100%;
-  min-height: 62px;
+  min-height: 56px;
 
-  padding: 0 14px;
+  padding: 0 18px;
 
   display: flex;
   align-items: center;
 
-  background: #ffffff;
-
-  color: #111111;
+  color: #ffffff;
 
   text-decoration: none;
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 
-  border-bottom: 1px solid #e3e3e3;
+  border-radius: 16px;
+  border: 1px solid transparent;
 
   transition:
     background 0.25s ease,
     color 0.25s ease,
-    padding-left 0.25s ease;
+    padding-left 0.25s ease,
+    border-color 0.25s ease;
 }
 
-
-/* =========================================================
-   MOBILE LINK HOVER
-========================================================= */
-
-.sk-mobile-link:hover {
-  background: #fcf4ee;
-
-  color: #bd7d4e;
-
-  padding-left: 20px;
-}
-
-
-/* =========================================================
-   MOBILE LINK ACTIVE / TOUCH
-========================================================= */
-
+.sk-mobile-link:hover,
 .sk-mobile-link:active {
-  background: #f8ece3;
+  background: rgba(255, 255, 255, 0.12);
 
-  color: #bd7d4e;
+  padding-left: 24px;
 }
 
+/* active page — glass pill with gold accent */
+.sk-mobile-link.active {
+  background: rgba(255, 255, 255, 0.16);
 
-/* =========================================================
-   MOBILE CTA CONTAINER
-========================================================= */
+  border-color: rgba(255, 255, 255, 0.3);
 
-.sk-mobile-cta {
-  width: 100%;
+  color: #ffd9a0;
+}
 
-  padding: 16px 14px 22px;
+.sk-mobile-link.active::before {
+  content: "";
 
-  background: #ffffff;
+  position: absolute;
 
-  margin-top: 0;
+  left: 7px;
+  top: 16px;
+  bottom: 16px;
+
+  width: 4px;
+
+  border-radius: 10px;
+
+  background: linear-gradient(180deg, #f6bd54, #ee9a3b);
 }
 
 
@@ -547,9 +579,17 @@
    MOBILE CTA
 ========================================================= */
 
+.sk-mobile-cta {
+  width: 100%;
+
+  padding: 14px 14px 20px;
+
+  margin-top: auto;
+}
+
 .sk-mobile-cta a {
   width: 100%;
-  min-height: 48px;
+  min-height: 52px;
 
   padding: 0 18px;
 
@@ -559,41 +599,46 @@
 
   gap: 10px;
 
-  background: #bd7d4e;
-
   color: #ffffff;
 
-  border-radius: 7px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(206, 132, 79, 0.95),
+      rgba(165, 96, 52, 0.92)
+    );
+
+  box-shadow:
+    0 8px 22px rgba(165, 96, 52, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
   text-decoration: none;
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
 
   transition:
-    background 0.3s ease,
     transform 0.3s ease,
-    box-shadow 0.3s ease;
+    filter 0.3s ease;
 }
 
 .sk-mobile-cta a span {
   font-size: 18px;
-
   line-height: 1;
 
   transition: transform 0.3s ease;
 }
 
 .sk-mobile-cta a:hover {
-  background: #a9683d;
-
   transform: translateY(-1px);
 
-  box-shadow:
-    0 7px 18px rgba(189, 125, 78, 0.22);
+  filter: brightness(1.08);
 }
 
-.sk-mobile-cta a:hover span {
+.sk-mobile-cta a:hover span:last-child {
   transform: translateX(4px);
 }
 
@@ -605,200 +650,111 @@
 @media (max-width: 1100px) {
 
   .sk-navbar-container {
-    padding: 0 28px;
+    padding: 0 24px;
+
+    gap: 32px;
   }
 
   .sk-logo img {
-    width: 170px;
+    width: 150px;
   }
 
   .sk-desktop-menu {
-    gap: 23px;
-
-    margin-right: 24px;
+    gap: 28px;
   }
 
   .sk-desktop-menu a {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .sk-quote-btn {
-    min-width: 135px;
+    min-width: 146px;
 
-    padding: 0 16px;
+    padding: 0 18px;
+
+    font-size: 13px;
   }
 }
 
 
 /* =========================================================
-   MOBILE — 768px
+   MOBILE — 900px (hamburger takes over)
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 
   .sk-navbar {
-    position: fixed;
+    top: 10px;
 
-    height: 68px;
+    width: calc(100% - 20px);
+    height: 64px;
 
-    background: rgba(255, 255, 255, 0.96);
-
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 22px;
   }
 
   .sk-navbar-container {
-    height: 68px;
+    padding: 0 12px 0 18px;
 
-    padding: 0 16px;
+    justify-content: space-between;
   }
 
-  /* Hide desktop menu */
-  .sk-desktop-menu {
-    display: none;
-  }
-
-  /* Hide desktop quote */
+  .sk-desktop-menu,
   .sk-quote-btn {
     display: none;
   }
 
-  /* Logo */
   .sk-logo img {
-    width: 145px;
+    width: 140px;
   }
 
-  /* Show hamburger */
   .sk-menu-button {
     display: flex;
-
-    margin-left: auto;
   }
 }
 
 
 /* =========================================================
-   MOBILE — 600px
-========================================================= */
-
-@media (max-width: 600px) {
-
-  .sk-navbar-container {
-    padding: 0 14px;
-  }
-
-  .sk-logo img {
-    width: 135px;
-  }
-
-  .sk-menu-button {
-    width: 43px;
-    height: 43px;
-  }
-
-  .sk-mobile-menu {
-    width: 310px;
-  }
-}
-
-
-/* =========================================================
-   MOBILE — 480px
+   SMALL PHONES
 ========================================================= */
 
 @media (max-width: 480px) {
 
   .sk-navbar {
-    height: 64px;
+    height: 60px;
+
+    border-radius: 20px;
   }
 
   .sk-navbar-container {
-    height: 64px;
-
-    padding: 0 14px;
+    padding: 0 10px 0 14px;
   }
 
   .sk-logo img {
-    width: 130px;
+    width: 125px;
   }
 
   .sk-menu-button {
     width: 42px;
     height: 42px;
 
-    border-radius: 8px;
+    border-radius: 12px;
   }
 
   .sk-mobile-menu {
-    width: 310px;
-
-    max-width: 88vw;
-  }
-
-  .sk-mobile-header {
-    min-height: 70px;
-  }
-
-  .sk-mobile-logo img {
-    width: 110px;
-  }
-
-  .sk-mobile-link {
-    min-height: 62px;
-
-    font-size: 14px;
-  }
-
-  .sk-mobile-cta {
-    padding: 16px 14px 20px;
+    width: calc(100vw - 20px);
   }
 }
 
-
-/* =========================================================
-   SMALL PHONES — 360px
-========================================================= */
-
 @media (max-width: 360px) {
 
-  .sk-navbar-container {
-    padding: 0 12px;
-  }
-
   .sk-logo img {
-    width: 115px;
-  }
-
-  .sk-menu-button {
-    width: 40px;
-    height: 40px;
-  }
-
-  .sk-mobile-menu {
-    width: 290px;
-
-    max-width: 88vw;
-  }
-
-  .sk-mobile-header {
-    padding-left: 12px;
-    padding-right: 10px;
-  }
-
-  .sk-mobile-logo img {
-    width: 100px;
+    width: 112px;
   }
 
   .sk-mobile-link {
-    min-height: 58px;
+    min-height: 52px;
 
-    padding-left: 12px;
-
-    font-size: 13px;
-  }
-
-  .sk-mobile-cta {
-    padding-left: 12px;
-    padding-right: 12px;
+    font-size: 14px;
   }
 }
 
@@ -813,9 +769,22 @@
 .sk-quote-btn:focus-visible,
 .sk-mobile-link:focus-visible,
 .sk-mobile-cta a:focus-visible {
-  outline: 2px solid #bd7d4e;
+  outline: 2px solid #f6bd54;
 
   outline-offset: 3px;
+}
+
+
+/* browsers without backdrop-filter support get a solid fallback */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+
+  .sk-navbar {
+    background: rgba(16, 29, 44, 0.85);
+  }
+
+  .sk-mobile-menu {
+    background: rgba(16, 29, 44, 0.96);
+  }
 }
 
 
@@ -826,6 +795,7 @@
 @media (prefers-reduced-motion: reduce) {
 
   .sk-navbar *,
+  .sk-mobile-menu,
   .sk-mobile-menu *,
   .sk-mobile-overlay {
     transition: none !important;

@@ -38,7 +38,7 @@ const Aboutus = () => {
 
           <div className="aboutus-label">
             <span className="aboutus-label-line"></span>
-            <span>ABOUT STEEL KRAFT</span>
+            <span>ABOUT STEEL CRAFT</span>
           </div>
 
           <h2 className="aboutus-title">
@@ -51,7 +51,7 @@ const Aboutus = () => {
 
           <div className="aboutus-description">
             <p>
-              Steel Kraft is a leading provider of modern prefab homes,
+              Steel Craft is a leading provider of modern prefab homes,
               modular villas and hospitality spaces across India. We combine
               innovative design, advanced prefabrication technology and
               sustainable construction practices to create spaces that are

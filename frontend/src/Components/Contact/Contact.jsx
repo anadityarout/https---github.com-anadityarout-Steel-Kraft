@@ -508,7 +508,7 @@ function Contact() {
                 </h3>
 
                 <p>
-                  Kaden Koppers
+                  Steel Craft
                 </p>
 
                 <p>
@@ -537,7 +537,7 @@ function Contact() {
                   Email
                 </h3>
 
-                <a href="mailto:info@kadenkoppers.com">
+                <a href="mailto:info@steelcraftprefab.com">
                   info@steelcraftprefab.com
                 </a>
 
@@ -606,59 +606,7 @@ function Contact() {
       </section>
 
 
-      {/* =====================================================
-          LOCATION / MAP
-      ===================================================== */}
-
-      <section className="contact-location">
-
-        <div className="contact-location-container">
-
-
-          {/* LOCATION HEADING */}
-
-          <div className="contact-location-heading">
-
-            <span className="location-eyebrow">
-
-              <span className="location-eyebrow-line"></span>
-
-              FIND US
-
-              <span className="location-eyebrow-line"></span>
-
-            </span>
-
-
-            <h2>
-              Steel Kraft
-            </h2>
-
-
-            <p>
-              Visit our office at Mayur Vihar Extension, New Delhi.
-            </p>
-
-          </div>
-
-
-          {/* GOOGLE MAP */}
-
-          <div className="contact-map-wrapper">
-
-            <iframe
-              title="Kaden Koppers Location"
-              src="https://www.google.com/maps?q=Kaden+Koppers,+108+First+Floor+DLF+Galleria+Mall,+Mayur+Vihar,+New+Delhi+110091&output=embed"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              allowFullScreen
-            ></iframe>
-
-          </div>
-
-        </div>
-
-      </section>
+     
 
     </>
   );

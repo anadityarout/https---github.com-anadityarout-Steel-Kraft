@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./HomeSlider.css";
 import homeImage from "../../assets/home.jpg";
+import home1Image from "../../assets/home1.jpg";
 
 const slides = [
   {
     eyebrow: "MODERN | SUSTAINABLE | PREFABRICATED",
 
-    heading: ["Spaces Built for", "A Better Tomorrow"],
+    heading: ["Luxury", "Forest Retreat"],
 
     subheading:
       "Prefab Homes, Modular Villas & Resort Cottages Across India",
@@ -15,6 +16,24 @@ const slides = [
       "Experience a smarter, faster and more sustainable way to build. Steel Kraft delivers modern prefabricated homes and hospitality cottages designed for today and prepared for tomorrow.",
 
     image: homeImage,
+
+    alt: "Modern prefabricated villa beside a pool at sunset",
+  },
+
+  {
+    eyebrow: "MODERN | SUSTAINABLE | PREFABRICATED",
+
+    heading: ["Luxury", "Lakeside Retreat"],
+
+    subheading:
+      "Premium Resort Villas & Hospitality Spaces",
+
+    body:
+      "Experience refined architecture, serene surroundings and thoughtfully designed spaces made for unforgettable stays.",
+
+    image: home1Image,
+
+    alt: "Luxury lakeside resort villa",
   },
 ];
 
@@ -31,13 +50,14 @@ export default function HomeSlider() {
     <section className="home-slider">
 
       {/* =====================================================
-          BACKGROUND IMAGE
+          IMAGE
+          Desktop: fills the hero as a background (cover)
+          Mobile: fills the hero, text sits on top
       ===================================================== */}
-      <div
+      <img
         className="home-slider__image"
-        style={{
-          backgroundImage: `url("${slide.image}")`,
-        }}
+        src={slide.image}
+        alt={slide.alt}
       />
 
       {/* =====================================================
@@ -81,7 +101,7 @@ export default function HomeSlider() {
         <div className="home-slider__actions">
           <button
             type="button"
-            className="home-slider__btn"
+            className="home-slider__btn home-slider__btn--primary"
           >
             <span>Explore Our Designs</span>
 

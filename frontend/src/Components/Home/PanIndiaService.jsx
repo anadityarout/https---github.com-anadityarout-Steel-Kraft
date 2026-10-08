@@ -1,7 +1,8 @@
 import React from "react";
 import "./PanIndiaService.css";
 
-import indiaMap from "../../assets/india-map.png";
+//import indiaMap from "../../assets/india-map.png";
+import map1 from "../../assets/map1.png";
 
 import {
   FaMapMarkerAlt,
@@ -89,7 +90,7 @@ const PanIndiaService = () => {
             <div className="india-map-wrapper">
 
               <img
-                src={indiaMap}
+                src={map1}
                 alt="Pan India Service Coverage"
                 className="india-map-image"
               />

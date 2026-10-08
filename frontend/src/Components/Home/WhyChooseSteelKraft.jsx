@@ -97,7 +97,7 @@ const WhyChooseSteelKraft = () => {
 
         {/* SECTION TITLE */}
         <div className="steel-why-header">
-          <h2>Why Choose Steel Kraft?</h2>
+          <h2>Why Choose Steel Craft?</h2>
         </div>
 
         {/* FEATURES */}

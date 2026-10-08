@@ -54,7 +54,7 @@ const ModularTechnology = () => {
           </h3>
 
           <p>
-            Steel Kraft uses the best dry technologies, tested and proven
+            Steel Craft uses the best dry technologies, tested and proven
             to deliver high-quality modular buildings with standard
             components. From design to installation, every step is
             precise, efficient and sustainable.
