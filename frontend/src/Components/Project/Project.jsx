@@ -32,7 +32,7 @@ import Resort13 from "../../assets/Resort13.png";
 import Resort21 from "../../assets/Resort21.png";
 import Resort22 from "../../assets/Resort22.png";
 import Resort23 from "../../assets/Resort23.png";
-import Resort31 from "../../assets/resort31.png";
+import Resort31 from "../../assets/Resort31.png";
 
 // =====================================================
 // PROJECT DATA
