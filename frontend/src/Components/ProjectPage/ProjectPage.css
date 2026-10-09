@@ -1,0 +1,1167 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* =========================================
+   GLOBAL PROJECT PAGE
+========================================= */
+
+.project-page {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #ffffff;
+  font-family: "Inter", sans-serif;
+  box-sizing: border-box;
+}
+
+.project-page *,
+.project-page *::before,
+.project-page *::after {
+  box-sizing: border-box;
+}
+
+.project-page img {
+  max-width: 100%;
+}
+
+/* =========================================
+   HERO BANNER - DESKTOP 630PX
+========================================= */
+
+.project-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 630px;
+  min-height: 630px;
+  overflow: hidden;
+
+  background-color: #172b26;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.project-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.84) 0%,
+    rgba(0, 0, 0, 0.68) 32%,
+    rgba(0, 0, 0, 0.32) 62%,
+    rgba(0, 0, 0, 0.06) 100%
+  );
+}
+
+.project-hero-container {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 7.2%;
+}
+
+.project-hero-content {
+  width: 100%;
+  max-width: 590px;
+  color: #ffffff;
+}
+
+/* Breadcrumb */
+
+.project-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+
+  margin-bottom: 22px;
+
+  color: #f5f0e8;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+}
+
+.breadcrumb-icon {
+  position: relative;
+  flex-shrink: 0;
+
+  width: 12px;
+  height: 12px;
+
+  border: 2px solid #d99449;
+  border-radius: 50%;
+}
+
+.breadcrumb-icon::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 9px;
+
+  width: 7px;
+  height: 2px;
+
+  background: #d99449;
+}
+
+.breadcrumb-divider {
+  color: #d99449;
+}
+
+/* Banner title */
+
+.project-hero-title {
+  margin: 0 0 12px;
+
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 5.2vw, 76px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+}
+
+.project-hero-subtitle {
+  margin: 0 0 16px;
+
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(23px, 2.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.project-hero-description {
+  max-width: 540px;
+  margin: 0 0 27px;
+
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* Explore button */
+
+.project-hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 17px;
+
+  min-height: 52px;
+  padding: 0 26px;
+
+  border: 1px solid #e6a15e;
+  border-radius: 5px;
+
+  background: #c98243;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.project-hero-button:hover {
+  background: #a96730;
+  transform: translateY(-2px);
+}
+
+.project-button-arrow {
+  font-size: 22px;
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+.project-hero-button:hover .project-button-arrow {
+  transform: translateX(4px);
+}
+
+/* =========================================
+   FEATURED PROJECTS SECTION
+========================================= */
+
+.project-gallery {
+  width: 100%;
+  padding: 80px 24px 90px;
+
+  background: #ffffff;
+
+  scroll-margin-top: 90px;
+}
+
+.project-gallery-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   GALLERY HEADING - CENTER ALIGNED
+========================================= */
+
+.project-gallery-heading {
+  width: 100%;
+  max-width: 760px;
+
+  margin: 0 auto 38px;
+
+  text-align: center;
+}
+
+.project-gallery-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  margin-bottom: 17px;
+
+  color: #d87532;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.project-gallery-label-icon {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+
+  width: 20px;
+  height: 20px;
+
+  border: 2px solid #e78340;
+  border-radius: 50%;
+}
+
+.project-gallery-label-icon::after {
+  content: "";
+  position: absolute;
+  top: 7px;
+  left: 17px;
+
+  width: 27px;
+  height: 2px;
+
+  background: #e78340;
+}
+
+.project-gallery-title {
+  margin: 0 0 14px;
+
+  color: #202020;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 3.2vw, 44px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.project-gallery-description {
+  max-width: 650px;
+  margin: 0 auto;
+
+  color: #6d6d78;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   PROJECT GRID - DESKTOP
+========================================= */
+
+.project-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 22px 20px;
+
+  width: 100%;
+}
+
+/* =========================================
+   PROJECT CARD
+========================================= */
+
+.project-gallery-card {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  overflow: hidden;
+
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.025);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.project-gallery-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================================
+   PROJECT IMAGE
+========================================= */
+
+.project-gallery-image-wrap {
+  position: relative;
+  flex-shrink: 0;
+
+  width: 100%;
+  aspect-ratio: 1.58 / 1;
+
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.project-gallery-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  transition: transform 0.5s ease;
+}
+
+.project-gallery-card:hover .project-gallery-image {
+  transform: scale(1.035);
+}
+
+/* =========================================
+   LOCATION BADGE
+========================================= */
+
+.project-location-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  max-width: calc(100% - 24px);
+  padding: 7px 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.95);
+  color: #252525;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  overflow-wrap: anywhere;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.project-location-pin {
+  display: block;
+  flex-shrink: 0;
+
+  color: #d87532;
+}
+
+/* =========================================
+   PROJECT CARD CONTENT
+========================================= */
+
+.project-gallery-card-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: 100%;
+  padding: 17px 20px 20px;
+}
+
+.project-gallery-card-title {
+  width: 100%;
+  margin: 0 0 7px;
+
+  color: #191919;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(18px, 1.7vw, 24px);
+  font-weight: 700;
+  line-height: 1.35;
+
+  overflow-wrap: anywhere;
+}
+
+.project-gallery-card-location {
+  width: 100%;
+  margin: 0;
+
+  color: #6d6d78;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.7;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================
+   OUR IMPACT SECTION
+========================================= */
+
+.impact-section {
+  position: relative;
+
+  width: 100%;
+  padding: 48px 5.5%;
+
+  overflow: hidden;
+
+  background-color: #062b26;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  color: #ffffff;
+}
+
+/* Dark green background overlay */
+
+.impact-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(2, 30, 26, 0.91) 0%,
+    rgba(2, 35, 30, 0.83) 52%,
+    rgba(2, 30, 26, 0.88) 100%
+  );
+}
+
+/* Impact container */
+
+.impact-container {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 2fr);
+  align-items: center;
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   IMPACT INTRODUCTION
+========================================= */
+
+.impact-intro {
+  width: 100%;
+  padding-right: 30px;
+}
+
+.impact-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 14px;
+
+  color: #df9746;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+}
+
+.impact-eyebrow-icon {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+
+  width: 13px;
+  height: 13px;
+
+  border: 2px solid #df9746;
+  border-radius: 50%;
+}
+
+.impact-eyebrow-icon::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 10px;
+
+  width: 28px;
+  height: 2px;
+
+  background: #df9746;
+}
+
+.impact-heading {
+  margin: 0 0 15px;
+
+  color: #ffffff;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(29px, 3vw, 43px);
+  font-weight: 700;
+  line-height: 1.12;
+}
+
+.impact-description {
+  max-width: 490px;
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.91);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   IMPACT COUNTERS - DESKTOP
+========================================= */
+
+.impact-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+
+  width: 100%;
+}
+
+.impact-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 145px;
+  padding: 0 12px;
+
+  text-align: center;
+
+  border-left: 1px solid rgba(210, 145, 61, 0.43);
+}
+
+/* Counter icons */
+
+.impact-stat-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 43px;
+  margin-bottom: 9px;
+
+  color: #ffffff;
+}
+
+.impact-stat-icon svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Counter number */
+
+.impact-stat-number {
+  margin-bottom: 9px;
+
+  color: #ffffff;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(27px, 2.7vw, 39px);
+  font-weight: 700;
+  line-height: 1.1;
+
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Counter description */
+
+.impact-stat-label {
+  max-width: 110px;
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
+
+  text-align: center;
+}
+
+/* =========================================
+   LAPTOP RESPONSIVE
+========================================= */
+
+@media (max-width: 1024px) {
+  .project-hero-container {
+    padding: 0 6%;
+  }
+
+  .project-hero {
+    background-position: 60% center;
+  }
+
+  .project-gallery {
+    padding: 70px 22px 75px;
+  }
+
+  .project-gallery-grid {
+    gap: 18px;
+  }
+
+  .project-gallery-card-content {
+    padding: 15px 15px 18px;
+  }
+
+  .project-gallery-card-title {
+    font-size: 20px;
+  }
+
+  .project-gallery-card-location {
+    font-size: 13px;
+  }
+
+  .impact-section {
+    padding: 42px 4%;
+  }
+
+  .impact-container {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr);
+  }
+
+  .impact-intro {
+    padding-right: 20px;
+  }
+
+  .impact-heading {
+    font-size: 32px;
+  }
+
+  .impact-description {
+    font-size: 12px;
+  }
+
+  .impact-stat {
+    min-height: 135px;
+    padding: 0 7px;
+  }
+
+  .impact-stat-number {
+    font-size: 28px;
+  }
+
+  .impact-stat-label {
+    font-size: 11px;
+  }
+}
+
+/* =========================================
+   TABLET RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  /* Banner */
+
+  .project-hero {
+    height: auto;
+    min-height: 590px;
+    background-position: 65% center;
+  }
+
+  .project-hero-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.86) 0%,
+      rgba(0, 0, 0, 0.75) 52%,
+      rgba(0, 0, 0, 0.48) 100%
+    );
+  }
+
+  .project-hero-container {
+    padding: 90px 28px 70px;
+  }
+
+  .project-hero-content {
+    max-width: 480px;
+  }
+
+  .project-hero-title {
+    font-size: clamp(42px, 7.5vw, 56px);
+  }
+
+  .project-hero-subtitle {
+    font-size: clamp(22px, 4.5vw, 28px);
+  }
+
+  .project-hero-description {
+    font-size: 14px;
+  }
+
+  /* Gallery */
+
+  .project-gallery {
+    padding: 58px 22px 65px;
+  }
+
+  .project-gallery-heading {
+    margin-bottom: 30px;
+  }
+
+  .project-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .project-gallery-image-wrap {
+    aspect-ratio: 1.3 / 1;
+  }
+
+  .project-gallery-card-title {
+    font-size: 19px;
+  }
+
+  /* Impact */
+
+  .impact-section {
+    padding: 42px 22px;
+  }
+
+  .impact-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .impact-intro {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 0;
+
+    text-align: center;
+  }
+
+  .impact-eyebrow {
+    justify-content: center;
+    margin-bottom: 13px;
+  }
+
+  .impact-heading {
+    font-size: 35px;
+    line-height: 1.18;
+  }
+
+  .impact-description {
+    max-width: 500px;
+    margin: 0 auto;
+
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .impact-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .impact-stat {
+    min-height: 125px;
+    padding: 0 6px;
+  }
+
+  .impact-stat-icon {
+    height: 35px;
+    margin-bottom: 8px;
+  }
+
+  .impact-stat-icon svg {
+    width: 31px;
+    height: 31px;
+  }
+
+  .impact-stat-number {
+    font-size: clamp(22px, 4vw, 29px);
+  }
+
+  .impact-stat-label {
+    font-size: 10px;
+  }
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 480px) {
+  /* Banner */
+
+  .project-hero {
+    min-height: 560px;
+    background-position: 66% center;
+  }
+
+  .project-hero-container {
+    padding: 80px 21px 60px;
+  }
+
+  .project-breadcrumb {
+    gap: 7px;
+    margin-bottom: 19px;
+    font-size: 10px;
+  }
+
+  .project-hero-title {
+    font-size: clamp(38px, 10vw, 46px);
+    line-height: 1.13;
+    letter-spacing: -0.6px;
+  }
+
+  .project-hero-subtitle {
+    font-size: clamp(21px, 5.5vw, 24px);
+  }
+
+  .project-hero-description {
+    margin-bottom: 24px;
+    font-size: 13px;
+    line-height: 1.85;
+  }
+
+  .project-hero-button {
+    min-height: 48px;
+    padding: 0 17px;
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  /* Gallery section */
+
+  .project-gallery {
+    padding: 38px 12px 45px;
+  }
+
+  .project-gallery-heading {
+    margin-bottom: 24px;
+    padding: 0 5px;
+    text-align: center;
+  }
+
+  .project-gallery-label {
+    gap: 9px;
+    margin-bottom: 12px;
+
+    font-size: 10px;
+    letter-spacing: 1.3px;
+  }
+
+  .project-gallery-label-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .project-gallery-label-icon::after {
+    top: 5px;
+    left: 13px;
+    width: 18px;
+  }
+
+  .project-gallery-title {
+    margin-bottom: 10px;
+    font-size: 27px;
+    line-height: 1.3;
+  }
+
+  .project-gallery-description {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  /* One card per row */
+
+  .project-gallery-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+
+  .project-gallery-card {
+    width: 100%;
+    min-width: 0;
+    border-radius: 8px;
+  }
+
+  .project-gallery-card:hover {
+    transform: none;
+  }
+
+  .project-gallery-image-wrap {
+    width: 100%;
+    aspect-ratio: 1.5 / 1;
+  }
+
+  .project-gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Location badge */
+
+  .project-location-badge {
+    bottom: 9px;
+    left: 9px;
+
+    gap: 5px;
+    max-width: calc(100% - 18px);
+    padding: 6px 9px;
+
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  /* Card text */
+
+  .project-gallery-card-content {
+    width: 100%;
+    padding: 10px 12px 13px;
+  }
+
+  .project-gallery-card-title {
+    margin: 0 0 5px;
+
+    font-size: 18px;
+    line-height: 1.35;
+    text-align: left;
+  }
+
+  .project-gallery-card-location {
+    margin: 0;
+
+    font-size: 12px;
+    line-height: 1.65;
+    text-align: left;
+  }
+
+  /* Impact section */
+
+  .impact-section {
+    padding: 36px 16px 32px;
+    background-position: center;
+  }
+
+  .impact-overlay {
+    background: rgba(2, 30, 26, 0.86);
+  }
+
+  .impact-container {
+    gap: 25px;
+  }
+
+  .impact-eyebrow {
+    gap: 10px;
+    margin-bottom: 12px;
+
+    font-size: 10px;
+    letter-spacing: 1.4px;
+  }
+
+  .impact-heading {
+    margin-bottom: 12px;
+
+    font-size: 29px;
+    line-height: 1.2;
+  }
+
+  .impact-description {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  /* Counters: two columns and two rows */
+
+  .impact-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .impact-stat {
+    min-height: 125px;
+    padding: 16px 8px;
+
+    border-top: 1px solid rgba(210, 145, 61, 0.4);
+    border-left: 0;
+  }
+
+  .impact-stat:nth-child(even) {
+    border-left: 1px solid rgba(210, 145, 61, 0.4);
+  }
+
+  .impact-stat-icon {
+    height: 34px;
+    margin-bottom: 8px;
+  }
+
+  .impact-stat-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .impact-stat-number {
+    margin-bottom: 7px;
+    font-size: 29px;
+  }
+
+  .impact-stat-label {
+    font-size: 11px;
+    line-height: 1.55;
+  }
+}
+
+/* =========================================
+   EXTRA SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .project-hero {
+    min-height: 540px;
+    background-position: 67% center;
+  }
+
+  .project-hero-container {
+    padding: 72px 16px 52px;
+  }
+
+  .project-hero-title {
+    font-size: 36px;
+  }
+
+  .project-hero-subtitle {
+    font-size: 20px;
+  }
+
+  .project-hero-description {
+    font-size: 12px;
+  }
+
+  .project-gallery {
+    padding: 32px 10px 40px;
+  }
+
+  .project-gallery-title {
+    font-size: 24px;
+  }
+
+  .project-gallery-description {
+    font-size: 11px;
+  }
+
+  .project-gallery-grid {
+    gap: 11px;
+  }
+
+  .project-gallery-image-wrap {
+    aspect-ratio: 1.42 / 1;
+  }
+
+  .project-gallery-card-content {
+    padding: 9px 10px 12px;
+  }
+
+  .project-gallery-card-title {
+    font-size: 17px;
+  }
+
+  .project-gallery-card-location {
+    font-size: 11px;
+  }
+
+  /* Impact */
+
+  .impact-section {
+    padding: 30px 12px 26px;
+  }
+
+  .impact-heading {
+    font-size: 26px;
+  }
+
+  .impact-description {
+    font-size: 11px;
+  }
+
+  .impact-stat {
+    min-height: 115px;
+    padding: 13px 5px;
+  }
+
+  .impact-stat-number {
+    font-size: 25px;
+  }
+
+  .impact-stat-label {
+    font-size: 10px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (hover: none) {
+  .project-gallery-card:hover {
+    transform: none;
+  }
+
+  .project-gallery-card:hover .project-gallery-image {
+    transform: none;
+  }
+
+  .project-hero-button:hover {
+    transform: none;
+  }
+
+  .project-hero-button:hover .project-button-arrow {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-gallery-card,
+  .project-gallery-image,
+  .project-hero-button,
+  .project-button-arrow {
+    transition: none;
+  }
+}

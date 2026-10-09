@@ -1,18 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap");
+
 /* =========================================================
-   STEEL KRAFT FEATURE BAR
+   WHY PREFAB STEEL
 ========================================================= */
 
-.sk-feature-bar {
-  width: 100%;
-
-  background: #faf9f6;
-
-  border-bottom: 1px solid #e8e5df;
-
-  font-family: "Inter", sans-serif;
+.sk-why {
+  --sk-gold: #f5b942;
+  --sk-gold-grad: linear-gradient(90deg, #fbd06a 0%, #e9a233 100%);
+  --sk-ink: #0f1a2e;
+  --sk-text: #51607a;
+  --sk-navy: #1c3556;
 
   position: relative;
-  z-index: 10;
+
+  width: 100%;
+
+  padding: 84px 0 96px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      ellipse at 100% 100%,
+      rgba(42, 78, 118, 0.55) 0%,
+      rgba(42, 78, 118, 0) 55%
+    ),
+    linear-gradient(145deg, #09152a 0%, #11233f 55%, #172f4f 100%);
+
+  color: #ffffff;
+
+  box-sizing: border-box;
+
+  font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+.sk-why *,
+.sk-why *::before,
+.sk-why *::after {
+  box-sizing: border-box;
 }
 
 
@@ -20,122 +45,611 @@
    CONTAINER
 ========================================================= */
 
-.sk-feature-container {
-  width: 100%;
-  max-width: 1400px;
-
-  min-height: 92px;
+.sk-why__container {
+  width: min(92%, 1180px);
 
   margin: 0 auto;
+}
 
-  padding: 18px 50px;
 
+/* =========================================================
+   HEADER
+========================================================= */
+
+.sk-why__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin: 0 0 18px;
+
+  color: var(--sk-gold);
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.sk-why__eyebrow-dot {
+  flex: 0 0 auto;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: var(--sk-gold);
+
+  box-shadow: 0 0 10px rgba(245, 185, 66, 0.8);
+}
+
+.sk-why__title {
+  max-width: 12em;
+
+  margin: 0;
+
+  color: #ffffff;
+
+  font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.4px;
+
+  text-wrap: balance;
+}
+
+.sk-why__rule {
+  display: block;
+
+  width: 64px;
+  height: 4px;
+
+  margin: 22px 0 18px;
+
+  border-radius: 4px;
+
+  background: var(--sk-gold-grad);
+}
+
+.sk-why__hint {
+  max-width: 34em;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.sk-why__layout {
   display: grid;
 
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: minmax(0, 477fr) minmax(0, 646fr);
 
-  align-items: center;
+  align-items: start;
 
-  justify-content: center;
+  gap: 48px;
+
+  margin-top: 52px;
 }
 
 
 /* =========================================================
-   FEATURE ITEM
+   BENEFIT LIST
 ========================================================= */
 
-.sk-feature-item {
-  min-width: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 13px;
-
-  padding: 0 18px;
-
-  color: #111111;
-}
-
-
-/* =========================================================
-   ICON
-========================================================= */
-
-.sk-feature-icon {
-  width: 42px;
-  height: 42px;
-
-  flex: 0 0 42px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #111111;
-}
-
-.sk-feature-icon svg {
-  width: 40px;
-  height: 40px;
-
-  display: block;
-}
-
-
-/* =========================================================
-   TEXT
-========================================================= */
-
-.sk-feature-content {
+.sk-why__list {
   display: flex;
   flex-direction: column;
-
-  justify-content: center;
+  gap: 6px;
 
   min-width: 0;
-
-  line-height: 1.3;
 }
 
-.sk-feature-content span {
-  display: block;
+.sk-why__item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 
-  color: #171717;
+  width: 100%;
+  min-height: 70px;
 
-  font-size: 13px;
+  padding: 8px 14px;
 
+  border: 1px solid transparent;
+  border-radius: 16px;
+
+  background: transparent;
+  color: rgba(255, 255, 255, 0.72);
+
+  font-family: inherit;
+  font-size: 17px;
   font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
 
-  white-space: nowrap;
+  cursor: pointer;
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.sk-feature-content span:last-child {
-  font-weight: 500;
+.sk-why__item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.sk-why__item:focus-visible {
+  outline: 2px solid var(--sk-gold);
+  outline-offset: 2px;
+}
+
+.sk-why__item.is-active {
+  border-color: rgba(255, 255, 255, 0.28);
+
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.sk-why__item-icon {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.09);
+  color: rgba(255, 255, 255, 0.88);
+
+  transition:
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.sk-why__item.is-active .sk-why__item-icon {
+  border-color: rgba(255, 255, 255, 0.2);
+
+  background: linear-gradient(135deg, #4a7bb0 0%, #162c4b 100%);
+  color: #ffffff;
+
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.sk-why__item-label {
+  min-width: 0;
 }
 
 
 /* =========================================================
-   TABLET
+   DETAIL CARD
+========================================================= */
+
+.sk-why__card {
+  min-width: 0;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 32px 70px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+
+/* ---------- IMAGE AREA ---------- */
+
+.sk-why__media {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 646 / 221;
+
+  overflow: hidden;
+
+  background: linear-gradient(135deg, #234266 0%, #0f1f38 100%);
+}
+
+.sk-why__media-img {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  opacity: 0;
+  transform: scale(1.06);
+
+  transition:
+    opacity 0.6s ease,
+    transform 1.2s ease;
+}
+
+.sk-why__media-img.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.sk-why__media-shade {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 18, 34, 0.12) 0%,
+      rgba(8, 18, 34, 0.22) 100%
+    );
+}
+
+
+/* ---------- FLOATING DECORATIONS ---------- */
+
+.sk-why__float {
+  --s: 40px;
+
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: var(--s);
+  height: var(--s);
+
+  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--sk-navy);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+
+  animation: sk-why-float 5s ease-in-out infinite;
+}
+
+.sk-why__float--a {
+  left: 19%;
+  top: 30%;
+
+  animation-delay: -0.5s;
+}
+
+.sk-why__float--b {
+  --s: 28px;
+
+  left: 73.4%;
+  top: 23%;
+
+  animation-delay: -2s;
+  animation-duration: 6s;
+}
+
+.sk-why__float--c {
+  left: 80.5%;
+  top: 68%;
+
+  animation-delay: -3.5s;
+  animation-duration: 5.5s;
+}
+
+@keyframes sk-why-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+
+/* ---------- BIG ICON TILE ---------- */
+
+.sk-why__badge {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  pointer-events: none;
+}
+
+.sk-why__badge-tile {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 104px;
+  height: 104px;
+
+  border-radius: 28px;
+
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--sk-navy);
+
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+
+  animation: sk-why-pop 0.45s ease both;
+}
+
+.sk-why__badge-ring {
+  position: absolute;
+
+  width: 136px;
+  height: 136px;
+
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 40px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  animation: sk-why-ring 3.6s ease-in-out infinite;
+}
+
+@keyframes sk-why-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes sk-why-ring {
+  0%,
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(1.06);
+  }
+}
+
+
+/* ---------- TEXT AREA ---------- */
+
+.sk-why__body {
+  padding: 28px 28px 32px;
+
+  animation: sk-why-in 0.45s ease both;
+}
+
+@keyframes sk-why-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sk-why__card-title {
+  margin: 0 0 10px;
+
+  color: var(--sk-ink);
+
+  font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.sk-why__card-text {
+  margin: 0 0 18px;
+
+  color: var(--sk-text);
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.sk-why__points {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.sk-why__points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  color: #1a2233;
+
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.sk-why__point-icon {
+  flex: 0 0 auto;
+
+  display: flex;
+
+  margin-top: 2px;
+
+  color: var(--sk-navy);
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1500px) {
+
+  .sk-why {
+    padding: 100px 0 112px;
+  }
+
+  .sk-why__container {
+    width: min(88%, 1280px);
+  }
+
+  .sk-why__layout {
+    gap: 56px;
+  }
+}
+
+
+/* =========================================================
+   LAPTOP / SMALL TABLET LANDSCAPE
 ========================================================= */
 
 @media (max-width: 1100px) {
 
-  .sk-feature-container {
-    grid-template-columns: repeat(3, 1fr);
-
-    row-gap: 24px;
-
-    padding: 22px 30px;
+  .sk-why {
+    padding: 72px 0 80px;
   }
 
-  .sk-feature-item {
-    justify-content: center;
+  .sk-why__layout {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
 
-    padding: 0 10px;
+    gap: 32px;
+
+    margin-top: 44px;
   }
 
+  .sk-why__item {
+    gap: 12px;
+
+    padding: 8px 12px;
+
+    font-size: 15.5px;
+  }
+
+  .sk-why__item-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .sk-why__media {
+    aspect-ratio: 646 / 240;
+  }
+
+  .sk-why__body {
+    padding: 24px 24px 28px;
+  }
+
+  .sk-why__card-title {
+    font-size: 24px;
+  }
+
+  .sk-why__card-text {
+    font-size: 15px;
+  }
+
+  .sk-why__points li {
+    font-size: 14.5px;
+  }
+}
+
+
+/* =========================================================
+   TABLET / MOBILE (list goes on top as 2 columns,
+   the card sits right under it)
+========================================================= */
+
+@media (max-width: 860px) {
+
+  .sk-why {
+    padding: 64px 0 72px;
+  }
+
+  .sk-why__layout {
+    grid-template-columns: minmax(0, 1fr);
+
+    gap: 24px;
+
+    margin-top: 36px;
+  }
+
+  .sk-why__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
+  .sk-why__item {
+    min-height: 60px;
+
+    padding: 8px 12px;
+
+    border-color: rgba(255, 255, 255, 0.08);
+
+    background: rgba(255, 255, 255, 0.04);
+
+    font-size: 15px;
+  }
+
+  .sk-why__media {
+    aspect-ratio: 16 / 8;
+  }
+
+  .sk-why__hint {
+    font-size: 16px;
+  }
 }
 
 
@@ -143,132 +657,183 @@
    MOBILE
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 560px) {
 
-  .sk-feature-container {
-    grid-template-columns: repeat(2, 1fr);
-
-    min-height: auto;
-
-    padding: 22px 14px;
-
-    row-gap: 26px;
-
-    column-gap: 5px;
+  .sk-why {
+    padding: 52px 0 60px;
   }
 
-
-  .sk-feature-item {
-    justify-content: flex-start;
-
-    gap: 9px;
-
-    padding: 0 8px;
+  .sk-why__container {
+    width: 90%;
   }
 
+  .sk-why__eyebrow {
+    margin-bottom: 14px;
 
-  .sk-feature-icon {
+    font-size: 11px;
+    letter-spacing: 2.6px;
+  }
+
+  .sk-why__title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+
+  .sk-why__rule {
+    width: 52px;
+
+    margin: 18px 0 14px;
+  }
+
+  .sk-why__hint {
+    font-size: 14.5px;
+  }
+
+  .sk-why__layout {
+    gap: 20px;
+
+    margin-top: 28px;
+  }
+
+  .sk-why__list {
+    gap: 8px;
+  }
+
+  .sk-why__item {
+    gap: 10px;
+
+    min-height: 56px;
+
+    padding: 7px 10px;
+
+    border-radius: 14px;
+
+    font-size: 13px;
+  }
+
+  .sk-why__item-icon {
     width: 36px;
     height: 36px;
 
-    flex: 0 0 36px;
+    border-radius: 10px;
   }
 
-
-  .sk-feature-icon svg {
-    width: 35px;
-    height: 35px;
+  .sk-why__item-icon svg {
+    width: 18px;
+    height: 18px;
   }
 
-
-  .sk-feature-content span {
-    font-size: 11px;
+  .sk-why__card {
+    border-radius: 22px;
   }
 
+  .sk-why__media {
+    aspect-ratio: 16 / 9.5;
+  }
+
+  .sk-why__float {
+    --s: 32px;
+  }
+
+  .sk-why__float--b {
+    --s: 22px;
+  }
+
+  .sk-why__float svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .sk-why__badge-tile {
+    width: 78px;
+    height: 78px;
+
+    border-radius: 22px;
+  }
+
+  .sk-why__badge-tile svg {
+    width: 34px;
+    height: 34px;
+  }
+
+  .sk-why__badge-ring {
+    width: 102px;
+    height: 102px;
+
+    border-radius: 30px;
+  }
+
+  .sk-why__body {
+    padding: 20px 18px 24px;
+  }
+
+  .sk-why__card-title {
+    font-size: 21px;
+  }
+
+  .sk-why__card-text {
+    margin-bottom: 16px;
+
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .sk-why__points {
+    gap: 9px;
+  }
+
+  .sk-why__points li {
+    gap: 10px;
+
+    font-size: 13.5px;
+  }
 }
 
 
 /* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-
-  .sk-feature-container {
-    padding: 20px 10px;
-
-    row-gap: 24px;
-  }
-
-
-  .sk-feature-item {
-    gap: 7px;
-
-    padding: 0 5px;
-  }
-
-
-  .sk-feature-icon {
-    width: 32px;
-    height: 32px;
-
-    flex: 0 0 32px;
-  }
-
-
-  .sk-feature-icon svg {
-    width: 31px;
-    height: 31px;
-  }
-
-
-  .sk-feature-content span {
-    font-size: 10px;
-
-    line-height: 1.35;
-  }
-
-}
-
-
-/* =========================================================
-   VERY SMALL MOBILE
+   VERY SMALL PHONES
 ========================================================= */
 
 @media (max-width: 360px) {
 
-  .sk-feature-container {
-    padding: 18px 7px;
-
-    column-gap: 0;
-
-    row-gap: 20px;
+  .sk-why__title {
+    font-size: 25px;
   }
 
+  .sk-why__item {
+    gap: 8px;
 
-  .sk-feature-item {
-    gap: 5px;
+    padding: 6px 8px;
 
-    padding: 0 3px;
+    font-size: 12px;
   }
 
-
-  .sk-feature-icon {
-    width: 29px;
-    height: 29px;
-
-    flex: 0 0 29px;
+  .sk-why__item-icon {
+    width: 32px;
+    height: 32px;
   }
 
+  .sk-why__body {
+    padding: 18px 14px 20px;
+  }
+}
 
-  .sk-feature-icon svg {
-    width: 28px;
-    height: 28px;
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .sk-why__float,
+  .sk-why__badge-ring,
+  .sk-why__badge-tile,
+  .sk-why__body {
+    animation: none;
   }
 
-
-  .sk-feature-content span {
-    font-size: 9px;
+  .sk-why__media-img {
+    transition: opacity 0.3s ease;
+    transform: none;
   }
-
 }

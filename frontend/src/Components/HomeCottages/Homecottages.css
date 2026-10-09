@@ -1,0 +1,345 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+/* =========================================
+   HOMES & COTTAGES - BANNER ONLY
+========================================= */
+
+.hc-page {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+.hc-page *,
+.hc-page *::before,
+.hc-page *::after {
+  box-sizing: border-box;
+}
+
+/* Desktop banner: 630px */
+
+.hc-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 630px;
+  min-height: 630px;
+
+  overflow: hidden;
+
+  background-color: #172b25;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Dark overlay */
+
+.hc-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.66) 32%,
+    rgba(0, 0, 0, 0.28) 60%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+}
+
+/* Content container */
+
+.hc-hero-container {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 6.5%;
+}
+
+.hc-hero-content {
+  width: 100%;
+  max-width: 490px;
+
+  color: #ffffff;
+
+  animation: hc-fade-in 0.8s ease-out both;
+}
+
+/* Eyebrow */
+
+.hc-hero-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 19px;
+
+  color: #f5f1eb;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 1.25px;
+}
+
+.hc-hero-eyebrow span {
+  color: #d99657;
+}
+
+/* Heading */
+
+.hc-hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  margin: 0 0 15px;
+  padding: 0;
+
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(52px, 6vw, 76px);
+  font-weight: 700;
+  line-height: 0.99;
+  letter-spacing: -1.8px;
+}
+
+.hc-hero-title span {
+  display: block;
+}
+
+.hc-title-accent {
+  color: #d99a66;
+}
+
+/* Description */
+
+.hc-hero-description {
+  max-width: 410px;
+  margin: 0 0 25px;
+
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+/* Button */
+
+.hc-hero-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 49px;
+  padding: 0 23px;
+
+  border: 1px solid #d99657;
+  border-radius: 5px;
+
+  background: #c98243;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.hc-hero-button:hover {
+  background: #a96730;
+  transform: translateY(-2px);
+}
+
+.hc-hero-button span {
+  font-size: 21px;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.hc-hero-button:hover span {
+  transform: translateX(4px);
+}
+
+/* Animation */
+
+@keyframes hc-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+  .hc-hero {
+    height: auto;
+    min-height: 570px;
+    background-position: 62% center;
+  }
+
+  .hc-hero-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.84) 0%,
+      rgba(0, 0, 0, 0.70) 45%,
+      rgba(0, 0, 0, 0.38) 100%
+    );
+  }
+
+  .hc-hero-container {
+    padding: 80px 28px;
+  }
+
+  .hc-hero-content {
+    max-width: 420px;
+  }
+
+  .hc-hero-title {
+    font-size: clamp(46px, 8vw, 60px);
+    letter-spacing: -1px;
+  }
+
+  .hc-hero-description {
+    max-width: 360px;
+    font-size: 14px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .hc-hero {
+    width: 100%;
+    height: auto;
+    min-height: 540px;
+
+    background-position: 62% center;
+    background-size: cover;
+  }
+
+  .hc-hero-overlay {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.84) 0%,
+      rgba(0, 0, 0, 0.73) 48%,
+      rgba(0, 0, 0, 0.43) 100%
+    );
+  }
+
+  .hc-hero-container {
+    width: 100%;
+    padding: 75px 21px;
+  }
+
+  .hc-hero-content {
+    max-width: 100%;
+  }
+
+  .hc-hero-eyebrow {
+    gap: 5px;
+    margin-bottom: 17px;
+
+    font-size: 9px;
+    letter-spacing: 0.8px;
+  }
+
+  .hc-hero-title {
+    margin-bottom: 15px;
+
+    font-size: clamp(42px, 11vw, 54px);
+    line-height: 1.04;
+    letter-spacing: -0.8px;
+  }
+
+  .hc-hero-description {
+    max-width: 320px;
+    margin-bottom: 23px;
+
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .hc-hero-button {
+    min-height: 46px;
+    padding: 0 17px;
+    gap: 10px;
+
+    font-size: 12px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .hc-hero {
+    min-height: 500px;
+    background-position: 61% center;
+  }
+
+  .hc-hero-container {
+    padding: 65px 17px;
+  }
+
+  .hc-hero-eyebrow {
+    gap: 4px;
+    font-size: 8px;
+    letter-spacing: 0.6px;
+  }
+
+  .hc-hero-title {
+    font-size: 40px;
+    line-height: 1.05;
+  }
+
+  .hc-hero-description {
+    max-width: 290px;
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .hc-hero-button {
+    min-height: 44px;
+    padding: 0 15px;
+    font-size: 11px;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .hc-hero-content {
+    animation: none;
+  }
+
+  .hc-hero-button,
+  .hc-hero-button span {
+    transition: none;
+  }
+}

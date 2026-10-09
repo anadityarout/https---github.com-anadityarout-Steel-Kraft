@@ -27,14 +27,18 @@ import ModularTechnology from "./Components/Home/ModularTechnology";
 import NatureApplications from "./Components/Home/NatureApplications";
 import ReadyToBuild from "./Components/Home/ReadyToBuild";
 import Aboutus from "./Components/Home/Aboutus";
+import FasterByDesign from "./Components/Home/FasterByDesign";
+import Gallery from "./Components/Home/Gallery";
+import FaqSection from "./Components/Home/FaqSection";
 
 // =====================================================
 // MAIN PAGES
 // =====================================================
 
 import Contact from "./Components/Contact/Contact";
+import ProjectPage from "./Components/ProjectPage/ProjectPage";
+import Homecottages from "./Components/HomeCottages/HomeCottages";
 import Footer from "./Components/Footer/Footer";
-
 
 // =====================================================
 // HOME PAGE
@@ -45,28 +49,21 @@ function Home() {
     <>
       <Homeslider />
       <Aboutus />
-
       <WhyChooseBar />
-
       <Range />
-
       <ModularTechnology />
-
       <WhoWeServe />
-
+      <FasterByDesign />
       <Project />
-
+      <Gallery />
+      <FaqSection />
       <PanIndiaService />
-
       <WhyChooseSteelKraft />
-
       <NatureApplications />
-
       <ReadyToBuild />
     </>
   );
 }
-
 
 // =====================================================
 // APP LAYOUT
@@ -75,59 +72,56 @@ function Home() {
 function AppLayout() {
   const location = useLocation();
 
-  // ===================================================
-  // VALID WEBSITE ROUTES
-  // ===================================================
-
+  // All valid website routes
   const validRoutes = [
     "/",
     "/contact",
+    "/projects",
+    "/homes-cottages",
   ];
 
-  // ===================================================
-  // CHECK IF CURRENT PAGE IS 404
-  // ===================================================
-
-  const isNotFoundPage = !validRoutes.includes(location.pathname);
+  const isNotFoundPage = !validRoutes.includes(
+    location.pathname
+  );
 
   return (
     <>
-      {/* =================================================
-          NAVBAR
-      ================================================= */}
+      {/* NAVBAR */}
 
       {!isNotFoundPage && <Navbar />}
 
-
-      {/* =================================================
-          ROUTES
-      ================================================= */}
+      {/* ROUTES */}
 
       <Routes>
-
-        {/* =================================================
-            HOME
-        ================================================= */}
+        {/* HOME PAGE */}
 
         <Route
           path="/"
           element={<Home />}
         />
 
-
-        {/* =================================================
-            CONTACT
-        ================================================= */}
+        {/* CONTACT PAGE */}
 
         <Route
           path="/contact"
           element={<Contact />}
         />
 
+        {/* PROJECTS PAGE */}
 
-        {/* =================================================
-            404
-        ================================================= */}
+        <Route
+          path="/projects"
+          element={<ProjectPage />}
+        />
+
+        {/* HOMES & COTTAGES PAGE - BANNER ONLY */}
+
+        <Route
+          path="/homes-cottages"
+          element={<Homecottages />}
+        />
+
+        {/* 404 PAGE */}
 
         <Route
           path="*"
@@ -139,14 +133,14 @@ function AppLayout() {
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
+                padding: "20px",
+                textAlign: "center",
                 fontFamily: "Arial, sans-serif",
               }}
             >
               <h1>404</h1>
 
-              <p>
-                Page Not Found
-              </p>
+              <p>Page Not Found</p>
 
               <a
                 href="/"
@@ -163,19 +157,14 @@ function AppLayout() {
             </div>
           }
         />
-
       </Routes>
 
-
-      {/* =================================================
-          FOOTER
-      ================================================= */}
+      {/* FOOTER */}
 
       {!isNotFoundPage && <Footer />}
     </>
   );
 }
-
 
 // =====================================================
 // APP

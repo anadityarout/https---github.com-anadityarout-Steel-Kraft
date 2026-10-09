@@ -238,7 +238,7 @@ const Footer = () => {
                 </a>
 
                 <span>
-                  Mon - Sat, 9:00 AM - 6:00 PM
+                  Mon - Sat, 9:30 AM - 5:30 PM
                 </span>
 
               </div>

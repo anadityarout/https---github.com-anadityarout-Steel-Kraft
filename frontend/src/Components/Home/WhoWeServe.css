@@ -1,846 +1,691 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
 
 /* =========================================================
-   WHO WE SERVE
+   WHO WE SERVE SECTION  (same system as Range.css, centered)
 ========================================================= */
 
-.who-we-serve-section {
+.ws-section {
+  --ws-gold: #f5b942;
+  --ws-gold-grad: linear-gradient(90deg, #fbd06a 0%, #e9a233 100%);
+  --ws-ink: #0f1a2e;
+  --ws-text: #51607a;
+  --ws-navy: linear-gradient(135deg, #2c4263 0%, #14233b 100%);
+  --ws-navy-solid: #1c3556;
+  --ws-line: #d3e0ec;
+  --ws-circle: 44px;
+
   position: relative;
 
   width: 100%;
 
+  padding: 84px 0 96px;
+
   overflow: hidden;
 
-  padding: 55px 0 45px;
+  background:
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(120, 150, 185, 0.28) 0%,
+      rgba(120, 150, 185, 0) 34%
+    ),
+    linear-gradient(180deg, #f3f7fb 0%, #e4ecf5 100%);
 
-  background: #faf9f5;
+  box-sizing: border-box;
 
-  color: #161616;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+}
 
-  font-family: "Inter", sans-serif;
-
+.ws-section *,
+.ws-section *::before,
+.ws-section *::after {
   box-sizing: border-box;
 }
 
 
 /* =========================================================
-   MAIN CONTAINER
+   CONTAINER (always centered on the page)
 ========================================================= */
 
-.who-we-serve-container {
-  position: relative;
-
-  z-index: 3;
-
-  width: min(92%, 1450px);
+.ws-container {
+  width: min(92%, 1180px);
 
   margin: 0 auto;
 }
 
 
 /* =========================================================
-   HEADER
+   HEADER (left aligned on desktop, centered on tablet / mobile)
 ========================================================= */
 
-.who-serve-header {
+.ws-header {
   display: flex;
-
+  flex-direction: column;
   align-items: flex-start;
 
-  justify-content: space-between;
-
-  gap: 40px;
-
-  margin-bottom: 32px;
-}
-
-
-/* =========================================================
-   HEADING CONTAINER
-========================================================= */
-
-.who-serve-heading {
   text-align: left;
 
-  font-family: "Inter", sans-serif;
+  margin-bottom: 56px;
 }
 
-
-/* =========================================================
-   SMALL LABEL
-========================================================= */
-
-.who-serve-label {
+.ws-label {
   display: inline-flex;
-
   align-items: center;
-
+  justify-content: flex-start;
   gap: 10px;
 
-  margin: 0 0 6px;
+  margin: 0 0 18px;
 
-  color: #a4663c;
-
-  font-family: "Inter", sans-serif;
+  color: var(--ws-ink);
 
   font-size: 11px;
-
-  font-weight: 500;
-
-  letter-spacing: 1.5px;
-
-  line-height: 1.2;
-
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 2.4px;
   text-transform: uppercase;
 }
 
-
-/* =========================================================
-   LABEL LINE
-========================================================= */
-
-.who-serve-label::before {
+.ws-label::before {
   content: "";
 
-  display: inline-block;
+  flex: 0 0 auto;
 
-  width: 26px;
+  width: 11px;
+  height: 11px;
 
-  height: 1px;
+  border-radius: 50%;
 
-  background: #a4663c;
+  background:
+    radial-gradient(circle at 35% 35%, #ffe08f 0%, var(--ws-gold) 70%);
 
-  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(245, 185, 66, 0.55);
 }
 
+.ws-header h2 {
+  max-width: 11em;
 
-/* =========================================================
-   MAIN HEADING
-========================================================= */
-
-.who-serve-heading h2 {
   margin: 0;
 
-  color: #161616;
+  color: var(--ws-ink);
 
-  font-family: "Inter", sans-serif;
-
-  font-size: 30px;
-
-  font-weight: 700;
-
+  font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: clamp(30px, 3.6vw, 48px);
+  font-weight: 600;
   line-height: 1.15;
+  letter-spacing: -0.4px;
 
-  letter-spacing: -0.5px;
+  text-wrap: balance;
 }
 
+.ws-rule {
+  display: block;
 
-/* =========================================================
-   DESCRIPTION
-========================================================= */
+  width: 64px;
+  height: 4px;
 
-.who-serve-heading p {
-  max-width: 600px;
+  margin: 20px 0 16px;
 
-  margin: 12px 0 0;
+  border-radius: 4px;
 
-  color: #555555;
+  background: var(--ws-gold-grad);
+}
 
-  font-family: "Inter", sans-serif;
+.ws-header p {
+  max-width: 36em;
 
-  font-size: 15px;
+  margin: 0;
 
+  color: var(--ws-text);
+
+  font-size: 16px;
   font-weight: 400;
-
   line-height: 1.65;
 }
 
 
 /* =========================================================
-   EXPLORE BUTTON
+   STEPPER (numbered circles joined by a line)
 ========================================================= */
 
-.explore-applications-btn {
-  flex-shrink: 0;
+.ws-steps {
+  display: grid;
 
-  margin-top: 8px;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 
-  display: inline-flex;
+  margin: 0 0 38px;
+}
 
+.ws-step {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 10px;
 
-  justify-content: center;
-
-  gap: 12px;
-
-  padding: 12px 18px;
+  padding: 0 4px;
 
   border: none;
 
-  border-radius: 5px;
+  background: none;
 
-  background: #a4663c;
-
-  color: #ffffff;
-
-  font-family: "Inter", sans-serif;
-
-  font-size: 13px;
-
-  font-weight: 600;
-
-  line-height: 1;
+  font-family: inherit;
 
   cursor: pointer;
 
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-
-/* =========================================================
-   BUTTON HOVER
-========================================================= */
-
-.explore-applications-btn:hover {
-  background: #8f572f;
-
-  color: #ffffff;
-
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 8px 20px
-    rgba(164, 102, 60, 0.25);
-}
-
-
-/* =========================================================
-   BUTTON ARROW
-========================================================= */
-
-.explore-arrow {
-  font-size: 17px;
-
-  line-height: 1;
-
-  transition:
-    transform 0.3s ease;
-}
-
-
-.explore-applications-btn:hover
-.explore-arrow {
-  transform: translateX(4px);
-}
-
-
-/* =========================================================
-   APPLICATION LIST
-========================================================= */
-
-.applications-list {
-  width: 100%;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(6, minmax(0, 1fr));
-
-  align-items: start;
-
-  justify-content: center;
-}
-
-
-/* =========================================================
-   APPLICATION CARD
-========================================================= */
-
-.application-card {
-  position: relative;
-
-  min-width: 0;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: flex-start;
-
-  padding: 0 18px;
-
-  cursor: pointer;
-
-  font-family: "Inter", sans-serif;
-}
-
-
-/* =========================================================
-   VERTICAL SEPARATORS
-========================================================= */
-
-.application-card:not(:last-child)::after {
+/* connector line to the next step */
+.ws-step:not(:last-child)::before,
+.ws-step:not(:last-child)::after {
   content: "";
 
   position: absolute;
 
-  right: 0;
+  top: calc(var(--ws-circle) / 2 - 1.5px);
+  left: 50%;
 
-  top: 4px;
+  width: 100%;
+  height: 3px;
 
-  width: 1px;
+  border-radius: 3px;
+}
 
-  height: 90px;
+.ws-step:not(:last-child)::before {
+  background: var(--ws-line);
+}
 
-  background: rgba(0, 0, 0, 0.12);
+/* blue fill for finished steps */
+.ws-step:not(:last-child)::after {
+  background: linear-gradient(90deg, #7ba0c4, #4a6f94);
+
+  transform: scaleX(0);
+  transform-origin: left center;
+
+  transition: transform 0.45s ease;
+}
+
+.ws-step.is-done:not(:last-child)::after {
+  transform: scaleX(1);
+}
+
+.ws-step-circle {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  place-items: center;
+
+  width: var(--ws-circle);
+  height: var(--ws-circle);
+
+  border: 2px solid #cfdbe8;
+  border-radius: 50%;
+
+  background: #ffffff;
+  color: var(--ws-text);
+
+  font-size: 15px;
+  font-weight: 600;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.ws-step-label {
+  color: var(--ws-text);
+
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+
+  transition: color 0.3s ease;
+}
+
+.ws-step.is-done .ws-step-circle {
+  border-color: var(--ws-navy-solid);
+  color: var(--ws-navy-solid);
+}
+
+.ws-step.is-active .ws-step-circle {
+  transform: scale(1.18);
+
+  border-color: transparent;
+
+  background: var(--ws-navy);
+  color: #ffffff;
+
+  box-shadow: 0 10px 20px rgba(20, 35, 59, 0.38);
+}
+
+.ws-step.is-active .ws-step-label {
+  color: var(--ws-ink);
+}
+
+.ws-step:focus-visible {
+  outline: none;
+}
+
+.ws-step:focus-visible .ws-step-circle {
+  outline: 2px solid var(--ws-gold);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+
+  .ws-step:not(.is-active):hover .ws-step-circle {
+    border-color: #8aa0bb;
+
+    transform: translateY(-2px);
+  }
 }
 
 
 /* =========================================================
-   IMAGE WRAPPER
+   DETAIL CARD (photo at the left edge, text beside it)
 ========================================================= */
 
-.application-image-wrapper {
+.ws-card {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 34px;
+
+  padding: 14px;
+
+  border: 1px solid #d5dfeb;
+  border-radius: 30px;
+
+  background: #ffffff;
+
+  box-shadow: 0 26px 50px -24px rgba(31, 58, 87, 0.35);
+
+  animation: ws-in 0.45s ease both;
+}
+
+.ws-media {
   position: relative;
 
-  width: 115px;
+  flex: 0 0 260px;
 
-  height: 115px;
+  height: 195px;
 
   overflow: hidden;
 
-  border-radius: 50%;
+  border-radius: 22px;
 
-  flex-shrink: 0;
-
-  background: #e7e4dc;
-
-  border: 1px solid #c9c6bd;
-
-  transition:
-    transform 0.4s ease,
-    box-shadow 0.4s ease,
-    border-color 0.4s ease;
+  background: #cfdbe8;
 }
 
-
-/* =========================================================
-   IMAGE
-========================================================= */
-
-.application-image {
-  width: 100%;
-
-  height: 100%;
-
+/* scale fills the rectangle even when the source photo is round */
+.ws-media img {
   display: block;
 
+  width: 100%;
+  height: 100%;
+
   object-fit: cover;
+  object-position: center;
 
-  filter:
-    grayscale(100%)
-    contrast(0.95);
-
-  transform: scale(1.01);
-
-  transition:
-    filter 0.5s ease,
-    transform 0.5s ease;
+  transform: scale(1.3);
 }
 
-
-/* =========================================================
-   DESKTOP HOVER
-========================================================= */
-
-.application-card:hover
-.application-image-wrapper {
-  transform: translateY(-6px);
-
-  border-color: #a4663c;
-
-  box-shadow:
-    0 12px 28px
-    rgba(0, 0, 0, 0.16);
-}
-
-
-.application-card:hover
-.application-image {
-  filter:
-    grayscale(0%)
-    saturate(1.15)
-    contrast(1);
-
-  transform: scale(1.08);
-}
-
-
-/* =========================================================
-   APPLICATION TITLE
-========================================================= */
-
-.application-card h3 {
-  margin: 12px 0 0;
-
-  color: #161616;
-
-  font-family: "Inter", sans-serif;
-
-  font-size: 16px;
-
-  font-weight: 600;
-
-  line-height: 1.3;
-
-  text-align: center;
-
-  transition:
-    color 0.3s ease,
-    transform 0.3s ease;
-}
-
-
-/* =========================================================
-   TITLE HOVER
-========================================================= */
-
-.application-card:hover h3 {
-  color: #a4663c;
-
-  transform: translateY(-2px);
-}
-
-
-/* =========================================================
-   DECORATIVE LEAVES
-========================================================= */
-
-.serve-leaf {
+.ws-badge {
   position: absolute;
-
   z-index: 1;
 
-  width: 180px;
+  right: 10px;
+  bottom: 10px;
 
-  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  pointer-events: none;
+  width: 62px;
+  height: 62px;
 
-  opacity: 0.35;
+  border-radius: 18px;
 
-  background:
-    repeating-linear-gradient(
-      65deg,
-      transparent 0 15px,
-      rgba(87, 103, 77, 0.55) 16px 18px,
-      transparent 19px 32px
-    );
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--ws-navy-solid);
 
-  filter: blur(0.2px);
+  font-size: 26px;
+
+  box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.35);
+}
+
+.ws-body {
+  flex: 1;
+
+  min-width: 0;
+
+  padding-right: 28px;
+}
+
+.ws-body h3 {
+  margin: 0 0 8px;
+
+  color: var(--ws-ink);
+
+  font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.ws-body p {
+  max-width: 560px;
+
+  margin: 0;
+
+  color: var(--ws-text);
+
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+@keyframes ws-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 
 /* =========================================================
-   LEFT LEAVES
+   CTA (centered)
 ========================================================= */
 
-.serve-leaf-left {
-  left: -95px;
+.ws-cta {
+  display: flex;
+  justify-content: center;
 
-  top: -80px;
+  margin-top: 40px;
+}
 
-  transform: rotate(-25deg);
+.ws-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  height: 48px;
+
+  padding: 0 28px;
+
+  border-radius: 999px;
+
+  background: var(--ws-navy);
+  color: #ffffff;
+
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+
+  box-shadow: 0 8px 20px rgba(20, 35, 59, 0.28);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.ws-btn-arrow {
+  font-size: 17px;
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+.ws-btn:focus-visible {
+  outline: 2px solid var(--ws-gold);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+
+  .ws-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 14px 28px rgba(20, 35, 59, 0.36);
+  }
+
+  .ws-btn:hover .ws-btn-arrow {
+    transform: translateX(4px);
+  }
 }
 
 
 /* =========================================================
-   RIGHT LEAVES
+   LARGE DESKTOP
 ========================================================= */
 
-.serve-leaf-right {
-  right: -95px;
+@media (min-width: 1500px) {
 
-  bottom: -90px;
+  .ws-section {
+    padding: 100px 0 112px;
+  }
 
-  transform: rotate(155deg);
+  .ws-container {
+    width: min(88%, 1280px);
+  }
 }
 
 
 /* =========================================================
-   LARGE TABLET
+   LAPTOP
 ========================================================= */
 
 @media (max-width: 1100px) {
 
-  .who-we-serve-container {
-    width: 94%;
+  .ws-section {
+    padding: 72px 0 80px;
   }
 
-
-  .applications-list {
-    grid-template-columns:
-      repeat(3, minmax(0, 1fr));
-
-    row-gap: 35px;
+  .ws-card {
+    gap: 28px;
   }
 
-
-  .application-card {
-    padding: 0 20px;
-  }
-
-
-  .application-card:nth-child(3)::after {
-    display: none;
-  }
-
-
-  .application-card:nth-child(6)::after {
-    display: none;
-  }
-
-
-  .application-image-wrapper {
-    width: 125px;
-
-    height: 125px;
+  .ws-body h3 {
+    font-size: 24px;
   }
 }
 
 
 /* =========================================================
-   TABLET / SMALL LAPTOP
+   TABLET
 ========================================================= */
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 
-  .who-serve-heading h2 {
-    font-size: 28px;
+  .ws-section {
+    padding: 64px 0 72px;
   }
 
+  .ws-header {
+    align-items: center;
 
-  .who-serve-heading p {
-    font-size: 14px;
+    text-align: center;
+
+    margin-bottom: 44px;
   }
 
+  .ws-label {
+    justify-content: center;
+  }
 
-  .application-card h3 {
-    font-size: 15px;
+  .ws-header h2,
+  .ws-header p,
+  .ws-rule {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ws-step-label {
+    font-size: 12px;
+  }
+
+  .ws-media {
+    flex-basis: 230px;
+
+    height: 180px;
   }
 }
 
 
 /* =========================================================
-   MOBILE
+   MOBILE (card stacked, text centered)
 ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 640px) {
 
-  .who-we-serve-section {
-    padding: 55px 0 60px;
+  .ws-section {
+    --ws-circle: 40px;
+
+    padding: 52px 0 60px;
   }
 
-
-  .who-we-serve-container {
+  .ws-container {
     width: 90%;
   }
 
-
-  /* =======================================================
-     HEADER
-  ======================================================= */
-
-  .who-serve-header {
-    flex-direction: column;
-
-    align-items: center;
-
-    text-align: center;
-
-    gap: 22px;
-
-    margin-bottom: 40px;
+  .ws-header {
+    margin-bottom: 34px;
   }
 
+  .ws-label {
+    margin-bottom: 14px;
 
-  .who-serve-heading {
-    width: 100%;
-
-    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2.6px;
   }
 
-
-  /* =======================================================
-     LABEL
-  ======================================================= */
-
-  .who-serve-label {
-    justify-content: center;
-
-    margin-bottom: 7px;
-
-    font-size: 10px;
-
-    font-weight: 500;
-
-    letter-spacing: 1.5px;
+  .ws-header h2 {
+    font-size: 28px;
+    line-height: 1.2;
   }
 
+  .ws-rule {
+    width: 52px;
 
-  .who-serve-label::before {
-    width: 22px;
+    margin: 18px auto 14px;
   }
 
-
-  /* =======================================================
-     HEADING
-  ======================================================= */
-
-  .who-serve-heading h2 {
-    width: 100%;
-
-    font-size: 26px;
-
-    font-weight: 700;
-
-    line-height: 1.15;
-
-    letter-spacing: -0.3px;
-  }
-
-
-  /* =======================================================
-     DESCRIPTION
-  ======================================================= */
-
-  .who-serve-heading p {
-    max-width: 450px;
-
-    margin: 10px auto 0;
-
-    font-size: 13px;
-
-    font-weight: 400;
-
-    line-height: 1.65;
-  }
-
-
-  /* =======================================================
-     BUTTON
-  ======================================================= */
-
-  .explore-applications-btn {
-    margin-top: 0;
-
-    padding: 12px 18px;
-
-    font-size: 12px;
-  }
-
-
-  /* =======================================================
-     SINGLE COLUMN
-  ======================================================= */
-
-  .applications-list {
-    width: 100%;
-
-    grid-template-columns: 1fr;
-
-    row-gap: 32px;
-  }
-
-
-  /* =======================================================
-     APPLICATION CARD
-  ======================================================= */
-
-  .application-card {
-    width: 100%;
-
-    padding: 0;
-
-    align-items: center;
-  }
-
-
-  /* Remove desktop separators */
-
-  .application-card::after {
-    display: none !important;
-  }
-
-
-  /* =======================================================
-     IMAGE
-  ======================================================= */
-
-  .application-image-wrapper {
-    width: 175px;
-
-    height: 175px;
-  }
-
-
-  /* =======================================================
-     TITLE
-  ======================================================= */
-
-  .application-card h3 {
-    margin-top: 12px;
-
-    font-size: 16px;
-
-    font-weight: 600;
-  }
-
-
-  /* =======================================================
-     MOBILE TOUCH
-  ======================================================= */
-
-  .application-card:active
-  .application-image {
-    filter:
-      grayscale(0%)
-      saturate(1.15)
-      contrast(1);
-
-    transform: scale(1.06);
-  }
-
-
-  .application-card:active
-  .application-image-wrapper {
-    border-color: #a4663c;
-
-    transform: scale(1.02);
-  }
-}
-
-
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
-
-@media (max-width: 420px) {
-
-  .who-we-serve-section {
-    padding: 45px 0 55px;
-  }
-
-
-  /* Label */
-
-  .who-serve-label {
-    font-size: 9.5px;
-
-    letter-spacing: 1.4px;
-  }
-
-
-  /* Heading */
-
-  .who-serve-heading h2 {
-    font-size: 24px;
-
-    line-height: 1.15;
-  }
-
-
-  /* Description */
-
-  .who-serve-heading p {
-    font-size: 12px;
-
+  .ws-header p {
+    font-size: 14.5px;
     line-height: 1.6;
   }
 
+  .ws-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
 
-  /* Button */
+    max-width: 480px;
 
-  .explore-applications-btn {
-    padding: 11px 17px;
+    margin: 0 auto;
+    padding: 12px 12px 24px;
 
-    font-size: 11px;
+    border-radius: 24px;
   }
 
+  .ws-media {
+    flex: none;
 
-  /* Image */
+    width: 100%;
+    height: clamp(190px, 56vw, 280px);
 
-  .application-image-wrapper {
-    width: 155px;
-
-    height: 155px;
+    border-radius: 18px;
   }
 
+  .ws-body {
+    flex: none;
 
-  /* Title */
+    padding: 0 8px;
 
-  .application-card h3 {
-    font-size: 15px;
+    text-align: center;
   }
 
-
-  .applications-list {
-    row-gap: 28px;
-  }
-}
-
-
-/* =========================================================
-   VERY SMALL MOBILE
-========================================================= */
-
-@media (max-width: 340px) {
-
-  .who-serve-label {
-    font-size: 9px;
-
-    letter-spacing: 1.2px;
-  }
-
-
-  .who-serve-heading h2 {
+  .ws-body h3 {
     font-size: 22px;
   }
 
-
-  .who-serve-heading p {
-    font-size: 11.5px;
+  .ws-body p {
+    font-size: 14.5px;
   }
 
-
-  .application-image-wrapper {
-    width: 140px;
-
-    height: 140px;
+  .ws-cta {
+    margin-top: 30px;
   }
 
-
-  .application-card h3 {
-    font-size: 14px;
+  .ws-btn {
+    width: min(100%, 320px);
   }
 }
 
 
 /* =========================================================
-   ACCESSIBILITY
+   SMALL PHONES (3 steps per row so every label fits)
 ========================================================= */
 
-.explore-applications-btn:focus-visible {
-  outline: 2px solid #a4663c;
+@media (max-width: 560px) {
 
-  outline-offset: 3px;
+  .ws-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    row-gap: 26px;
+
+    margin-bottom: 28px;
+  }
+
+  /* last step of the first row has no line to the next row */
+  .ws-step:nth-child(3)::before,
+  .ws-step:nth-child(3)::after {
+    display: none;
+  }
+
+  .ws-step {
+    gap: 8px;
+  }
+
+  .ws-step-circle {
+    font-size: 14px;
+  }
+
+  .ws-step-label {
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .ws-header h2 {
+    font-size: 25px;
+  }
+
+  .ws-step-label {
+    font-size: 11.5px;
+  }
+
+  .ws-body h3 {
+    font-size: 20px;
+  }
 }
 
 
@@ -850,11 +695,15 @@
 
 @media (prefers-reduced-motion: reduce) {
 
-  .application-image-wrapper,
-  .application-image,
-  .application-card h3,
-  .explore-applications-btn,
-  .explore-arrow {
-    transition: none !important;
+  .ws-card {
+    animation: none;
+  }
+
+  .ws-step-circle,
+  .ws-step-label,
+  .ws-step:not(:last-child)::after,
+  .ws-btn,
+  .ws-btn-arrow {
+    transition: none;
   }
 }

@@ -1,189 +1,308 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Range.css";
 
-import image1 from "../../assets/1.jpg.png";
-import image2 from "../../assets/2.jpg.png";
-import image3 from "../../assets/3.jpg.png";
-import image4 from "../../assets/4.jpg.png";
-import image5 from "../../assets/5.jpg.png";
-import image6 from "../../assets/6.jpg.png";
-import image7 from "../../assets/7.jpg.png";
-import image8 from "../../assets/8.jpg.png";
+/* =========================================================
+   IMAGES  -  CHANGE THESE 6 LINES ONLY
 
-const rangeData = [
+   1. Copy your 6 pictures into the  src/assets  folder.
+   2. Replace the file name inside the quotes with your own
+      file name (keep the "../../assets/" part).
+
+   Right now they point to your old 1 to 6 pictures so the
+   page works straight away. Swap them for the real ones.
+========================================================= */
+import imgAFrame from "../../assets/1.jpg.png";   // SC-01  A-Frame Cottage
+import imgStudio from "../../assets/2.jpg.png";   // SC-02  Studio Cabin
+import imgVilla from "../../assets/3.jpg.png";    // SC-03  Modular Villa
+import imgDuplex from "../../assets/4.jpg.png";   // SC-04  Skyline Duplex
+import imgPavilion from "../../assets/5.jpg.png"; // SC-05  Resort Pavilion
+import imgPool from "../../assets/6.jpg.png";     // SC-06  Pool Villa
+
+/* =========================================================
+   CONTENT
+   Change the text here, the layout updates by itself.
+   category must be one of: "cottage", "villa", "resort"
+========================================================= */
+const filters = [
+  { id: "all", label: "All designs" },
+  { id: "cottage", label: "Cottages" },
+  { id: "villa", label: "Villas" },
+  { id: "resort", label: "Resort" },
+];
+
+const categoryLabels = {
+  cottage: "Cottage",
+  villa: "Villa",
+  resort: "Resort",
+};
+
+const categoryIcons = {
+  cottage: "tree",
+  villa: "home",
+  resort: "building",
+};
+
+const designs = [
   {
-    image: image1,
-    title: "1 BHK Homes",
-    description: "Starting from ₹18.5 Lakhs",
+    code: "SC-01 · Night",
+    category: "cottage",
+    image: imgAFrame,
+    title: "A-Frame Cottage",
+    description:
+      "Steel-framed A-frame with a full-height glass front, made for hills, lakes and forests.",
+    size: "1 BHK · about 600 sq ft",
   },
   {
-    image: image2,
-    title: "2 BHK Homes",
-    description: "Starting from ₹30.5 Lakhs",
+    code: "SC-02 · Hillside",
+    category: "cottage",
+    image: imgStudio,
+    title: "Studio Cabin",
+    description:
+      "A compact one-room cabin for farms, glamping sites and garden retreats.",
+    size: "Studio · about 300 sq ft",
   },
   {
-    image: image3,
-    title: "3 & 4 BHK Homes",
-    description: "Starting from ₹51.5 Lakhs",
+    code: "SC-03 · Golden Hour",
+    category: "villa",
+    image: imgVilla,
+    title: "Modular Villa",
+    description:
+      "Flat-roof modular villa with a glazed living wing and a floating upper volume.",
+    size: "2–3 BHK · about 1,400 sq ft",
   },
   {
-    image: image4,
-    title: "Modular Studio Units",
-    description: "Custom sizes & configurations",
+    code: "SC-04 · Daylight",
+    category: "villa",
+    image: imgDuplex,
+    title: "Skyline Duplex",
+    description:
+      "Two storeys with a glazed upper floor, a balcony and a covered deck below.",
+    size: "3 BHK · about 1,800 sq ft",
   },
   {
-    image: image5,
-    title: "Luxury Prefab Homes",
-    description: "Starting from ₹45 Lakhs",
+    code: "SC-05 · Hilltop",
+    category: "resort",
+    image: imgPavilion,
+    title: "Resort Pavilion",
+    description:
+      "A deck-front guest suite with a sloping roof, built to repeat across a resort or homestay.",
+    size: "Guest suite · about 450 sq ft",
   },
   {
-    image: image6,
-    title: "Modern Cottage Homes",
-    description: "Starting from ₹35 Lakhs",
-  },
-  {
-    image: image7,
-    title: "Premium Villa Homes",
-    description: "Starting from ₹55 Lakhs",
-  },
-  {
-    image: image8,
-    title: "Custom Modular Spaces",
-    description: "Built to your requirements",
+    code: "SC-06 · Forest",
+    category: "resort",
+    image: imgPool,
+    title: "Pool Villa",
+    description:
+      "A premium villa that opens onto its own plunge pool, for boutique hospitality.",
+    size: "2 BHK · about 2,000 sq ft",
   },
 ];
 
-const Range = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleCards, setVisibleCards] = useState(4);
+/* =========================================================
+   ICONS (inline SVG, no extra package needed)
+========================================================= */
+function Icon({ name, size = 18 }) {
+  let shapes = null;
 
-  useEffect(() => {
-    const updateVisibleCards = () => {
-      if (window.innerWidth <= 600) {
-        setVisibleCards(1);
-      } else if (window.innerWidth <= 1050) {
-        setVisibleCards(2);
-      } else {
-        setVisibleCards(4);
-      }
-    };
+  switch (name) {
+    case "tree":
+      shapes = (
+        <>
+          <path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17Z" />
+          <path d="M12 22v-3" />
+        </>
+      );
+      break;
 
-    updateVisibleCards();
+    case "home":
+      shapes = (
+        <>
+          <path d="M3 10.5 12 3l9 7.5" />
+          <path d="M5 9.5V21h14V9.5" />
+          <path d="M10 21v-6h4v6" />
+        </>
+      );
+      break;
 
-    window.addEventListener("resize", updateVisibleCards);
+    case "building":
+      shapes = (
+        <>
+          <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+          <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2" />
+          <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2" />
+          <path d="M10 6h4" />
+          <path d="M10 10h4" />
+          <path d="M10 14h4" />
+          <path d="M10 18h4" />
+        </>
+      );
+      break;
 
-    return () => {
-      window.removeEventListener("resize", updateVisibleCards);
-    };
-  }, []);
+    case "plan":
+      shapes = (
+        <>
+          <rect x="4" y="4" width="16" height="16" rx="1.5" />
+          <path d="M10 4v6H4" />
+        </>
+      );
+      break;
 
-  const maxIndex = Math.max(0, rangeData.length - visibleCards);
+    case "arrow":
+      shapes = (
+        <>
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </>
+      );
+      break;
 
-  useEffect(() => {
-    setCurrentIndex((prev) => Math.min(prev, maxIndex));
-  }, [maxIndex]);
-
-  const handlePrevious = () => {
-    setCurrentIndex((prev) => Math.max(prev - 1, 0));
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => Math.min(prev + 1, maxIndex));
-  };
+    default:
+      return null;
+  }
 
   return (
-    <section className="sk-range-section" id="homes-cottages">
-      <div className="sk-range-container">
-        {/* =================================================
-            LEFT CONTENT
-        ================================================= */}
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {shapes}
+    </svg>
+  );
+}
 
-        <div className="sk-range-content">
-          <span className="sk-range-label">OUR RANGE</span>
+/* =========================================================
+   COMPONENT
+========================================================= */
+const Range = () => {
+  const [filter, setFilter] = useState("all");
 
-          <h2>
-            Prefab Homes &amp;
-            <br />
-            Cottage Designs
-          </h2>
+  const visibleDesigns =
+    filter === "all"
+      ? designs
+      : designs.filter((design) => design.category === filter);
 
-          <p>
-            Beautifully crafted, modern and sustainable living spaces
-            designed for every lifestyle. Explore our range of prefab
-            homes and cottages.
-          </p>
+  return (
+    <section className="sk-range" id="homes-cottages">
+      <div className="sk-range__container">
 
-          <a href="#projects" className="sk-range-button">
-            Explore Our Homes
-            <span>→</span>
-          </a>
-        </div>
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
+        <header className="sk-range__header">
 
-        {/* =================================================
-            CAROUSEL
-        ================================================= */}
-
-        <div className="sk-range-slider-wrapper">
-          {/* LEFT ARROW */}
-          <button
-            type="button"
-            className="sk-range-nav"
-            onClick={handlePrevious}
-            disabled={currentIndex === 0}
-            aria-label="Previous designs"
-          >
-            ‹
-          </button>
-
-          {/* VIEWPORT */}
-          <div className="sk-range-viewport">
-            <div
-              className="sk-range-track"
-              style={{
-                "--visible-cards": visibleCards,
-                transform: `translateX(
-                  calc(
-                    -${currentIndex} *
-                    (
-                      (
-                        100% -
-                        ${(visibleCards - 1) * 18}px
-                      )
-                      / ${visibleCards}
-                      + 18px
-                    )
-                  )
-                )`,
-              }}
-            >
-              {rangeData.map((item, index) => (
-                <article className="sk-range-card" key={index}>
-                  <div className="sk-range-image">
-                    <img src={item.image} alt={item.title} />
-                  </div>
-
-                  <div className="sk-range-card-content">
-                    <div className="sk-range-card-text">
-                      <h3>{item.title}</h3>
-                      <p>{item.description}</p>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
+          <div className="sk-range__eyebrow">
+            <span className="sk-range__eyebrow-dot" />
+            <span>HOMES &amp; COTTAGES</span>
           </div>
 
-          {/* RIGHT ARROW */}
-          <button
-            type="button"
-            className="sk-range-nav"
-            onClick={handleNext}
-            disabled={currentIndex === maxIndex}
-            aria-label="Next designs"
-          >
-            ›
-          </button>
+          <h2 className="sk-range__title">
+            Designs to start from, built around your plot
+          </h2>
+
+          <span className="sk-range__rule" />
+
+          <p className="sk-range__hint">
+            Every design below can be resized, re-planned and finished to
+            suit you. Pick one as a starting point and we will quote it.
+          </p>
+
+        </header>
+
+        {/* =====================================================
+            FILTERS
+        ===================================================== */}
+        <div
+          className="sk-range__filters"
+          role="group"
+          aria-label="Filter designs"
+        >
+          {filters.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className={
+                "sk-range__filter" +
+                (filter === item.id ? " is-active" : "")
+              }
+              aria-pressed={filter === item.id}
+              onClick={() => setFilter(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
         </div>
+
+        {/* =====================================================
+            CARDS (key restarts the entrance animation)
+        ===================================================== */}
+        <div className="sk-range__grid" key={filter}>
+          {visibleDesigns.map((design, index) => (
+            <article
+              className="sk-range__card"
+              key={design.code}
+              style={{ "--i": index }}
+            >
+
+              <div className="sk-range__media">
+                <img
+                  src={design.image}
+                  alt={design.title}
+                  className="sk-range__image"
+                  loading="lazy"
+                  decoding="async"
+                />
+
+                <span className="sk-range__code">{design.code}</span>
+
+                <span className="sk-range__type" aria-hidden="true">
+                  <Icon name={categoryIcons[design.category]} size={20} />
+                </span>
+              </div>
+
+              <div className="sk-range__body">
+
+                <span className="sk-range__tag">
+                  {categoryLabels[design.category]}
+                </span>
+
+                <h3 className="sk-range__card-title">{design.title}</h3>
+
+                <p className="sk-range__card-text">{design.description}</p>
+
+                <div className="sk-range__size">
+                  <Icon name="plan" size={16} />
+                  <span>{design.size}</span>
+                </div>
+
+                <a href="#contact" className="sk-range__link">
+                  <span>Request details</span>
+                  <Icon name="arrow" size={16} />
+                </a>
+
+              </div>
+
+            </article>
+          ))}
+        </div>
+
+        {/* =====================================================
+            NOTE
+        ===================================================== */}
+        <p className="sk-range__note">
+          Illustrations are artist impressions. Sizes are indicative
+          starting points, and final plans depend on your plot, local
+          rules and finish level.
+        </p>
+
       </div>
     </section>
   );
