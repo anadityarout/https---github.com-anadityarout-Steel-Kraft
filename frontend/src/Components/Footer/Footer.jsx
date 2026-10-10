@@ -2,7 +2,7 @@ import React from "react";
 import "./Footer.css";
 
 //import indiaMap from "../../assets/india-map.png";
-import map1 from "../../assets/map1.png";
+import map1 from "../../assets/map2.png";
 import steelKraftLogo from "../../assets/Steel Kraft Logo.png";
 
 import {
