@@ -6,6 +6,25 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 
+/* ==========================================
+   PAGE SCROLL FIX
+   ========================================== */
+
+html {
+  scroll-behavior: auto !important;
+}
+
+body {
+  overflow-y: auto;
+}
+
+/* Keep the floating navbar independent of page scrolling */
+.sk-navbar {
+  position: fixed;
+  top: 14px;
+  z-index: 1000;
+}
+
 /* =========================================================
    RESET
 ========================================================= */

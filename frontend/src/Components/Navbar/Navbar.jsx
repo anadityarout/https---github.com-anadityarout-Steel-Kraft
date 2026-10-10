@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 import steelKraftLogo from "../../assets/Steel Kraft Logo.png";
@@ -36,19 +36,10 @@ const NAV_LINKS = [
 // ==========================================
 
 const getActiveKey = (pathname, hash) => {
-  if (pathname === "/contact") {
-    return "contact";
-  }
+  if (pathname === "/contact") return "contact";
+  if (pathname === "/projects") return "projects";
+  if (pathname === "/homes-cottages") return "homes";
 
-  if (pathname === "/projects") {
-    return "projects";
-  }
-
-  if (pathname === "/homes-cottages") {
-    return "homes";
-  }
-
-  // Home page section links
   if (
     hash === "#homes-cottages-cards" ||
     hash === "#homes-cottages"
@@ -67,11 +58,32 @@ const getActiveKey = (pathname, hash) => {
 };
 
 // ==========================================
+// SCROLL TO TOP HELPER
+// ==========================================
+
+const scrollPageToTop = () => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "auto",
+  });
+
+  requestAnimationFrame(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
+    });
+  });
+};
+
+// ==========================================
 // NAVBAR COMPONENT
 // ==========================================
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -84,18 +96,49 @@ const Navbar = () => {
   // MENU HELPERS
   // ========================================
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setMenuOpen(false);
-  };
+  }, []);
 
   const openMenu = () => {
     setMenuOpen(true);
   };
 
-  const handleLinkClick = (key) => {
+  // ========================================
+  // HANDLE NAVIGATION CLICK
+  // ========================================
+
+  const handleLinkClick = (key, event) => {
     setActiveKey(key);
     closeMenu();
+
+    // Home should always return to the top.
+    if (key === "home") {
+      event?.preventDefault();
+
+      if (
+        location.pathname !== "/" ||
+        location.hash !== ""
+      ) {
+        navigate("/");
+      }
+
+      // Handle clicking Home when already on Home too.
+      scrollPageToTop();
+    }
   };
+
+  // ========================================
+  // SCROLL TO TOP WHEN ROUTE CHANGES
+  // ========================================
+
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    scrollPageToTop();
+  }, [location.pathname]);
 
   // ========================================
   // SYNC ACTIVE LINK WITH ROUTE
@@ -113,7 +156,7 @@ const Navbar = () => {
 
   useEffect(() => {
     closeMenu();
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.hash, closeMenu]);
 
   // ========================================
   // NAVBAR SCROLL EFFECT
@@ -160,14 +203,14 @@ const Navbar = () => {
         handleKeyDown
       );
     };
-  }, [menuOpen]);
+  }, [menuOpen, closeMenu]);
 
   // ========================================
   // RENDER NAVIGATION LINKS
   // ========================================
 
-  const renderNavLinks = (isMobile = false) => {
-    return NAV_LINKS.map((link) => {
+  const renderNavLinks = (isMobile = false) =>
+    NAV_LINKS.map((link) => {
       const isActive = activeKey === link.key;
 
       return (
@@ -176,19 +219,24 @@ const Navbar = () => {
           to={link.href}
           className={
             isMobile
-              ? `sk-mobile-link ${isActive ? "active" : ""}`
+              ? `sk-mobile-link ${
+                  isActive ? "active" : ""
+                }`
               : isActive
               ? "active"
               : ""
           }
-          onClick={() => handleLinkClick(link.key)}
-          aria-current={isActive ? "page" : undefined}
+          onClick={(event) =>
+            handleLinkClick(link.key, event)
+          }
+          aria-current={
+            isActive ? "page" : undefined
+          }
         >
           <span>{link.label}</span>
         </Link>
       );
     });
-  };
 
   // ========================================
   // RENDER NAVBAR
@@ -196,21 +244,20 @@ const Navbar = () => {
 
   return (
     <>
-      {/* =====================================
-          MAIN GLASS NAVBAR
-      ====================================== */}
-
       <header
-        className={`sk-navbar ${scrolled ? "scrolled" : ""}`}
+        className={`sk-navbar ${
+          scrolled ? "scrolled" : ""
+        }`}
       >
         <div className="sk-navbar-container">
-
           {/* LOGO */}
 
           <Link
             to="/"
             className="sk-logo"
-            onClick={() => handleLinkClick("home")}
+            onClick={(event) =>
+              handleLinkClick("home", event)
+            }
             aria-label="Steel Kraft Home"
           >
             <img
@@ -233,7 +280,9 @@ const Navbar = () => {
           <Link
             to="/contact"
             className="sk-quote-btn"
-            onClick={() => handleLinkClick("contact")}
+            onClick={() =>
+              handleLinkClick("contact")
+            }
           >
             <span>Get a Quote</span>
             <span aria-hidden="true">→</span>
@@ -247,20 +296,22 @@ const Navbar = () => {
               menuOpen ? "active" : ""
             }`}
             onClick={openMenu}
-            aria-label="Open navigation menu"
+            aria-label={
+              menuOpen
+                ? "Open navigation menu"
+                : "Open navigation menu"
+            }
             aria-expanded={menuOpen}
             aria-controls="sk-mobile-menu"
           >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </header>
 
-      {/* =====================================
-          MOBILE OVERLAY
-      ====================================== */}
+      {/* MOBILE OVERLAY */}
 
       <div
         className={`sk-mobile-overlay ${
@@ -270,9 +321,7 @@ const Navbar = () => {
         aria-hidden="true"
       />
 
-      {/* =====================================
-          MOBILE DRAWER
-      ====================================== */}
+      {/* MOBILE DRAWER */}
 
       <aside
         id="sk-mobile-menu"
@@ -288,7 +337,9 @@ const Navbar = () => {
           <Link
             to="/"
             className="sk-mobile-logo"
-            onClick={() => handleLinkClick("home")}
+            onClick={(event) =>
+              handleLinkClick("home", event)
+            }
             aria-label="Steel Kraft Home"
           >
             <img
@@ -307,7 +358,7 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* MOBILE NAVIGATION LINKS */}
+        {/* MOBILE NAVIGATION */}
 
         <nav
           className="sk-mobile-links"
@@ -321,7 +372,9 @@ const Navbar = () => {
         <div className="sk-mobile-cta">
           <Link
             to="/contact"
-            onClick={() => handleLinkClick("contact")}
+            onClick={() =>
+              handleLinkClick("contact")
+            }
           >
             <span>Get a Quote</span>
             <span aria-hidden="true">→</span>

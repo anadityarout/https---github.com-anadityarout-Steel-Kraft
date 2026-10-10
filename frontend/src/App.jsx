@@ -1,9 +1,11 @@
-import React from "react";
+
+import React, { useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
   Route,
   useLocation,
+  Link,
 } from "react-router-dom";
 
 // =====================================================
@@ -40,6 +42,35 @@ import ProjectPage from "./Components/ProjectPage/ProjectPage";
 import Homecottages from "./Components/HomeCottages/HomeCottages";
 import Footer from "./Components/Footer/Footer";
 
+
+// =====================================================
+// SCROLL TO TOP ON ROUTE CHANGE
+// =====================================================
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Disable browser's automatic scroll restoration
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    // Scroll to the top after the route changes
+    window.scrollTo(0, 0);
+
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "auto",
+      });
+    });
+  }, [pathname]);
+
+  return null;
+}
+
 // =====================================================
 // HOME PAGE
 // =====================================================
@@ -48,18 +79,31 @@ function Home() {
   return (
     <>
       <Homeslider />
+
       <Aboutus />
+
       <WhyChooseBar />
+
       <Range />
+
       <ModularTechnology />
+
       <WhoWeServe />
+
       <FasterByDesign />
+
       <Project />
+
       <Gallery />
+
       <FaqSection />
+
       <PanIndiaService />
+
       <WhyChooseSteelKraft />
+
       <NatureApplications />
+
       <ReadyToBuild />
     </>
   );
@@ -114,7 +158,7 @@ function AppLayout() {
           element={<ProjectPage />}
         />
 
-        {/* HOMES & COTTAGES PAGE - BANNER ONLY */}
+        {/* HOMES & COTTAGES PAGE */}
 
         <Route
           path="/homes-cottages"
@@ -142,8 +186,8 @@ function AppLayout() {
 
               <p>Page Not Found</p>
 
-              <a
-                href="/"
+              <Link
+                to="/"
                 style={{
                   textDecoration: "none",
                   padding: "12px 24px",
@@ -153,7 +197,7 @@ function AppLayout() {
                 }}
               >
                 Back to Home
-              </a>
+              </Link>
             </div>
           }
         />
@@ -173,6 +217,9 @@ function AppLayout() {
 function App() {
   return (
     <BrowserRouter>
+      {/* Scroll to the top whenever the route changes */}
+      <ScrollToTop />
+
       <AppLayout />
     </BrowserRouter>
   );
