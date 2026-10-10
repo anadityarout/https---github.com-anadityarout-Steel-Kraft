@@ -11,12 +11,12 @@ import "./Range.css";
    Right now they point to your old 1 to 6 pictures so the
    page works straight away. Swap them for the real ones.
 ========================================================= */
-import imgAFrame from "../../assets/1.jpg.png";   // SC-01  A-Frame Cottage
-import imgStudio from "../../assets/2.jpg.png";   // SC-02  Studio Cabin
-import imgVilla from "../../assets/3.jpg.png";    // SC-03  Modular Villa
-import imgDuplex from "../../assets/4.jpg.png";   // SC-04  Skyline Duplex
-import imgPavilion from "../../assets/5.jpg.png"; // SC-05  Resort Pavilion
-import imgPool from "../../assets/6.jpg.png";     // SC-06  Pool Villa
+import imgAFrame from "../../assets/gal1.png";   // SC-01  A-Frame Cottage
+import imgStudio from "../../assets/ran2.png";   // SC-02  Studio Cabin
+import imgVilla from "../../assets/ran3.jpg";    // SC-03  Modular Villa
+import imgDuplex from "../../assets/ran4.png";   // SC-04  Skyline Duplex
+import imgPavilion from "../../assets/why5.png"; // SC-05  Resort Pavilion
+import imgPool from "../../assets/why1.png";     // SC-06  Pool Villa
 
 /* =========================================================
    CONTENT

@@ -83,7 +83,7 @@
 
   margin: 0 0 6px;
 
-  color: #a4663c;
+  color: #f5b942;
 
   font-family: "Inter", sans-serif;
 
@@ -110,7 +110,7 @@
 
   height: 1px;
 
-  background: #a4663c;
+  background: #f5b942;
 
   flex-shrink: 0;
 }
@@ -196,9 +196,9 @@
 
   border-radius: 5px;
 
-  background: #a4663c;
+  background: #f5b942;
 
-  color: #ffffff;
+  color: #111111;
 
   font-family: "Inter", sans-serif;
 
@@ -216,13 +216,13 @@
 
 
 .modular-explore-button:hover {
-  background: #8f572f;
+  background: #e3a62c;
 
   transform: translateY(-2px);
 
   box-shadow:
     0 10px 25px
-    rgba(164, 102, 60, 0.22);
+    rgba(245, 185, 66, 0.3);
 }
 
 
@@ -828,7 +828,7 @@
 ========================================================= */
 
 .modular-explore-button:focus-visible {
-  outline: 2px solid #a4663c;
+  outline: 2px solid #f5b942;
 
   outline-offset: 3px;
 }

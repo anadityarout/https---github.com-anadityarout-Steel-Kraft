@@ -25,13 +25,13 @@ import Project from "./Components/Project/Project";
 import WhyChooseSteelKraft from "./Components/Home/WhyChooseSteelKraft";
 import PanIndiaService from "./Components/Home/PanIndiaService";
 import WhoWeServe from "./Components/Home/WhoWeServe";
-import ModularTechnology from "./Components/Home/ModularTechnology";
+//import ModularTechnology from "./Components/Home/ModularTechnology";
 import NatureApplications from "./Components/Home/NatureApplications";
 import ReadyToBuild from "./Components/Home/ReadyToBuild";
 import Aboutus from "./Components/Home/Aboutus";
 import FasterByDesign from "./Components/Home/FasterByDesign";
 import Gallery from "./Components/Home/Gallery";
-import FaqSection from "./Components/Home/FaqSection";
+import FaqSection from "./Components/Home/FaqSection"; 
 
 // =====================================================
 // MAIN PAGES
@@ -86,7 +86,7 @@ function Home() {
 
       <Range />
 
-      <ModularTechnology />
+      {/* <ModularTechnology /> */}
 
       <WhoWeServe />
 

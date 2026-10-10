@@ -5,15 +5,24 @@
 .pan-india-section {
   position: relative;
   width: 100%;
-  min-height: 780px;
   overflow: hidden;
-  padding: 110px 0;
+  padding: 100px 0;
   box-sizing: border-box;
 
-  background: #18382f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #16294a;
   color: #ffffff;
 
   font-family: "Inter", sans-serif;
+}
+
+.pan-india-section *,
+.pan-india-section *::before,
+.pan-india-section *::after {
+  box-sizing: border-box;
 }
 
 
@@ -24,42 +33,33 @@
 .pan-india-background {
   position: absolute;
   inset: 0;
-
   overflow: hidden;
-
   z-index: 0;
 
   background:
     radial-gradient(
-      circle at 25% 30%,
-      rgba(80, 125, 100, 0.32),
-      transparent 32%
+      circle at 30% 30%,
+      rgba(60, 110, 190, 0.2),
+      transparent 38%
     ),
     linear-gradient(
       135deg,
-      #294f40 0%,
-      #18382f 45%,
-      #102c24 100%
+      #1a3560 0%,
+      #16305a 45%,
+      #112448 100%
     );
 }
-
-
-/* =========================================================
-   OVERLAY
-========================================================= */
 
 .pan-india-overlay {
   position: absolute;
   inset: 0;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(8, 30, 24, 0.12),
-      rgba(8, 30, 24, 0.28)
-    );
-
   pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    rgba(5, 15, 35, 0.1),
+    rgba(5, 15, 35, 0.25)
+  );
 }
 
 
@@ -69,45 +69,34 @@
 
 .mountain {
   position: absolute;
-
   bottom: -120px;
-
   width: 0;
   height: 0;
-
-  opacity: 0.22;
+  opacity: 0.3;
+  pointer-events: none;
 
   border-left: 260px solid transparent;
   border-right: 260px solid transparent;
-  border-bottom: 380px solid #071f18;
-
-  pointer-events: none;
+  border-bottom: 380px solid #0a1a35;
 }
 
 .mountain-one {
   left: -100px;
-
   transform: rotate(-4deg);
 }
 
 .mountain-two {
-  left: 22%;
-
-  bottom: -160px;
-
+  left: 30%;
+  bottom: -170px;
   transform: scale(1.4);
-
-  opacity: 0.14;
+  opacity: 0.18;
 }
 
 .mountain-three {
   right: -80px;
-
   bottom: -150px;
-
   transform: scale(1.3);
-
-  opacity: 0.2;
+  opacity: 0.26;
 }
 
 
@@ -117,32 +106,19 @@
 
 .pan-india-container {
   position: relative;
-
   z-index: 2;
 
-  width: min(94%, 1450px);
-
+  width: min(94%, 1320px);
   margin: 0 auto;
 
   display: grid;
-
-  grid-template-columns:
-    minmax(0, 1.65fr)
-    minmax(320px, 0.75fr);
-
-  gap: 70px;
-
+  grid-template-columns: minmax(0, 1fr) 390px;
+  gap: 90px;
   align-items: center;
 }
 
-
-/* =========================================================
-   LEFT MAIN AREA
-========================================================= */
-
 .pan-india-main {
   min-width: 0;
-
   position: relative;
 }
 
@@ -153,25 +129,18 @@
 
 .pan-india-heading {
   position: relative;
-
   z-index: 10;
-
   text-align: center;
-
-  margin-bottom: 45px;
+  margin-bottom: 30px;
 }
 
 .pan-india-small-title {
   display: block;
-
   margin-bottom: 16px;
 
-  color: #d39a65;
-
+  color: #f5b942;
   font-size: 13px;
-
   font-weight: 700;
-
   letter-spacing: 3px;
 }
 
@@ -179,124 +148,69 @@
   margin: 0;
 
   color: #ffffff;
-
-  font-size: clamp(
-    32px,
-    3.3vw,
-    56px
-  );
-
-  line-height: 1.08;
-
+  font-size: clamp(32px, 3vw, 54px);
+  line-height: 1.1;
   font-weight: 500;
-
-  letter-spacing: -1.8px;
+  letter-spacing: -1.6px;
 }
 
 
 /* =========================================================
-   INDIA MAP AREA
+   MAP AREA
 ========================================================= */
 
 .india-map-area {
   position: relative;
-
   width: 100%;
-
-  height: 500px;
-
-  margin-top: 10px;
+  height: 470px;
 }
-
-
-/* =========================================================
-   INDIA MAP WRAPPER
-========================================================= */
 
 .india-map-wrapper {
   position: absolute;
-
   left: 50%;
-
   top: 50%;
+  transform: translate(-50%, -50%);
 
-  transform:
-    translate(-50%, -50%);
-
-  width: 700px;
-
-  height: 550px;
+  width: 400px;
+  height: 450px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
   z-index: 3;
-
   pointer-events: none;
 }
 
-
-/* =========================================================
-   INDIA MAP IMAGE
-========================================================= */
-
 .india-map-image {
   display: block;
-
   width: 100%;
-
   height: 100%;
-
   object-fit: contain;
 
-  opacity: 0.72;
-
-  visibility: visible;
-
-  filter: none;
-
-  mix-blend-mode: normal;
-
+  opacity: 1;
   user-select: none;
-
   -webkit-user-drag: none;
 }
 
-
-/* =========================================================
-   SUBTLE MAP GLOW
-========================================================= */
-
 .india-map-wrapper::before {
   content: "";
-
   position: absolute;
-
-  width: 330px;
-
-  height: 330px;
-
   left: 50%;
-
   top: 50%;
+  transform: translate(-50%, -50%);
 
-  transform:
-    translate(-50%, -50%);
-
+  width: 340px;
+  height: 340px;
   border-radius: 50%;
 
-  background:
-    radial-gradient(
-      circle,
-      rgba(197, 145, 90, 0.08),
-      transparent 65%
-    );
+  background: radial-gradient(
+    circle,
+    rgba(50, 130, 230, 0.16),
+    transparent 65%
+  );
 
   z-index: -1;
-
   pointer-events: none;
 }
 
@@ -307,261 +221,149 @@
 
 .map-service {
   position: absolute;
+  z-index: 7;
+
+  width: 215px;
 
   display: flex;
-
   align-items: center;
-
-  gap: 15px;
-
-  width: 230px;
-
-  z-index: 7;
+  gap: 14px;
 }
 
-
-/* =========================================================
-   TOP LEFT
-========================================================= */
-
-.service-top-left {
-  left: 0;
-
-  top: 110px;
-}
-
-
-/* =========================================================
-   TOP RIGHT
-========================================================= */
-
+.service-top-left,
 .service-top-right {
-  right: 0;
-
-  top: 110px;
+  top: 30%;
+  margin-top: -24px;
 }
 
+.service-bottom-left,
+.service-bottom-right {
+  top: 82%;
+  margin-top: -24px;
+}
 
-/* =========================================================
-   BOTTOM LEFT
-========================================================= */
-
+.service-top-left,
 .service-bottom-left {
   left: 0;
-
-  bottom: 75px;
 }
 
-
-/* =========================================================
-   BOTTOM RIGHT
-========================================================= */
-
+.service-top-right,
 .service-bottom-right {
   right: 0;
-
-  bottom: 75px;
 }
-
-
-/* =========================================================
-   SERVICE ICON
-========================================================= */
 
 .map-service-icon {
   flex: 0 0 48px;
-
   width: 48px;
-
   height: 48px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
   border-radius: 50%;
+  background: #132646;
+  border: 1px solid rgba(255, 255, 255, 0.12);
 
-  background:
-    rgba(255, 255, 255, 0.09);
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.18);
-
-  color: #d69b67;
-
-  font-size: 18px;
+  color: #f5b942;
+  font-size: 17px;
 
   box-shadow:
-    0 8px 20px
-    rgba(0, 0, 0, 0.12);
+    inset 0 0 0 3px rgba(90, 130, 200, 0.18),
+    0 8px 20px rgba(0, 0, 0, 0.22);
 
   transition:
     transform 0.3s ease,
     background 0.3s ease;
 }
 
-.map-service:hover
-.map-service-icon {
-  transform:
-    translateY(-4px);
-
-  background:
-    rgba(255, 255, 255, 0.15);
+.map-service:hover .map-service-icon {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.14);
 }
 
-
-/* =========================================================
-   SERVICE TEXT
-========================================================= */
-
 .map-service-text h4 {
-  margin: 0 0 5px;
+  margin: 0 0 4px;
 
   color: #ffffff;
-
   font-size: 14px;
-
   font-weight: 600;
-
   line-height: 1.3;
 }
 
 .map-service-text p {
   margin: 0;
 
-  color:
-    rgba(255, 255, 255, 0.58);
-
+  color: rgba(255, 255, 255, 0.68);
   font-size: 12px;
-
   font-weight: 400;
-
   line-height: 1.4;
 }
 
 
 /* =========================================================
-   RIGHT WHITE CARD
+   RIGHT CARD
 ========================================================= */
 
 .pan-india-card {
+  position: relative;
+  z-index: 10;
+
   width: 100%;
-
-  min-height: 420px;
-
-  padding: 50px 42px;
-
-  box-sizing: border-box;
+  padding: 46px 38px;
 
   display: flex;
-
   flex-direction: column;
-
   justify-content: center;
 
-  background:
-    linear-gradient(
-      145deg,
-      #ffffff 0%,
-      #f8f3eb 100%
-    );
-
+  background: linear-gradient(145deg, #ffffff 0%, #f8f3eb 100%);
   border-radius: 30px;
-
-  box-shadow:
-    0 30px 70px
-    rgba(0, 0, 0, 0.18);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.28);
 
   color: #17382f;
-
-  position: relative;
-
-  z-index: 10;
 }
-
-
-/* =========================================================
-   CARD ICON
-========================================================= */
 
 .pan-card-icon {
-  width: 58px;
-
-  height: 58px;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 26px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
-  margin-bottom: 28px;
-
   border-radius: 50%;
-
-  background: #e8ded0;
-
-  color: #bd7b43;
-
-  font-size: 22px;
+  background: #ecdcc8;
+  color: #f5b942;
+  font-size: 20px;
 }
-
-
-/* =========================================================
-   CARD LABEL
-========================================================= */
 
 .pan-card-label {
   display: block;
-
   margin-bottom: 14px;
 
   color: #b87943;
-
   font-size: 11px;
-
   font-weight: 700;
-
   letter-spacing: 2px;
 }
-
-
-/* =========================================================
-   CARD HEADING
-========================================================= */
 
 .pan-card-content h3 {
   margin: 0;
 
   color: #18382f;
-
-  font-size:
-    clamp(28px, 2.3vw, 40px);
-
+  font-size: clamp(28px, 2.4vw, 38px);
   font-weight: 500;
-
   line-height: 1.12;
-
   letter-spacing: -1px;
 }
 
-
-/* =========================================================
-   CARD DESCRIPTION
-========================================================= */
-
 .pan-card-content p {
   max-width: 390px;
-
-  margin: 22px 0 30px;
+  margin: 22px 0 28px;
 
   color: #65706b;
-
   font-size: 14px;
-
   line-height: 1.75;
 }
 
@@ -574,27 +376,20 @@
   width: fit-content;
 
   display: inline-flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 12px;
 
   padding: 14px 22px;
 
   border: none;
-
   border-radius: 100px;
 
-  background: #c47e45;
-
-  color: #ffffff;
+  background: #f5b942;
+  color: #16294a;
 
   font-family: inherit;
-
   font-size: 13px;
-
   font-weight: 600;
 
   cursor: pointer;
@@ -607,464 +402,265 @@
 
 .pan-location-button svg {
   font-size: 12px;
-
-  transition:
-    transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .pan-location-button:hover {
-  background: #aa6734;
-
-  transform:
-    translateY(-2px);
-
-  box-shadow:
-    0 12px 25px
-    rgba(170, 103, 52, 0.25);
+  background: #e3a62c;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(245, 185, 66, 0.35);
 }
 
 .pan-location-button:hover svg {
-  transform:
-    translateX(4px);
+  transform: translateX(4px);
 }
 
 
 /* =========================================================
-   LARGE LAPTOP
+   LAPTOP  (≤ 1400px)
 ========================================================= */
 
-@media (max-width: 1250px) {
-
+@media (max-width: 1400px) {
   .pan-india-container {
-    grid-template-columns:
-      minmax(0, 1.4fr)
-      minmax(300px, 0.7fr);
-
-    gap: 45px;
+    width: 94%;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 40px;
   }
-
-
-  .pan-india-heading h2 {
-    font-size: 46px;
-  }
-
-
-  .india-map-area {
-    height: 470px;
-  }
-
 
   .india-map-wrapper {
     width: 340px;
-
-    height: 410px;
-  }
-
-
-  .map-service {
-    width: 200px;
-  }
-
-
-  .map-service-text h4 {
-    font-size: 13px;
-  }
-
-
-  .map-service-text p {
-    font-size: 11px;
-  }
-
-
-  .pan-india-card {
-    padding:
-      45px 35px;
-  }
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 1000px) {
-
-  .pan-india-section {
-    padding:
-      90px 0;
-  }
-
-
-  .pan-india-container {
-    grid-template-columns: 1fr;
-
-    gap: 65px;
-  }
-
-
-  .pan-india-main {
-    width: 100%;
-  }
-
-
-  .pan-india-heading {
-    margin-bottom: 35px;
-  }
-
-
-  .pan-india-heading h2 {
-    font-size:
-      clamp(36px, 6vw, 52px);
-  }
-
-
-  .india-map-area {
-    height: 500px;
-  }
-
-
-  .india-map-wrapper {
-    width: 350px;
-
     height: 430px;
   }
 
-
   .map-service {
-    width: 220px;
+    width: 190px;
   }
 
-
   .pan-india-card {
-    width: min(650px, 100%);
-
-    margin: 0 auto;
-
-    min-height: auto;
+    padding: 42px 32px;
   }
 }
 
 
 /* =========================================================
-   MOBILE
+   TABLET  (≤ 1180px) — card moves below, everything centered
 ========================================================= */
 
-@media (max-width: 700px) {
-
+@media (max-width: 1180px) {
   .pan-india-section {
-    min-height: auto;
-
-    padding:
-      75px 0 80px;
+    padding: 90px 0;
   }
 
+  .pan-india-container {
+    width: min(92%, 920px);
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+
+  .india-map-wrapper {
+    width: 360px;
+    height: 440px;
+  }
+
+  .map-service {
+    width: 215px;
+  }
+
+  .pan-india-card {
+    width: min(640px, 100%);
+    margin: 0 auto;
+  }
+}
+
+
+/* =========================================================
+   MOBILE  (≤ 860px) — map on top, services in a 2-column grid
+========================================================= */
+
+@media (max-width: 860px) {
+  .pan-india-section {
+    padding: 70px 0 75px;
+  }
 
   .pan-india-container {
     width: 92%;
-
-    gap: 55px;
+    gap: 45px;
   }
-
 
   /* HEADING */
-
   .pan-india-heading {
-    margin-bottom: 25px;
-
-    padding:
-      0 5px;
+    margin-bottom: 22px;
   }
-
 
   .pan-india-small-title {
     font-size: 11px;
-
-    letter-spacing: 2.2px;
-
-    margin-bottom: 13px;
+    letter-spacing: 2.4px;
+    margin-bottom: 12px;
   }
-
 
   .pan-india-heading h2 {
-    font-size: 32px;
-
-    line-height: 1.12;
-
-    letter-spacing: -1px;
+    font-size: clamp(25px, 7vw, 38px);
+    line-height: 1.15;
+    letter-spacing: -0.8px;
+    text-wrap: balance;
   }
 
+  .pan-india-heading h2 br {
+    display: none;
+  }
 
-  /* =====================================
-     MAP AREA
-  ===================================== */
-
+  /* MAP AREA → grid */
   .india-map-area {
-    width: 100%;
-
     height: auto;
 
-    min-height: 700px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    gap: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 14px;
+    row-gap: 26px;
+    justify-items: center;
   }
-
-
-  /* =====================================
-     MAP
-  ===================================== */
 
   .india-map-wrapper {
     position: relative;
-
     left: auto;
-
     top: auto;
-
     transform: none;
 
-    order: 1;
+    grid-column: 1 / -1;
+    grid-row: 1;
 
-    width: 260px;
+    width: min(300px, 78vw);
+    height: auto;
+    aspect-ratio: 1 / 1.12;
 
-    height: 330px;
-
-    margin:
-      0 auto;
+    margin: 0 auto 4px;
   }
 
-
-  /* =====================================
-     SERVICES
-  ===================================== */
-
+  /* SERVICES → centered cards */
   .map-service {
     position: relative;
-
     left: auto;
-
     right: auto;
-
     top: auto;
-
     bottom: auto;
-
-    order: 2;
+    margin: 0;
 
     width: 100%;
+    max-width: 240px;
 
-    max-width: 330px;
-
-    margin: 0 auto;
-
+    flex-direction: column;
     justify-content: flex-start;
+    gap: 12px;
+
+    text-align: center;
   }
-
-
-  .service-top-left {
-    order: 2;
-  }
-
-
-  .service-top-right {
-    order: 3;
-  }
-
-
-  .service-bottom-left {
-    order: 4;
-  }
-
-
-  .service-bottom-right {
-    order: 5;
-  }
-
 
   .map-service-icon {
-    flex:
-      0 0 44px;
-
-    width: 44px;
-
-    height: 44px;
-
+    flex: 0 0 46px;
+    width: 46px;
+    height: 46px;
     font-size: 16px;
   }
-
 
   .map-service-text h4 {
     font-size: 14px;
   }
 
-
   .map-service-text p {
     font-size: 12px;
   }
 
-
-  /* =====================================
-     CARD
-  ===================================== */
-
+  /* CARD */
   .pan-india-card {
     width: 100%;
-
-    min-height: auto;
-
-    padding:
-      35px 27px;
-
+    padding: 36px 26px;
     border-radius: 24px;
-  }
 
+    align-items: center;
+    text-align: center;
+  }
 
   .pan-card-icon {
     width: 50px;
-
     height: 50px;
-
-    margin-bottom: 22px;
-
+    margin: 0 auto 22px;
     font-size: 19px;
   }
 
-
   .pan-card-label {
     font-size: 10px;
-
-    letter-spacing: 1.7px;
+    letter-spacing: 1.8px;
   }
-
 
   .pan-card-content h3 {
-    font-size: 28px;
-
+    font-size: clamp(25px, 6.8vw, 32px);
     line-height: 1.15;
-
     letter-spacing: -0.7px;
+    text-wrap: balance;
   }
 
+  .pan-card-content h3 br {
+    display: none;
+  }
 
   .pan-card-content p {
-    margin:
-      18px 0 25px;
-
-    font-size: 13px;
-
+    margin: 18px auto 24px;
+    font-size: 13.5px;
     line-height: 1.7;
   }
 
-
   .pan-location-button {
     width: 100%;
-
-    padding:
-      15px 20px;
+    padding: 15px 20px;
   }
 }
 
 
 /* =========================================================
-   SMALL MOBILE
+   SMALL MOBILE  (≤ 420px)
 ========================================================= */
 
 @media (max-width: 420px) {
-
   .pan-india-section {
-    padding:
-      65px 0;
+    padding: 60px 0 65px;
   }
-
 
   .pan-india-container {
     width: 90%;
   }
 
-
-  .pan-india-heading h2 {
-    font-size: 28px;
+  .india-map-wrapper {
+    width: min(250px, 72vw);
   }
-
 
   .india-map-area {
-    min-height: 650px;
+    row-gap: 22px;
   }
 
-
-  .india-map-wrapper {
-    width: 225px;
-
-    height: 285px;
+  .map-service-text h4 {
+    font-size: 13px;
   }
 
-
-  .map-service {
-    max-width: 290px;
+  .map-service-text p {
+    font-size: 11px;
   }
-
 
   .pan-india-card {
-    padding:
-      30px 22px;
-  }
-
-
-  .pan-card-content h3 {
-    font-size: 25px;
+    padding: 30px 20px;
   }
 }
 
 
 /* =========================================================
-   VERY SMALL MOBILE
+   VERY SMALL MOBILE  (≤ 340px) — single column
 ========================================================= */
 
 @media (max-width: 340px) {
-
-  .pan-india-heading h2 {
-    font-size: 25px;
+  .india-map-area {
+    grid-template-columns: 1fr;
   }
-
-
-  .india-map-wrapper {
-    width: 200px;
-
-    height: 255px;
-  }
-
 
   .map-service {
     max-width: 260px;
-  }
-
-
-  .map-service-icon {
-    flex:
-      0 0 40px;
-
-    width: 40px;
-
-    height: 40px;
-  }
-
-
-  .map-service-text h4 {
-    font-size: 12px;
-  }
-
-
-  .map-service-text p {
-    font-size: 10px;
-  }
-
-
-  .pan-card-content h3 {
-    font-size: 23px;
   }
 }

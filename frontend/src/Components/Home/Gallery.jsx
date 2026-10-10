@@ -34,6 +34,10 @@ import why3 from "../../assets/why3.png";
 import productDistribution from "../../assets/product-distribution.png";
 import buildingConfiguration from "../../assets/building-configuration.png";
 import galmou from "../../assets/galmou.png";
+import ran2 from "../../assets/ran2.png";
+import why4 from "../../assets/why4.png";
+import pro3 from "../../assets/pro3.png";
+import  ran3 from "../../assets/ran3.jpg";
 
 // =====================================================
 // FILTER BUTTONS
@@ -73,7 +77,7 @@ const photos = [
     place: "Noida",
     tag: "Mountain Resort",
     cats: ["mountain"],
-    size: "tall",
+    size: "medium",
   },
   {
     id: 2,
@@ -81,7 +85,7 @@ const photos = [
     title: "Terraced hillside resort master plan",
     place: "Chail",
     tag: "Resort Visual",
-    cats: ["resorts"],
+    cats: ["mountain"],
     size: "short",
   },
   {
@@ -214,6 +218,43 @@ const photos = [
     cats:["mountain"],
     size: "tall",
   },
+  {
+    id: 17,
+    image: ran2,
+    title:"Compact cabin with snow-peak views",
+    place: "Himachal Pradesh",
+    tag: "Mountain Stay",
+    cats: ["mountain"],
+    size: "tall",
+  },
+   {
+    id: 18,
+    image: why4,
+    title:"Green-roof cottage above the valley",
+    place: "Himachal Pradesh",
+    tag: "Mountain Stay",
+    cats: ["mountain"],
+    size: "small",
+   },
+   {
+    id: 19,
+    image: pro3,
+    title: "Two-storey home with a roof deck",
+    place: "Bengaluru, Karnataka, India",
+    tag: "Villa",
+    cats: ["villas"],
+    size: "medium",
+   },
+   {
+    id: 20,
+    image: ran3,
+    title: "Modern villa raised on columns",
+    plcae: "Coimbatore, Tamil Nadu",
+    tag: "villa",
+    cats: "villas",
+    size: "medium",
+   }
+   
   
 
 
@@ -233,7 +274,14 @@ const photos = [
 // =====================================================
 
 // height of a card compared with its width
-const SIZE_RATIO = { short: 0.68, medium: 0.9, tall: 1.3 };
+
+const SIZE_RATIO = {
+  small: 0.55,
+  short: 0.68,
+  medium: 0.9,
+  tall: 1.3,
+};
+
 
 // used when a photo has no `size`
 const AUTO_SIZES = ["medium", "short", "tall", "tall", "medium", "short"];

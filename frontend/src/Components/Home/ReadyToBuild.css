@@ -136,8 +136,8 @@
   background:
     linear-gradient(
       90deg,
-      #c9854c,
-      rgba(201, 133, 76, 0.1)
+      #f5b942,
+      rgba(245, 185, 66, 0.1)
     );
 }
 
@@ -224,9 +224,9 @@
 
   border-radius: 5px;
 
-  background: #c77b3e;
+  background: #f5b942;
 
-  color: #ffffff;
+  color: #111111;
 
   font-family: inherit;
 
@@ -252,7 +252,7 @@
 
 
 .ready-quote-button:hover {
-  background: #ad6630;
+  background: #e3a62c;
 
   transform:
     translateY(-2px);

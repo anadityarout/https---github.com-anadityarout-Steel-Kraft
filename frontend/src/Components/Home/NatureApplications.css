@@ -146,7 +146,7 @@
 
   margin-bottom: 10px;
 
-  color: rgba(255, 255, 255, 0.85);
+  color: #f5b942;
 
   font-size: 11px;
 
@@ -209,9 +209,9 @@
 
   border-radius: 40px;
 
-  background: #b97843;
+  background: #f5b942;
 
-  color: #ffffff;
+  color: #111111;
 
   font-family: "Inter", sans-serif;
 
@@ -233,7 +233,7 @@
 
 
 .nature-visual-btn:hover {
-  background: #a5663a;
+  background: #e3a62c;
 
   transform: translateY(-2px);
 }
@@ -282,7 +282,7 @@
 
   margin-bottom: 8px;
 
-  color: #b97843;
+  color: #f5b942;
 
   font-size: 11px;
 
@@ -299,7 +299,7 @@
 
   height: 1px;
 
-  background: #b97843;
+  background: #f5b942;
 }
 
 
@@ -396,9 +396,9 @@
 
   border-radius: 50%;
 
-  background: #f1e3d3;
+  background: #fdf0d0;
 
-  color: #b97843;
+  color: #f5b942;
 
   font-size: 22px;
 
@@ -411,9 +411,9 @@
 
 .nature-application-item:hover
 .nature-application-icon {
-  background: #b97843;
+  background: #f5b942;
 
-  color: #ffffff;
+  color: #111111;
 
   transform:
     scale(1.08);
@@ -486,7 +486,7 @@
 
   height: 220px;
 
-  border: 1px solid rgba(185, 120, 67, 0.25);
+  border: 1px solid rgba(245, 185, 66, 0.4);
 
   border-radius: 50%;
 
@@ -568,9 +568,9 @@
 
   border-radius: 40px;
 
-  background: #b97843;
+  background: #f5b942;
 
-  color: #ffffff;
+  color: #111111;
 
   font-family: "Inter", sans-serif;
 
@@ -592,7 +592,7 @@
 
 
 .nature-quote-btn:hover {
-  background: #a5663a;
+  background: #e3a62c;
 
   transform: translateY(-2px);
 }
@@ -793,7 +793,7 @@
 
 
   /* =========================================
-     ICON GRID — two per row, readable on
+     ICON GRID — three per row, readable on
      narrow phones instead of one long list
   ========================================= */
 

@@ -125,7 +125,7 @@
   box-shadow:
     0 7px 18px rgba(0, 0, 0, 0.10);
 
-  border-color: rgba(190, 122, 65, 0.20);
+  border-color: rgba(245, 185, 66, 0.55);
 }
 
 
@@ -139,7 +139,7 @@
   box-shadow:
     0 7px 18px rgba(0, 0, 0, 0.10);
 
-  border-color: rgba(190, 122, 65, 0.25);
+  border-color: rgba(245, 185, 66, 0.65);
 }
 
 
@@ -159,9 +159,9 @@
 
   border-radius: 50%;
 
-  background: #f1e3d2;
+  background: #fdf0d0;
 
-  color: #bd7d4e;
+  color: #f5b942;
 
   font-size: 25px;
 
@@ -181,9 +181,9 @@
 ===================================================== */
 
 .steel-why-card:hover .steel-why-icon {
-  background: #bd7d4e;
+  background: #f5b942;
 
-  color: #ffffff;
+  color: #111111;
 
   transform: scale(1.04);
 }
@@ -194,9 +194,9 @@
 ===================================================== */
 
 .steel-why-card.active .steel-why-icon {
-  background: #bd7d4e;
+  background: #f5b942;
 
-  color: #ffffff;
+  color: #111111;
 
   transform: scale(1.04);
 }
@@ -429,7 +429,7 @@
 ===================================================== */
 
 .steel-why-card:focus-visible {
-  outline: 2px solid #bd7d4e;
+  outline: 2px solid #f5b942;
   outline-offset: 3px;
 }
 
