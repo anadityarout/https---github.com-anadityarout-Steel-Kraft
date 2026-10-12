@@ -3,7 +3,7 @@ import "./Footer.css";
 
 //import indiaMap from "../../assets/india-map.png";
 import map1 from "../../assets/map2.png";
-import steelKraftLogo from "../../assets/Steel Kraft Logo.png";
+import steelKraftLogo from "../../assets/logo2.png";
 
 import {
   FaInstagram,
@@ -136,11 +136,7 @@ const Footer = () => {
                 </a>
               </li>
 
-              <li>
-                <a href="/about">
-                  About Us
-                </a>
-              </li>
+              
 
               <li>
                 <a href="/homes-cottages">
@@ -154,24 +150,7 @@ const Footer = () => {
                 </a>
               </li>
 
-              <li>
-                <a href="/technology">
-                  Technology
-                </a>
-              </li>
-
-              <li>
-                <a href="/sustainability">
-                  Sustainability
-                </a>
-              </li>
-
-              <li>
-                <a href="/faq">
-                  FAQs
-                </a>
-              </li>
-
+             
               <li>
                 <a href="/contact">
                   Contact

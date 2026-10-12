@@ -268,46 +268,52 @@ const ImpactIcon = ({ type }) => {
     height: 38,
     fill: "none",
     stroke: "currentColor",
-    strokeWidth: 2,
+    strokeWidth: 1.8,
     strokeLinecap: "round",
     strokeLinejoin: "round",
     "aria-hidden": true,
   };
 
   switch (type) {
+    // Gear / badge icon
     case "projects":
       return (
         <svg {...commonProps}>
-          <circle cx="24" cy="24" r="15" />
-          <path d="M14 14l20 20M34 14L14 34" />
-          <circle cx="24" cy="24" r="5" />
+          <path d="M42 24L36.1 31L33 39.6L24 38L15 39.6L11.9 31L6 24L11.9 17L15 8.4L24 10L33 8.4L36.1 17Z" />
+          <circle cx="24" cy="24" r="6.5" />
         </svg>
       );
 
+    // City buildings icon
     case "cities":
       return (
         <svg {...commonProps}>
-          <path d="M7 12l11-5 12 5 11-5v28l-11 5-12-5-11 5z" />
-          <path d="M18 7v28M30 12v28" />
-          <path d="M24 8c-4 0-7 3-7 7 0 5 7 12 7 12s7-7 7-12c0-4-3-7-7-7z" />
-          <circle cx="24" cy="15" r="2" />
+          <path d="M5 41h38" />
+          <path d="M9 41V22h8v19" />
+          <path d="M17 41V14l7-7 7 7v27" />
+          <path d="M31 41V26h8v15" />
+          <path d="M24 20v5M24 30v5" />
+          <path d="M13 27v3M13 33v3M35 31v3M35 36v2" />
         </svg>
       );
 
+    // Stopwatch icon
     case "experience":
       return (
         <svg {...commonProps}>
-          <circle cx="24" cy="24" r="18" />
-          <path d="M24 13v12l9 5" />
-          <path d="M17 4h14" />
+          <circle cx="24" cy="27" r="15" />
+          <path d="M20 6h8M24 6v6" />
+          <path d="M36 14l3-3" />
+          <path d="M24 27v-8M24 27l5 3" />
         </svg>
       );
 
+    // Heart with smile icon
     case "satisfaction":
       return (
         <svg {...commonProps}>
           <path d="M24 41S5 30 5 17a10 10 0 0 1 19-4 10 10 0 0 1 19 4c0 13-19 24-19 24z" />
-          <path d="M16 23l5 5 11-12" />
+          <path d="M16 20c2.5 5.5 13.5 5.5 16 0" />
         </svg>
       );
 
@@ -477,15 +483,22 @@ const ProjectPage = () => {
 
         <div className="project-hero-container">
           <div className="project-hero-content">
-            <div className="project-breadcrumb">
-              <span className="breadcrumb-icon" />
-              <span>HOME</span>
-              <span className="breadcrumb-divider">/</span>
-              <span>PROJECTS</span>
-            </div>
+            <nav
+              className="project-breadcrumb"
+              aria-label="Breadcrumb"
+            >
+              <a href="/">Home</a>
+              <span className="breadcrumb-divider">›</span>
+              <span className="breadcrumb-current">
+                Projects
+              </span>
+            </nav>
 
             <h1 className="project-hero-title">
-              Our Projects
+              Our{" "}
+              <span className="project-hero-accent">
+                Projects
+              </span>
             </h1>
 
             <h2 className="project-hero-subtitle">
@@ -504,7 +517,10 @@ const ProjectPage = () => {
               onClick={exploreProjects}
             >
               Explore Our Projects
-              <span className="project-button-arrow">
+              <span
+                className="project-button-arrow"
+                aria-hidden="true"
+              >
                 →
               </span>
             </button>
@@ -554,8 +570,8 @@ const ProjectPage = () => {
                     <svg
                       className="project-location-pin"
                       viewBox="0 0 24 24"
-                      width="17"
-                      height="17"
+                      width="16"
+                      height="16"
                       fill="currentColor"
                       aria-hidden="true"
                     >
@@ -567,17 +583,21 @@ const ProjectPage = () => {
                 </div>
 
                 <div className="project-gallery-card-content">
-                  <h3 className="project-gallery-card-title">
-                    {project.title}
-                  </h3>
+                  <div className="project-gallery-card-text">
+                    <h3 className="project-gallery-card-title">
+                      {project.title}
+                    </h3>
 
-                  <p className="project-gallery-card-location">
-                    {project.description}
-                  </p>
+                    <p className="project-gallery-card-location">
+                      {project.description}
+                    </p>
+                  </div>
+
                 </div>
               </article>
             ))}
           </div>
+
         </div>
       </section>
 

@@ -37,7 +37,7 @@ import galmou from "../../assets/galmou.png";
 import ran2 from "../../assets/ran2.png";
 import why4 from "../../assets/why4.png";
 import pro3 from "../../assets/pro3.png";
-import  ran3 from "../../assets/ran3.jpg";
+import ran3 from "../../assets/ran3.jpg";
 
 // =====================================================
 // FILTER BUTTONS
@@ -249,11 +249,11 @@ const photos = [
     id: 20,
     image: ran3,
     title: "Modern villa raised on columns",
-    plcae: "Coimbatore, Tamil Nadu",
+    place: "Coimbatore, Tamil Nadu",
     tag: "villa",
-    cats: "villas",
+    cats: ["villas"],
     size: "medium",
-   }
+   },
    
   
 

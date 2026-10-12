@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
-import steelKraftLogo from "../../assets/Steel Kraft Logo.png";
+import steelKraftLogo from "../../assets/logo2.png";
 
 // ==========================================
 // NAVIGATION LINKS

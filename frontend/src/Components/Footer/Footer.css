@@ -211,7 +211,7 @@ body {
   align-items: center;
   justify-content: center;
 
-  border: 1px solid #bd7840;
+  border: 1px solid #f5b942;
 
   border-radius: 50%;
 
@@ -227,7 +227,7 @@ body {
 
 
 .footer-social:hover {
-  background: #bd7840;
+  background: #f5b942;
 
   color: #ffffff;
 
@@ -252,7 +252,7 @@ body {
     linear-gradient(
       90deg,
       transparent,
-      #bd7840,
+      #f5b942,
       transparent
     );
 }
@@ -330,9 +330,9 @@ body {
   background:
     linear-gradient(
       90deg,
-      #a96332,
-      #d18a4d,
-      #a96332
+      #f5b942,
+      #f5b942,
+      #f5b942
     );
 
   border-radius: 2px;
@@ -379,7 +379,7 @@ body {
 
 
 .footer-column li a:hover {
-  color: #d18a4d;
+  color: #f5b942;
 
   transform: translateX(3px);
 }
@@ -427,7 +427,7 @@ body {
 
   padding-top: 2px;
 
-  color: #c57c43;
+  color: #f5b942;
 
   font-size: 19px;
 }
@@ -485,7 +485,7 @@ body {
 
 
 .footer-contact-link:hover {
-  color: #d18a4d;
+  color: #f5b942;
 }
 
 
@@ -521,8 +521,8 @@ body {
   background:
     linear-gradient(
       135deg,
-      #c77a3d,
-      #b86b31
+      #f5b942,
+      #f5b942
     );
 
   color: #ffffff;
@@ -544,8 +544,8 @@ body {
   background:
     linear-gradient(
       135deg,
-      #d38a4c,
-      #bd7137
+      #f5b942,
+      #f5b942
     );
 
   transform: translateY(-2px);
@@ -731,9 +731,9 @@ body {
     linear-gradient(
       90deg,
       transparent 0%,
-      #8f552d 15%,
-      #bd7840 50%,
-      #8f552d 85%,
+      #f5b942 15%,
+      #f5b942 50%,
+      #f5b942 85%,
       transparent 100%
     );
 }
@@ -814,7 +814,7 @@ body {
 
 
 .footer-bottom-links a:hover {
-  color: #d18a4d;
+  color: #f5b942;
 }
 
 
