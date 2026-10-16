@@ -1,3 +1,4 @@
+
 /* ========================================
    GLOBAL BOX SIZING
 ======================================== */
@@ -16,15 +17,12 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
-
   width: 100%;
   max-width: none;
   min-height: 100vh;
-
   margin: 0;
   padding: 0;
   gap: 0;
-
   background: #ffffff;
 }
 
@@ -147,7 +145,6 @@
   display: flex;
   align-items: center;
   gap: 13px;
-
   min-width: 0;
 }
 
@@ -192,8 +189,6 @@
     color 0.2s ease;
 }
 
-/* Expanded arrow */
-
 .sidebar-arrow.expanded {
   transform: rotate(90deg);
 }
@@ -223,7 +218,7 @@
 }
 
 /* ========================================
-   HOME SUBMENU
+   SUBMENU
 ======================================== */
 
 .sidebar-submenu {
@@ -290,7 +285,6 @@
 
 .sidebar-sublabel {
   min-width: 0;
-
   color: inherit;
   line-height: 1.4;
 
@@ -319,6 +313,96 @@
 
 .sidebar-sublink.active .sidebar-subicon {
   color: #ffffff;
+}
+
+/* ========================================
+   LOGOUT BUTTON
+======================================== */
+
+.sidebar-logout-container {
+  display: block;
+  flex-shrink: 0;
+
+  width: 100%;
+  margin-top: auto;
+  padding: 14px 12px 18px;
+
+  border-top: 1px solid #1a2939;
+
+  background: #061321;
+}
+
+.admin-sidebar .sidebar-logout {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 100%;
+  min-height: 46px;
+
+  margin: 0;
+  padding: 0 12px;
+  gap: 12px;
+
+  border: 1px solid transparent;
+  border-radius: 6px;
+
+  background: transparent;
+  color: #f1f5f9;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: left;
+
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.admin-sidebar .sidebar-logout svg {
+  display: block;
+  flex-shrink: 0;
+
+  width: 19px;
+  height: 19px;
+
+  color: #cbd5e1;
+}
+
+.admin-sidebar .sidebar-logout span {
+  color: inherit;
+}
+
+/* Logout hover */
+
+.admin-sidebar .sidebar-logout:hover {
+  background: #102640;
+  color: #f5b942;
+}
+
+.admin-sidebar .sidebar-logout:hover svg {
+  color: #f5b942;
+}
+
+/* Logout focus */
+
+.admin-sidebar .sidebar-logout:focus-visible {
+  outline: 2px solid #f5b942;
+  outline-offset: -2px;
+}
+
+/* Logout active click */
+
+.admin-sidebar .sidebar-logout:active {
+  background: #142b43;
 }
 
 /* ========================================
@@ -443,6 +527,15 @@
     gap: 11px;
   }
 
+  .sidebar-logout-container {
+    padding: 12px 10px 16px;
+  }
+
+  .admin-sidebar .sidebar-logout {
+    min-height: 46px;
+    padding: 0 10px;
+  }
+
   .admin-main-content {
     padding: 18px;
   }
@@ -505,6 +598,22 @@
     height: 15px;
   }
 
+  .sidebar-logout-container {
+    padding: 10px 8px 14px;
+  }
+
+  .admin-sidebar .sidebar-logout {
+    min-height: 44px;
+    gap: 9px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .admin-sidebar .sidebar-logout svg {
+    width: 18px;
+    height: 18px;
+  }
+
   .admin-main-content {
     padding: 12px;
   }
@@ -555,6 +664,12 @@
     font-size: 12px;
   }
 
+  .admin-sidebar .sidebar-logout {
+    gap: 8px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
   .admin-main-content {
     padding: 8px;
   }
@@ -569,7 +684,8 @@
   .sidebar-sublink,
   .sidebar-arrow,
   .sidebar-icon,
-  .sidebar-subicon {
+  .sidebar-subicon,
+  .admin-sidebar .sidebar-logout {
     transition: none;
   }
 

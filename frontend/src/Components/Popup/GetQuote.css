@@ -1,5 +1,6 @@
+
 /* =========================================
-   QUOTE POPUP OVERLAY
+   STEEL CRAFT - GET A QUOTE POPUP
 ========================================= */
 
 .sk-quote-overlay {
@@ -12,15 +13,18 @@
   justify-content: center;
 
   padding: 24px;
-  background: rgba(18, 31, 43, 0.42);
+  box-sizing: border-box;
+
+  background: rgba(18, 31, 43, 0.55);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
 /* =========================================
-   QUOTE MODAL
+   MAIN MODAL
 ========================================= */
 
 .sk-quote-card.sk-quote-modal {
@@ -28,22 +32,30 @@
 
   width: 100%;
   max-width: 620px;
+  max-height: calc(100vh - 48px);
   max-height: calc(100dvh - 48px);
 
+  padding: 34px;
+  box-sizing: border-box;
+
+  overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
 
-  box-sizing: border-box;
-  padding: 34px;
-
   background: #ffffff;
-  border-radius: 30px;
   border: none;
   border-top: 5px solid #668eaa;
+  border-radius: 30px;
 
-  box-shadow: 0 18px 55px rgba(15, 35, 52, 0.16);
+  box-shadow: 0 18px 55px rgba(15, 35, 52, 0.2);
 
   animation: skQuoteAppear 0.25s ease-out;
+}
+
+.sk-quote-card.sk-quote-modal *,
+.sk-quote-card.sk-quote-modal *::before,
+.sk-quote-card.sk-quote-modal *::after {
+  box-sizing: border-box;
 }
 
 @keyframes skQuoteAppear {
@@ -59,30 +71,33 @@
 }
 
 /* =========================================
-   CLOSE BUTTON
+   TOP-RIGHT CLOSE ICON
 ========================================= */
 
 .sk-quote-close {
   position: absolute;
   top: 17px;
   right: 17px;
-
-  width: 36px;
-  height: 36px;
+  z-index: 5;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  width: 36px;
+  height: 36px;
   padding: 0;
+
   border: none;
   border-radius: 50%;
 
   background: #edf2f6;
   color: #182638;
 
+  font-family: Arial, sans-serif;
   font-size: 27px;
   line-height: 1;
+
   cursor: pointer;
 
   transition:
@@ -95,8 +110,13 @@
   transform: rotate(90deg);
 }
 
+.sk-quote-close:focus-visible {
+  outline: 2px solid #668eaa;
+  outline-offset: 3px;
+}
+
 /* =========================================
-   HEADER
+   FORM HEADER
 ========================================= */
 
 .sk-quote-header {
@@ -135,10 +155,9 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 
+  width: 100%;
   column-gap: 16px;
   row-gap: 19px;
-
-  width: 100%;
 }
 
 .sk-quote-field {
@@ -159,7 +178,7 @@
 }
 
 /* =========================================
-   INPUTS AND SELECT
+   INPUTS, SELECT AND TEXTAREA
 ========================================= */
 
 .sk-quote-field input,
@@ -168,12 +187,13 @@
   display: block;
   width: 100%;
   min-width: 0;
+  margin: 0;
+  padding: 0 15px;
 
-  box-sizing: border-box;
   border: 1px solid #cbdced;
   border-radius: 13px;
 
-  background-color: #f2f6fa;
+  background: #f2f6fa;
   color: #172538;
 
   font-family: inherit;
@@ -190,7 +210,6 @@
 .sk-quote-field input,
 .sk-quote-field select {
   height: 50px;
-  padding: 0 15px;
 }
 
 .sk-quote-field input::placeholder,
@@ -199,11 +218,9 @@
   opacity: 1;
 }
 
-/* Keep the native dropdown arrow and options functional. */
-
 .sk-quote-field select {
-  cursor: pointer;
   padding-right: 32px;
+  cursor: pointer;
   color-scheme: light;
 }
 
@@ -215,7 +232,7 @@
 .sk-quote-field input:focus,
 .sk-quote-field select:focus,
 .sk-quote-field textarea:focus {
-  background-color: #ffffff;
+  background: #ffffff;
   border-color: #668eaa;
   box-shadow: 0 0 0 3px rgba(102, 142, 170, 0.14);
 }
@@ -226,7 +243,6 @@
 
 .sk-quote-message {
   grid-column: 1 / -1;
-  margin-top: 0;
 }
 
 .sk-quote-field textarea {
@@ -238,27 +254,30 @@
 }
 
 /* =========================================
-   SUBMIT BUTTON
+   GOLD SUBMIT BUTTON
 ========================================= */
 
 .sk-quote-submit {
-  width: 100%;
-  min-height: 50px;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 14px;
 
+  width: 100%;
+  min-height: 50px;
   margin-top: 25px;
   padding: 12px 20px;
 
   border: none;
   border-radius: 30px;
 
-  background: linear-gradient(100deg, #f9df99 0%, #d3940c 100%);
-  color: #101820;
+  background: linear-gradient(
+    100deg,
+    #f9df99 0%,
+    #d3940c 100%
+  );
 
+  color: #101820;
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -267,21 +286,201 @@
 
   transition:
     filter 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    opacity 0.2s ease;
 }
 
-.sk-quote-submit:hover {
+.sk-quote-submit:hover:not(:disabled) {
   filter: brightness(1.04);
   transform: translateY(-1px);
 }
 
-.sk-quote-submit:active {
+.sk-quote-submit:active:not(:disabled) {
   transform: translateY(0);
+}
+
+.sk-quote-submit:disabled {
+  opacity: 0.65;
+  cursor: wait;
 }
 
 .sk-quote-arrow {
   font-size: 19px;
   line-height: 1;
+}
+
+/* =========================================
+   SUBMISSION ERROR
+========================================= */
+
+.sk-quote-error {
+  margin: 0 0 14px;
+
+  color: #c62828;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   SUCCESS MODAL
+   Yellow checkmark + thank-you message
+========================================= */
+
+.sk-quote-card.sk-quote-modal.sk-quote-success-modal {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  max-width: 640px;
+  min-height: 275px;
+
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+
+  padding: 25px 30px;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  background: #ffffff;
+  border: none;
+  border-top: 5px solid #668eaa;
+  border-radius: 22px;
+
+  box-shadow: 0 18px 55px rgba(15, 35, 52, 0.2);
+
+  text-align: center;
+}
+
+/* Hide the original form header and form in success mode */
+
+.sk-quote-success-modal .sk-quote-header,
+.sk-quote-success-modal .sk-quote-form {
+  display: none;
+}
+
+/* =========================================
+   SUCCESS CONTENT
+========================================= */
+
+.sk-quote-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  padding: 10px;
+
+  text-align: center;
+}
+
+/* Yellow gradient circle with checkmark */
+
+.sk-quote-success::before {
+  content: "\2713";
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 17px;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #f9df99 0%,
+    #d3940c 100%
+  );
+
+  color: #172538;
+  font-family: Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* Thank-you heading */
+
+.sk-quote-success h2 {
+  margin: 0 0 12px;
+
+  color: #172538;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Success message */
+
+.sk-quote-success p {
+  width: 100%;
+  max-width: 520px;
+
+  margin: 0 auto 16px;
+
+  color: #58708b;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* =========================================
+   BLACK CLOSE BUTTON UNDER MESSAGE
+========================================= */
+
+.sk-quote-success-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 97px;
+  min-width: 97px;
+  min-height: 46px;
+
+  margin: 0 auto;
+  padding: 0 20px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #191919;
+  color: #ffffff;
+
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.sk-quote-success-close:hover {
+  background: #383838;
+}
+
+.sk-quote-success-close:active {
+  transform: scale(0.98);
+}
+
+.sk-quote-success-close:focus-visible {
+  outline: 2px solid #668eaa;
+  outline-offset: 3px;
 }
 
 /* =========================================
@@ -295,7 +494,9 @@
 
   .sk-quote-card.sk-quote-modal {
     max-width: 540px;
+    max-height: calc(100vh - 36px);
     max-height: calc(100dvh - 36px);
+
     padding: 30px;
     border-radius: 25px;
   }
@@ -307,6 +508,12 @@
   .sk-quote-grid {
     column-gap: 13px;
     row-gap: 17px;
+  }
+
+  .sk-quote-card.sk-quote-modal.sk-quote-success-modal {
+    max-width: 600px;
+    min-height: 260px;
+    padding: 25px 24px;
   }
 }
 
@@ -324,7 +531,9 @@
     width: 100%;
     max-width: 420px;
 
+    max-height: calc(100vh - 24px);
     max-height: calc(100dvh - 24px);
+
     padding: 27px 20px 22px;
 
     border-radius: 22px;
@@ -377,6 +586,50 @@
     margin-top: 21px;
     font-size: 14px;
   }
+
+  /* Success screen */
+
+  .sk-quote-card.sk-quote-modal.sk-quote-success-modal {
+    width: 100%;
+    max-width: 420px;
+    min-height: 260px;
+
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+
+    padding: 25px 18px;
+
+    border: none;
+    border-top: 4px solid #668eaa;
+    border-radius: 20px;
+  }
+
+  .sk-quote-success {
+    padding: 10px 4px;
+  }
+
+  .sk-quote-success::before {
+    width: 54px;
+    height: 54px;
+    margin-bottom: 15px;
+    font-size: 33px;
+  }
+
+  .sk-quote-success h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+
+  .sk-quote-success p {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .sk-quote-success-close {
+    width: 97px;
+    min-height: 45px;
+  }
 }
 
 /* =========================================
@@ -389,7 +642,9 @@
   }
 
   .sk-quote-card.sk-quote-modal {
+    max-height: calc(100vh - 16px);
     max-height: calc(100dvh - 16px);
+
     padding: 24px 15px 18px;
     border-radius: 18px;
   }
@@ -401,9 +656,27 @@
   .sk-quote-grid {
     gap: 14px;
   }
+
+  .sk-quote-card.sk-quote-modal.sk-quote-success-modal {
+    max-height: calc(100vh - 16px);
+    max-height: calc(100dvh - 16px);
+
+    padding: 22px 12px;
+    border-radius: 18px;
+  }
+
+  .sk-quote-success h2 {
+    font-size: 24px;
+  }
+
+  .sk-quote-success p {
+    font-size: 13px;
+  }
 }
 
-/* Respect reduced-motion preferences. */
+/* =========================================
+   REDUCED MOTION
+========================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .sk-quote-card.sk-quote-modal {
@@ -411,7 +684,8 @@
   }
 
   .sk-quote-close,
-  .sk-quote-submit {
+  .sk-quote-submit,
+  .sk-quote-success-close {
     transition: none;
   }
 }
