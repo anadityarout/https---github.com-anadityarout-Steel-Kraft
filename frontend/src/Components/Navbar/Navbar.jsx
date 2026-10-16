@@ -105,6 +105,18 @@ const Navbar = () => {
   };
 
   // ========================================
+  // OPEN GET A QUOTE POPUP
+  // ========================================
+
+  const openQuotePopup = () => {
+    closeMenu();
+
+    window.dispatchEvent(
+      new Event("open-quote-popup")
+    );
+  };
+
+  // ========================================
   // HANDLE NAVIGATION CLICK
   // ========================================
 
@@ -123,7 +135,6 @@ const Navbar = () => {
         navigate("/");
       }
 
-      // Handle clicking Home when already on Home too.
       scrollPageToTop();
     }
   };
@@ -277,16 +288,14 @@ const Navbar = () => {
 
           {/* DESKTOP GET A QUOTE */}
 
-          <Link
-            to="/contact"
+          <button
+            type="button"
             className="sk-quote-btn"
-            onClick={() =>
-              handleLinkClick("contact")
-            }
+            onClick={openQuotePopup}
           >
             <span>Get a Quote</span>
             <span aria-hidden="true">→</span>
-          </Link>
+          </button>
 
           {/* MOBILE HAMBURGER */}
 
@@ -298,7 +307,7 @@ const Navbar = () => {
             onClick={openMenu}
             aria-label={
               menuOpen
-                ? "Open navigation menu"
+                ? "Close navigation menu"
                 : "Open navigation menu"
             }
             aria-expanded={menuOpen}
@@ -370,15 +379,13 @@ const Navbar = () => {
         {/* MOBILE GET A QUOTE */}
 
         <div className="sk-mobile-cta">
-          <Link
-            to="/contact"
-            onClick={() =>
-              handleLinkClick("contact")
-            }
+          <button
+            type="button"
+            onClick={openQuotePopup}
           >
             <span>Get a Quote</span>
             <span aria-hidden="true">→</span>
-          </Link>
+          </button>
         </div>
       </aside>
     </>

@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import {
   BrowserRouter,
@@ -25,13 +24,12 @@ import Project from "./Components/Project/Project";
 import WhyChooseSteelKraft from "./Components/Home/WhyChooseSteelKraft";
 import PanIndiaService from "./Components/Home/PanIndiaService";
 import WhoWeServe from "./Components/Home/WhoWeServe";
-//import ModularTechnology from "./Components/Home/ModularTechnology";
 import NatureApplications from "./Components/Home/NatureApplications";
 import ReadyToBuild from "./Components/Home/ReadyToBuild";
 import Aboutus from "./Components/Home/Aboutus";
 import FasterByDesign from "./Components/Home/FasterByDesign";
 import Gallery from "./Components/Home/Gallery";
-import FaqSection from "./Components/Home/FaqSection"; 
+import FaqSection from "./Components/Home/FaqSection";
 
 // =====================================================
 // MAIN PAGES
@@ -42,6 +40,19 @@ import ProjectPage from "./Components/ProjectPage/ProjectPage";
 import Homecottages from "./Components/HomeCottages/HomeCottages";
 import Footer from "./Components/Footer/Footer";
 
+// =====================================================
+// ADMIN DASHBOARD
+// =====================================================
+
+import AdminDashboard from "./Admin/AdminDashboard";
+
+// =====================================================
+// POPUP COMPONENTS
+// =====================================================
+
+import Popup from "./Components/Popup/Popup";
+import GetQuote from "./Components/Popup/GetQuote";
+import FloatingChat from "./Components/Popup/FloatingChat";
 
 // =====================================================
 // SCROLL TO TOP ON ROUTE CHANGE
@@ -51,20 +62,14 @@ function ScrollToTop() {
   const { pathname } = useLocation();
 
   useEffect(() => {
-    // Disable browser's automatic scroll restoration
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
     }
 
-    // Scroll to the top after the route changes
-    window.scrollTo(0, 0);
-
-    requestAnimationFrame(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "auto",
-      });
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "auto",
     });
   }, [pathname]);
 
@@ -79,33 +84,56 @@ function Home() {
   return (
     <>
       <Homeslider />
-
       <Aboutus />
-
       <WhyChooseBar />
-
       <Range />
-
-      {/* <ModularTechnology /> */}
-
       <WhoWeServe />
-
       <FasterByDesign />
-
       <Project />
-
       <Gallery />
-
       <FaqSection />
-
       <PanIndiaService />
-
       <WhyChooseSteelKraft />
-
       <NatureApplications />
-
       <ReadyToBuild />
     </>
+  );
+}
+
+// =====================================================
+// 404 PAGE
+// =====================================================
+
+function NotFound() {
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        padding: "20px",
+        textAlign: "center",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <h1>404</h1>
+      <p>Page Not Found</p>
+
+      <Link
+        to="/"
+        style={{
+          textDecoration: "none",
+          padding: "12px 24px",
+          background: "#c17c4d",
+          color: "#ffffff",
+          borderRadius: "6px",
+        }}
+      >
+        Back to Home
+      </Link>
+    </div>
   );
 }
 
@@ -115,111 +143,93 @@ function Home() {
 
 function AppLayout() {
   const location = useLocation();
+  const pathname = location.pathname;
 
-  // All valid website routes
-  const validRoutes = [
+  // Website pages that show the Navbar and Footer.
+  const websiteRoutes = [
     "/",
     "/contact",
     "/projects",
     "/homes-cottages",
   ];
 
-  const isNotFoundPage = !validRoutes.includes(
-    location.pathname
-  );
+  const isWebsitePage = websiteRoutes.includes(pathname);
+
+  // Pages where the GetQuote popup can be opened.
+  const quotePopupRoutes = [
+    "/",
+    "/projects",
+    "/homes-cottages",
+  ];
+
+  const showQuotePopup = quotePopupRoutes.includes(pathname);
+
+  // Consultation popup only on Home.
+  const showConsultationPopup = pathname === "/";
+
+  // Floating chat icon only on Home.
+  const showFloatingChat = pathname === "/";
 
   return (
     <>
       {/* NAVBAR */}
+      {isWebsitePage && <Navbar />}
 
-      {!isNotFoundPage && <Navbar />}
+      {/* EXISTING CONSULTATION POPUP - HOME ONLY */}
+      {showConsultationPopup && <Popup />}
 
-      {/* ROUTES */}
+      {/* GET A QUOTE POPUP */}
+      {showQuotePopup && <GetQuote />}
 
+      {/* FLOATING CHAT ICON - HOME ONLY */}
+      {showFloatingChat && <FloatingChat />}
+
+      {/* WEBSITE AND ADMIN ROUTES */}
       <Routes>
-        {/* HOME PAGE */}
-
-        <Route
-          path="/"
-          element={<Home />}
-        />
-
-        {/* CONTACT PAGE */}
+        <Route path="/" element={<Home />} />
 
         <Route
           path="/contact"
           element={<Contact />}
         />
 
-        {/* PROJECTS PAGE */}
-
         <Route
           path="/projects"
           element={<ProjectPage />}
         />
-
-        {/* HOMES & COTTAGES PAGE */}
 
         <Route
           path="/homes-cottages"
           element={<Homecottages />}
         />
 
-        {/* 404 PAGE */}
+        {/* ADMIN DASHBOARD */}
+        <Route
+          path="/admin/*"
+          element={<AdminDashboard />}
+        />
 
+        {/* 404 PAGE */}
         <Route
           path="*"
-          element={
-            <div
-              style={{
-                minHeight: "100vh",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                padding: "20px",
-                textAlign: "center",
-                fontFamily: "Arial, sans-serif",
-              }}
-            >
-              <h1>404</h1>
-
-              <p>Page Not Found</p>
-
-              <Link
-                to="/"
-                style={{
-                  textDecoration: "none",
-                  padding: "12px 24px",
-                  background: "#c17c4d",
-                  color: "#ffffff",
-                  borderRadius: "6px",
-                }}
-              >
-                Back to Home
-              </Link>
-            </div>
-          }
+          element={<NotFound />}
         />
       </Routes>
 
       {/* FOOTER */}
-
-      {!isNotFoundPage && <Footer />}
+      {isWebsitePage && <Footer />}
     </>
   );
 }
 
 // =====================================================
-// APP
+// MAIN APP
 // =====================================================
 
 function App() {
   return (
     <BrowserRouter>
-      {/* Scroll to the top whenever the route changes */}
       <ScrollToTop />
-
       <AppLayout />
     </BrowserRouter>
   );

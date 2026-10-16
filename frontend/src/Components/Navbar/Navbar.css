@@ -1,14 +1,14 @@
 /* =========================================================
    STEEL KRAFT NAVBAR — LIGHT GLASS STYLE
-   Logo left  |  links centered  |  Get a Quote right
+   Desktop: Logo | Centered Links | Get a Quote
+   Mobile: Logo | Hamburger + Glass Drawer
 ========================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
-
-/* ==========================================
-   PAGE SCROLL FIX
-   ========================================== */
+/* =========================================================
+   PAGE SCROLL
+========================================================= */
 
 html {
   scroll-behavior: auto !important;
@@ -18,13 +18,6 @@ body {
   overflow-y: auto;
 }
 
-/* Keep the floating navbar independent of page scrolling */
-.sk-navbar {
-  position: fixed;
-  top: 14px;
-  z-index: 1000;
-}
-
 /* =========================================================
    RESET
 ========================================================= */
@@ -32,24 +25,36 @@ body {
 .sk-navbar,
 .sk-navbar *,
 .sk-mobile-menu,
-.sk-mobile-menu * {
+.sk-mobile-menu *,
+.sk-mobile-overlay,
+.sk-mobile-overlay * {
   box-sizing: border-box;
 }
 
 .sk-navbar a,
-.sk-mobile-menu a {
+.sk-navbar button,
+.sk-mobile-menu a,
+.sk-mobile-menu button {
   -webkit-tap-highlight-color: transparent;
 }
 
+.sk-navbar button,
+.sk-mobile-menu button {
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+}
 
 /* =========================================================
-   NAVBAR — FLOATING LIGHT GLASS BAR
+   MAIN NAVBAR
 ========================================================= */
 
 .sk-navbar {
   --sk-ink: #0f1a2e;
   --sk-gold: #f5b942;
-  --sk-gold-grad: linear-gradient(135deg, #fbd06a 0%, #e9a233 100%);
+  --sk-gold-grad: linear-gradient(
+    135deg,
+    #fbd06a 0%,
+    #e9a233 100%
+  );
 
   position: fixed;
   top: 14px;
@@ -57,30 +62,26 @@ body {
   right: 0;
 
   width: calc(100% - 28px);
-  max-width: 1040px; /* smaller = narrower bar */
+  max-width: 1040px;
   height: 66px;
-
   margin: 0 auto;
 
   z-index: 1000;
+  isolation: isolate;
 
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 28px;
 
-  /* navy liquid glass: 25% navy over a blurred backdrop */
   background: rgba(18, 38, 78, 0.25);
-
-  border: 1px solid rgba(255, 255, 255, 0.30);
 
   -webkit-backdrop-filter: blur(16px) saturate(190%) brightness(0.9);
   backdrop-filter: blur(16px) saturate(190%) brightness(0.9);
 
   box-shadow:
-    0 16px 40px rgba(6, 14, 30, 0.30),
-    inset 0 1px 0 rgba(255, 255, 255, 0.50),
+    0 16px 40px rgba(6, 14, 30, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
     inset 0 0 24px rgba(255, 255, 255, 0.06);
-
-  overflow: hidden;
 
   font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
 
@@ -89,7 +90,6 @@ body {
     box-shadow 0.4s ease;
 }
 
-/* slightly deeper navy after scrolling (still glass) */
 .sk-navbar.scrolled {
   background: rgba(14, 30, 62, 0.42);
 
@@ -100,19 +100,22 @@ body {
     inset 0 0 24px rgba(255, 255, 255, 0.05);
 }
 
-/* LIQUID: navy blobs that drift slowly across the bar */
+/* =========================================================
+   LIQUID GLASS EFFECTS
+========================================================= */
+
 .sk-navbar::before {
   content: "";
-
   position: absolute;
   inset: 0;
+  z-index: -1;
 
   border-radius: inherit;
 
   background:
     radial-gradient(
       circle at 50% 50%,
-      rgba(22, 52, 118, 0.60) 0%,
+      rgba(22, 52, 118, 0.6) 0%,
       rgba(22, 52, 118, 0) 38%
     ),
     radial-gradient(
@@ -130,18 +133,16 @@ body {
   background-repeat: no-repeat;
 
   filter: blur(6px);
-
   pointer-events: none;
 
   animation: sk-liquid 14s ease-in-out infinite;
 }
 
-/* glass sheen: soft light across the top edge */
 .sk-navbar::after {
   content: "";
-
   position: absolute;
   inset: 0;
+  z-index: -1;
 
   border-radius: inherit;
 
@@ -159,20 +160,22 @@ body {
   0% {
     background-position: 0% 0%, 100% 100%, 40% 0%;
   }
+
   33% {
     background-position: 70% 100%, 20% 10%, 100% 80%;
   }
+
   66% {
     background-position: 100% 20%, 60% 90%, 0% 100%;
   }
+
   100% {
     background-position: 0% 0%, 100% 100%, 40% 0%;
   }
 }
 
-
 /* =========================================================
-   NAVBAR CONTAINER — 3 zones: logo | links | button
+   NAVBAR CONTAINER
 ========================================================= */
 
 .sk-navbar-container {
@@ -181,33 +184,29 @@ body {
 
   width: 100%;
   height: 100%;
-
   padding: 0 18px;
 
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-
   gap: 16px;
 }
 
-
 /* =========================================================
-   LOGO  (left)
+   DESKTOP LOGO
 ========================================================= */
 
 .sk-logo {
   display: flex;
   align-items: center;
-
   justify-self: start;
+  min-width: 0;
 
   text-decoration: none;
 }
 
 .sk-logo img {
   display: block;
-
   width: 140px;
   max-width: 100%;
   height: auto;
@@ -217,16 +216,14 @@ body {
   filter: drop-shadow(0 2px 5px rgba(15, 26, 46, 0.25));
 }
 
-
 /* =========================================================
-   DESKTOP MENU  (center)
+   DESKTOP LINKS
 ========================================================= */
 
 .sk-desktop-menu {
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 30px;
 }
 
@@ -236,27 +233,22 @@ body {
   display: inline-flex;
   align-items: center;
 
+  padding: 12px 0;
+
   color: #ffffff;
-
-  text-decoration: none;
-
   font-size: 14.5px;
   font-weight: 500;
   line-height: 1;
 
   white-space: nowrap;
-
-  padding: 12px 0;
-
+  text-decoration: none;
   text-shadow: 0 1px 8px rgba(6, 14, 30, 0.45);
 
   transition: color 0.3s ease;
 }
 
-/* gold underline on hover / active page */
 .sk-desktop-menu a::after {
   content: "";
-
   position: absolute;
 
   left: -6px;
@@ -264,11 +256,9 @@ body {
   bottom: 0;
 
   height: 3px;
-
   border-radius: 10px;
 
   background: var(--sk-gold-grad);
-
   box-shadow: 0 2px 8px rgba(233, 162, 51, 0.4);
 
   opacity: 0;
@@ -279,13 +269,13 @@ body {
     transform 0.3s ease;
 }
 
-.sk-desktop-menu a:hover {
+.sk-desktop-menu a:hover,
+.sk-desktop-menu a.active {
   color: #fbd06a;
 }
 
 .sk-desktop-menu a.active {
   font-weight: 600;
-  color: #fbd06a;
 }
 
 .sk-desktop-menu a:hover::after,
@@ -294,44 +284,41 @@ body {
   transform: scaleX(1);
 }
 
-
 /* =========================================================
-   QUOTE BUTTON — GOLD  (right)
+   DESKTOP GET A QUOTE BUTTON
 ========================================================= */
 
 .sk-quote-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   justify-self: end;
-
   gap: 10px;
 
   min-width: 132px;
-  height: 42px;
-
+  min-height: 42px;
   padding: 0 18px;
 
-  color: #1b1405;
-
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 999px;
 
-  border: 1px solid rgba(255, 255, 255, 0.6);
-
   background: var(--sk-gold-grad);
+  color: #1b1405;
 
   box-shadow:
     0 8px 20px rgba(233, 162, 51, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 
-  text-decoration: none;
-
-  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
   font-size: 14px;
   font-weight: 600;
+  line-height: 1.4;
 
   white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
 
   transition:
     transform 0.3s ease,
@@ -339,7 +326,9 @@ body {
     filter 0.3s ease;
 }
 
-.sk-quote-btn span {
+.sk-quote-btn span,
+.sk-mobile-cta a span,
+.sk-mobile-cta button span {
   font-size: 17px;
   line-height: 1;
 
@@ -348,7 +337,6 @@ body {
 
 .sk-quote-btn:hover {
   transform: translateY(-2px);
-
   filter: brightness(1.05);
 
   box-shadow:
@@ -356,39 +344,39 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.sk-quote-btn:hover span:last-child {
+.sk-quote-btn:hover span:last-child,
+.sk-mobile-cta a:hover span:last-child,
+.sk-mobile-cta button:hover span:last-child {
   transform: translateX(4px);
 }
 
-
 /* =========================================================
-   MOBILE HAMBURGER
+   HAMBURGER BUTTON
 ========================================================= */
 
 .sk-menu-button {
   display: none;
 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 5px;
+
   width: 44px;
   height: 44px;
-
   padding: 0;
 
   border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 14px;
 
   background: rgba(255, 255, 255, 0.12);
-
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
   cursor: pointer;
 
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: 5px;
-
-  flex-shrink: 0;
+  appearance: none;
+  -webkit-appearance: none;
 
   transition:
     background 0.3s ease,
@@ -397,13 +385,11 @@ body {
 
 .sk-menu-button span {
   display: block;
-
   width: 20px;
   height: 2px;
 
-  background: #ffffff;
-
   border-radius: 10px;
+  background: #ffffff;
 }
 
 .sk-menu-button:hover {
@@ -414,7 +400,6 @@ body {
   transform: scale(0.94);
 }
 
-
 /* =========================================================
    MOBILE OVERLAY
 ========================================================= */
@@ -422,8 +407,9 @@ body {
 .sk-mobile-overlay {
   position: fixed;
   inset: 0;
+  z-index: 1998;
 
-  background: rgba(8, 16, 26, 0.35);
+  background: rgba(8, 16, 26, 0.45);
 
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
@@ -431,8 +417,6 @@ body {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-
-  z-index: 1998;
 
   transition:
     opacity 0.35s ease,
@@ -445,14 +429,12 @@ body {
   pointer-events: auto;
 }
 
-
 /* =========================================================
-   MOBILE DRAWER — FLOATING GLASS PANEL
+   MOBILE DRAWER
 ========================================================= */
 
 .sk-mobile-menu {
   position: fixed;
-
   top: 10px;
   right: 10px;
   bottom: 10px;
@@ -465,16 +447,18 @@ body {
   display: flex;
   flex-direction: column;
 
-  border-radius: 26px;
-
-  background:
-    linear-gradient(
-      160deg,
-      rgba(30, 48, 70, 0.7) 0%,
-      rgba(16, 29, 44, 0.86) 100%
-    );
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 
   border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 26px;
+
+  background: linear-gradient(
+    160deg,
+    rgba(30, 48, 70, 0.94) 0%,
+    rgba(16, 29, 44, 0.97) 100%
+  );
 
   -webkit-backdrop-filter: blur(28px) saturate(170%);
   backdrop-filter: blur(28px) saturate(170%);
@@ -487,8 +471,7 @@ body {
 
   transform: translateX(calc(100% + 24px));
   visibility: hidden;
-
-  overflow-y: auto;
+  pointer-events: none;
 
   transition:
     transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -498,8 +481,8 @@ body {
 .sk-mobile-menu.active {
   transform: translateX(0);
   visibility: visible;
+  pointer-events: auto;
 }
-
 
 /* =========================================================
    MOBILE HEADER
@@ -508,63 +491,62 @@ body {
 .sk-mobile-header {
   width: 100%;
   min-height: 78px;
-
   padding: 0 16px 0 20px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
 
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-
-  flex-shrink: 0;
 }
 
 .sk-mobile-logo {
   display: flex;
   align-items: center;
+  flex-shrink: 1;
+  min-width: 0;
 
   text-decoration: none;
-
-  flex-shrink: 0;
 }
 
 .sk-mobile-logo img {
   display: block;
-
   width: 130px;
+  max-width: 100%;
   height: auto;
 
   object-fit: contain;
 }
 
-
 /* =========================================================
-   CLOSE BUTTON
+   MOBILE CLOSE BUTTON
 ========================================================= */
 
 .sk-close-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
   width: 42px;
   height: 42px;
-
   padding: 0;
 
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 13px;
 
   background: rgba(255, 255, 255, 0.14);
-
   color: #ffffff;
-
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
   font-family: Arial, sans-serif;
   font-size: 28px;
   line-height: 1;
+
+  cursor: pointer;
+
+  appearance: none;
+  -webkit-appearance: none;
 
   transition:
     background 0.3s ease,
@@ -575,10 +557,8 @@ body {
 .sk-close-button:hover {
   background: #fbd06a;
   color: #1b1405;
-
   transform: rotate(90deg);
 }
-
 
 /* =========================================================
    MOBILE LINKS
@@ -586,12 +566,10 @@ body {
 
 .sk-mobile-links {
   width: 100%;
-
   padding: 14px 14px 6px;
 
   display: flex;
   flex-direction: column;
-
   gap: 6px;
 
   flex-shrink: 0;
@@ -600,23 +578,24 @@ body {
 .sk-mobile-link {
   position: relative;
 
-  width: 100%;
-  min-height: 56px;
-
-  padding: 0 18px;
-
   display: flex;
   align-items: center;
 
-  color: #ffffff;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 18px;
 
-  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 16px;
+
+  background: transparent;
+  color: #ffffff;
 
   font-size: 15px;
   font-weight: 500;
+  line-height: 1.4;
 
-  border-radius: 16px;
-  border: 1px solid transparent;
+  text-decoration: none;
 
   transition:
     background 0.25s ease,
@@ -628,22 +607,17 @@ body {
 .sk-mobile-link:hover,
 .sk-mobile-link:active {
   background: rgba(255, 255, 255, 0.12);
-
   padding-left: 24px;
 }
 
-/* active page — glass pill with gold accent */
 .sk-mobile-link.active {
   background: rgba(255, 255, 255, 0.16);
-
   border-color: rgba(255, 255, 255, 0.3);
-
   color: #fbd06a;
 }
 
 .sk-mobile-link.active::before {
   content: "";
-
   position: absolute;
 
   left: 7px;
@@ -651,85 +625,103 @@ body {
   bottom: 16px;
 
   width: 4px;
-
   border-radius: 10px;
 
   background: linear-gradient(180deg, #fbd06a, #e9a233);
 }
 
-
 /* =========================================================
-   MOBILE CTA
+   MOBILE GET A QUOTE CTA
+   Supports either a <button> or an <a> in .sk-mobile-cta.
+   Use onClick={openQuotePopup} on the button.
 ========================================================= */
 
 .sk-mobile-cta {
   width: 100%;
-
   padding: 14px 14px 20px;
-
   margin-top: auto;
+
+  flex-shrink: 0;
 }
 
-.sk-mobile-cta a {
+.sk-mobile-cta a,
+.sk-mobile-cta button {
   width: 100%;
+  min-width: 0;
   min-height: 52px;
-
-  padding: 0 18px;
+  padding: 12px 18px;
+  margin: 0;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 10px;
+
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+
+  background: linear-gradient(
+    135deg,
+    #fbd06a 0%,
+    #e9a233 100%
+  );
 
   color: #1b1405;
 
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-
-  background: linear-gradient(135deg, #fbd06a 0%, #e9a233 100%);
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
 
   box-shadow:
     0 8px 20px rgba(233, 162, 51, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 
-  text-decoration: none;
+  cursor: pointer;
 
-  font-size: 15px;
-  font-weight: 600;
+  appearance: none;
+  -webkit-appearance: none;
 
   transition:
     transform 0.3s ease,
-    filter 0.3s ease;
+    filter 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.sk-mobile-cta a span {
-  font-size: 18px;
-  line-height: 1;
-
-  transition: transform 0.3s ease;
-}
-
-.sk-mobile-cta a:hover {
+.sk-mobile-cta a:hover,
+.sk-mobile-cta button:hover {
   transform: translateY(-1px);
-
   filter: brightness(1.05);
+
+  box-shadow:
+    0 12px 26px rgba(233, 162, 51, 0.42),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.sk-mobile-cta a:hover span:last-child {
-  transform: translateX(4px);
+.sk-mobile-cta a:active,
+.sk-mobile-cta button:active {
+  transform: scale(0.99);
 }
 
+/* Hide desktop quote CTA on mobile.
+   Keep the mobile drawer CTA visible when the drawer is open. */
+
+@media (max-width: 900px) {
+  .sk-navbar .sk-quote-btn {
+    display: none !important;
+  }
+}
 
 /* =========================================================
    TABLET
 ========================================================= */
 
 @media (max-width: 1100px) {
-
   .sk-navbar-container {
     padding: 0 18px;
-
     gap: 16px;
   }
 
@@ -747,39 +739,34 @@ body {
 
   .sk-quote-btn {
     min-width: 132px;
-
     padding: 0 16px;
-
     font-size: 13px;
   }
 }
 
-
 /* =========================================================
-   MOBILE — 900px (hamburger takes over)
+   MOBILE / HAMBURGER LAYOUT
 ========================================================= */
 
 @media (max-width: 900px) {
-
   .sk-navbar {
     top: 10px;
-
     width: calc(100% - 20px);
     height: 64px;
-
     border-radius: 22px;
   }
 
   .sk-navbar-container {
-    padding: 0 10px 0 16px;
-
     display: flex;
+    align-items: center;
     justify-content: space-between;
+
+    padding: 0 10px 0 16px;
+    gap: 12px;
   }
 
-  .sk-desktop-menu,
-  .sk-quote-btn {
-    display: none;
+  .sk-desktop-menu {
+    display: none !important;
   }
 
   .sk-logo img {
@@ -791,16 +778,13 @@ body {
   }
 }
 
-
 /* =========================================================
    SMALL PHONES
 ========================================================= */
 
 @media (max-width: 480px) {
-
   .sk-navbar {
     height: 60px;
-
     border-radius: 20px;
   }
 
@@ -815,28 +799,59 @@ body {
   .sk-menu-button {
     width: 42px;
     height: 42px;
-
     border-radius: 12px;
   }
 
   .sk-mobile-menu {
     width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+  }
+
+  .sk-mobile-cta {
+    padding: 14px 14px 20px;
+  }
+
+  .sk-mobile-cta a,
+  .sk-mobile-cta button {
+    min-height: 48px;
+    font-size: 14px;
   }
 }
 
-@media (max-width: 360px) {
+/* =========================================================
+   EXTRA SMALL PHONES
+========================================================= */
 
+@media (max-width: 360px) {
   .sk-logo img {
     width: 112px;
   }
 
   .sk-mobile-link {
     min-height: 52px;
-
     font-size: 14px;
   }
-}
 
+  .sk-mobile-header {
+    padding-right: 12px;
+    padding-left: 14px;
+  }
+
+  .sk-mobile-logo img {
+    width: 112px;
+  }
+
+  .sk-mobile-cta {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .sk-mobile-cta a,
+  .sk-mobile-cta button {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+}
 
 /* =========================================================
    ACCESSIBILITY
@@ -847,32 +862,34 @@ body {
 .sk-desktop-menu a:focus-visible,
 .sk-quote-btn:focus-visible,
 .sk-mobile-link:focus-visible,
-.sk-mobile-cta a:focus-visible {
+.sk-mobile-cta a:focus-visible,
+.sk-mobile-cta button:focus-visible {
   outline: 2px solid #f5b942;
-
   outline-offset: 3px;
 }
 
+/* =========================================================
+   BACKDROP-FILTER FALLBACK
+========================================================= */
 
-/* browsers without backdrop-filter support get a solid fallback */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-
+@supports not (
+  (backdrop-filter: blur(1px)) or
+  (-webkit-backdrop-filter: blur(1px))
+) {
   .sk-navbar {
     background: rgba(16, 32, 60, 0.94);
   }
 
   .sk-mobile-menu {
-    background: rgba(16, 29, 44, 0.96);
+    background: rgba(16, 29, 44, 0.97);
   }
 }
 
-
 /* =========================================================
-   REDUCE MOTION
+   REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   .sk-navbar::before {
     animation: none;
   }

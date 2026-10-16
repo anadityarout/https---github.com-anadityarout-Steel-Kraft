@@ -1,0 +1,678 @@
+/* ========================================
+   HOME & COTTAGE ADMIN
+======================================== */
+
+.cottage-admin {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  color: #172033;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.cottage-admin *,
+.cottage-admin *::before,
+.cottage-admin *::after {
+  box-sizing: border-box;
+}
+
+/* ========================================
+   HEADER
+======================================== */
+
+.cottage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin: 0 0 25px;
+}
+
+.cottage-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.cottage-heading-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  background: #e8eef7;
+  color: #183654;
+}
+
+.cottage-heading h1 {
+  margin: 0 0 5px;
+  color: #172033;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.cottage-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ========================================
+   ADD BUTTON
+======================================== */
+
+.cottage-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 42px;
+  padding: 0 17px;
+  border: 1px solid #102c49;
+  border-radius: 7px;
+  background: #0b1b2d;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cottage-add-btn:hover {
+  background: #173b5e;
+}
+
+/* ========================================
+   STATUS MESSAGES
+======================================== */
+
+.cottage-error,
+.cottage-success {
+  width: 100%;
+  margin: 0 0 18px;
+  padding: 12px 15px;
+  border-radius: 7px;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.cottage-error {
+  border: 1px solid #fecaca;
+  background: #fff5f5;
+  color: #b42318;
+}
+
+.cottage-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+/* ========================================
+   FORM
+======================================== */
+
+.cottage-form {
+  width: 100%;
+  margin: 0 0 25px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #dce3eb;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
+}
+
+.cottage-form-heading {
+  padding: 20px 22px;
+  border-bottom: 1px solid #e8edf3;
+  background: #fbfcfe;
+}
+
+.cottage-form-heading h2 {
+  margin: 0 0 7px;
+  color: #172033;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.cottage-form-heading p {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ========================================
+   FORM FIELDS
+======================================== */
+
+.cottage-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  width: 100%;
+  padding: 22px;
+}
+
+.cottage-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+}
+
+.cottage-field label {
+  color: #253348;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cottage-field input,
+.cottage-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  margin: 0;
+  padding: 12px 13px;
+  border: 1px solid #cfd8e3;
+  border-radius: 6px;
+  outline: none;
+  background: #ffffff;
+  color: #172033;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cottage-field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.cottage-field input::placeholder,
+.cottage-field textarea::placeholder {
+  color: #94a3b8;
+}
+
+.cottage-field input:focus,
+.cottage-field textarea:focus {
+  border-color: #315d87;
+  box-shadow: 0 0 0 3px rgba(49, 93, 135, 0.12);
+}
+
+/* ========================================
+   SAVE AND CANCEL BUTTONS
+======================================== */
+
+.cottage-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 16px 22px;
+  border-top: 1px solid #e8edf3;
+  background: #fbfcfe;
+}
+
+.cottage-save-btn,
+.cottage-cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cottage-save-btn {
+  border: 1px solid #0b1b2d;
+  background: #0b1b2d;
+  color: #ffffff;
+}
+
+.cottage-save-btn:hover:not(:disabled) {
+  background: #173b5e;
+}
+
+.cottage-cancel-btn {
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+}
+
+.cottage-cancel-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.cottage-save-btn:disabled,
+.cottage-cancel-btn:disabled,
+.cottage-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   TABLE WRAPPER
+======================================== */
+
+.cottage-table-wrapper {
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.08);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+/* ========================================
+   TABLE
+======================================== */
+
+.cottage-table {
+  width: 100%;
+  min-width: 1050px;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+  background: #ffffff;
+  color: #334155;
+  font-family: inherit;
+  font-size: 14px;
+  text-align: center;
+}
+
+.cottage-table thead {
+  background: #1267f5;
+  color: #ffffff;
+}
+
+.cottage-table th {
+  padding: 16px 10px;
+  border: none;
+  background: #1267f5;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+}
+
+.cottage-table th:first-child {
+  border-top-left-radius: 10px;
+}
+
+.cottage-table th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* Seven column widths */
+
+.cottage-table th:nth-child(1),
+.cottage-table td:nth-child(1) {
+  width: 5%;
+}
+
+.cottage-table th:nth-child(2),
+.cottage-table td:nth-child(2) {
+  width: 9%;
+}
+
+.cottage-table th:nth-child(3),
+.cottage-table td:nth-child(3) {
+  width: 15%;
+}
+
+.cottage-table th:nth-child(4),
+.cottage-table td:nth-child(4) {
+  width: 18%;
+}
+
+.cottage-table th:nth-child(5),
+.cottage-table td:nth-child(5) {
+  width: 27%;
+}
+
+.cottage-table th:nth-child(6),
+.cottage-table td:nth-child(6) {
+  width: 12%;
+}
+
+.cottage-table th:nth-child(7),
+.cottage-table td:nth-child(7) {
+  width: 14%;
+}
+
+/* ========================================
+   TABLE ROWS
+======================================== */
+
+.cottage-table tbody tr {
+  background: #ffffff;
+  transition: background 0.2s ease;
+}
+
+.cottage-table tbody tr:nth-child(even) {
+  background: #f6faff;
+}
+
+.cottage-table tbody tr:hover {
+  background: #edf5ff;
+}
+
+.cottage-table td {
+  padding: 14px 10px;
+  border: none;
+  border-bottom: 1px solid #e5e7eb;
+  color: #334155;
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+  vertical-align: middle;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.cottage-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cottage-name-cell,
+.cottage-subtitle-cell,
+.cottage-description-cell {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: left !important;
+}
+
+.cottage-subtitle-cell {
+  color: #475569 !important;
+}
+
+.cottage-description-cell {
+  white-space: pre-wrap;
+}
+
+/* ========================================
+   DELETE BUTTON
+======================================== */
+
+.cottage-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 35px;
+  padding: 0 10px;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  background: #fff5f5;
+  color: #b42318;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cottage-delete-btn:hover:not(:disabled) {
+  background: #fee2e2;
+}
+
+.cottage-delete-btn svg {
+  flex-shrink: 0;
+}
+
+/* ========================================
+   EMPTY STATE
+======================================== */
+
+.cottage-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 220px;
+  margin: 0;
+  padding: 28px 18px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.cottage-empty-state h3 {
+  margin: 15px 0 7px;
+  color: #334155;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.cottage-empty-state p {
+  max-width: 360px;
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 768px) {
+  .cottage-heading h1 {
+    font-size: 22px;
+  }
+
+  .cottage-form-heading {
+    padding: 18px;
+  }
+
+  .cottage-form-body {
+    padding: 18px;
+  }
+
+  .cottage-form-actions {
+    padding: 14px 18px;
+  }
+
+  .cottage-table {
+    min-width: 1050px;
+    table-layout: fixed;
+  }
+
+  .cottage-table th,
+  .cottage-table td {
+    padding: 12px 9px;
+  }
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 480px) {
+  .cottage-header {
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .cottage-heading {
+    gap: 9px;
+  }
+
+  .cottage-heading-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .cottage-heading h1 {
+    font-size: 19px;
+  }
+
+  .cottage-heading p {
+    font-size: 12px;
+  }
+
+  .cottage-add-btn {
+    min-height: 38px;
+    gap: 5px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+
+  .cottage-form-heading {
+    padding: 15px;
+  }
+
+  .cottage-form-heading h2 {
+    font-size: 17px;
+  }
+
+  .cottage-form-body {
+    gap: 16px;
+    padding: 15px;
+  }
+
+  .cottage-form-actions {
+    padding: 12px 15px;
+    gap: 8px;
+  }
+
+  .cottage-save-btn,
+  .cottage-cancel-btn {
+    flex: 1;
+    padding: 0 10px;
+  }
+
+  .cottage-table {
+    min-width: 1050px;
+    table-layout: fixed;
+  }
+
+  .cottage-table th {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+
+  .cottage-table td {
+    padding: 12px 8px;
+    font-size: 12px;
+  }
+
+  .cottage-delete-btn {
+    min-height: 32px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+
+  .cottage-empty-state {
+    min-height: 180px;
+    padding: 22px 12px;
+  }
+
+  .cottage-empty-state h3 {
+    font-size: 15px;
+  }
+
+  .cottage-empty-state p {
+    font-size: 12px;
+  }
+}
+
+/* ========================================
+   VERY SMALL SCREENS
+======================================== */
+
+@media (max-width: 320px) {
+  .cottage-heading h1 {
+    font-size: 17px;
+  }
+
+  .cottage-heading p {
+    font-size: 11px;
+  }
+
+  .cottage-add-btn {
+    gap: 4px;
+    padding: 0 8px;
+    font-size: 12px;
+  }
+
+  .cottage-form-body {
+    padding: 12px;
+  }
+
+  .cottage-table {
+    min-width: 1050px;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+.cottage-add-btn:focus-visible,
+.cottage-save-btn:focus-visible,
+.cottage-cancel-btn:focus-visible,
+.cottage-delete-btn:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+/* ========================================
+   REDUCED MOTION
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .cottage-add-btn,
+  .cottage-save-btn,
+  .cottage-cancel-btn,
+  .cottage-delete-btn,
+  .cottage-table tbody tr {
+    transition: none;
+  }
+}

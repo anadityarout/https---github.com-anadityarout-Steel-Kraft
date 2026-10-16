@@ -1,7 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./HomeSlider.css";
 import homeImage from "../../assets/home.jpg";
 import home1Image from "../../assets/home1.jpg";
+
+const BANNER_API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/homebanner";
+
+/* Banner text is cached for the browser session so clicking "Home"
+   does not show an empty heading while the API loads again. */
+const CACHE_KEY = "steelkraft_home_banner";
+
+/* Empty on purpose: all text comes from the admin dashboard (API). */
+const DEFAULT_BANNER = {
+  name: "",
+  subtitle: "",
+  description: "",
+};
+
+function readCachedBanner() {
+  try {
+    const raw = sessionStorage.getItem(CACHE_KEY);
+    if (!raw) return DEFAULT_BANNER;
+    const parsed = JSON.parse(raw);
+    return {
+      name: parsed.name || DEFAULT_BANNER.name,
+      subtitle: parsed.subtitle || DEFAULT_BANNER.subtitle,
+      description: parsed.description || DEFAULT_BANNER.description,
+    };
+  } catch {
+    return DEFAULT_BANNER;
+  }
+}
 
 /* =========================================================
    SLIDES
@@ -23,11 +52,28 @@ const slides = [
 ];
 
 /* Floating glass chips */
+/* "text" is shown when the chip is hovered (desktop) or tapped (mobile) */
 const chips = [
-  { label: "Faster build", icon: "clock" },
-  { label: "Built to last", icon: "shield" },
-  { label: "Sustainable", icon: "leaf" },
-  { label: "Customisable", icon: "layout" },
+  {
+    label: "Faster build",
+    icon: "clock",
+    text: "Frames are made in the factory while your plot is prepared.",
+  },
+  {
+    label: "Built to last",
+    icon: "shield",
+    text: "Steel resists termites, rot and mould.",
+  },
+  {
+    label: "Sustainable",
+    icon: "leaf",
+    text: "Recyclable steel and less site waste.",
+  },
+  {
+    label: "Customisable",
+    icon: "layout",
+    text: "Layouts, glazing and finishes made to fit you.",
+  },
 ];
 
 /* Small feature row under the buttons */
@@ -162,12 +208,93 @@ function Icon({ name, size }) {
   }
 }
 
+/* Splits the heading so the last 3 words get the gold accent */
+function renderHeading(name) {
+  const words = (name || "").trim().split(/\s+/).filter(Boolean);
+  const normal = words.slice(0, -3).join(" ");
+  const accent = words.slice(-3).join(" ");
+
+  return (
+    <>
+      {normal && `${normal} `}
+      <span className="home-slider__heading-accent">{accent}</span>
+    </>
+  );
+}
+
 /* =========================================================
    COMPONENT
 ========================================================= */
 export default function HomeSlider() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+
+  /* Starts with cached (or default) text, so there is no empty flash */
+  const [bannerContent, setBannerContent] = useState(readCachedBanner);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchBannerContent = async () => {
+      try {
+        const response = await fetch(BANNER_API_URL, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) return;
+
+        const latestBanner = data[data.length - 1];
+
+        const next = {
+          name: latestBanner.name || DEFAULT_BANNER.name,
+          subtitle: latestBanner.subtitle || DEFAULT_BANNER.subtitle,
+          description: latestBanner.description || DEFAULT_BANNER.description,
+        };
+
+        setBannerContent(next);
+
+        try {
+          sessionStorage.setItem(CACHE_KEY, JSON.stringify(next));
+        } catch {
+          /* storage may be blocked; ignore */
+        }
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          console.error("Failed to load banner content:", error);
+        }
+      }
+    };
+
+    fetchBannerContent();
+
+    return () => controller.abort();
+  }, []);
+
+  /* Which floating chip is open (index) or null */
+  const [openChip, setOpenChip] = useState(null);
+
+  /* Tap anywhere outside a chip closes it */
+  useEffect(() => {
+    if (openChip === null) return undefined;
+
+    const closeOnOutside = (e) => {
+      if (!e.target.closest(".home-slider__chip")) setOpenChip(null);
+    };
+
+    document.addEventListener("pointerdown", closeOnOutside);
+    return () => document.removeEventListener("pointerdown", closeOnOutside);
+  }, [openChip]);
+
+  /* Mouse: hover opens/closes. Touch: tap toggles. */
+  const canHover = () =>
+    typeof window !== "undefined" &&
+    window.matchMedia("(hover: hover)").matches;
 
   const total = slides.length;
 
@@ -196,6 +323,9 @@ export default function HomeSlider() {
             }
             src={slide.image}
             alt={slide.alt}
+            decoding="async"
+            loading="eager"
+            fetchpriority={index === 0 ? "high" : "low"}
             aria-hidden={index === active ? undefined : "true"}
           />
         ))}
@@ -206,18 +336,54 @@ export default function HomeSlider() {
         {/* =====================================================
             FLOATING GLASS CHIPS
         ===================================================== */}
-        <div className="home-slider__floats" aria-hidden="true">
-          {chips.map((chip, index) => (
-            <div
-              key={chip.label}
-              className={`home-slider__chip home-slider__chip--${index + 1}`}
-            >
-              <span className="home-slider__chip-icon">
-                <Icon name={chip.icon} size={20} />
-              </span>
-              <span className="home-slider__chip-label">{chip.label}</span>
-            </div>
-          ))}
+        <div className="home-slider__floats">
+          {chips.map((chip, index) => {
+            const isOpen = openChip === index;
+
+            return (
+              <button
+                key={chip.label}
+                type="button"
+                className={
+                  `home-slider__chip home-slider__chip--${index + 1}` +
+                  (isOpen ? " is-open" : "")
+                }
+                aria-expanded={isOpen}
+                onPointerEnter={(e) =>
+                  e.pointerType === "mouse" && setOpenChip(index)
+                }
+                onPointerLeave={(e) =>
+                  e.pointerType === "mouse" &&
+                  setOpenChip((current) => (current === index ? null : current))
+                }
+                onClick={() => {
+                  if (!canHover()) {
+                    setOpenChip((current) => (current === index ? null : index));
+                  }
+                }}
+                onFocus={(e) =>
+                  e.currentTarget.matches(":focus-visible") && setOpenChip(index)
+                }
+                onBlur={() =>
+                  setOpenChip((current) => (current === index ? null : current))
+                }
+              >
+                <span className="home-slider__chip-icon">
+                  <Icon name={chip.icon} size={20} />
+                </span>
+
+                <span className="home-slider__chip-text">
+                  <span className="home-slider__chip-label">{chip.label}</span>
+
+                  <span className="home-slider__chip-desc">
+                    <span className="home-slider__chip-desc-inner">
+                      {chip.text}
+                    </span>
+                  </span>
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {/* =====================================================
@@ -231,20 +397,15 @@ export default function HomeSlider() {
           </div>
 
           <h1 className="home-slider__heading">
-            Spaces Built for{" "}
-            <span className="home-slider__heading-accent">
-              A Better Tomorrow
-            </span>
+            {renderHeading(bannerContent.name)}
           </h1>
 
           <p className="home-slider__subheading">
-            Prefab Homes, Modular Villas &amp; Resort Cottages Across India
+            {bannerContent.subtitle}
           </p>
 
           <p className="home-slider__body">
-            Experience a smarter, faster and more sustainable way to build.
-            Steel Craft delivers modern prefabricated homes and hospitality
-            cottages designed for today and prepared for tomorrow.
+            {bannerContent.description}
           </p>
 
           {/* BUTTONS */}

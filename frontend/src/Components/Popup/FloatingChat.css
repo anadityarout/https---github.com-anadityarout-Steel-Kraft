@@ -1,0 +1,376 @@
+/* =========================================
+   FLOATING BUTTONS
+========================================= */
+
+.floating-actions {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+}
+
+.floating-chat-outer {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #e6e9e8;
+  cursor: pointer;
+}
+
+.floating-chat-inner {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f5b942;
+}
+
+.floating-chat-icon {
+  width: 21px;
+  height: 21px;
+  color: #111;
+  stroke-width: 2;
+}
+
+.floating-scroll-top {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.floating-up-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* =========================================
+   CHAT WINDOW
+========================================= */
+
+.sk-chat-window {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 370px;
+  height: min(540px, calc(100dvh - 32px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #d7e4f2;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 35, 75, 0.2);
+  z-index: 10001;
+  font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+
+.sk-chat-header {
+  min-height: 48px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #f5b942;
+  color: #fff;
+}
+
+.sk-chat-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sk-chat-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* BODY */
+
+.sk-chat-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 14px;
+  background: #fff;
+}
+
+/* Bot icon + bubble, repeated for every question */
+
+.sk-chat-bot-group {
+  align-self: flex-start;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sk-chat-welcome-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1765a9;
+  background: #e5f0ff;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sk-chat-bubble {
+  max-width: 94%;
+  padding: 11px 12px;
+  border-radius: 11px;
+  font-size: 14px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.sk-chat-bot {
+  align-self: flex-start;
+  background: #edf3fa;
+  color: #18243b;
+}
+
+.sk-chat-user {
+  align-self: flex-end;
+  background: #f5b942;
+  color: #fff;
+}
+
+.sk-chat-restart {
+  padding: 10px 14px;
+  border: 1px solid #f5b942;
+  border-radius: 7px;
+  background: #fff;
+  color: #f5b942;
+  cursor: pointer;
+}
+
+/* TAPPABLE OPTIONS (shown in the chat, right after the question) */
+
+.sk-chat-options {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px;
+  background: #fff;
+  border: 1px solid #e3e9f1;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 35, 75, 0.08);
+  animation: sk-options-in 0.18s ease-out;
+}
+
+.sk-chat-option {
+  width: 100%;
+  padding: 11px 12px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #18243b;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sk-chat-option:hover,
+.sk-chat-option:focus-visible {
+  background: #fdf1d6;
+  outline: none;
+}
+
+.sk-chat-option:active {
+  background: #f5b942;
+  color: #111;
+}
+
+@keyframes sk-options-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* INPUT AREA */
+
+.sk-chat-input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid #e8edf3;
+  background: #fff;
+}
+
+.sk-chat-input-area input,
+.sk-chat-textarea {
+  flex: 1;
+  min-width: 0;
+  padding: 0 12px;
+  border: 1px solid #d6deea;
+  border-radius: 8px;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: #18243b;
+  background: #fff;
+}
+
+.sk-chat-input-area input {
+  height: 43px;
+}
+
+.sk-chat-textarea {
+  min-height: 86px;
+  max-height: 140px;
+  padding: 10px 12px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.sk-chat-input-area input:focus,
+.sk-chat-textarea:focus {
+  border-color: #f5b942;
+  box-shadow: 0 0 0 2px rgba(245, 185, 66, 0.25);
+}
+
+.sk-chat-send {
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  background: #f5b942;
+  color: #fff;
+  cursor: pointer;
+}
+
+.sk-chat-send:hover {
+  background: #e5a82f;
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .floating-actions {
+    right: 10px;
+    bottom: 14px;
+    gap: 8px;
+  }
+
+  .floating-chat-outer {
+    width: 60px;
+    height: 60px;
+  }
+
+  .floating-chat-inner {
+    width: 44px;
+    height: 44px;
+  }
+
+  .floating-scroll-top {
+    width: 46px;
+    height: 46px;
+  }
+
+  .sk-chat-window {
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    width: auto;
+    height: auto;
+    max-height: none;
+    border-radius: 10px;
+  }
+
+  .sk-chat-header {
+    min-height: 44px;
+  }
+
+  .sk-chat-body {
+    padding: 14px;
+    gap: 11px;
+  }
+
+  .sk-chat-bubble {
+    font-size: 14px;
+  }
+
+  .sk-chat-option {
+    padding: 13px 12px;
+    font-size: 15px;
+  }
+
+  .sk-chat-input-area {
+    padding: 10px;
+  }
+
+  /* 16px stops iOS from zooming in when a field is focused */
+  .sk-chat-input-area input,
+  .sk-chat-textarea {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-chat-outer,
+  .floating-scroll-top {
+    transition: none;
+  }
+
+  .sk-chat-options {
+    animation: none;
+  }
+}

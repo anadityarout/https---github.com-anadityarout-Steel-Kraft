@@ -1,15 +1,19 @@
+
 import React, { useState } from "react";
 import "./Contact.css";
-
-// =====================================================
-// IMAGES  (put why5.png inside src/assets/)
-// =====================================================
 
 import contactImage from "../../assets/Contact.jpg";
 import whyImage from "../../assets/why5.png";
 
 // =====================================================
-// SMALL SVG ICONS (reused in several places)
+// AWS API GATEWAY
+// =====================================================
+
+const GET_QUOTE_API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/getquote";
+
+// =====================================================
+// ICONS
 // =====================================================
 
 const iconProps = {
@@ -46,7 +50,10 @@ const PinIcon = () => (
 const ChatIcon = () => (
   <svg {...iconProps}>
     <path d="M4 4H20C21.1 4 22 4.9 22 6V15C22 16.1 21.1 17 20 17H14L10 21V17H4C2.9 17 2 16.1 2 15V6C2 4.9 2.9 4 4 4Z" />
-    <path d="M7 10H7.01M12 10H12.01M17 10H17.01" strokeWidth="2.5" />
+    <path
+      d="M7 10H7.01M12 10H12.01M17 10H17.01"
+      strokeWidth="2.5"
+    />
   </svg>
 );
 
@@ -57,7 +64,7 @@ const ArrowIcon = () => (
 );
 
 // =====================================================
-// CONTACT COMPONENT
+// FORM DATA
 // =====================================================
 
 const emptyForm = {
@@ -70,32 +77,85 @@ const emptyForm = {
   details: "",
 };
 
+// =====================================================
+// CONTACT COMPONENT
+// =====================================================
+
 function Contact() {
   const [formData, setFormData] = useState(emptyForm);
-  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
-  const [mapActive, setMapActive] = useState(false); // map ignores scroll until clicked
+  const [status, setStatus] = useState("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [mapActive, setMapActive] = useState(false);
+
+  // ---------------------------------------------------
+  // HANDLE INPUT CHANGES
+  // ---------------------------------------------------
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+
+    if (status === "error" || status === "sent") {
+      setStatus("idle");
+      setErrorMessage("");
+    }
+  };
+
+  // ---------------------------------------------------
+  // SUBMIT CONTACT QUOTE TO AWS
+  // ---------------------------------------------------
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (status === "sending") return;
+
     setStatus("sending");
+    setErrorMessage("");
 
     try {
-      // TODO: send formData to your backend / EmailJS / Formspree here.
-      // Example:
-      // await fetch("https://formspree.io/f/YOUR_ID", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(formData),
-      // });
-      console.log("Quote request:", formData);
+      const payload = {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        email: formData.email.trim(),
+        location: formData.plotLocation.trim(),
+        projectType: formData.projectType,
+        design: formData.design.trim(),
+        message: formData.details.trim(),
+        source: "contact-page",
+      };
+
+      const response = await fetch(GET_QUOTE_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(
+          result.message || "Unable to submit your quote request."
+        );
+      }
 
       setStatus("sent");
-      setFormData(emptyForm);
-    } catch (err) {
+      setFormData({ ...emptyForm });
+    } catch (error) {
+      console.error("Contact quote submission error:", error);
+
       setStatus("error");
+      setErrorMessage(
+        error.message ||
+          "Something went wrong. Please try again or call us."
+      );
     }
   };
 
@@ -143,6 +203,7 @@ function Contact() {
               <div className="contact-icon">
                 <MailIcon />
               </div>
+
               <div className="contact-card-content">
                 <h3>Email Us</h3>
                 <p>
@@ -150,6 +211,7 @@ function Contact() {
                   <br />
                   and project discussions.
                 </p>
+
                 <a href="mailto:info@steelcraftprefab.com">
                   info@steelcraftprefab.com
                   <span>→</span>
@@ -161,6 +223,7 @@ function Contact() {
               <div className="contact-icon">
                 <PhoneIcon />
               </div>
+
               <div className="contact-card-content">
                 <h3>Call Us</h3>
                 <p>
@@ -168,6 +231,7 @@ function Contact() {
                   <br />
                   our team.
                 </p>
+
                 <a href="tel:+919311826565">
                   +91 93118 26565
                   <span>→</span>
@@ -179,6 +243,7 @@ function Contact() {
               <div className="contact-icon">
                 <PinIcon />
               </div>
+
               <div className="contact-card-content">
                 <h3>Visit Our Office</h3>
                 <p>
@@ -188,6 +253,7 @@ function Contact() {
                   <br />
                   India
                 </p>
+
                 <a
                   href="https://www.google.com/maps/search/?api=1&query=Steel+Craft%2C+108+First+Floor+DLF+Galleria+Mall%2C+Mayur+Vihar%2C+New+Delhi+110091"
                   target="_blank"
@@ -203,6 +269,7 @@ function Contact() {
               <div className="contact-icon">
                 <ChatIcon />
               </div>
+
               <div className="contact-card-content">
                 <h3>WhatsApp</h3>
                 <p>
@@ -210,6 +277,7 @@ function Contact() {
                   <br />
                   We're here to help.
                 </p>
+
                 <a
                   href="https://wa.me/919311826565"
                   target="_blank"
@@ -225,12 +293,12 @@ function Contact() {
       </section>
 
       {/* =====================================================
-          QUOTE SECTION  (left: intro + image + info | right: form)
+          QUOTE SECTION
       ===================================================== */}
 
       <section className="quote-section">
         <div className="quote-container">
-          {/* ---------------- LEFT ---------------- */}
+          {/* LEFT SIDE */}
 
           <div className="quote-left">
             <span className="quote-eyebrow">
@@ -245,19 +313,21 @@ function Contact() {
             </h2>
 
             <p className="quote-intro">
-              Share a few details and the Steel Craft team will come back with
-              options, a rough schedule and a quote.
+              Share a few details and the Steel Craft team will come back
+              with options, a rough schedule and a quote.
             </p>
 
-            {/* IMAGE WITH FLOATING LABEL */}
-
             <div className="quote-image">
-              <img src={whyImage} alt="Steel frame building by Steel Craft" />
+              <img
+                src={whyImage}
+                alt="Steel frame building by Steel Craft"
+              />
 
               <div className="quote-image-badge">
                 <span className="quote-icon">
                   <PinIcon />
                 </span>
+
                 <span>
                   Your plot,
                   <br />
@@ -266,22 +336,25 @@ function Contact() {
               </div>
             </div>
 
-            {/* INFO ROWS */}
-
             <a className="quote-info" href="tel:+919311826565">
               <span className="quote-icon">
                 <PhoneIcon />
               </span>
+
               <span className="quote-info-text">
                 <small>PHONE</small>
                 +91 93118 26565
               </span>
             </a>
 
-            <a className="quote-info" href="mailto:info@steelcraftprefab.com">
+            <a
+              className="quote-info"
+              href="mailto:info@steelcraftprefab.com"
+            >
               <span className="quote-icon">
                 <MailIcon />
               </span>
+
               <span className="quote-info-text">
                 <small>EMAIL</small>
                 info@steelcraftprefab.com
@@ -292,6 +365,7 @@ function Contact() {
               <span className="quote-icon">
                 <PinIcon />
               </span>
+
               <span className="quote-info-text">
                 <small>COVERAGE</small>
                 Projects across India
@@ -300,6 +374,7 @@ function Contact() {
 
             <div className="quote-helpful">
               <h3>Helpful to include</h3>
+
               <ul>
                 <li>Your plot location and approximate size</li>
                 <li>How you plan to use the building</li>
@@ -308,78 +383,88 @@ function Contact() {
             </div>
           </div>
 
-          {/* ---------------- RIGHT : FORM ---------------- */}
+          {/* RIGHT SIDE: CONNECTED FORM */}
 
           <div className="quote-card">
             <h2>Get a Quote</h2>
-            <p className="quote-required">Fields marked * are required.</p>
+            <p className="quote-required">
+              Fields marked * are required.
+            </p>
 
             <form className="quote-form" onSubmit={handleSubmit}>
               <div className="quote-row">
                 <div className="quote-field">
-                  <label htmlFor="name">Name *</label>
+                  <label htmlFor="contact-name">Name *</label>
                   <input
                     type="text"
-                    id="name"
+                    id="contact-name"
                     name="name"
                     placeholder="Your full name"
                     autoComplete="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
+                    disabled={status === "sending"}
                   />
                 </div>
 
                 <div className="quote-field">
-                  <label htmlFor="phone">Phone *</label>
+                  <label htmlFor="contact-phone">Phone *</label>
                   <input
                     type="tel"
-                    id="phone"
+                    id="contact-phone"
                     name="phone"
                     placeholder="+91"
                     autoComplete="tel"
                     value={formData.phone}
                     onChange={handleChange}
                     required
+                    disabled={status === "sending"}
                   />
                 </div>
               </div>
 
               <div className="quote-row">
                 <div className="quote-field">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="contact-email">Email</label>
                   <input
                     type="email"
-                    id="email"
+                    id="contact-email"
                     name="email"
                     placeholder="you@example.com"
                     autoComplete="email"
                     value={formData.email}
                     onChange={handleChange}
+                    disabled={status === "sending"}
                   />
                 </div>
 
                 <div className="quote-field">
-                  <label htmlFor="plotLocation">Plot location</label>
+                  <label htmlFor="contact-location">Plot location</label>
                   <input
                     type="text"
-                    id="plotLocation"
+                    id="contact-location"
                     name="plotLocation"
                     placeholder="City or town"
                     value={formData.plotLocation}
                     onChange={handleChange}
+                    disabled={status === "sending"}
                   />
                 </div>
               </div>
 
               <div className="quote-row">
                 <div className="quote-field">
-                  <label htmlFor="projectType">Project type</label>
+                  <label htmlFor="contact-project-type">
+                    Project type
+                  </label>
+
                   <select
-                    id="projectType"
+                    id="contact-project-type"
                     name="projectType"
                     value={formData.projectType}
                     onChange={handleChange}
+                    disabled={status === "sending"}
                   >
                     <option>Prefab home</option>
                     <option>Modular villa</option>
@@ -391,28 +476,36 @@ function Contact() {
                 </div>
 
                 <div className="quote-field">
-                  <label htmlFor="design">Design of interest</label>
+                  <label htmlFor="contact-design">
+                    Design of interest
+                  </label>
+
                   <input
                     type="text"
-                    id="design"
+                    id="contact-design"
                     name="design"
                     placeholder="e.g. A-Frame Cottage"
                     value={formData.design}
                     onChange={handleChange}
+                    disabled={status === "sending"}
                   />
                 </div>
               </div>
 
               <div className="quote-field">
-                <label htmlFor="details">Anything else we should know?</label>
+                <label htmlFor="contact-details">
+                  Anything else we should know?
+                </label>
+
                 <textarea
-                  id="details"
+                  id="contact-details"
                   name="details"
                   rows={4}
                   placeholder="Size, timeline, budget range, number of units…"
                   value={formData.details}
                   onChange={handleChange}
-                ></textarea>
+                  disabled={status === "sending"}
+                />
               </div>
 
               <button
@@ -420,28 +513,37 @@ function Contact() {
                 className="quote-submit"
                 disabled={status === "sending"}
               >
-                {status === "sending" ? "Sending…" : "Request my quote"}
+                {status === "sending"
+                  ? "Submitting..."
+                  : "Request my quote"}
+
                 <ArrowIcon />
               </button>
 
               {status === "sent" && (
-                <p className="quote-message quote-success" role="status">
-                  Thank you! We have received your request and will contact you
-                  soon.
+                <p
+                  className="quote-message quote-success"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Thank you! We have received your request and will
+                  contact you soon.
                 </p>
               )}
 
               {status === "error" && (
-                <p className="quote-message quote-error" role="alert">
-                  Something went wrong. Please try again or call us.
+                <p
+                  className="quote-message quote-error"
+                  role="alert"
+                >
+                  {errorMessage ||
+                    "Something went wrong. Please try again or call us."}
                 </p>
               )}
             </form>
           </div>
         </div>
       </section>
-
-     
     </>
   );
 }

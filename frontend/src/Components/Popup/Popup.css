@@ -1,0 +1,511 @@
+
+/* =====================================================
+   STEEL CRAFT PREFAB - CONSULTATION POPUP
+   Narrower width + taller layout
+===================================================== */
+
+/* ---------- OVERLAY ---------- */
+
+.sk-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.58);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  animation: skPopupFade 0.25s ease;
+}
+
+/* ---------- POPUP CONTAINER ---------- */
+
+.sk-popup {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 32px 25px 25px;
+  background: #ffffff;
+  border: none;
+  border-top: 5px solid #6689a7;
+  border-radius: 24px;
+  box-shadow: 0 25px 70px rgba(15, 23, 42, 0.2);
+  font-family: "Poppins", Arial, sans-serif;
+  color: #14243a;
+  box-sizing: border-box;
+  animation: skPopupUp 0.3s ease;
+}
+
+.sk-popup *,
+.sk-popup *::before,
+.sk-popup *::after {
+  box-sizing: border-box;
+}
+
+/* ---------- CLOSE BUTTON ---------- */
+
+.sk-popup-close {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  z-index: 2;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: #eef2f6;
+  color: #334155;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.sk-popup-close:hover {
+  background: #dfe8f0;
+  transform: rotate(90deg);
+}
+
+/* ---------- TITLE ---------- */
+
+.sk-popup-title {
+  margin: 0 35px 9px 0;
+  padding: 0;
+  font-family: "Lora", Georgia, serif;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.4px;
+  color: #14243a;
+}
+
+/* ---------- DESCRIPTION ---------- */
+
+.sk-popup-sub {
+  margin: 0 0 26px;
+  padding: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: #566c83;
+}
+
+/* ---------- FORM ---------- */
+
+.sk-popup form {
+  width: 100%;
+  margin: 0;
+}
+
+/* Stack all four fields vertically */
+
+.sk-popup-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- FIELD CONTAINER ---------- */
+
+.sk-popup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- FIELD LABEL ---------- */
+
+.sk-popup-field label {
+  display: block;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.25px;
+  color: #17283d;
+}
+
+/* ---------- INPUTS ---------- */
+
+.sk-popup-field input,
+.sk-popup-field select,
+.sk-popup-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 12px 15px;
+  border: 1px solid #cfe0f0;
+  border-radius: 12px;
+  outline: none;
+  background: #f2f6fa;
+  color: #14243a;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  box-shadow: none;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.sk-popup-field input,
+.sk-popup-field select {
+  height: 49px;
+}
+
+.sk-popup-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.sk-popup-field input::placeholder,
+.sk-popup-field textarea::placeholder {
+  color: #8da1b7;
+  opacity: 1;
+}
+
+/* Focus state */
+
+.sk-popup-field input:focus,
+.sk-popup-field select:focus,
+.sk-popup-field textarea:focus {
+  border-color: #7199bb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(102, 137, 167, 0.12);
+}
+
+/* Error state */
+
+.sk-popup-field input.has-error,
+.sk-popup-field select.has-error,
+.sk-popup-field textarea.has-error {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+/* Optional full-width fields */
+
+.sk-popup-field-full {
+  width: 100%;
+}
+
+/* ---------- VALIDATION ERRORS ---------- */
+
+.sk-popup-error {
+  display: block;
+  margin: 1px 0 0;
+  color: #dc2626;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.sk-popup-error-main {
+  margin: 14px 0 0;
+  text-align: left;
+  font-size: 12px;
+}
+
+/* ---------- BUTTON CONTAINER ---------- */
+
+.sk-popup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin: 24px 0 0;
+  padding: 0;
+}
+
+/* ---------- REQUEST BUTTON ---------- */
+
+.sk-popup-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  margin: 0;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #f8df98 0%,
+    #e5b43e 48%,
+    #ce9217 100%
+  );
+  color: #101b2c;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.sk-popup-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(201, 154, 41, 0.22);
+  filter: brightness(1.02);
+}
+
+.sk-popup-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* If submit button is outside .sk-popup-actions */
+
+.sk-popup form > .sk-popup-submit {
+  margin-top: 24px;
+}
+
+/* ---------- CANCEL BUTTON ---------- */
+
+.sk-popup-cancel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 46px;
+  margin: 0;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 999px;
+  background: #edf1f5;
+  color: #14243a;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sk-popup-cancel:hover {
+  background: #e0e7ee;
+}
+
+/* ---------- PRIVACY MESSAGE ---------- */
+
+.sk-popup-privacy {
+  margin: 18px 0 0;
+  padding: 0;
+  color: #8794a2;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* ---------- SUCCESS MESSAGE ---------- */
+
+.sk-popup-success {
+  padding: 25px 0 8px;
+  text-align: center;
+}
+
+.sk-popup-success h2 {
+  margin: 0 0 10px;
+  font-family: "Lora", Georgia, serif;
+  font-size: 27px;
+  font-weight: 600;
+  color: #14243a;
+}
+
+.sk-popup-success p {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #566c83;
+}
+
+.sk-popup-tick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f8df98, #ce9217);
+  color: #14243a;
+  font-size: 29px;
+}
+
+/* ---------- ANIMATIONS ---------- */
+
+@keyframes skPopupFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes skPopupUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 560px) {
+  .sk-popup-overlay {
+    padding: 12px;
+  }
+
+  .sk-popup {
+    width: 100%;
+    max-width: 420px;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 29px 21px 23px;
+    border-radius: 21px;
+  }
+
+  .sk-popup-title {
+    font-size: 25px;
+  }
+
+  .sk-popup-sub {
+    margin-bottom: 23px;
+    font-size: 13px;
+  }
+
+  .sk-popup-grid {
+    gap: 16px;
+  }
+
+  .sk-popup-field input,
+  .sk-popup-field select {
+    height: 47px;
+  }
+
+  .sk-popup-actions {
+    margin-top: 21px;
+  }
+}
+
+/* ---------- SMALL MOBILE ---------- */
+
+@media (max-width: 360px) {
+  .sk-popup-overlay {
+    padding: 9px;
+  }
+
+  .sk-popup {
+    max-height: calc(100vh - 18px);
+    max-height: calc(100dvh - 18px);
+    padding: 27px 16px 18px;
+    border-radius: 18px;
+  }
+
+  .sk-popup-title {
+    margin-right: 28px;
+    font-size: 23px;
+  }
+
+  .sk-popup-sub {
+    font-size: 12px;
+  }
+
+  .sk-popup-grid {
+    gap: 14px;
+  }
+
+  .sk-popup-field input,
+  .sk-popup-field select {
+    height: 45px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .sk-popup-submit,
+  .sk-popup-cancel {
+    min-height: 44px;
+    font-size: 12px;
+  }
+}
+
+/* ---------- SHORT SCREENS ---------- */
+
+@media (max-height: 650px) {
+  .sk-popup-overlay {
+    align-items: center;
+  }
+
+  .sk-popup {
+    padding-top: 25px;
+    padding-bottom: 20px;
+  }
+
+  .sk-popup-sub {
+    margin-bottom: 18px;
+  }
+
+  .sk-popup-grid {
+    gap: 13px;
+  }
+
+  .sk-popup-actions {
+    margin-top: 18px;
+  }
+
+  .sk-popup-privacy {
+    margin-top: 12px;
+  }
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-popup-overlay,
+  .sk-popup {
+    animation: none;
+  }
+
+  .sk-popup-close,
+  .sk-popup-submit,
+  .sk-popup-cancel {
+    transition: none;
+  }
+}

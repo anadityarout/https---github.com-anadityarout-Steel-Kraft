@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./ProjectPage.css";
 
+const PROJECT_TEXT_API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/projecttext";
 // ==========================================
 // BANNER AND IMPACT BACKGROUND
 // ==========================================
@@ -458,6 +460,42 @@ const ImpactSection = () => {
 // ==========================================
 
 const ProjectPage = () => {
+
+ const [projectHero, setProjectHero] = useState({
+  name: "",
+  subtitle: "",
+  description: "",
+});
+
+  useEffect(() => {
+    const fetchProjectHero = async () => {
+      try {
+        const response = await fetch(PROJECT_TEXT_API_URL);
+
+        if (!response.ok) {
+          throw new Error("Failed to load project text");
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          const latest = data[data.length - 1];
+
+          setProjectHero((previous) => ({
+            name: latest.name ?? previous.name,
+            subtitle: latest.subtitle ?? previous.subtitle,
+            description:
+              latest.description ?? previous.description,
+          }));
+        }
+      } catch (error) {
+        console.error("Project hero API error:", error);
+      }
+    };
+
+    fetchProjectHero();
+  }, []);
+
   const exploreProjects = () => {
     document
       .getElementById("featured-projects")
@@ -494,23 +532,25 @@ const ProjectPage = () => {
               </span>
             </nav>
 
-            <h1 className="project-hero-title">
-              Our{" "}
-              <span className="project-hero-accent">
-                Projects
-              </span>
-            </h1>
+          
+<h1 className="project-hero-title">
+  {projectHero.name.trim().split(/\s+/).slice(0, -1).join(" ")}{" "}
+  <span className="project-hero-accent">
+    {projectHero.name.trim().split(/\s+/).slice(-1)[0]}
+  </span>
+</h1>
 
-            <h2 className="project-hero-subtitle">
-              Real Spaces. Real Stories.
-            </h2>
+{projectHero.subtitle && (
+  <h2 className="project-hero-subtitle">
+    {projectHero.subtitle}
+  </h2>
+)}
 
-            <p className="project-hero-description">
-              Explore our completed and ongoing prefab projects
-              across India. From modern farmhouses to luxury resorts,
-              we deliver sustainable spaces built for a better tomorrow.
-            </p>
-
+{projectHero.description && (
+  <p className="project-hero-description">
+    {projectHero.description}
+  </p>
+)}
             <button
               className="project-hero-button"
               type="button"
