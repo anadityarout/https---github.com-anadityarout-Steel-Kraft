@@ -24,8 +24,74 @@ $routes = [
     ],
 ];
 
-// Identify requested page.
-$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+function seoEscape($value) {
+    return htmlspecialchars(
+        (string) $value,
+        ENT_QUOTES | ENT_SUBSTITUTE,
+        'UTF-8'
+    );
+}
+
+function setMetaName(&$html, $name, $content) {
+    $safeName = preg_quote($name, '~');
+    $tag = '<meta name="' . seoEscape($name) .
+        '" content="' . seoEscape($content) . '">';
+
+    $pattern = '~<meta\b(?=[^>]*\bname=["\']' .
+        $safeName . '["\'])[^>]*>~i';
+
+    if (preg_match($pattern, $html)) {
+        $html = preg_replace($pattern, $tag, $html, 1);
+    } else {
+        $html = preg_replace(
+            '~</head>~i',
+            $tag . "\n</head>",
+            $html,
+            1
+        );
+    }
+}
+
+function setMetaProperty(&$html, $property, $content) {
+    $safeProperty = preg_quote($property, '~');
+    $tag = '<meta property="' . seoEscape($property) .
+        '" content="' . seoEscape($content) . '">';
+
+    $pattern = '~<meta\b(?=[^>]*\bproperty=["\']' .
+        $safeProperty . '["\'])[^>]*>~i';
+
+    if (preg_match($pattern, $html)) {
+        $html = preg_replace($pattern, $tag, $html, 1);
+    } else {
+        $html = preg_replace(
+            '~</head>~i',
+            $tag . "\n</head>",
+            $html,
+            1
+        );
+    }
+}
+
+function setCanonical(&$html, $url) {
+    $tag = '<link rel="canonical" href="' .
+        seoEscape($url) . '">';
+
+    $pattern = '~<link\b(?=[^>]*\brel=["\']canonical["\'])[^>]*>~i';
+
+    if (preg_match($pattern, $html)) {
+        $html = preg_replace($pattern, $tag, $html, 1);
+    } else {
+        $html = preg_replace(
+            '~</head>~i',
+            $tag . "\n</head>",
+            $html,
+            1
+        );
+    }
+}
+
+// Resolve the requested route.
+$path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 $path = '/' . trim($path, '/');
 
 if ($path === '//') {
@@ -34,7 +100,7 @@ if ($path === '//') {
 
 $route = $routes[$path] ?? null;
 
-// seo.php and index.html must be in the same directory.
+// Load the built React HTML template.
 $htmlFile = __DIR__ . '/index.html';
 
 if (!is_file($htmlFile)) {
@@ -50,6 +116,7 @@ if ($html === false) {
 }
 
 if ($route !== null) {
+    // Read current SEO data from AWS.
     $context = stream_context_create([
         'http' => [
             'timeout' => 5,
@@ -68,122 +135,103 @@ if ($route !== null) {
             if (
                 !is_array($item) ||
                 strcasecmp(
-                    trim((string)($item['page'] ?? '')),
+                    trim((string) ($item['page'] ?? '')),
                     $route['page']
                 ) !== 0
             ) {
                 continue;
             }
 
-            $title = trim((string)($item['metaTitle'] ?? ''));
-            $description = trim((string)($item['description'] ?? ''));
-            $keywords = trim((string)($item['keywords'] ?? ''));
-            $altText = trim((string)($item['altText'] ?? ''));
-            $canonical = trim((string)($item['canonicalUrl'] ?? ''));
+            $title = trim((string) ($item['metaTitle'] ?? ''));
+            $description = trim((string) ($item['description'] ?? ''));
+            $keywords = trim((string) ($item['keywords'] ?? ''));
+            $canonical = trim((string) ($item['canonicalUrl'] ?? ''));
 
-            // Update page title.
-            if ($title !== '') {
-                $html = preg_replace(
-                    '~<title>.*?</title>~is',
-                    '<title>' .
-                    htmlspecialchars(
-                        $title,
-                        ENT_QUOTES | ENT_SUBSTITUTE,
-                        'UTF-8'
-                    ) .
-                    '</title>',
-                    $html,
-                    1
-                );
-            }
-
-            // Update meta description.
-            if ($description !== '') {
-                $html = preg_replace(
-                    '~<meta\s+name=["\']description["\'][^>]*>~i',
-                    '<meta name="description" content="' .
-                    htmlspecialchars(
-                        $description,
-                        ENT_QUOTES | ENT_SUBSTITUTE,
-                        'UTF-8'
-                    ) .
-                    '">',
-                    $html,
-                    1
-                );
-            }
-
-            // Update meta keywords.
-            if ($keywords !== '') {
-                $html = preg_replace(
-                    '~<meta\s+name=["\']keywords["\'][^>]*>~i',
-                    '<meta name="keywords" content="' .
-                    htmlspecialchars(
-                        $keywords,
-                        ENT_QUOTES | ENT_SUBSTITUTE,
-                        'UTF-8'
-                    ) .
-                    '">',
-                    $html,
-                    1
-                );
-            }
-
-            // Validate canonical URL.
-            $host = parse_url($canonical, PHP_URL_HOST);
+            // Only accept canonical URLs on your own domain.
+            $host = strtolower((string) parse_url($canonical, PHP_URL_HOST));
 
             if (
                 !in_array(
                     $host,
                     ['www.steelcraftprefab.com', 'steelcraftprefab.com'],
                     true
-                )
+                ) ||
+                strtolower((string) parse_url($canonical, PHP_URL_SCHEME)) !== 'https'
             ) {
                 $canonical = $route['canonical'];
             }
 
-            $canonicalTag = '<link rel="canonical" href="' .
-                htmlspecialchars(
-                    $canonical,
-                    ENT_QUOTES | ENT_SUBSTITUTE,
-                    'UTF-8'
-                ) .
-                '">';
+            if ($title === '') {
+                $title = 'Steel Craft Prefab';
+            }
 
-            // Replace or insert canonical URL.
-            if (preg_match(
-                '~<link\s+rel=["\']canonical["\'][^>]*>~i',
-                $html
-            )) {
+            if ($description === '') {
+                $description = 'Explore prefab buildings and construction solutions from Steel Craft Prefab.';
+            }
+
+            // Update title.
+            $titleTag = '<title>' . seoEscape($title) . '</title>';
+
+            if (preg_match('~<title\b[^>]*>.*?</title>~is', $html)) {
                 $html = preg_replace(
-                    '~<link\s+rel=["\']canonical["\'][^>]*>~i',
-                    $canonicalTag,
+                    '~<title\b[^>]*>.*?</title>~is',
+                    $titleTag,
                     $html,
                     1
                 );
             } else {
                 $html = preg_replace(
                     '~</head>~i',
-                    $canonicalTag . "\n</head>",
+                    $titleTag . "\n</head>",
                     $html,
                     1
                 );
             }
 
-            // Apply saved alt text to images without an existing alt attribute.
-            // Existing alt attributes are preserved.
-            if ($altText !== '') {
-                $safeAltText = htmlspecialchars(
-                    $altText,
-                    ENT_QUOTES | ENT_SUBSTITUTE,
-                    'UTF-8'
-                );
+            // Standard SEO metadata.
+            setMetaName($html, 'description', $description);
+            setMetaName($html, 'keywords', $keywords);
+            setCanonical($html, $canonical);
 
-                $html = preg_replace(
-                    '~<img\b(?![^>]*\balt\s*=)([^>]*)>~i',
-                    '<img alt="' . $safeAltText . '"$1>',
-                    $html
-                );
+            // Open Graph metadata.
+            setMetaProperty($html, 'og:title', $title);
+            setMetaProperty($html, 'og:description', $description);
+            setMetaProperty($html, 'og:type', 'website');
+            setMetaProperty($html, 'og:url', $canonical);
+            setMetaProperty($html, 'og:site_name', 'Steel Craft Prefab');
+
+            // Use a real, publicly accessible image URL here.
+            // Replace this path with your actual share/preview image.
+            $ogImage = $siteUrl . '/assets/steel-craft-og-image.jpg';
+            setMetaProperty($html, 'og:image', $ogImage);
+
+            // Twitter card metadata.
+            setMetaName($html, 'twitter:card', 'summary_large_image');
+            setMetaName($html, 'twitter:title', $title);
+            setMetaName($html, 'twitter:description', $description);
+            setMetaName($html, 'twitter:image', $ogImage);
+
+            // Expose the saved alt text as data, but do not pretend this
+            // adds alt attributes to React images that are not in this HTML.
+            $altText = trim((string) ($item['altText'] ?? ''));
+
+            if (preg_match('~<html\b[^>]*>~i', $html)) {
+                if (preg_match('~\sdata-seo-alt-text=["\'][^"\']*["\']~i', $html)) {
+                    $html = preg_replace(
+                        '~\sdata-seo-alt-text=["\'][^"\']*["\']~i',
+                        ' data-seo-alt-text="' . seoEscape($altText) . '"',
+                        $html,
+                        1
+                    );
+                } else {
+                    $html = preg_replace(
+                        '~<html\b([^>]*)>~i',
+                        '<html$1 data-seo-alt-text="' .
+                            seoEscape($altText) . '">',
+                        $html,
+                        1
+                    );
+                }
             }
 
             break;
