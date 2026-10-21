@@ -2,11 +2,11 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Do not rewrite real files or folders (JS, CSS, images, fonts).
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
+  # Allow existing assets and files, but not index.html.
+  RewriteCond %{REQUEST_URI} !^/index\.html$
+  RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^ - [L]
 
-  # Send React website routes through PHP for dynamic SEO.
+  # Route website pages through PHP for live SEO metadata.
   RewriteRule ^ seo.php [L,QSA]
 </IfModule>
