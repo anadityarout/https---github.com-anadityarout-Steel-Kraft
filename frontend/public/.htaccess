@@ -1,9 +1,12 @@
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # Do not rewrite real files or folders (JS, CSS, images, fonts).
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  RewriteRule ^ index.html [L]
+  # Send React website routes through PHP for dynamic SEO.
+  RewriteRule ^ seo.php [L,QSA]
 </IfModule>

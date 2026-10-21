@@ -54,6 +54,7 @@ import Popup from "./Components/Popup/Popup";
 import GetQuote from "./Components/Popup/GetQuote";
 import FloatingChat from "./Components/Popup/FloatingChat";
 
+import SeoMetadata from "./Components/Seomain/SeoMetadata";
 // =====================================================
 // SCROLL TO TOP ON ROUTE CHANGE
 // =====================================================
@@ -171,7 +172,10 @@ function AppLayout() {
   const showFloatingChat = pathname === "/";
 
   return (
-    <>
+  <>
+      {/* DYNAMIC SEO METADATA */}
+      {isWebsitePage && <SeoMetadata />}
+
       {/* NAVBAR */}
       {isWebsitePage && <Navbar />}
 
