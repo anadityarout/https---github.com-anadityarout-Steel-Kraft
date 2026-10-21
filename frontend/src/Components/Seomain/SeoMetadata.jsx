@@ -13,6 +13,7 @@ const PAGE_ROUTE_MAP = {
 };
 
 const DEFAULT_TITLE = "Steel Craft Prefab";
+
 const DEFAULT_DESCRIPTION =
   "Explore prefab buildings and steel construction solutions from Steel Craft Prefab.";
 
@@ -59,7 +60,9 @@ export default function SeoMetadata() {
 
     async function fetchSEO() {
       try {
-        const response = await fetch(SEO_API);
+        const response = await fetch(SEO_API, {
+          cache: "no-store",
+        });
 
         if (!response.ok) {
           throw new Error(`SEO API failed: ${response.status}`);
@@ -92,16 +95,15 @@ export default function SeoMetadata() {
     };
   }, []);
 
+  const pageName = PAGE_ROUTE_MAP[pathname];
+
+  const item = seoItems.find(
+    (entry) =>
+      entry.page?.toLowerCase() === pageName?.toLowerCase()
+  );
+
   useEffect(() => {
-    const pageName = PAGE_ROUTE_MAP[pathname];
-    if (!pageName) return;
-
-    const item = seoItems.find(
-      (entry) =>
-        entry.page?.toLowerCase() === pageName.toLowerCase()
-    );
-
-    if (!loaded && !item) return;
+    if (!pageName || (!loaded && !item)) return;
 
     document.title =
       item?.metaTitle?.trim() || DEFAULT_TITLE;
@@ -117,48 +119,36 @@ export default function SeoMetadata() {
       item?.canonicalUrl?.trim() ||
         `${window.location.origin}${pathname}`
     );
-
-    // Save this page's alt text for the image-update effect below.
-    document.documentElement.dataset.seoAltText =
-      item?.altText?.trim() || "";
-  }, [pathname, seoItems, loaded]);
+  }, [pathname, pageName, item, loaded]);
 
   useEffect(() => {
-    const pageName = PAGE_ROUTE_MAP[pathname];
-    if (!pageName) return;
+    if (!pageName || !loaded || !item) return;
 
-    const item = seoItems.find(
-      (entry) =>
-        entry.page?.toLowerCase() === pageName.toLowerCase()
-    );
+    const altText = item.altText?.trim();
+    if (!altText) return;
 
-    const altText = item?.altText?.trim();
-    if (!loaded || !altText) return;
+    const root = document.getElementById("root");
+    if (!root) return;
 
-    // Apply the saved text to images that don't have meaningful alt text.
-    // Existing non-empty alt attributes are preserved.
     const applyAltText = () => {
-      document.querySelectorAll("#root img").forEach((img) => {
-        const existingAlt = img.getAttribute("alt");
-
-        if (!existingAlt || !existingAlt.trim()) {
-          img.setAttribute("alt", altText);
-        }
+      root.querySelectorAll("img").forEach((img) => {
+        img.setAttribute("alt", altText);
       });
     };
 
     applyAltText();
 
-    // React may render additional images after the first pass.
-    const observer = new MutationObserver(applyAltText);
+    const observer = new MutationObserver(() => {
+      applyAltText();
+    });
 
-    observer.observe(document.getElementById("root") || document.body, {
+    observer.observe(root, {
       childList: true,
       subtree: true,
     });
 
     return () => observer.disconnect();
-  }, [pathname, seoItems, loaded]);
+  }, [pathname, pageName, item, loaded]);
 
   return null;
 }
