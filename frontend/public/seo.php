@@ -121,10 +121,12 @@ function setPageTitle(&$html, $title)
     }
 }
 
+
 function setSchema(&$html, $schema)
 {
     $json = json_encode(
         $schema,
+        JSON_PRETTY_PRINT |
         JSON_UNESCAPED_SLASHES |
         JSON_UNESCAPED_UNICODE |
         JSON_HEX_TAG |
@@ -134,19 +136,29 @@ function setSchema(&$html, $schema)
     );
 
     if ($json === false) {
-        error_log('Unable to encode Steel Craft Schema.org JSON-LD.');
+        error_log(
+            'Unable to encode Steel Craft Schema.org JSON-LD: ' .
+            json_last_error_msg()
+        );
         return;
     }
 
-    $tag = '<script type="application/ld+json">' .
-        $json .
-        '</script>';
+    $tag = "<!-- Schema.org -->\n" .
+        "<script type=\"application/ld+json\">\n" .
+        $json . "\n" .
+        "</script>";
 
-    // Replace an existing JSON-LD block, or insert one if missing.
-    $pattern = '~<script\b(?=[^>]*type=["\']application/ld\+json["\'])[^>]*>.*?</script>~is';
+    // Replace an existing JSON-LD script or add one if missing.
+    $pattern =
+        '~<script\b(?=[^>]*type=["\']application/ld\+json["\'])[^>]*>.*?</script>~is';
 
     if (preg_match($pattern, $html)) {
-        $html = preg_replace($pattern, $tag, $html, 1);
+        $html = preg_replace(
+            $pattern,
+            $tag,
+            $html,
+            1
+        );
     } else {
         $html = preg_replace(
             '~</head>~i',
