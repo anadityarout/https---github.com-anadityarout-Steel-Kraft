@@ -1,6 +1,6 @@
 
 <?php
-// Steel Craft Prefab - Dynamic SEO + Page-Specific Schema.org
+// Steel Craft Prefab - Dynamic SEO, Open Graph, Twitter and Schema.org
 
 $apiUrl = 'https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/seo';
 $siteUrl = 'https://www.steelcraftprefab.com';
@@ -24,7 +24,9 @@ $routes = [
     ],
 ];
 
-/* ---------- HTML helpers ---------- */
+/* =========================================================
+   HTML HELPERS
+========================================================= */
 
 function seoEscape($value)
 {
@@ -132,6 +134,7 @@ function setSchema(&$html, $schema)
     );
 
     if ($json === false) {
+        error_log('Unable to encode Steel Craft Schema.org JSON-LD.');
         return;
     }
 
@@ -139,6 +142,7 @@ function setSchema(&$html, $schema)
         $json .
         '</script>';
 
+    // Replace an existing JSON-LD block, or insert one if missing.
     $pattern = '~<script\b(?=[^>]*type=["\']application/ld\+json["\'])[^>]*>.*?</script>~is';
 
     if (preg_match($pattern, $html)) {
@@ -153,7 +157,9 @@ function setSchema(&$html, $schema)
     }
 }
 
-/* ---------- Resolve requested page ---------- */
+/* =========================================================
+   DETERMINE THE REQUESTED PAGE
+========================================================= */
 
 $path = parse_url(
     $_SERVER['REQUEST_URI'] ?? '/',
@@ -168,7 +174,9 @@ if ($path === '//') {
 
 $route = $routes[$path] ?? null;
 
-/* ---------- Load React HTML ---------- */
+/* =========================================================
+   LOAD THE BUILT REACT HTML TEMPLATE
+========================================================= */
 
 $htmlFile = __DIR__ . '/index.html';
 
@@ -184,12 +192,14 @@ if ($html === false) {
     exit('Unable to load website HTML.');
 }
 
-/* ---------- Fetch saved SEO data ---------- */
+/* =========================================================
+   FETCH SEO DATA FROM THE ADMIN DASHBOARD API
+========================================================= */
 
 if ($route !== null) {
     $context = stream_context_create([
         'http' => [
-            'timeout' => 5,
+            'timeout' => 8,
             'ignore_errors' => true,
             'header' => "Accept: application/json\r\n",
         ],
@@ -205,33 +215,49 @@ if ($route !== null) {
         ? json_decode($response, true)
         : null;
 
-    $seoItem = null;
-
     if (is_array($items)) {
-        // Support either a direct array or { "items": [...] }.
-        if (isset($items['items']) && is_array($items['items'])) {
+        if (
+            isset($items['items']) &&
+            is_array($items['items'])
+        ) {
             $items = $items['items'];
         }
+    } else {
+        $items = [];
+    }
 
-        foreach ($items as $item) {
-            if (
-                is_array($item) &&
-                strcasecmp(
-                    trim((string) ($item['page'] ?? '')),
-                    $route['page']
-                ) === 0
-            ) {
-                $seoItem = $item;
-                break;
-            }
+    $seoItem = null;
+
+    foreach ($items as $item) {
+        if (
+            is_array($item) &&
+            strcasecmp(
+                trim((string) ($item['page'] ?? '')),
+                $route['page']
+            ) === 0
+        ) {
+            $seoItem = $item;
+            break;
         }
     }
 
-    // Defaults used if the API has no entry for this page.
-    $title = trim((string) ($seoItem['metaTitle'] ?? ''));
-    $description = trim((string) ($seoItem['description'] ?? ''));
-    $keywords = trim((string) ($seoItem['keywords'] ?? ''));
-    $altText = trim((string) ($seoItem['altText'] ?? ''));
+    /* ---------- SEO values ---------- */
+
+    $title = trim(
+        (string) ($seoItem['metaTitle'] ?? '')
+    );
+
+    $description = trim(
+        (string) ($seoItem['description'] ?? '')
+    );
+
+    $keywords = trim(
+        (string) ($seoItem['keywords'] ?? '')
+    );
+
+    $altText = trim(
+        (string) ($seoItem['altText'] ?? '')
+    );
 
     if ($title === '') {
         $title = 'Steel Craft Prefab';
@@ -239,10 +265,10 @@ if ($route !== null) {
 
     if ($description === '') {
         $description =
-            'Explore prefab buildings and construction solutions from Steel Craft Prefab.';
+            'Explore prefab homes, cottages and prefabricated construction solutions from Steel Craft Prefab.';
     }
 
-    /* ---------- Validate canonical URL ---------- */
+    /* ---------- Canonical URL ---------- */
 
     $canonical = trim(
         (string) ($seoItem['canonicalUrl'] ?? '')
@@ -259,7 +285,10 @@ if ($route !== null) {
     if (
         !in_array(
             $host,
-            ['www.steelcraftprefab.com', 'steelcraftprefab.com'],
+            [
+                'www.steelcraftprefab.com',
+                'steelcraftprefab.com',
+            ],
             true
         ) ||
         $scheme !== 'https'
@@ -267,30 +296,23 @@ if ($route !== null) {
         $canonical = $route['canonical'];
     }
 
-    // Use the route's own URL even if an admin entry has the wrong path.
-    $expectedCanonical = $route['canonical'];
+    // Always use the correct route URL.
+    $canonical = $route['canonical'];
 
-    if (
-        rtrim($canonical, '/') !== rtrim($expectedCanonical, '/') &&
-        $route['page'] !== 'Home'
-    ) {
-        $canonical = $expectedCanonical;
-    }
-
-    if ($route['page'] === 'Home') {
-        $canonical = $expectedCanonical;
-    }
-
-    /* ---------- Standard SEO tags ---------- */
+    /* =====================================================
+       STANDARD SEO METADATA
+    ===================================================== */
 
     setPageTitle($html, $title);
     setMetaName($html, 'description', $description);
     setMetaName($html, 'keywords', $keywords);
     setCanonical($html, $canonical);
 
-    /* ---------- Open Graph ---------- */
+    /* =====================================================
+       OPEN GRAPH METADATA
+    ===================================================== */
 
-    // Ensure this image exists and is publicly accessible.
+    // Confirm this image exists in your public_html/assets folder.
     $ogImage = $siteUrl . '/assets/steel-craft-og-image.jpg';
 
     setMetaProperty($html, 'og:title', $title);
@@ -300,17 +322,28 @@ if ($route !== null) {
     setMetaProperty($html, 'og:site_name', 'Steel Craft Prefab');
     setMetaProperty($html, 'og:image', $ogImage);
 
-    /* ---------- Twitter metadata ---------- */
+    /* =====================================================
+       TWITTER CARD METADATA
+    ===================================================== */
 
     setMetaName($html, 'twitter:card', 'summary_large_image');
     setMetaName($html, 'twitter:title', $title);
     setMetaName($html, 'twitter:description', $description);
     setMetaName($html, 'twitter:image', $ogImage);
 
-    /* ---------- Saved alt text data attribute ---------- */
+    /* =====================================================
+       SAVED ALT TEXT
+    ===================================================== */
 
+    // This exposes the saved value in the HTML document.
+    // It does not automatically change React image alt attributes.
     if (preg_match('~<html\b[^>]*>~i', $html)) {
-        if (preg_match('~\sdata-seo-alt-text=["\'][^"\']*["\']~i', $html)) {
+        if (
+            preg_match(
+                '~\sdata-seo-alt-text=["\'][^"\']*["\']~i',
+                $html
+            )
+        ) {
             $html = preg_replace(
                 '~\sdata-seo-alt-text=["\'][^"\']*["\']~i',
                 ' data-seo-alt-text="' . seoEscape($altText) . '"',
@@ -328,7 +361,9 @@ if ($route !== null) {
         }
     }
 
-    /* ---------- Page-specific Schema.org ---------- */
+    /* =====================================================
+       SCHEMA.ORG SHARED ENTITIES
+    ===================================================== */
 
     $organization = [
         '@type' => 'Organization',
@@ -337,22 +372,42 @@ if ($route !== null) {
         'url' => $siteUrl . '/',
         'logo' => [
             '@type' => 'ImageObject',
-            'url' => $siteUrl . '/assets/Steel%20Kraft%20Logo.png',
+            'url' => $siteUrl .
+                '/assets/Steel%20Kraft%20Logo--o4TBwkp.png',
+        ],
+    ];
+
+    // Add LocalBusiness only with genuine business details.
+    // Telephone, email and address are not invented here.
+    $localBusiness = [
+        '@type' => 'LocalBusiness',
+        '@id' => $siteUrl . '/#localbusiness',
+        'name' => 'Steel Craft Prefab',
+        'url' => $siteUrl . '/',
+        'image' => $ogImage,
+        'parentOrganization' => [
+            '@id' => $siteUrl . '/#organization',
         ],
     ];
 
     $website = [
         '@type' => 'WebSite',
         '@id' => $siteUrl . '/#website',
-        'name' => 'Steel Craft Prefab',
         'url' => $siteUrl . '/',
+        'name' => 'Steel Craft Prefab',
         'publisher' => [
             '@id' => $siteUrl . '/#organization',
         ],
+        'inLanguage' => 'en-IN',
     ];
+
+    /* =====================================================
+       PAGE-SPECIFIC SCHEMA
+    ===================================================== */
 
     switch ($route['page']) {
         case 'Home':
+
             $pageSchema = [
                 '@type' => 'WebPage',
                 '@id' => $canonical . '#webpage',
@@ -365,10 +420,19 @@ if ($route !== null) {
                 'about' => [
                     '@id' => $siteUrl . '/#organization',
                 ],
+                'mainEntity' => [
+                    '@id' => $siteUrl . '/#organization',
+                ],
+                'publisher' => [
+                    '@id' => $siteUrl . '/#organization',
+                ],
+                'inLanguage' => 'en-IN',
             ];
+
             break;
 
         case 'Home & Cottage':
+
             $pageSchema = [
                 '@type' => 'CollectionPage',
                 '@id' => $canonical . '#webpage',
@@ -379,12 +443,21 @@ if ($route !== null) {
                     '@id' => $siteUrl . '/#website',
                 ],
                 'about' => [
+                    '@type' => 'Thing',
+                    'name' => 'Prefabricated Homes and Cottages',
+                    'description' =>
+                        'Prefabricated homes, cottages and modular living solutions.',
+                ],
+                'publisher' => [
                     '@id' => $siteUrl . '/#organization',
                 ],
+                'inLanguage' => 'en-IN',
             ];
+
             break;
 
         case 'Project':
+
             $pageSchema = [
                 '@type' => 'CollectionPage',
                 '@id' => $canonical . '#webpage',
@@ -395,13 +468,28 @@ if ($route !== null) {
                     '@id' => $siteUrl . '/#website',
                 ],
                 'about' => [
+                    '@type' => 'Thing',
+                    'name' => 'Prefab Construction Projects',
+                    'description' =>
+                        'Prefabricated buildings and construction projects.',
+                ],
+                'mainEntity' => [
+                    '@type' => 'ItemList',
+                    '@id' => $canonical . '#project-list',
+                    'name' => 'Steel Craft Prefab Projects',
+                    'itemListOrder' =>
+                        'https://schema.org/ItemListOrderAscending',
+                ],
+                'publisher' => [
                     '@id' => $siteUrl . '/#organization',
                 ],
+                'inLanguage' => 'en-IN',
             ];
+
             break;
 
         case 'Contact':
-        default:
+
             $pageSchema = [
                 '@type' => 'ContactPage',
                 '@id' => $canonical . '#webpage',
@@ -414,14 +502,42 @@ if ($route !== null) {
                 'about' => [
                     '@id' => $siteUrl . '/#organization',
                 ],
+                'publisher' => [
+                    '@id' => $siteUrl . '/#organization',
+                ],
+                'inLanguage' => 'en-IN',
             ];
+
+            break;
+
+        default:
+
+            $pageSchema = [
+                '@type' => 'WebPage',
+                '@id' => $canonical . '#webpage',
+                'url' => $canonical,
+                'name' => $title,
+                'description' => $description,
+                'isPartOf' => [
+                    '@id' => $siteUrl . '/#website',
+                ],
+                'publisher' => [
+                    '@id' => $siteUrl . '/#organization',
+                ],
+            ];
+
             break;
     }
+
+    /* =====================================================
+       FINAL JSON-LD GRAPH
+    ===================================================== */
 
     $schema = [
         '@context' => 'https://schema.org',
         '@graph' => [
             $organization,
+            $localBusiness,
             $website,
             $pageSchema,
         ],
@@ -430,7 +546,9 @@ if ($route !== null) {
     setSchema($html, $schema);
 }
 
-/* ---------- Return HTML ---------- */
+/* =========================================================
+   RETURN HTML
+========================================================= */
 
 header('Content-Type: text/html; charset=UTF-8');
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
