@@ -40,11 +40,6 @@ function setCanonicalUrl(url) {
     'link[rel="canonical"]'
   );
 
-  if (!url) {
-    element?.remove();
-    return;
-  }
-
   if (!element) {
     element = document.createElement("link");
     element.setAttribute("rel", "canonical");
@@ -67,9 +62,7 @@ export default function SeoMetadata() {
         const response = await fetch(SEO_API);
 
         if (!response.ok) {
-          throw new Error(
-            `SEO API failed: ${response.status}`
-          );
+          throw new Error(`SEO API failed: ${response.status}`);
         }
 
         const data = await response.json();
@@ -82,11 +75,10 @@ export default function SeoMetadata() {
 
         if (!cancelled) {
           setSeoItems(items);
-          setLoaded(true);
         }
       } catch (error) {
         console.error("Unable to load SEO metadata:", error);
-
+      } finally {
         if (!cancelled) {
           setLoaded(true);
         }
@@ -102,8 +94,6 @@ export default function SeoMetadata() {
 
   useEffect(() => {
     const pageName = PAGE_ROUTE_MAP[pathname];
-
-    // Do not change metadata for admin or unknown routes.
     if (!pageName) return;
 
     const item = seoItems.find(
@@ -111,24 +101,63 @@ export default function SeoMetadata() {
         entry.page?.toLowerCase() === pageName.toLowerCase()
     );
 
-    // Use existing defaults until SEO data has loaded.
     if (!loaded && !item) return;
 
-    const title = item?.metaTitle?.trim() || DEFAULT_TITLE;
-    const description =
-      item?.description?.trim() || DEFAULT_DESCRIPTION;
+    document.title =
+      item?.metaTitle?.trim() || DEFAULT_TITLE;
 
-    document.title = title;
+    setMetaTag(
+      "description",
+      item?.description?.trim() || DEFAULT_DESCRIPTION
+    );
 
-    setMetaTag("description", description);
     setMetaTag("keywords", item?.keywords?.trim() || "");
 
-    const canonicalUrl = item?.canonicalUrl?.trim();
-
     setCanonicalUrl(
-      canonicalUrl ||
+      item?.canonicalUrl?.trim() ||
         `${window.location.origin}${pathname}`
     );
+
+    // Save this page's alt text for the image-update effect below.
+    document.documentElement.dataset.seoAltText =
+      item?.altText?.trim() || "";
+  }, [pathname, seoItems, loaded]);
+
+  useEffect(() => {
+    const pageName = PAGE_ROUTE_MAP[pathname];
+    if (!pageName) return;
+
+    const item = seoItems.find(
+      (entry) =>
+        entry.page?.toLowerCase() === pageName.toLowerCase()
+    );
+
+    const altText = item?.altText?.trim();
+    if (!loaded || !altText) return;
+
+    // Apply the saved text to images that don't have meaningful alt text.
+    // Existing non-empty alt attributes are preserved.
+    const applyAltText = () => {
+      document.querySelectorAll("#root img").forEach((img) => {
+        const existingAlt = img.getAttribute("alt");
+
+        if (!existingAlt || !existingAlt.trim()) {
+          img.setAttribute("alt", altText);
+        }
+      });
+    };
+
+    applyAltText();
+
+    // React may render additional images after the first pass.
+    const observer = new MutationObserver(applyAltText);
+
+    observer.observe(document.getElementById("root") || document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
   }, [pathname, seoItems, loaded]);
 
   return null;
