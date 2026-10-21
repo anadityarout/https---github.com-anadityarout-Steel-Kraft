@@ -320,28 +320,62 @@ if ($route !== null) {
     setMetaName($html, 'keywords', $keywords);
     setCanonical($html, $canonical);
 
+    
     /* =====================================================
        OPEN GRAPH METADATA
     ===================================================== */
 
-    // Confirm this image exists in your public_html/assets folder.
+    // Confirm this image exists and is publicly accessible.
     $ogImage = $siteUrl . '/assets/steel-craft-og-image.jpg';
 
-    setMetaProperty($html, 'og:title', $title);
-    setMetaProperty($html, 'og:description', $description);
-    setMetaProperty($html, 'og:type', 'website');
-    setMetaProperty($html, 'og:url', $canonical);
-    setMetaProperty($html, 'og:site_name', 'Steel Craft Prefab');
-    setMetaProperty($html, 'og:image', $ogImage);
+    // Remove existing Open Graph tags to prevent duplicates.
+    $html = preg_replace(
+        '~<meta\b(?=[^>]*\bproperty=["\']og:[^"\']+["\'])[^>]*>\s*~i',
+        '',
+        $html
+    );
 
-    /* =====================================================
-       TWITTER CARD METADATA
-    ===================================================== */
+    // Remove existing Twitter tags to prevent duplicates.
+    $html = preg_replace(
+        '~<meta\b(?=[^>]*\bname=["\']twitter:[^"\']+["\'])[^>]*>\s*~i',
+        '',
+        $html
+    );
 
-    setMetaName($html, 'twitter:card', 'summary_large_image');
-    setMetaName($html, 'twitter:title', $title);
-    setMetaName($html, 'twitter:description', $description);
-    setMetaName($html, 'twitter:image', $ogImage);
+    // Create the Open Graph section.
+    $openGraphTags = [
+        '<!-- Open Graph -->',
+        '<meta property="og:title" content="' . seoEscape($title) . '">',
+        '<meta property="og:description" content="' . seoEscape($description) . '">',
+        '<meta property="og:type" content="website">',
+        '<meta property="og:url" content="' . seoEscape($canonical) . '">',
+        '<meta property="og:site_name" content="Steel Craft Prefab">',
+        '<meta property="og:image" content="' . seoEscape($ogImage) . '">',
+    ];
+
+    // Create the Twitter section.
+    $twitterTags = [
+        '<!-- Twitter -->',
+        '<meta name="twitter:card" content="summary_large_image">',
+        '<meta name="twitter:title" content="' . seoEscape($title) . '">',
+        '<meta name="twitter:description" content="' . seoEscape($description) . '">',
+        '<meta name="twitter:image" content="' . seoEscape($ogImage) . '">',
+    ];
+
+    // Insert both sections into the HTML head.
+    $socialTags = implode("\n    ", array_merge(
+        $openGraphTags,
+        [''],
+        $twitterTags
+    ));
+
+    $html = preg_replace(
+        '~</head>~i',
+        $socialTags . "\n</head>",
+        $html,
+        1
+    );
+
 
     /* =====================================================
        SAVED ALT TEXT
