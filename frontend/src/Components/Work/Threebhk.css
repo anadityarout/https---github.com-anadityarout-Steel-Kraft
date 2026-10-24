@@ -1,0 +1,1103 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap");
+
+/* =========================================
+   THREE BHK PAGE — GLOBAL
+========================================= */
+
+.threebhk-page {
+  width: 100%;
+  overflow: hidden;
+  background: #f2f8ff;
+  color: #102b50;
+  font-family: "Raleway", sans-serif;
+  box-sizing: border-box;
+}
+
+.threebhk-page *,
+.threebhk-page *::before,
+.threebhk-page *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HERO BANNER (matches 1 BHK / 2 BHK hero)
+========================================= */
+
+.threebhk-banner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 520px;
+  height: clamp(520px, 32.4vw, 640px);
+  overflow: hidden;
+  color: #fff;
+  background: #101714;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.threebhk-banner__image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.threebhk-banner__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    rgba(4, 10, 10, 0.86) 0%,
+    rgba(4, 10, 10, 0.7) 32%,
+    rgba(4, 10, 10, 0.34) 58%,
+    rgba(4, 10, 10, 0.06) 100%
+  );
+}
+
+.threebhk-banner__content {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* top padding leaves room for the floating navbar */
+  padding: 120px clamp(24px, 6vw, 86px) 36px;
+}
+
+.threebhk-banner__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.threebhk-banner__eyebrow span {
+  color: #f5b942;
+}
+
+.threebhk-banner__eyebrow strong {
+  color: #f5b942;
+  font-weight: 700;
+}
+
+.threebhk-banner__title {
+  margin: 0;
+  color: #fff;
+  font-family: "Playfair Display", "Libre Baskerville", Georgia, serif;
+  font-size: clamp(44px, 3.8vw, 72px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1px;
+}
+
+.threebhk-banner__title span {
+  display: block;
+  color: #f5b942;
+}
+
+.threebhk-banner__subtitle {
+  margin: 22px 0 14px;
+  color: #fff;
+  font-family: "Playfair Display", "Libre Baskerville", Georgia, serif;
+  font-size: clamp(19px, 1.4vw, 27px);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.threebhk-banner__description {
+  max-width: 430px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+.threebhk-banner__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.threebhk-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 50px;
+  padding: 0 26px;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.threebhk-banner__btn--gold {
+  border: 1px solid #f5b942;
+  background: #f5b942;
+  color: #171717;
+}
+
+.threebhk-banner__btn--gold:hover {
+  border-color: #ffd16a;
+  background: #ffd16a;
+  transform: translateY(-2px);
+}
+
+.threebhk-banner__btn--outline {
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.threebhk-banner__btn--outline:hover {
+  background: #fff;
+  color: #111;
+}
+
+/* Badge — bottom right */
+
+.threebhk-banner__quality {
+  position: absolute;
+  right: clamp(16px, 1.3vw, 26px);
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 12px;
+  background: rgba(7, 26, 66, 0.88);
+  backdrop-filter: blur(8px);
+}
+
+.threebhk-banner__quality-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  color: #fff;
+}
+
+.threebhk-banner__quality-text h3 {
+  margin: 0 0 3px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.threebhk-banner__quality-text p {
+  margin: 0;
+  color: #d6e0f0;
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+/* =========================================
+   FEATURES STRIP — FIVE FEATURES
+========================================= */
+
+.threebhk-features {
+  width: 100%;
+  padding: 18px 20px;
+  background: linear-gradient(180deg, #f2f8ff, #e5f3ff);
+}
+
+.threebhk-features__container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.48);
+  box-shadow: 0 8px 28px rgba(41, 103, 165, 0.08);
+}
+
+.threebhk-feature {
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  border-right: 1px solid #c9dff5;
+}
+
+.threebhk-feature:last-child {
+  border-right: 0;
+}
+
+.threebhk-feature__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #102f59;
+}
+
+.threebhk-feature__icon svg {
+  width: 34px;
+  height: 34px;
+  stroke-width: 1.8;
+}
+
+.threebhk-feature__text {
+  min-width: 0;
+}
+
+.threebhk-feature h3 {
+  margin: 0 0 5px;
+  color: #142f53;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.threebhk-feature p {
+  margin: 0;
+  color: #7188a8;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   DESIGN SECTION
+========================================= */
+
+.threebhk-designs {
+  width: 100%;
+  padding: 45px 24px 55px;
+  background: #f2f8ff;
+  scroll-margin-top: 30px;
+}
+
+.threebhk-designs__container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.threebhk-designs__heading {
+  max-width: 850px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.threebhk-designs__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: #6684ad;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.threebhk-designs__heading h2 {
+  margin: 0 0 12px;
+  color: #102b50;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(25px, 3vw, 39px);
+  line-height: 1.4;
+}
+
+.threebhk-designs__heading p {
+  max-width: 750px;
+  margin: 0 auto;
+  color: #7188a8;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.threebhk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.threebhk-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #deebf9;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 25px rgba(24, 66, 112, 0.07);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.threebhk-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(24, 66, 112, 0.12);
+}
+
+.threebhk-card__image {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  background: #dce8f4;
+}
+
+.threebhk-card__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.threebhk-card:hover .threebhk-card__image img {
+  transform: scale(1.04);
+}
+
+.threebhk-card__body {
+  padding: 16px;
+}
+
+.threebhk-card__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.threebhk-card__title-row h3 {
+  margin: 0;
+  color: #17365e;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.threebhk-card__area {
+  flex-shrink: 0;
+  color: #17365e;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.threebhk-card__meta {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 15px;
+}
+
+.threebhk-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #7489a5;
+  font-size: 10px;
+}
+
+.threebhk-card__meta svg {
+  flex-shrink: 0;
+  color: #7794b9;
+}
+
+.threebhk-card__description {
+  margin: 13px 0;
+  color: #7188a8;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.threebhk-card__details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #17365e;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.threebhk-card__arrow {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #8aadd9;
+  border-radius: 50%;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.threebhk-card__details:hover .threebhk-card__arrow {
+  background: #1d68bd;
+  color: #fff;
+}
+
+/* =========================================
+   BOTTOM QUOTE BANNER — PANORAMIC
+========================================= */
+
+.threebhk-quote {
+  position: relative;
+  isolation: isolate;
+  width: calc(100% - 40px);
+  max-width: 1440px;
+  height: 215px;
+  min-height: 215px;
+  margin: 15px auto 45px;
+  display: grid;
+  grid-template-columns: 38% minmax(0, 1fr) 205px;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(110deg, #073a70, #03172f);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(10, 45, 90, 0.12);
+}
+
+.threebhk-quote__image {
+  position: relative;
+  width: 100%;
+  height: 215px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.threebhk-quote__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.threebhk-quote__image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 60%,
+    rgba(3, 23, 47, 0.8) 100%
+  );
+  pointer-events: none;
+}
+
+.threebhk-quote__content {
+  min-width: 0;
+  height: 215px;
+  min-height: 0;
+  padding: 18px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.threebhk-quote__eyebrow {
+  margin: 0 0 5px;
+  color: #c8dcf4;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  line-height: 1.5;
+}
+
+.threebhk-quote__content h2 {
+  margin: 0 0 5px;
+  color: #fff;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(18px, 1.7vw, 27px);
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.threebhk-quote__content p {
+  max-width: 440px;
+  margin: 0;
+  color: #d4e1f2;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.threebhk-quote__button {
+  min-height: 42px;
+  margin-top: 14px;
+  padding: 0 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid #ffd477;
+  border-radius: 30px;
+  background: #ffc34d;
+  color: #14243b;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: background 0.25s ease;
+}
+
+.threebhk-quote__button:hover {
+  background: #ffda83;
+}
+
+.threebhk-quote__benefits {
+  min-width: 0;
+  height: 215px;
+  min-height: 0;
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(3, 23, 47, 0.15);
+}
+
+.threebhk-quote__benefits span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #e8f1fc;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.threebhk-quote__benefits svg {
+  flex-shrink: 0;
+  color: #d5e7ff;
+}
+
+/* =========================================
+   LARGE TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+  .threebhk-features__container {
+    padding: 18px 10px;
+  }
+
+  .threebhk-feature {
+    padding: 0 9px;
+    gap: 8px;
+  }
+
+  .threebhk-feature__icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .threebhk-feature h3 {
+    font-size: 11px;
+  }
+
+  .threebhk-feature p {
+    font-size: 9px;
+  }
+
+  .threebhk-quote {
+    grid-template-columns: 34% minmax(0, 1fr) 175px;
+  }
+
+  .threebhk-quote__content {
+    padding: 10px 13px;
+  }
+
+  .threebhk-quote__benefits {
+    padding: 10px 7px;
+    gap: 9px;
+  }
+
+  .threebhk-quote__benefits span {
+    gap: 6px;
+    font-size: 8px;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 768px) {
+  .threebhk-banner {
+    min-height: 520px;
+    height: 560px;
+  }
+
+  .threebhk-banner__image {
+    background-position: 60% center;
+  }
+
+  .threebhk-banner__content {
+    padding: 110px 6% 50px;
+  }
+
+  .threebhk-banner__eyebrow {
+    font-size: 12px;
+  }
+
+  .threebhk-banner__title {
+    font-size: clamp(42px, 7vw, 58px);
+  }
+
+  .threebhk-banner__description {
+    max-width: 400px;
+    font-size: 14px;
+  }
+
+  .threebhk-banner__quality {
+    right: 16px;
+    bottom: 15px;
+  }
+
+  .threebhk-features {
+    padding: 14px;
+  }
+
+  .threebhk-features__container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  .threebhk-feature {
+    min-height: 68px;
+    justify-content: flex-start;
+    padding: 12px;
+    border-right: 0;
+    border-bottom: 1px solid #c9dff5;
+  }
+
+  .threebhk-feature:nth-child(odd) {
+    border-right: 1px solid #c9dff5;
+  }
+
+  .threebhk-feature:nth-last-child(-n + 1) {
+    border-bottom: 0;
+  }
+
+  .threebhk-feature:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-content: center;
+    border-right: 0;
+  }
+
+  .threebhk-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .threebhk-card__image {
+    height: 190px;
+  }
+
+  .threebhk-card__body {
+    padding: 13px;
+  }
+
+  .threebhk-quote {
+    width: calc(100% - 28px);
+    height: 190px;
+    min-height: 190px;
+    grid-template-columns: 30% minmax(0, 1fr) 145px;
+  }
+
+  .threebhk-quote__image,
+  .threebhk-quote__content,
+  .threebhk-quote__benefits {
+    height: 190px;
+  }
+
+  .threebhk-quote__content h2 {
+    font-size: 18px;
+  }
+
+  .threebhk-quote__content p {
+    font-size: 10px;
+  }
+
+  .threebhk-quote__eyebrow {
+    font-size: 7px;
+    letter-spacing: 0.7px;
+  }
+
+  .threebhk-quote__benefits span {
+    font-size: 7px;
+  }
+
+  .threebhk-quote__benefits svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .threebhk-banner {
+    height: auto;
+    min-height: 660px;
+    align-items: flex-start;
+  }
+
+  .threebhk-banner__image {
+    background-position: 62% center;
+  }
+
+  .threebhk-banner__shade {
+    background: linear-gradient(
+      180deg,
+      rgba(4, 10, 10, 0.86) 0%,
+      rgba(4, 10, 10, 0.72) 48%,
+      rgba(4, 10, 10, 0.4) 76%,
+      rgba(4, 10, 10, 0.75) 100%
+    );
+  }
+
+  .threebhk-banner__content {
+    padding: 118px 20px 130px;
+  }
+
+  .threebhk-banner__eyebrow {
+    margin-bottom: 16px;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+  }
+
+  .threebhk-banner__title {
+    font-size: clamp(38px, 11vw, 50px);
+    line-height: 1.08;
+    letter-spacing: -0.8px;
+  }
+
+  .threebhk-banner__subtitle {
+    margin: 16px 0 10px;
+    font-size: 18px;
+  }
+
+  .threebhk-banner__description {
+    max-width: 360px;
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .threebhk-banner__buttons {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 280px;
+    margin-top: 24px;
+  }
+
+  .threebhk-banner__btn {
+    width: 100%;
+    min-height: 48px;
+    font-size: 14px;
+  }
+
+  .threebhk-banner__quality {
+    right: auto;
+    left: 20px;
+    bottom: 18px;
+    padding: 9px 14px 9px 10px;
+  }
+
+  .threebhk-banner__quality-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .threebhk-banner__quality-text h3 {
+    font-size: 12px;
+  }
+
+  .threebhk-banner__quality-text p {
+    font-size: 10px;
+  }
+
+  .threebhk-features {
+    padding: 14px 12px;
+  }
+
+  .threebhk-features__container {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 10px 16px;
+    border-radius: 18px;
+  }
+
+  .threebhk-feature,
+  .threebhk-feature:nth-child(odd),
+  .threebhk-feature:last-child:nth-child(odd) {
+    grid-column: auto;
+    min-height: 65px;
+    justify-content: flex-start;
+    padding: 12px 8px;
+    border-right: 0;
+    border-bottom: 1px solid #c9dff5;
+  }
+
+  .threebhk-feature:last-child {
+    border-bottom: 0;
+  }
+
+  .threebhk-feature__icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .threebhk-feature h3 {
+    font-size: 12px;
+  }
+
+  .threebhk-feature p {
+    font-size: 10px;
+  }
+
+  .threebhk-designs {
+    padding: 32px 14px 35px;
+  }
+
+  .threebhk-designs__heading {
+    margin-bottom: 22px;
+  }
+
+  .threebhk-designs__heading h2 {
+    font-size: clamp(23px, 6vw, 30px);
+    line-height: 1.45;
+  }
+
+  .threebhk-designs__heading p {
+    font-size: 12px;
+  }
+
+  .threebhk-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .threebhk-card__image {
+    height: clamp(200px, 62vw, 280px);
+  }
+
+  .threebhk-card__body {
+    padding: 15px;
+  }
+
+  .threebhk-card__title-row h3 {
+    font-size: 14px;
+  }
+
+  .threebhk-card__meta {
+    gap: 10px 13px;
+  }
+
+  .threebhk-card__meta span {
+    font-size: 10px;
+  }
+
+  .threebhk-card__description {
+    font-size: 12px;
+  }
+
+  /* Quote banner stacks vertically on mobile */
+  .threebhk-quote {
+    width: calc(100% - 28px);
+    height: auto;
+    min-height: 0;
+    margin: 25px auto 30px;
+    grid-template-columns: minmax(0, 1fr);
+    border-radius: 14px;
+  }
+
+  .threebhk-quote__image {
+    width: 100%;
+    height: 190px;
+    min-height: 0;
+  }
+
+  .threebhk-quote__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .threebhk-quote__image::after {
+    background: linear-gradient(
+      180deg,
+      transparent 55%,
+      rgba(3, 23, 47, 0.3) 100%
+    );
+  }
+
+  .threebhk-quote__content {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 23px 18px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .threebhk-quote__eyebrow {
+    margin-bottom: 7px;
+    font-size: 8px;
+    letter-spacing: 1px;
+  }
+
+  .threebhk-quote__content h2 {
+    margin-bottom: 8px;
+    font-size: clamp(19px, 5.5vw, 25px);
+    line-height: 1.45;
+  }
+
+  .threebhk-quote__content p {
+    max-width: 420px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .threebhk-quote__button {
+    min-height: 42px;
+    margin-top: 15px;
+    font-size: 11px;
+  }
+
+  .threebhk-quote__benefits {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 18px 15px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-content: center;
+    gap: 17px 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  }
+
+  .threebhk-quote__benefits span {
+    gap: 7px;
+    font-size: 10px;
+  }
+
+  .threebhk-quote__benefits svg {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .threebhk-banner {
+    min-height: 640px;
+  }
+
+  .threebhk-banner__content {
+    padding: 112px 15px 125px;
+  }
+
+  .threebhk-banner__title {
+    font-size: 36px;
+  }
+
+  .threebhk-banner__eyebrow {
+    font-size: 9.5px;
+    letter-spacing: 0.9px;
+  }
+
+  .threebhk-banner__description {
+    font-size: 13px;
+  }
+
+  .threebhk-banner__quality {
+    left: 15px;
+  }
+
+  .threebhk-designs {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .threebhk-card__title-row {
+    flex-wrap: wrap;
+  }
+
+  .threebhk-quote {
+    width: calc(100% - 20px);
+  }
+
+  .threebhk-quote__image {
+    height: 165px;
+  }
+
+  .threebhk-quote__content {
+    padding: 20px 12px;
+  }
+
+  .threebhk-quote__content h2 {
+    font-size: 19px;
+  }
+
+  .threebhk-quote__benefits {
+    padding: 16px 9px;
+    gap: 14px 6px;
+  }
+
+  .threebhk-quote__benefits span {
+    gap: 5px;
+    font-size: 9px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .threebhk-card,
+  .threebhk-card__image img,
+  .threebhk-banner__btn,
+  .threebhk-quote__button {
+    transition: none;
+  }
+}

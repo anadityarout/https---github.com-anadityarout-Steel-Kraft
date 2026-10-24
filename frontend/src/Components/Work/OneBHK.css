@@ -1,0 +1,1240 @@
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap");
+
+/* =========================================
+   GLOBAL
+========================================= */
+
+.onebhk-page {
+  width: 100%;
+  overflow-x: clip;
+  color: #102747;
+  font-family: "DM Sans", sans-serif;
+}
+
+.onebhk-page *,
+.onebhk-page *::before,
+.onebhk-page *::after {
+  box-sizing: border-box;
+}
+
+.onebhk-page img {
+  max-width: 100%;
+}
+
+/* =========================================
+   HERO BANNER
+========================================= */
+
+.onebhk-banner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 550px;
+  overflow: hidden;
+  background-color: #14201d;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #fff;
+}
+
+.onebhk-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 10, 12, 0.78) 0%,
+    rgba(5, 10, 12, 0.56) 32%,
+    rgba(5, 10, 12, 0.18) 62%,
+    rgba(5, 10, 12, 0.03) 100%
+  );
+}
+
+.onebhk-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 145px clamp(24px, 7.4vw, 105px) 75px;
+}
+
+.onebhk-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 18px;
+  color: #f5f5f5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  line-height: 1.6;
+}
+
+.onebhk-divider,
+.onebhk-highlight {
+  color: #ffc34e;
+}
+
+.onebhk-title {
+  margin: 0;
+  color: #fff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(48px, 5.1vw, 76px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -1.5px;
+}
+
+.onebhk-title span {
+  display: block;
+  color: #ffc34e;
+}
+
+.onebhk-subtitle {
+  margin: 18px 0 12px;
+  color: #fff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.onebhk-description {
+  max-width: 440px;
+  margin: 0;
+  color: #f0f0f0;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   HERO BUTTONS
+========================================= */
+
+.onebhk-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 25px;
+}
+
+.onebhk-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 50px;
+  padding: 0 25px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  text-decoration: none;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.onebhk-btn:hover {
+  transform: translateY(-2px);
+}
+
+.onebhk-btn-primary {
+  color: #111;
+  background: #ffc34e;
+  box-shadow: 0 4px 14px rgba(255, 195, 78, 0.15);
+}
+
+.onebhk-btn-primary:hover {
+  color: #111;
+  background: #ffd16f;
+}
+
+.onebhk-btn-secondary {
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+.onebhk-btn-secondary:hover {
+  color: #111;
+  background: #fff;
+}
+
+/* =========================================
+   MODERN DESIGN BADGE
+========================================= */
+
+.onebhk-quality {
+  position: absolute;
+  right: 25px;
+  bottom: 18px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 17px 9px 10px;
+  background: linear-gradient(
+    135deg,
+    rgba(12, 36, 76, 0.97),
+    rgba(5, 20, 48, 0.97)
+  );
+  border: 1px solid rgba(151, 181, 226, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.onebhk-crown {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  color: #e5efff;
+  border: 1px solid rgba(208, 222, 248, 0.8);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.onebhk-quality-text h3 {
+  margin: 0 0 3px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.onebhk-quality-text p {
+  margin: 0;
+  color: #dce6f7;
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* =========================================
+   FEATURES STRIP
+========================================= */
+
+.onebhk-features {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding: 12px 0;
+  background: linear-gradient(
+    180deg,
+    #f5fbff,
+    #e5f3ff 55%,
+    #d8edff
+  );
+  border-top: 1px solid #d9eaf9;
+  border-bottom: 1px solid #c8e2f8;
+  box-shadow: 0 5px 18px rgba(48, 112, 170, 0.1);
+}
+
+.onebhk-features-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: center;
+  width: calc(100% - 40px);
+  max-width: 1350px;
+  min-height: 90px;
+  margin: 0 auto;
+  padding: 15px 24px;
+  background: linear-gradient(
+    110deg,
+    #eff8ff,
+    #e4f3ff 50%,
+    #dcefff
+  );
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
+  box-shadow:
+    0 8px 24px rgba(67, 133, 190, 0.12),
+    inset 0 1px 3px rgba(255, 255, 255, 0.95);
+}
+
+.onebhk-feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 18px;
+  border-right: 1px solid #c8def3;
+}
+
+.onebhk-feature:first-child {
+  padding-left: 8px;
+}
+
+.onebhk-feature:last-child {
+  padding-right: 8px;
+  border-right: none;
+}
+
+.onebhk-feature-icon {
+  display: flex;
+  flex: 0 0 48px;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  color: #102b50;
+  background: radial-gradient(
+    circle,
+    #fff,
+    #edf6ff 70%,
+    #dcecff
+  );
+  border-radius: 50%;
+}
+
+.onebhk-feature-text {
+  min-width: 0;
+}
+
+.onebhk-feature-text h3 {
+  margin: 0 0 5px;
+  color: #102747;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.onebhk-feature-text p {
+  margin: 0;
+  color: #7188a6;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   DESIGNS SECTION
+========================================= */
+
+.onebhk-designs {
+  width: 100%;
+  padding: 48px 24px 60px;
+  background: linear-gradient(
+    180deg,
+    #eef7ff 0%,
+    #f5faff 100%
+  );
+  font-family: "DM Sans", sans-serif;
+  scroll-margin-top: 25px;
+}
+
+.onebhk-designs-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.onebhk-designs-heading {
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.onebhk-section-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #667f9f;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.onebhk-section-label span {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: #a8bad0;
+}
+
+.onebhk-designs-heading h2 {
+  margin: 0 0 10px;
+  color: #102747;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.onebhk-designs-heading > p {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #7189ac;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   HOME CARDS GRID
+========================================= */
+
+.onebhk-homes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 22px;
+}
+
+.onebhk-home-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #dce9f7;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(24, 66, 112, 0.08);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.onebhk-home-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(24, 66, 112, 0.14);
+}
+
+/* Images */
+
+.onebhk-home-image {
+  width: 100%;
+  height: 230px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #e7eff8;
+}
+
+.onebhk-home-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+.onebhk-home-card:hover .onebhk-home-image img {
+  transform: scale(1.04);
+}
+
+/* Card content */
+
+.onebhk-home-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  padding: 18px 18px 15px;
+}
+
+/* Name and area */
+
+.onebhk-home-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.onebhk-home-info .onebhk-home-title-row h3 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  color: #102b50;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.onebhk-home-area {
+  flex-shrink: 0;
+  padding-top: 3px;
+  color: #102b50;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Bedrooms and bathrooms */
+
+.onebhk-home-info .onebhk-home-specs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  width: 100%;
+  margin: 0 0 15px;
+}
+
+.onebhk-home-info .onebhk-home-specs span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  color: #7189ac;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: normal;
+}
+
+.onebhk-home-info .onebhk-home-specs svg {
+  flex-shrink: 0;
+  color: #7798cd;
+}
+
+/* Description */
+
+.onebhk-home-info .onebhk-home-description {
+  width: 100%;
+  margin: 0 0 18px;
+  color: #7189ac;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* View details */
+
+.onebhk-home-info .onebhk-home-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 2px;
+  color: #1760b8;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.onebhk-home-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  color: #1760d2;
+  background: #fff;
+  border: 1px solid #4385f5;
+  border-radius: 50%;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.onebhk-home-link:hover .onebhk-home-arrow {
+  color: #fff;
+  background: #1760c5;
+  transform: translateX(2px);
+}
+
+/* =========================================
+   QUOTE BANNER
+========================================= */
+
+.onebhk-quote {
+  display: grid;
+  grid-template-columns: 36% 64%;
+  width: calc(100% - 48px);
+  max-width: 1320px;
+  min-height: 220px;
+  margin: 0 auto 55px;
+  overflow: hidden;
+  border: 1px solid rgba(176, 209, 244, 0.35);
+  border-radius: 15px;
+  background: #062650;
+  box-shadow: 0 12px 35px rgba(12, 43, 79, 0.12);
+}
+
+.onebhk-quote-image {
+  position: relative;
+  min-width: 0;
+  min-height: 220px;
+  overflow: hidden;
+  background: #102a4d;
+}
+
+.onebhk-quote-image img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.onebhk-quote-content {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 175px;
+  align-items: center;
+  gap: 22px;
+  min-width: 0;
+  padding: 25px 30px 25px 35px;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(
+    115deg,
+    #073568 0%,
+    #052957 60%,
+    #073e79 100%
+  );
+}
+
+.onebhk-quote-main,
+.onebhk-quote-benefits {
+  position: relative;
+  z-index: 2;
+}
+
+.onebhk-quote-eyebrow {
+  margin: 0 0 9px;
+  color: #b8cce8;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  line-height: 1.6;
+}
+
+.onebhk-quote-main h2 {
+  margin: 0 0 9px;
+  color: #fff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(22px, 2.1vw, 30px);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.onebhk-quote-main h2 span {
+  color: #ffc34e;
+}
+
+.onebhk-quote-description {
+  max-width: 490px;
+  margin: 0 0 16px;
+  color: #d1dfef;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.onebhk-quote-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 0 22px;
+  border: 1px solid #ffcb59;
+  border-radius: 30px;
+  background: linear-gradient(100deg, #ffd46f, #ffb92e);
+  color: #142a45;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.onebhk-quote-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 191, 60, 0.2);
+}
+
+.onebhk-quote-benefits {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.onebhk-quote-benefit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e5eefb;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.onebhk-quote-benefit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(209, 228, 250, 0.55);
+  border-radius: 7px;
+  color: #e0edff;
+}
+
+.onebhk-quote-decoration {
+  position: absolute;
+  z-index: 1;
+  top: -95px;
+  right: -70px;
+  width: 220px;
+  height: 380px;
+  border: 1px solid rgba(122, 183, 245, 0.15);
+  border-radius: 50%;
+  box-shadow:
+    -20px 0 0 rgba(80, 151, 224, 0.07),
+    -40px 0 0 rgba(80, 151, 224, 0.06),
+    -60px 0 0 rgba(80, 151, 224, 0.05);
+  pointer-events: none;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1050px) {
+  .onebhk-features-container {
+    width: calc(100% - 28px);
+    padding: 14px 12px;
+  }
+
+  .onebhk-feature {
+    gap: 10px;
+    padding: 0 10px;
+  }
+
+  .onebhk-feature-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .onebhk-feature-icon svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .onebhk-feature-text h3 {
+    font-size: 12px;
+  }
+
+  .onebhk-feature-text p {
+    font-size: 10px;
+  }
+
+  .onebhk-homes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .onebhk-home-image {
+    height: 220px;
+  }
+
+  .onebhk-quote {
+    grid-template-columns: 34% 66%;
+    width: calc(100% - 32px);
+  }
+
+  .onebhk-quote-content {
+    grid-template-columns: minmax(0, 1fr) 145px;
+    gap: 14px;
+    padding: 22px 20px;
+  }
+
+  .onebhk-quote-main h2 {
+    font-size: 22px;
+  }
+
+  .onebhk-quote-description {
+    font-size: 11px;
+  }
+
+  .onebhk-quote-benefit {
+    gap: 8px;
+    font-size: 10px;
+  }
+}
+
+/* =========================================
+   TABLET BANNER
+========================================= */
+
+@media (max-width: 900px) {
+  .onebhk-banner {
+    min-height: 540px;
+    background-position: center;
+  }
+
+  .onebhk-content {
+    padding: 125px 35px 110px;
+  }
+
+  .onebhk-title {
+    font-size: clamp(48px, 7vw, 64px);
+  }
+
+  .onebhk-subtitle {
+    font-size: 23px;
+  }
+
+  .onebhk-quality {
+    right: 20px;
+    bottom: 16px;
+  }
+}
+
+/* =========================================
+   MOBILE FEATURES
+========================================= */
+
+@media (max-width: 650px) {
+  .onebhk-features {
+    padding: 12px 0;
+  }
+
+  .onebhk-features-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: calc(100% - 24px);
+    min-height: auto;
+    padding: 12px;
+    border-radius: 18px;
+  }
+
+  .onebhk-feature {
+    min-height: 78px;
+    justify-content: flex-start;
+    gap: 9px;
+    padding: 12px 7px;
+    border-right: 1px solid #c8def3;
+    border-bottom: 1px solid #c8def3;
+  }
+
+  .onebhk-feature:nth-child(2) {
+    border-right: none;
+  }
+
+  .onebhk-feature:nth-child(3),
+  .onebhk-feature:nth-child(4) {
+    border-bottom: none;
+  }
+
+  .onebhk-feature:first-child,
+  .onebhk-feature:last-child {
+    padding-right: 7px;
+    padding-left: 7px;
+  }
+
+  .onebhk-feature-icon {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+
+  .onebhk-feature-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .onebhk-feature-text h3 {
+    margin-bottom: 4px;
+    font-size: 11px;
+  }
+
+  .onebhk-feature-text p {
+    font-size: 9px;
+    line-height: 1.5;
+  }
+}
+
+/* =========================================
+   MOBILE BANNER AND CARDS
+========================================= */
+
+@media (max-width: 600px) {
+  .onebhk-banner {
+    min-height: 650px;
+    align-items: flex-start;
+    background-position: 60% center;
+  }
+
+  .onebhk-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 10, 12, 0.86) 0%,
+      rgba(5, 10, 12, 0.72) 55%,
+      rgba(5, 10, 12, 0.4) 100%
+    );
+  }
+
+  .onebhk-content {
+    padding: 110px 22px 140px;
+  }
+
+  .onebhk-eyebrow {
+    gap: 5px;
+    margin-bottom: 18px;
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .onebhk-title {
+    font-size: clamp(40px, 10vw, 54px);
+    line-height: 1.03;
+    letter-spacing: -1px;
+  }
+
+  .onebhk-subtitle {
+    margin-top: 16px;
+    margin-bottom: 12px;
+    font-size: 21px;
+  }
+
+  .onebhk-description {
+    max-width: 390px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .onebhk-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .onebhk-btn {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 15px;
+  }
+
+  .onebhk-quality {
+    right: auto;
+    bottom: 20px;
+    left: 22px;
+    gap: 9px;
+    padding: 8px 13px 8px 9px;
+    border-radius: 17px;
+  }
+
+  .onebhk-crown {
+    width: 39px;
+    height: 39px;
+  }
+
+  .onebhk-designs {
+    padding: 35px 15px 40px;
+  }
+
+  .onebhk-designs-heading {
+    margin-bottom: 24px;
+  }
+
+  .onebhk-section-label {
+    gap: 8px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .onebhk-section-label span {
+    width: 22px;
+  }
+
+  .onebhk-designs-heading h2 {
+    max-width: 420px;
+    margin: 0 auto 10px;
+    font-size: clamp(25px, 7vw, 32px);
+    line-height: 1.25;
+  }
+
+  .onebhk-designs-heading > p {
+    max-width: 420px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  /* One card per row */
+
+  .onebhk-homes-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .onebhk-home-card {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .onebhk-home-image {
+    height: auto;
+    aspect-ratio: 1.7 / 1;
+  }
+
+  .onebhk-home-info {
+    padding: 16px 15px;
+  }
+
+  .onebhk-home-title-row {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .onebhk-home-info .onebhk-home-title-row h3 {
+    font-size: 16px;
+  }
+
+  .onebhk-home-area {
+    padding-top: 3px;
+    font-size: 10px;
+  }
+
+  .onebhk-home-info .onebhk-home-specs {
+    gap: 9px 13px;
+    margin-bottom: 12px;
+  }
+
+  .onebhk-home-info .onebhk-home-specs span {
+    gap: 5px;
+    font-size: 10px;
+  }
+
+  .onebhk-home-info .onebhk-home-specs svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .onebhk-home-info .onebhk-home-description {
+    margin-bottom: 14px;
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .onebhk-home-info .onebhk-home-link {
+    font-size: 12px;
+  }
+
+  .onebhk-home-arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* Quote section */
+
+  .onebhk-quote {
+    grid-template-columns: minmax(0, 1fr);
+    width: calc(100% - 30px);
+    max-width: 440px;
+    margin: 0 auto 35px;
+    border-radius: 13px;
+  }
+
+  .onebhk-quote-image {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .onebhk-quote-content {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 25px;
+    padding: 28px 20px 25px;
+    text-align: center;
+  }
+
+  .onebhk-quote-main {
+    width: 100%;
+  }
+
+  .onebhk-quote-eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.3px;
+  }
+
+  .onebhk-quote-main h2 {
+    max-width: 360px;
+    margin: 0 auto 12px;
+    font-size: clamp(22px, 6.2vw, 28px);
+    line-height: 1.35;
+  }
+
+  .onebhk-quote-description {
+    max-width: 360px;
+    margin: 0 auto 18px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .onebhk-quote-button {
+    min-height: 46px;
+  }
+
+  .onebhk-quote-benefits {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px 10px;
+    width: 100%;
+    max-width: 360px;
+    text-align: left;
+  }
+
+  .onebhk-quote-benefit {
+    gap: 8px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================
+   EXTRA SMALL PHONES
+========================================= */
+
+@media (max-width: 360px) {
+  .onebhk-banner {
+    min-height: 670px;
+  }
+
+  .onebhk-content {
+    padding: 105px 16px 130px;
+  }
+
+  .onebhk-eyebrow {
+    gap: 4px;
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  .onebhk-title {
+    font-size: 39px;
+  }
+
+  .onebhk-subtitle {
+    font-size: 19px;
+  }
+
+  .onebhk-description {
+    font-size: 13px;
+  }
+
+  .onebhk-quality {
+    left: 16px;
+    gap: 8px;
+  }
+
+  .onebhk-designs {
+    padding: 30px 12px 35px;
+  }
+
+  .onebhk-designs-heading h2 {
+    font-size: 25px;
+  }
+
+  .onebhk-homes-grid {
+    gap: 16px;
+  }
+
+  .onebhk-home-info {
+    padding: 14px 12px;
+  }
+
+  .onebhk-home-info .onebhk-home-title-row h3 {
+    font-size: 14px;
+  }
+
+  .onebhk-home-area {
+    font-size: 9px;
+  }
+
+  .onebhk-home-info .onebhk-home-specs {
+    gap: 8px 10px;
+  }
+
+  .onebhk-home-info .onebhk-home-specs span {
+    gap: 4px;
+    font-size: 9px;
+  }
+
+  .onebhk-home-info .onebhk-home-specs svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .onebhk-home-info .onebhk-home-description {
+    font-size: 11px;
+  }
+
+  .onebhk-quote {
+    width: calc(100% - 20px);
+  }
+
+  .onebhk-quote-content {
+    padding: 24px 14px;
+  }
+
+  .onebhk-quote-main h2 {
+    font-size: 21px;
+  }
+
+  .onebhk-quote-benefit {
+    gap: 6px;
+    font-size: 10px;
+  }
+
+  .onebhk-quote-benefit-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .onebhk-btn,
+  .onebhk-home-card,
+  .onebhk-home-image img,
+  .onebhk-home-link,
+  .onebhk-home-arrow,
+  .onebhk-quote-button {
+    transition: none;
+  }
+
+  .onebhk-btn:hover,
+  .onebhk-home-card:hover,
+  .onebhk-home-card:hover .onebhk-home-image img,
+  .onebhk-home-link:hover .onebhk-home-arrow,
+  .onebhk-quote-button:hover {
+    transform: none;
+  }
+}

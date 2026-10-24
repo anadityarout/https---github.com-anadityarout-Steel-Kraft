@@ -1,14 +1,9 @@
-/* =========================================================
-   STEEL KRAFT NAVBAR — LIGHT GLASS STYLE
-   Desktop: Logo | Centered Links | Get a Quote
-   Mobile: Logo | Hamburger + Glass Drawer
-========================================================= */
 
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
-/* =========================================================
-   PAGE SCROLL
-========================================================= */
+/* =====================================================
+   GLOBAL
+===================================================== */
 
 html {
   scroll-behavior: auto !important;
@@ -18,16 +13,14 @@ body {
   overflow-y: auto;
 }
 
-/* =========================================================
-   RESET
-========================================================= */
-
 .sk-navbar,
 .sk-navbar *,
 .sk-mobile-menu,
 .sk-mobile-menu *,
 .sk-mobile-overlay,
-.sk-mobile-overlay * {
+.sk-mobile-overlay *,
+.sk-work-dropdown,
+.sk-work-dropdown * {
   box-sizing: border-box;
 }
 
@@ -40,35 +33,29 @@ body {
 
 .sk-navbar button,
 .sk-mobile-menu button {
-  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  font-family: "Poppins", "Segoe UI", sans-serif;
 }
 
-/* =========================================================
+/* =====================================================
    MAIN NAVBAR
-========================================================= */
+===================================================== */
 
 .sk-navbar {
-  --sk-ink: #0f1a2e;
   --sk-gold: #f5b942;
-  --sk-gold-grad: linear-gradient(
-    135deg,
-    #fbd06a 0%,
-    #e9a233 100%
-  );
+  --sk-gold-grad: linear-gradient(135deg, #fbd06a, #e9a233);
 
   position: fixed;
   top: 14px;
   left: 0;
   right: 0;
+  z-index: 2000;
 
   width: calc(100% - 28px);
   max-width: 1040px;
   height: 66px;
   margin: 0 auto;
 
-  z-index: 1000;
   isolation: isolate;
-
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 28px;
 
@@ -83,55 +70,48 @@ body {
     inset 0 -1px 0 rgba(255, 255, 255, 0.12),
     inset 0 0 24px rgba(255, 255, 255, 0.06);
 
-  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  font-family: "Poppins", "Segoe UI", sans-serif;
 
-  transition:
-    background 0.4s ease,
-    box-shadow 0.4s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .sk-navbar.scrolled {
-  background: rgba(14, 30, 62, 0.42);
-
+  background: rgba(14, 30, 62, 0.65);
   box-shadow:
-    0 18px 44px rgba(6, 14, 30, 0.42),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 0 24px rgba(255, 255, 255, 0.05);
+    0 18px 44px rgba(6, 14, 30, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-/* =========================================================
-   LIQUID GLASS EFFECTS
-========================================================= */
+/* =====================================================
+   LIQUID GLASS
+===================================================== */
 
 .sk-navbar::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-
   border-radius: inherit;
 
   background:
     radial-gradient(
       circle at 50% 50%,
-      rgba(22, 52, 118, 0.6) 0%,
-      rgba(22, 52, 118, 0) 38%
+      rgba(22, 52, 118, 0.6),
+      transparent 38%
     ),
     radial-gradient(
       circle at 50% 50%,
-      rgba(10, 28, 72, 0.55) 0%,
-      rgba(10, 28, 72, 0) 42%
+      rgba(10, 28, 72, 0.55),
+      transparent 42%
     ),
     radial-gradient(
       circle at 50% 50%,
-      rgba(70, 120, 200, 0.42) 0%,
-      rgba(70, 120, 200, 0) 40%
+      rgba(70, 120, 200, 0.42),
+      transparent 40%
     );
 
   background-size: 170% 260%, 150% 240%, 190% 280%;
   background-repeat: no-repeat;
-
   filter: blur(6px);
   pointer-events: none;
 
@@ -143,14 +123,13 @@ body {
   position: absolute;
   inset: 0;
   z-index: -1;
-
   border-radius: inherit;
 
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.24) 0%,
+    rgba(255, 255, 255, 0.24),
     rgba(255, 255, 255, 0.06) 36%,
-    rgba(255, 255, 255, 0) 55%
+    transparent 55%
   );
 
   pointer-events: none;
@@ -174,9 +153,9 @@ body {
   }
 }
 
-/* =========================================================
-   NAVBAR CONTAINER
-========================================================= */
+/* =====================================================
+   NAVBAR LAYOUT
+===================================================== */
 
 .sk-navbar-container {
   position: relative;
@@ -192,17 +171,20 @@ body {
   gap: 16px;
 }
 
-/* =========================================================
-   DESKTOP LOGO
-========================================================= */
+/* =====================================================
+   LOGO
+===================================================== */
 
-.sk-logo {
+.sk-logo,
+.sk-mobile-logo {
   display: flex;
   align-items: center;
-  justify-self: start;
   min-width: 0;
-
   text-decoration: none;
+}
+
+.sk-logo {
+  justify-self: start;
 }
 
 .sk-logo img {
@@ -210,83 +192,222 @@ body {
   width: 140px;
   max-width: 100%;
   height: auto;
-
   object-fit: contain;
-
   filter: drop-shadow(0 2px 5px rgba(15, 26, 46, 0.25));
 }
 
-/* =========================================================
-   DESKTOP LINKS
-========================================================= */
+/* =====================================================
+   DESKTOP NAVIGATION
+===================================================== */
 
 .sk-desktop-menu {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  gap: 25px;
 }
 
-.sk-desktop-menu a {
+.sk-desktop-menu > a,
+.sk-desktop-menu .sk-work-trigger {
   position: relative;
 
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 6px;
 
   padding: 12px 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
 
-  color: #ffffff;
-  font-size: 14.5px;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  font-size: 13px;
   font-weight: 500;
-  line-height: 1;
-
+  line-height: 1.4;
   white-space: nowrap;
   text-decoration: none;
   text-shadow: 0 1px 8px rgba(6, 14, 30, 0.45);
 
-  transition: color 0.3s ease;
+  cursor: pointer;
+  transition: color 0.25s ease;
 }
 
-.sk-desktop-menu a::after {
-  content: "";
-  position: absolute;
-
-  left: -6px;
-  right: -6px;
-  bottom: 0;
-
-  height: 3px;
-  border-radius: 10px;
-
-  background: var(--sk-gold-grad);
-  box-shadow: 0 2px 8px rgba(233, 162, 51, 0.4);
-
-  opacity: 0;
-  transform: scaleX(0.4);
-
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-}
-
-.sk-desktop-menu a:hover,
-.sk-desktop-menu a.active {
+.sk-desktop-menu > a:hover,
+.sk-desktop-menu > a.active,
+.sk-desktop-menu .sk-work-trigger:hover,
+.sk-desktop-menu .sk-work-trigger.active {
   color: #fbd06a;
 }
 
-.sk-desktop-menu a.active {
-  font-weight: 600;
+.sk-desktop-menu > a::after,
+.sk-desktop-menu .sk-work-trigger::after {
+  content: "";
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  bottom: 3px;
+
+  height: 2px;
+  border-radius: 10px;
+  background: var(--sk-gold-grad);
+
+  opacity: 0;
+  transform: scaleX(0.5);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.sk-desktop-menu a:hover::after,
-.sk-desktop-menu a.active::after {
+.sk-desktop-menu > a:hover::after,
+.sk-desktop-menu > a.active::after,
+.sk-desktop-menu .sk-work-trigger:hover::after,
+.sk-desktop-menu .sk-work-trigger.active::after {
   opacity: 1;
   transform: scaleX(1);
 }
 
-/* =========================================================
-   DESKTOP GET A QUOTE BUTTON
-========================================================= */
+/* =====================================================
+   WORK DROPDOWN BASE
+===================================================== */
+
+.sk-work-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.sk-work-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.sk-work-chevron {
+  display: block;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.sk-work-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.sk-work-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  z-index: 2100;
+
+  width: 340px;
+  max-width: calc(100vw - 24px);
+  padding: 12px;
+
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+
+  border: 1px solid #e7e9f1;
+  border-radius: 14px;
+  background: #fff;
+
+  box-shadow: 0 12px 35px rgba(23, 35, 70, 0.16);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.sk-work-dropdown-menu::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
+}
+
+/* Desktop only: hover opens the menu */
+
+@media (min-width: 901px) {
+  .desktop-work-dropdown:hover .sk-work-dropdown-menu,
+  .desktop-work-dropdown.open .sk-work-dropdown-menu,
+  .desktop-work-dropdown .sk-work-dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* =====================================================
+   WORK DROPDOWN ITEMS
+===================================================== */
+
+.sk-work-dropdown-item {
+  min-width: 0;
+  min-height: 56px;
+  padding: 7px 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: #fff;
+  color: #343746;
+
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.sk-work-dropdown-item:hover {
+  background: #f8f9ff;
+  border-color: #e5e8fa;
+}
+
+.sk-work-item-icon {
+  width: 33px;
+  height: 33px;
+  flex: 0 0 33px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e0e4f3;
+  border-radius: 9px;
+  background: #f6f7fc;
+  color: #5368ff;
+}
+
+.sk-work-item-icon svg {
+  display: block;
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+
+.sk-work-item-label {
+  display: block;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+/* =====================================================
+   GET A QUOTE
+===================================================== */
 
 .sk-quote-btn {
   display: inline-flex;
@@ -301,7 +422,6 @@ body {
 
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 999px;
-
   background: var(--sk-gold-grad);
   color: #1b1405;
 
@@ -309,53 +429,42 @@ body {
     0 8px 20px rgba(233, 162, 51, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.4;
-
   white-space: nowrap;
-  text-decoration: none;
   cursor: pointer;
 
   appearance: none;
   -webkit-appearance: none;
 
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    filter 0.3s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.sk-quote-btn span,
-.sk-mobile-cta a span,
-.sk-mobile-cta button span {
+.sk-quote-btn span:last-child {
   font-size: 17px;
-  line-height: 1;
-
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
 }
 
 .sk-quote-btn:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
-
-  box-shadow:
-    0 12px 26px rgba(233, 162, 51, 0.48),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 26px rgba(233, 162, 51, 0.45);
 }
 
-.sk-quote-btn:hover span:last-child,
-.sk-mobile-cta a:hover span:last-child,
-.sk-mobile-cta button:hover span:last-child {
+.sk-quote-btn:hover span:last-child {
   transform: translateX(4px);
 }
 
-/* =========================================================
-   HAMBURGER BUTTON
-========================================================= */
+/* =====================================================
+   HAMBURGER
+===================================================== */
 
 .sk-menu-button {
   display: none;
+
+  width: 44px;
+  height: 44px;
+  padding: 0;
 
   flex-direction: column;
   align-items: center;
@@ -363,54 +472,43 @@ body {
   flex-shrink: 0;
   gap: 5px;
 
-  width: 44px;
-  height: 44px;
-  padding: 0;
-
   border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 14px;
-
   background: rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
   cursor: pointer;
-
   appearance: none;
   -webkit-appearance: none;
 
-  transition:
-    background 0.3s ease,
-    transform 0.3s ease;
+  transition: background 0.25s ease, transform 0.25s ease;
 }
 
 .sk-menu-button span {
   display: block;
   width: 20px;
   height: 2px;
-
   border-radius: 10px;
-  background: #ffffff;
+  background: #fff;
 }
 
 .sk-menu-button:hover {
-  background: rgba(251, 208, 106, 0.35);
+  background: rgba(251, 208, 106, 0.25);
 }
 
 .sk-menu-button:active {
   transform: scale(0.94);
 }
 
-/* =========================================================
+/* =====================================================
    MOBILE OVERLAY
-========================================================= */
+===================================================== */
 
 .sk-mobile-overlay {
   position: fixed;
   inset: 0;
-  z-index: 1998;
+  z-index: 2998;
 
-  background: rgba(8, 16, 26, 0.45);
-
+  background: rgba(8, 16, 26, 0.5);
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 
@@ -418,9 +516,7 @@ body {
   visibility: hidden;
   pointer-events: none;
 
-  transition:
-    opacity 0.35s ease,
-    visibility 0.35s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .sk-mobile-overlay.active {
@@ -429,20 +525,19 @@ body {
   pointer-events: auto;
 }
 
-/* =========================================================
+/* =====================================================
    MOBILE DRAWER
-========================================================= */
+===================================================== */
 
 .sk-mobile-menu {
   position: fixed;
   top: 10px;
   right: 10px;
   bottom: 10px;
+  z-index: 2999;
 
   width: 330px;
   max-width: calc(100vw - 20px);
-
-  z-index: 1999;
 
   display: flex;
   flex-direction: column;
@@ -456,8 +551,8 @@ body {
 
   background: linear-gradient(
     160deg,
-    rgba(30, 48, 70, 0.94) 0%,
-    rgba(16, 29, 44, 0.97) 100%
+    rgba(30, 48, 70, 0.98),
+    rgba(16, 29, 44, 0.99)
   );
 
   -webkit-backdrop-filter: blur(28px) saturate(170%);
@@ -465,17 +560,17 @@ body {
 
   box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 
-  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  font-family: "Poppins", sans-serif;
 
   transform: translateX(calc(100% + 24px));
   visibility: hidden;
   pointer-events: none;
 
   transition:
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    visibility 0.4s ease;
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.35s ease;
 }
 
 .sk-mobile-menu.active {
@@ -484,9 +579,9 @@ body {
   pointer-events: auto;
 }
 
-/* =========================================================
+/* =====================================================
    MOBILE HEADER
-========================================================= */
+===================================================== */
 
 .sk-mobile-header {
   width: 100%;
@@ -502,12 +597,7 @@ body {
 }
 
 .sk-mobile-logo {
-  display: flex;
-  align-items: center;
   flex-shrink: 1;
-  min-width: 0;
-
-  text-decoration: none;
 }
 
 .sk-mobile-logo img {
@@ -515,13 +605,12 @@ body {
   width: 130px;
   max-width: 100%;
   height: auto;
-
   object-fit: contain;
 }
 
-/* =========================================================
+/* =====================================================
    MOBILE CLOSE BUTTON
-========================================================= */
+===================================================== */
 
 .sk-close-button {
   display: flex;
@@ -535,34 +624,28 @@ body {
 
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 13px;
-
   background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
+  color: #fff;
 
   font-family: Arial, sans-serif;
   font-size: 28px;
   line-height: 1;
-
   cursor: pointer;
 
   appearance: none;
   -webkit-appearance: none;
 
-  transition:
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .sk-close-button:hover {
   background: #fbd06a;
   color: #1b1405;
-  transform: rotate(90deg);
 }
 
-/* =========================================================
-   MOBILE LINKS
-========================================================= */
+/* =====================================================
+   MOBILE NAVIGATION LINKS
+===================================================== */
 
 .sk-mobile-links {
   width: 100%;
@@ -582,69 +665,217 @@ body {
   align-items: center;
 
   width: 100%;
-  min-height: 56px;
+  min-height: 54px;
   padding: 0 18px;
 
   border: 1px solid transparent;
-  border-radius: 16px;
-
+  border-radius: 14px;
   background: transparent;
-  color: #ffffff;
+  color: #fff;
 
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.4;
-
   text-decoration: none;
 
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    padding-left 0.25s ease,
-    border-color 0.25s ease;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .sk-mobile-link:hover,
 .sk-mobile-link:active {
   background: rgba(255, 255, 255, 0.12);
-  padding-left: 24px;
 }
 
 .sk-mobile-link.active {
   background: rgba(255, 255, 255, 0.16);
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
   color: #fbd06a;
 }
 
-.sk-mobile-link.active::before {
-  content: "";
-  position: absolute;
+/* =====================================================
+   MOBILE WORK TRIGGER
+===================================================== */
 
-  left: 7px;
-  top: 16px;
-  bottom: 16px;
-
-  width: 4px;
-  border-radius: 10px;
-
-  background: linear-gradient(180deg, #fbd06a, #e9a233);
+.mobile-work-dropdown {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
 }
 
-/* =========================================================
-   MOBILE GET A QUOTE CTA
-   Supports either a <button> or an <a> in .sk-mobile-cta.
-   Use onClick={openQuotePopup} on the button.
-========================================================= */
+.mobile-work-dropdown .sk-work-trigger {
+  width: 100%;
+  min-height: 54px;
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  color: #fff;
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+  text-shadow: none;
+
+  cursor: pointer;
+}
+
+.mobile-work-dropdown .sk-work-trigger::after {
+  display: none;
+}
+
+.mobile-work-dropdown .sk-work-trigger:hover,
+.mobile-work-dropdown .sk-work-trigger.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fbd06a;
+}
+
+.mobile-work-dropdown .sk-work-chevron {
+  margin-left: auto;
+}
+
+/* =====================================================
+   MOBILE WORK DROPDOWN
+   No hover behavior on touch screens
+===================================================== */
+
+@media (max-width: 900px) {
+  .mobile-work-dropdown .sk-work-dropdown-menu,
+  .mobile-work-dropdown .sk-work-dropdown-menu.show {
+    position: static;
+    top: auto;
+    left: auto;
+    z-index: auto;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding: 0 8px;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 54px;
+    align-items: stretch;
+    gap: 8px;
+
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+
+    /* Mobile visibility is controlled by .show */
+    opacity: 1;
+    visibility: visible;
+    pointer-events: none;
+    transform: none;
+
+    max-height: 0;
+    overflow: hidden;
+
+    transition:
+      max-height 0.3s ease,
+      padding 0.3s ease;
+  }
+
+  .mobile-work-dropdown .sk-work-dropdown-menu::before {
+    display: none;
+  }
+
+  /* Open: show all four cards in two rows */
+
+  .mobile-work-dropdown .sk-work-dropdown-menu.show {
+    max-height: 260px;
+    padding: 12px 8px 10px;
+    pointer-events: auto;
+    overflow: hidden;
+  }
+
+  .mobile-work-dropdown .sk-work-dropdown-item {
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    height: 54px;
+    margin: 0;
+    padding: 8px 9px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+
+    border: 1px solid #4b5b70;
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.07);
+    color: #fff;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.3;
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .mobile-work-dropdown .sk-work-dropdown-item:hover,
+  .mobile-work-dropdown .sk-work-dropdown-item:active {
+    background: rgba(245, 185, 66, 0.13);
+    border-color: #f5b942;
+  }
+
+  .mobile-work-dropdown .sk-work-item-icon {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(245, 185, 66, 0.45);
+    border-radius: 8px;
+
+    background: rgba(245, 185, 66, 0.08);
+    color: #f5b942;
+  }
+
+  .mobile-work-dropdown .sk-work-item-icon svg {
+    display: block;
+    width: 17px;
+    height: 17px;
+  }
+
+  .mobile-work-dropdown .sk-work-item-label {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* =====================================================
+   MOBILE GET A QUOTE
+===================================================== */
 
 .sk-mobile-cta {
   width: 100%;
   padding: 14px 14px 20px;
   margin-top: auto;
-
   flex-shrink: 0;
 }
 
-.sk-mobile-cta a,
 .sk-mobile-cta button {
   width: 100%;
   min-width: 0;
@@ -660,20 +891,14 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: 999px;
 
-  background: linear-gradient(
-    135deg,
-    #fbd06a 0%,
-    #e9a233 100%
-  );
-
+  background: linear-gradient(135deg, #fbd06a, #e9a233);
   color: #1b1405;
 
-  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
-  font-size: 15px;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
   text-align: center;
-  text-decoration: none;
   white-space: nowrap;
 
   box-shadow:
@@ -681,72 +906,60 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.55);
 
   cursor: pointer;
-
   appearance: none;
   -webkit-appearance: none;
 
-  transition:
-    transform 0.3s ease,
-    filter 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: transform 0.25s ease, filter 0.25s ease;
 }
 
-.sk-mobile-cta a:hover,
+.sk-mobile-cta button span:last-child {
+  font-size: 17px;
+  line-height: 1;
+  transition: transform 0.25s ease;
+}
+
 .sk-mobile-cta button:hover {
   transform: translateY(-1px);
   filter: brightness(1.05);
-
-  box-shadow:
-    0 12px 26px rgba(233, 162, 51, 0.42),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.sk-mobile-cta a:active,
-.sk-mobile-cta button:active {
-  transform: scale(0.99);
+.sk-mobile-cta button:hover span:last-child {
+  transform: translateX(4px);
 }
 
-/* Hide desktop quote CTA on mobile.
-   Keep the mobile drawer CTA visible when the drawer is open. */
-
-@media (max-width: 900px) {
-  .sk-navbar .sk-quote-btn {
-    display: none !important;
-  }
-}
-
-/* =========================================================
+/* =====================================================
    TABLET
-========================================================= */
+===================================================== */
 
-@media (max-width: 1100px) {
+@media (max-width: 1100px) and (min-width: 901px) {
   .sk-navbar-container {
-    padding: 0 18px;
-    gap: 16px;
+    padding: 0 14px;
+    gap: 12px;
   }
 
   .sk-logo img {
-    width: 125px;
+    width: 120px;
   }
 
   .sk-desktop-menu {
-    gap: 22px;
+    gap: 15px;
   }
 
-  .sk-desktop-menu a {
-    font-size: 13.5px;
+  .sk-desktop-menu > a,
+  .sk-desktop-menu .sk-work-trigger {
+    font-size: 11px;
   }
 
   .sk-quote-btn {
-    min-width: 132px;
-    padding: 0 16px;
-    font-size: 13px;
+    min-width: 112px;
+    padding: 0 10px;
+    font-size: 11px;
   }
 }
 
-/* =========================================================
-   MOBILE / HAMBURGER LAYOUT
-========================================================= */
+/* =====================================================
+   MOBILE NAVBAR
+===================================================== */
 
 @media (max-width: 900px) {
   .sk-navbar {
@@ -760,7 +973,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 0 10px 0 16px;
     gap: 12px;
   }
@@ -773,14 +985,18 @@ body {
     width: 140px;
   }
 
+  .sk-navbar .sk-quote-btn {
+    display: none !important;
+  }
+
   .sk-menu-button {
     display: flex;
   }
 }
 
-/* =========================================================
+/* =====================================================
    SMALL PHONES
-========================================================= */
+===================================================== */
 
 @media (max-width: 480px) {
   .sk-navbar {
@@ -811,25 +1027,20 @@ body {
     padding: 14px 14px 20px;
   }
 
-  .sk-mobile-cta a,
   .sk-mobile-cta button {
     min-height: 48px;
     font-size: 14px;
   }
 }
 
-/* =========================================================
+/* =====================================================
    EXTRA SMALL PHONES
-========================================================= */
+===================================================== */
 
 @media (max-width: 360px) {
-  .sk-logo img {
+  .sk-logo img,
+  .sk-mobile-logo img {
     width: 112px;
-  }
-
-  .sk-mobile-link {
-    min-height: 52px;
-    font-size: 14px;
   }
 
   .sk-mobile-header {
@@ -837,8 +1048,35 @@ body {
     padding-left: 14px;
   }
 
-  .sk-mobile-logo img {
-    width: 112px;
+  .sk-mobile-link,
+  .mobile-work-dropdown .sk-work-trigger {
+    min-height: 50px;
+    font-size: 13px;
+  }
+
+  .mobile-work-dropdown .sk-work-dropdown-menu,
+  .mobile-work-dropdown .sk-work-dropdown-menu.show {
+    column-gap: 6px;
+    row-gap: 8px;
+    padding-right: 4px;
+    padding-left: 4px;
+  }
+
+  .mobile-work-dropdown .sk-work-dropdown-menu.show {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .mobile-work-dropdown .sk-work-dropdown-item {
+    gap: 5px;
+    padding: 7px;
+    font-size: 11px;
+  }
+
+  .mobile-work-dropdown .sk-work-item-icon {
+    width: 26px;
+    height: 26px;
+    flex-basis: 26px;
   }
 
   .sk-mobile-cta {
@@ -846,31 +1084,32 @@ body {
     padding-left: 12px;
   }
 
-  .sk-mobile-cta a,
   .sk-mobile-cta button {
     padding-right: 12px;
     padding-left: 12px;
   }
 }
 
-/* =========================================================
+/* =====================================================
    ACCESSIBILITY
-========================================================= */
+===================================================== */
 
 .sk-menu-button:focus-visible,
 .sk-close-button:focus-visible,
 .sk-desktop-menu a:focus-visible,
+.sk-desktop-menu button:focus-visible,
 .sk-quote-btn:focus-visible,
 .sk-mobile-link:focus-visible,
-.sk-mobile-cta a:focus-visible,
-.sk-mobile-cta button:focus-visible {
+.sk-mobile-cta button:focus-visible,
+.sk-work-dropdown a:focus-visible,
+.sk-work-dropdown button:focus-visible {
   outline: 2px solid #f5b942;
   outline-offset: 3px;
 }
 
-/* =========================================================
-   BACKDROP-FILTER FALLBACK
-========================================================= */
+/* =====================================================
+   BACKDROP FALLBACK
+===================================================== */
 
 @supports not (
   (backdrop-filter: blur(1px)) or
@@ -881,13 +1120,13 @@ body {
   }
 
   .sk-mobile-menu {
-    background: rgba(16, 29, 44, 0.97);
+    background: rgba(16, 29, 44, 0.98);
   }
 }
 
-/* =========================================================
+/* =====================================================
    REDUCED MOTION
-========================================================= */
+===================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   .sk-navbar::before {
@@ -897,7 +1136,9 @@ body {
   .sk-navbar *,
   .sk-mobile-menu,
   .sk-mobile-menu *,
-  .sk-mobile-overlay {
+  .sk-mobile-overlay,
+  .sk-work-dropdown *,
+  .sk-work-dropdown-menu {
     transition: none !important;
   }
 }

@@ -1,0 +1,1069 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap");
+
+/* =========================================
+   GLOBAL PAGE
+========================================= */
+
+.twobhk-page {
+  width: 100%;
+  overflow: hidden;
+  background: #f3f8fe;
+  color: #102a4d;
+  font-family: "Raleway", sans-serif;
+}
+
+.twobhk-page *,
+.twobhk-page *::before,
+.twobhk-page *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HERO BANNER (matches 1 BHK hero)
+========================================= */
+
+.twobhk-banner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 520px;
+  height: clamp(520px, 32.4vw, 640px);
+  overflow: hidden;
+  background: #101714;
+  color: #fff;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
+.twobhk-banner__image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.twobhk-banner__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    rgba(4, 10, 10, 0.86) 0%,
+    rgba(4, 10, 10, 0.7) 32%,
+    rgba(4, 10, 10, 0.34) 58%,
+    rgba(4, 10, 10, 0.06) 100%
+  );
+}
+
+.twobhk-banner__content {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* top padding leaves room for the floating navbar */
+  padding: 120px clamp(24px, 6vw, 86px) 36px;
+}
+
+.twobhk-banner__eyebrow {
+  margin: 0 0 20px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.twobhk-banner__eyebrow span {
+  margin: 0 4px;
+  color: #f5b942;
+}
+
+.twobhk-banner__eyebrow strong {
+  color: #f5b942;
+  font-weight: 700;
+}
+
+.twobhk-banner__title {
+  margin: 0;
+  color: #fff;
+  font-family: "Playfair Display", "Libre Baskerville", Georgia, serif;
+  font-size: clamp(44px, 3.8vw, 72px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -1px;
+}
+
+.twobhk-banner__title span {
+  display: block;
+  color: #f5b942;
+}
+
+.twobhk-banner__subtitle {
+  margin: 22px 0 14px;
+  color: #fff;
+  font-family: "Playfair Display", "Libre Baskerville", Georgia, serif;
+  font-size: clamp(19px, 1.4vw, 27px);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.twobhk-banner__description {
+  max-width: 430px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+.twobhk-banner__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.twobhk-banner__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 50px;
+  padding: 0 26px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.twobhk-banner__btn--gold {
+  border-color: #f5b942;
+  background: #f5b942;
+  color: #171717;
+}
+
+.twobhk-banner__btn--gold:hover {
+  border-color: #ffd16a;
+  background: #ffd16a;
+}
+
+.twobhk-banner__btn--outline {
+  border-color: rgba(255, 255, 255, 0.75);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.twobhk-banner__btn--outline:hover {
+  background: #fff;
+  color: #111;
+}
+
+/* Badge — bottom right */
+
+.twobhk-banner__quality {
+  position: absolute;
+  right: clamp(16px, 1.3vw, 26px);
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 12px;
+  background: rgba(7, 26, 66, 0.88);
+  backdrop-filter: blur(8px);
+}
+
+.twobhk-banner__quality-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  color: #fff;
+}
+
+.twobhk-banner__quality-text h3 {
+  margin: 0 0 3px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.twobhk-banner__quality-text p {
+  margin: 0;
+  color: #d6e0f0;
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+/* =========================================
+   FEATURES STRIP
+========================================= */
+
+.twobhk-features {
+  width: 100%;
+  padding: 23px 24px;
+  background: #fff;
+  border-bottom: 1px solid #e3edf8;
+}
+
+.twobhk-features__container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.twobhk-feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  min-width: 0;
+  padding: 8px 18px;
+  color: #102d56;
+}
+
+.twobhk-feature + .twobhk-feature {
+  border-left: 1px solid #dce6f1;
+}
+
+.twobhk-feature > svg {
+  flex-shrink: 0;
+  stroke-width: 1.7;
+}
+
+.twobhk-feature h3 {
+  margin: 0 0 5px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.twobhk-feature p {
+  margin: 0;
+  color: #71839d;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   DESIGNS SECTION
+========================================= */
+
+.twobhk-designs {
+  width: 100%;
+  padding: 48px 24px 15px;
+  background: linear-gradient(180deg, #f3f8fe, #f8fbff);
+  scroll-margin-top: 30px;
+}
+
+.twobhk-designs__container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.twobhk-designs__heading {
+  max-width: 800px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.twobhk-designs__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 13px;
+  color: #6c86a9;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.twobhk-designs__eyebrow::before,
+.twobhk-designs__eyebrow::after {
+  width: 28px;
+  height: 1px;
+  background: #a5bad4;
+  content: "";
+}
+
+.twobhk-designs__heading h2 {
+  margin: 0 0 12px;
+  color: #102a4d;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(25px, 3vw, 36px);
+  line-height: 1.35;
+}
+
+.twobhk-designs__heading > p {
+  margin: 0;
+  color: #627a9b;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.twobhk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 20px;
+}
+
+.twobhk-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #deebf9;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(27, 62, 105, 0.055);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.twobhk-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 13px 28px rgba(27, 62, 105, 0.11);
+}
+
+.twobhk-card__image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.9 / 1;
+  overflow: hidden;
+  background: #e2eaf2;
+}
+
+.twobhk-card__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.twobhk-card:hover .twobhk-card__image img {
+  transform: scale(1.035);
+}
+
+.twobhk-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.twobhk-card__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.twobhk-card__title-row h3 {
+  margin: 0;
+  color: #142e52;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.twobhk-card__area {
+  flex-shrink: 0;
+  color: #24466e;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.twobhk-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.twobhk-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #637b9a;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.twobhk-card__meta svg {
+  flex-shrink: 0;
+  color: #294d78;
+  stroke-width: 1.8;
+}
+
+.twobhk-card__description {
+  margin: 0 0 15px;
+  color: #6d82a0;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.twobhk-card__details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  color: #183658;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.twobhk-card__details > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  flex-shrink: 0;
+  border: 1px solid #b8d0eb;
+  border-radius: 50%;
+  color: #214d7e;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.twobhk-card__details:hover > span {
+  background: #245fa1;
+  color: #fff;
+}
+
+/* =========================================
+   QUOTE BANNER — DESKTOP
+========================================= */
+
+.twobhk-quote {
+  display: grid;
+  grid-template-columns: 36% 64%;
+  width: calc(100% - 48px);
+  max-width: 1400px;
+  min-height: 190px;
+  margin: 35px auto 55px;
+  overflow: hidden;
+  border: 1px solid rgba(176, 209, 244, 0.35);
+  border-radius: 15px;
+  background: #062650;
+  box-shadow: 0 12px 35px rgba(12, 43, 79, 0.12);
+}
+
+.twobhk-quote__image {
+  position: relative;
+  min-width: 0;
+  min-height: 190px;
+  overflow: hidden;
+  background: #102a4d;
+}
+
+.twobhk-quote__image img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.twobhk-quote__content {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 175px;
+  align-items: center;
+  gap: 22px;
+  min-width: 0;
+  padding: 25px 30px 25px 35px;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(115deg, #073568 0%, #052957 60%, #073e79 100%);
+}
+
+.twobhk-quote__main,
+.twobhk-quote__benefits {
+  position: relative;
+  z-index: 2;
+}
+
+.twobhk-quote__eyebrow {
+  margin: 0 0 9px;
+  color: #b8cce8;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+  line-height: 1.6;
+}
+
+.twobhk-quote__main h2 {
+  margin: 0 0 9px;
+  color: #fff;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.4;
+}
+
+.twobhk-quote__main h2 span {
+  color: #c7dcfa;
+}
+
+.twobhk-quote__description {
+  max-width: 490px;
+  margin: 0 0 15px;
+  color: #d1dfef;
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.twobhk-quote__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 39px;
+  padding: 0 20px;
+  border: 1px solid #ffcb59;
+  border-radius: 30px;
+  background: linear-gradient(100deg, #ffd46f, #ffb92e);
+  color: #142a45;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.twobhk-quote__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 191, 60, 0.2);
+}
+
+.twobhk-quote__benefits {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.twobhk-quote__benefit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e5eefb;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.twobhk-quote__benefit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(209, 228, 250, 0.55);
+  border-radius: 7px;
+  color: #e0edff;
+}
+
+.twobhk-quote__decoration {
+  position: absolute;
+  z-index: 1;
+  top: -95px;
+  right: -70px;
+  width: 220px;
+  height: 380px;
+  border: 1px solid rgba(122, 183, 245, 0.15);
+  border-radius: 50%;
+  box-shadow:
+    -20px 0 0 rgba(80, 151, 224, 0.07),
+    -40px 0 0 rgba(80, 151, 224, 0.06),
+    -60px 0 0 rgba(80, 151, 224, 0.05);
+  pointer-events: none;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 950px) {
+  .twobhk-banner {
+    height: 560px;
+    min-height: 520px;
+  }
+
+  .twobhk-banner__content {
+    padding: 110px 5% 50px;
+  }
+
+  .twobhk-banner__eyebrow {
+    font-size: 12px;
+  }
+
+  .twobhk-banner__title {
+    font-size: clamp(42px, 6vw, 56px);
+  }
+
+  .twobhk-banner__description {
+    max-width: 400px;
+    font-size: 14px;
+  }
+
+  .twobhk-features {
+    padding: 18px 12px;
+  }
+
+  .twobhk-feature {
+    gap: 10px;
+    padding: 8px 10px;
+  }
+
+  .twobhk-feature > svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .twobhk-feature h3 {
+    font-size: 11px;
+  }
+
+  .twobhk-feature p {
+    font-size: 9px;
+  }
+
+  .twobhk-designs {
+    padding: 40px 18px 12px;
+  }
+
+  .twobhk-grid {
+    gap: 15px;
+  }
+
+  .twobhk-card__body {
+    padding: 12px;
+  }
+
+  .twobhk-card__title-row {
+    flex-wrap: wrap;
+  }
+
+  .twobhk-quote {
+    grid-template-columns: 34% 66%;
+    width: calc(100% - 32px);
+  }
+
+  .twobhk-quote__content {
+    grid-template-columns: minmax(0, 1fr) 140px;
+    gap: 13px;
+    padding: 22px 18px;
+  }
+
+  .twobhk-quote__main h2 {
+    font-size: 21px;
+  }
+
+  .twobhk-quote__description {
+    font-size: 10px;
+  }
+
+  .twobhk-quote__benefit {
+    gap: 7px;
+    font-size: 10px;
+  }
+}
+
+/* =========================================
+   MOBILE — BANNER
+========================================= */
+
+@media (max-width: 650px) {
+  .twobhk-banner {
+    min-height: 660px;
+    height: auto;
+    align-items: flex-start;
+  }
+
+  .twobhk-banner__image {
+    background-position: 63% center;
+  }
+
+  .twobhk-banner__shade {
+    background: linear-gradient(
+      180deg,
+      rgba(4, 10, 10, 0.86) 0%,
+      rgba(4, 10, 10, 0.72) 48%,
+      rgba(4, 10, 10, 0.4) 76%,
+      rgba(4, 10, 10, 0.75) 100%
+    );
+  }
+
+  .twobhk-banner__content {
+    padding: 118px 20px 130px;
+  }
+
+  .twobhk-banner__eyebrow {
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+  }
+
+  .twobhk-banner__title {
+    font-size: clamp(38px, 11vw, 50px);
+    line-height: 1.08;
+    letter-spacing: -0.8px;
+  }
+
+  .twobhk-banner__subtitle {
+    margin: 16px 0 10px;
+    font-size: 18px;
+  }
+
+  .twobhk-banner__description {
+    max-width: 360px;
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .twobhk-banner__buttons {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 280px;
+    margin-top: 24px;
+  }
+
+  .twobhk-banner__btn {
+    width: 100%;
+    min-height: 48px;
+    font-size: 14px;
+  }
+
+  .twobhk-banner__quality {
+    right: auto;
+    bottom: 18px;
+    left: 20px;
+    padding: 9px 14px 9px 10px;
+  }
+
+  .twobhk-banner__quality-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .twobhk-banner__quality-text h3 {
+    font-size: 12px;
+  }
+
+  .twobhk-banner__quality-text p {
+    font-size: 10px;
+  }
+
+  .twobhk-features {
+    padding: 16px 12px;
+  }
+
+  .twobhk-features__container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .twobhk-feature {
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 15px 9px;
+  }
+
+  .twobhk-feature + .twobhk-feature {
+    border-left: none;
+  }
+
+  .twobhk-feature:nth-child(even) {
+    border-left: 1px solid #dce6f1;
+  }
+
+  .twobhk-feature:nth-child(n + 3) {
+    border-top: 1px solid #dce6f1;
+  }
+
+  .twobhk-feature > svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .twobhk-feature h3 {
+    font-size: 11px;
+  }
+
+  .twobhk-feature p {
+    font-size: 9px;
+  }
+
+  /* DESIGN CARDS: ONE COLUMN ON MOBILE */
+
+  .twobhk-designs {
+    padding: 35px 14px 10px;
+  }
+
+  .twobhk-designs__heading {
+    margin-bottom: 24px;
+  }
+
+  .twobhk-designs__heading h2 {
+    font-size: clamp(23px, 6vw, 29px);
+    line-height: 1.4;
+  }
+
+  .twobhk-designs__heading > p {
+    font-size: 12px;
+  }
+
+  .twobhk-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 440px;
+    margin: 0 auto;
+    gap: 18px;
+  }
+
+  .twobhk-card__image {
+    aspect-ratio: 1.65 / 1;
+  }
+
+  .twobhk-card__body {
+    padding: 15px;
+  }
+
+  .twobhk-card__title-row {
+    flex-wrap: nowrap;
+  }
+
+  .twobhk-card__title-row h3 {
+    font-size: 14px;
+  }
+
+  .twobhk-card__area {
+    font-size: 10px;
+  }
+
+  .twobhk-card__meta {
+    gap: 8px 12px;
+  }
+
+  .twobhk-card__meta span {
+    font-size: 10px;
+  }
+
+  .twobhk-card__description {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .twobhk-card__details {
+    font-size: 12px;
+  }
+
+  /* QUOTE BANNER: IMAGE ABOVE, CONTENT BELOW */
+
+  .twobhk-quote {
+    grid-template-columns: minmax(0, 1fr);
+    width: calc(100% - 28px);
+    max-width: 440px;
+    margin: 24px auto 35px;
+    border-radius: 13px;
+  }
+
+  .twobhk-quote__image {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .twobhk-quote__content {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 25px;
+    padding: 28px 20px 25px;
+    text-align: center;
+  }
+
+  .twobhk-quote__main {
+    width: 100%;
+  }
+
+  .twobhk-quote__eyebrow {
+    font-size: 8px;
+    letter-spacing: 1.3px;
+  }
+
+  .twobhk-quote__main h2 {
+    max-width: 360px;
+    margin: 0 auto 12px;
+    font-size: clamp(21px, 6vw, 27px);
+    line-height: 1.45;
+  }
+
+  .twobhk-quote__description {
+    max-width: 360px;
+    margin: 0 auto 18px;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  .twobhk-quote__button {
+    min-height: 43px;
+  }
+
+  .twobhk-quote__benefits {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px 10px;
+    width: 100%;
+    max-width: 360px;
+    text-align: left;
+  }
+
+  .twobhk-quote__benefit {
+    gap: 8px;
+    font-size: 10px;
+  }
+
+  .twobhk-quote__benefit-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .twobhk-banner {
+    min-height: 640px;
+  }
+
+  .twobhk-banner__content {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .twobhk-banner__title {
+    font-size: 36px;
+  }
+
+  .twobhk-banner__eyebrow {
+    font-size: 9.5px;
+    letter-spacing: 0.9px;
+  }
+
+  .twobhk-banner__description {
+    font-size: 13px;
+  }
+
+  .twobhk-banner__quality {
+    left: 15px;
+  }
+
+  .twobhk-features {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .twobhk-feature {
+    gap: 7px;
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  .twobhk-feature > svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .twobhk-feature h3 {
+    font-size: 10px;
+  }
+
+  .twobhk-feature p {
+    font-size: 8px;
+  }
+
+  .twobhk-designs {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .twobhk-card__body {
+    padding: 12px;
+  }
+
+  .twobhk-card__title-row {
+    gap: 6px;
+  }
+
+  .twobhk-card__title-row h3 {
+    font-size: 12px;
+  }
+
+  .twobhk-card__meta {
+    gap: 7px;
+  }
+
+  .twobhk-card__meta span {
+    font-size: 9px;
+  }
+
+  .twobhk-quote {
+    width: calc(100% - 20px);
+  }
+
+  .twobhk-quote__content {
+    padding: 24px 14px;
+  }
+
+  .twobhk-quote__main h2 {
+    font-size: 21px;
+  }
+
+  .twobhk-quote__benefit {
+    gap: 6px;
+    font-size: 9px;
+  }
+
+  .twobhk-quote__benefit-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .twobhk-card,
+  .twobhk-card__image img,
+  .twobhk-card__details > span,
+  .twobhk-banner__btn,
+  .twobhk-quote__button {
+    transition: none;
+  }
+}

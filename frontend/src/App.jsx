@@ -39,6 +39,11 @@ import Contact from "./Components/Contact/Contact";
 import ProjectPage from "./Components/ProjectPage/ProjectPage";
 import Homecottages from "./Components/HomeCottages/HomeCottages";
 import Footer from "./Components/Footer/Footer";
+import OneBHK from "./Components/Work/OneBHK";
+import Twobhk from "./Components/Work/Twobhk";
+import Threebhk from "./Components/Work/Threebhk";
+import FourBhk from "./Components/Work/FourBhk";
+
 
 // =====================================================
 // ADMIN DASHBOARD
@@ -152,6 +157,10 @@ function AppLayout() {
     "/contact",
     "/projects",
     "/homes-cottages",
+     "/work/1bhk",
+     "/work/2bhk",
+       "/work/3bhk",
+         "/work/4bhk", // Add this
   ];
 
   const isWebsitePage = websiteRoutes.includes(pathname);
@@ -206,7 +215,23 @@ function AppLayout() {
           path="/homes-cottages"
           element={<Homecottages />}
         />
+          <Route
+  path="/work/1bhk"
+  element={<OneBHK />}
+/>
 
+<Route
+  path="/work/2bhk"
+  element={<Twobhk />}
+/>
+<Route
+  path="/work/3bhk"
+  element={<Threebhk />}
+/>
+<Route
+  path="/work/4bhk"
+  element={<FourBhk />}
+/>
         {/* ADMIN DASHBOARD */}
         <Route
           path="/admin/*"

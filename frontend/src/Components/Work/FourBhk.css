@@ -1,0 +1,1231 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap");
+
+/* =========================================
+   FOUR BHK PAGE
+========================================= */
+
+.fourbhk-page {
+  width: 100%;
+  overflow: hidden;
+  background: #f1f8ff;
+  color: #10294d;
+  font-family: "Raleway", sans-serif;
+}
+
+.fourbhk-page * {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HERO BANNER (same values as OneBHK.css)
+========================================= */
+
+.fourbhk-banner {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 550px;
+  overflow: hidden;
+  background-color: #14201d;
+  color: #ffffff;
+  font-family: "DM Sans", sans-serif;
+}
+
+.fourbhk-banner__image {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.fourbhk-banner__shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 10, 12, 0.78) 0%,
+    rgba(5, 10, 12, 0.56) 32%,
+    rgba(5, 10, 12, 0.18) 62%,
+    rgba(5, 10, 12, 0.03) 100%
+  );
+}
+
+.fourbhk-banner__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 145px clamp(24px, 7.4vw, 105px) 65px;
+}
+
+.fourbhk-banner__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 18px;
+  color: #f5f5f5;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  line-height: 1.6;
+}
+
+.fourbhk-banner__eyebrow span,
+.fourbhk-banner__eyebrow strong {
+  color: #ffc34e;
+  font-weight: 700;
+}
+
+.fourbhk-banner__title {
+  margin: 0;
+  color: #ffffff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(55px, 5.1vw, 76px);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -1.8px;
+}
+
+.fourbhk-banner__title span {
+  display: block;
+  color: #ffc34e;
+}
+
+.fourbhk-banner__subtitle {
+  margin: 18px 0 12px;
+  color: #ffffff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.fourbhk-banner__description {
+  max-width: 440px;
+  margin: 0;
+  color: #f0f0f0;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.fourbhk-banner__buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 25px;
+}
+
+.fourbhk-banner__btn {
+  min-height: 50px;
+  padding: 0 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  text-decoration: none;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.fourbhk-banner__btn:hover {
+  transform: translateY(-2px);
+}
+
+.fourbhk-banner__btn--gold {
+  color: #111111;
+  background: #ffc34e;
+  box-shadow: 0 4px 14px rgba(255, 195, 78, 0.15);
+}
+
+.fourbhk-banner__btn--gold:hover {
+  color: #111111;
+  background: #ffd16f;
+}
+
+.fourbhk-banner__btn--outline {
+  color: #ffffff;
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.75);
+}
+
+.fourbhk-banner__btn--outline:hover {
+  color: #111111;
+  background: #ffffff;
+}
+
+/* Badge — bottom right */
+
+.fourbhk-banner__quality {
+  position: absolute;
+  right: 25px;
+  bottom: 18px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 17px 9px 10px;
+  background: linear-gradient(
+    135deg,
+    rgba(12, 36, 76, 0.97),
+    rgba(5, 20, 48, 0.97)
+  );
+  border: 1px solid rgba(151, 181, 226, 0.8);
+  border-radius: 20px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.fourbhk-banner__quality-icon {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e5efff;
+  border: 1px solid rgba(208, 222, 248, 0.8);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.fourbhk-banner__quality-text h3 {
+  margin: 0 0 3px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.fourbhk-banner__quality-text p {
+  margin: 0;
+  color: #dce6f7;
+  font-size: 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* =========================================
+   FIVE FEATURE STRIP
+========================================= */
+
+.fourbhk-features {
+  width: 100%;
+  padding: 20px;
+  background: #f1f8ff;
+}
+
+.fourbhk-features__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px 12px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: center;
+  border: 1px solid #fff;
+  border-radius: 25px;
+  background: linear-gradient(110deg, #f5faff, #e1f1ff);
+  box-shadow: 0 8px 28px rgba(39, 89, 139, 0.08);
+}
+
+.fourbhk-feature {
+  min-width: 0;
+  min-height: 52px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+}
+
+.fourbhk-feature + .fourbhk-feature {
+  border-left: 1px solid #cbdff4;
+}
+
+.fourbhk-feature__icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  color: #102d55;
+  stroke-width: 2;
+}
+
+.fourbhk-feature__text {
+  min-width: 0;
+}
+
+.fourbhk-feature__text h3 {
+  margin: 0 0 5px;
+  color: #10294d;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.fourbhk-feature__text p {
+  margin: 0;
+  color: #7186a5;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* =========================================
+   DESIGNS SECTION
+========================================= */
+
+.fourbhk-designs {
+  width: 100%;
+  padding: 48px 24px 65px;
+  background:
+    radial-gradient(
+      circle at 0% 30%,
+      rgba(201, 231, 255, 0.55),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 100% 70%,
+      rgba(201, 231, 255, 0.5),
+      transparent 25%
+    ),
+    #f1f8ff;
+  scroll-margin-top: 30px;
+}
+
+.fourbhk-designs__container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.fourbhk-designs__heading {
+  max-width: 950px;
+  margin: 0 auto 30px;
+  text-align: center;
+}
+
+.fourbhk-designs__eyebrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 12px;
+  color: #7189b0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.fourbhk-designs__eyebrow span {
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: #9db6d8;
+}
+
+.fourbhk-designs__heading h2 {
+  margin: 0 0 12px;
+  color: #10294d;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(28px, 3.2vw, 43px);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.fourbhk-designs__heading h2 span {
+  color: #1760b8;
+}
+
+.fourbhk-designs__heading > p {
+  margin: 0 auto;
+  max-width: 850px;
+  color: #6b83a7;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* =========================================
+   HOME CARDS GRID
+========================================= */
+
+.fourbhk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.fourbhk-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #dfebf8;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 7px 22px rgba(29, 73, 119, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fourbhk-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(29, 73, 119, 0.13);
+}
+
+/* Card image */
+
+.fourbhk-card__image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.85 / 1;
+  overflow: hidden;
+  background: #dce8f3;
+}
+
+.fourbhk-card__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+.fourbhk-card:hover .fourbhk-card__image img {
+  transform: scale(1.045);
+}
+
+/* Heart icon */
+
+.fourbhk-card__heart {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  background: rgba(7, 24, 43, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+/* Card body */
+
+.fourbhk-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px 14px;
+}
+
+.fourbhk-card__title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.fourbhk-card__title-row h3 {
+  min-width: 0;
+  margin: 0;
+  color: #10294d;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.fourbhk-card__area {
+  flex-shrink: 0;
+  padding-top: 3px;
+  color: #10294d;
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Bedrooms, bathrooms and home type */
+
+.fourbhk-card__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px 15px;
+  margin-bottom: 12px;
+}
+
+.fourbhk-card__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #7186a5;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.fourbhk-card__meta svg {
+  flex-shrink: 0;
+  color: #7692ba;
+  stroke-width: 2;
+}
+
+/* Card description */
+
+.fourbhk-card__description {
+  margin: 0 0 14px;
+  color: #6b83a7;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* View Details */
+
+.fourbhk-card__details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 2px;
+  color: #1454a3;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.fourbhk-card__arrow {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1454a3;
+  border: 1.5px solid #4784dc;
+  border-radius: 50%;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+
+.fourbhk-card__details:hover .fourbhk-card__arrow {
+  color: #fff;
+  background: #1760b8;
+}
+
+/* =========================================
+   QUOTE BANNER — BELOW ALL DESIGN CARDS
+========================================= */
+
+.fourbhk-quote {
+  display: grid;
+  grid-template-columns: 36% 64%;
+  width: calc(100% - 48px);
+  max-width: 1440px;
+  min-height: 200px;
+  margin: 0 auto 55px;
+  overflow: hidden;
+  border: 1px solid rgba(176, 209, 244, 0.35);
+  border-radius: 15px;
+  background: #062650;
+  box-shadow: 0 12px 35px rgba(12, 43, 79, 0.12);
+}
+
+.fourbhk-quote__image {
+  position: relative;
+  min-width: 0;
+  min-height: 200px;
+  overflow: hidden;
+  background: #102a4d;
+}
+
+.fourbhk-quote__image img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.fourbhk-quote__content {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+  padding: 28px 34px 28px 40px;
+  overflow: hidden;
+  color: #ffffff;
+  background: linear-gradient(
+    115deg,
+    #073568 0%,
+    #052957 60%,
+    #073e79 100%
+  );
+}
+
+.fourbhk-quote__main,
+.fourbhk-quote__benefits {
+  position: relative;
+  z-index: 2;
+}
+
+.fourbhk-quote__eyebrow {
+  margin: 0 0 9px;
+  color: #b8cce8;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  line-height: 1.6;
+}
+
+.fourbhk-quote__main h2 {
+  margin: 0 0 9px;
+  color: #ffffff;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(22px, 2.1vw, 31px);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.fourbhk-quote__main h2 span {
+  color: #ffc34e;
+}
+
+.fourbhk-quote__description {
+  max-width: 500px;
+  margin: 0 0 17px;
+  color: #d1dfef;
+  font-size: 12px;
+  line-height: 1.75;
+}
+
+.fourbhk-quote__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 42px;
+  padding: 0 22px;
+  border: 1px solid #ffcb59;
+  border-radius: 30px;
+  background: linear-gradient(100deg, #ffd46f, #ffb92e);
+  color: #142a45;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fourbhk-quote__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 191, 60, 0.2);
+}
+
+.fourbhk-quote__benefits {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.fourbhk-quote__benefit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e5eefb;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.fourbhk-quote__benefit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(209, 228, 250, 0.55);
+  border-radius: 7px;
+  color: #e0edff;
+}
+
+.fourbhk-quote__decoration {
+  position: absolute;
+  z-index: 1;
+  top: -95px;
+  right: -70px;
+  width: 220px;
+  height: 380px;
+  border: 1px solid rgba(122, 183, 245, 0.15);
+  border-radius: 50%;
+  box-shadow:
+    -20px 0 0 rgba(80, 151, 224, 0.07),
+    -40px 0 0 rgba(80, 151, 224, 0.06),
+    -60px 0 0 rgba(80, 151, 224, 0.05);
+  pointer-events: none;
+}
+
+/* =========================================
+   LAPTOP
+========================================= */
+
+@media (max-width: 1200px) {
+  .fourbhk-feature {
+    padding: 0 10px;
+    gap: 9px;
+  }
+
+  .fourbhk-feature__icon {
+    width: 26px;
+    height: 26px;
+    flex-basis: 26px;
+  }
+
+  .fourbhk-feature__text h3 {
+    font-size: 11px;
+  }
+
+  .fourbhk-feature__text p {
+    font-size: 9px;
+  }
+
+  .fourbhk-grid {
+    gap: 16px;
+  }
+
+  .fourbhk-card__body {
+    padding: 14px;
+  }
+
+  .fourbhk-card__meta {
+    gap: 8px 11px;
+  }
+
+  .fourbhk-quote {
+    grid-template-columns: 34% 66%;
+  }
+
+  .fourbhk-quote__content {
+    grid-template-columns: minmax(0, 1fr) 165px;
+    gap: 16px;
+    padding: 24px 24px 24px 28px;
+  }
+}
+
+/* =========================================
+   TABLET BANNER (same as OneBHK.css)
+========================================= */
+
+@media (max-width: 900px) {
+  .fourbhk-banner {
+    min-height: 540px;
+  }
+
+  .fourbhk-banner__content {
+    padding: 125px 35px 110px;
+  }
+
+  .fourbhk-banner__title {
+    font-size: clamp(48px, 7vw, 64px);
+  }
+
+  .fourbhk-banner__subtitle {
+    font-size: 23px;
+  }
+
+  .fourbhk-banner__quality {
+    right: 20px;
+    bottom: 16px;
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .fourbhk-features {
+    padding: 16px;
+  }
+
+  .fourbhk-features__container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 10px 14px;
+  }
+
+  .fourbhk-feature {
+    min-height: 76px;
+    padding: 14px 16px;
+    justify-content: flex-start;
+  }
+
+  .fourbhk-feature + .fourbhk-feature {
+    border-left: none;
+  }
+
+  .fourbhk-feature:nth-child(even) {
+    border-left: 1px solid #cbdff4;
+  }
+
+  .fourbhk-feature:not(:nth-last-child(-n + 2)) {
+    border-bottom: 1px solid #cbdff4;
+  }
+
+  .fourbhk-feature:last-child {
+    grid-column: 1 / -1;
+    justify-content: center;
+    border-bottom: none;
+  }
+
+  .fourbhk-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .fourbhk-card__title-row h3 {
+    font-size: 14px;
+  }
+
+  .fourbhk-card__meta {
+    gap: 8px 12px;
+  }
+
+  .fourbhk-designs {
+    padding: 40px 20px 50px;
+  }
+
+  .fourbhk-quote {
+    width: calc(100% - 40px);
+  }
+
+  .fourbhk-quote__content {
+    grid-template-columns: minmax(0, 1fr) 150px;
+    padding: 22px 20px;
+  }
+
+  .fourbhk-quote__main h2 {
+    font-size: 22px;
+  }
+
+  .fourbhk-quote__description {
+    font-size: 11px;
+  }
+
+  .fourbhk-quote__benefit {
+    gap: 8px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================
+   MOBILE BANNER (same as OneBHK.css)
+========================================= */
+
+@media (max-width: 600px) {
+  .fourbhk-banner {
+    min-height: 650px;
+    align-items: flex-start;
+  }
+
+  .fourbhk-banner__image {
+    background-position: 60% center;
+  }
+
+  .fourbhk-banner__shade {
+    background: linear-gradient(
+      180deg,
+      rgba(5, 10, 12, 0.86) 0%,
+      rgba(5, 10, 12, 0.72) 55%,
+      rgba(5, 10, 12, 0.4) 100%
+    );
+  }
+
+  .fourbhk-banner__content {
+    padding: 110px 22px 140px;
+  }
+
+  .fourbhk-banner__eyebrow {
+    gap: 5px;
+    margin-bottom: 18px;
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .fourbhk-banner__title {
+    font-size: clamp(40px, 10vw, 54px);
+    line-height: 1.03;
+    letter-spacing: -1px;
+  }
+
+  .fourbhk-banner__subtitle {
+    margin-top: 16px;
+    margin-bottom: 12px;
+    font-size: 21px;
+  }
+
+  .fourbhk-banner__description {
+    max-width: 390px;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .fourbhk-banner__buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 22px;
+  }
+
+  .fourbhk-banner__btn {
+    width: 100%;
+    min-height: 50px;
+    padding: 0 15px;
+  }
+
+  .fourbhk-banner__quality {
+    right: auto;
+    left: 22px;
+    bottom: 20px;
+    gap: 9px;
+    padding: 8px 13px 8px 9px;
+    border-radius: 17px;
+  }
+
+  .fourbhk-banner__quality-icon {
+    width: 39px;
+    height: 39px;
+  }
+
+  .fourbhk-banner__quality-text h3 {
+    font-size: 12px;
+  }
+
+  .fourbhk-banner__quality-text p {
+    font-size: 10px;
+  }
+
+  /* QUOTE BANNER: IMAGE ABOVE, CONTENT BELOW */
+
+  .fourbhk-quote {
+    grid-template-columns: minmax(0, 1fr);
+    width: calc(100% - 30px);
+    max-width: 440px;
+    margin: 0 auto 35px;
+    border-radius: 13px;
+  }
+
+  .fourbhk-quote__image {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .fourbhk-quote__content {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 25px;
+    padding: 28px 20px 25px;
+    text-align: center;
+  }
+
+  .fourbhk-quote__main {
+    width: 100%;
+  }
+
+  .fourbhk-quote__eyebrow {
+    font-size: 9px;
+    letter-spacing: 1.3px;
+  }
+
+  .fourbhk-quote__main h2 {
+    max-width: 360px;
+    margin: 0 auto 12px;
+    font-size: clamp(22px, 6.2vw, 28px);
+    line-height: 1.35;
+  }
+
+  .fourbhk-quote__description {
+    max-width: 360px;
+    margin: 0 auto 18px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .fourbhk-quote__button {
+    min-height: 46px;
+  }
+
+  .fourbhk-quote__benefits {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px 10px;
+    width: 100%;
+    max-width: 360px;
+    text-align: left;
+  }
+
+  .fourbhk-quote__benefit {
+    gap: 8px;
+    font-size: 11px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 520px) {
+  /* Feature strip: five items in one column */
+
+  .fourbhk-features {
+    padding: 14px 12px;
+  }
+
+  .fourbhk-features__container {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 8px 16px;
+    border-radius: 18px;
+  }
+
+  .fourbhk-feature,
+  .fourbhk-feature:last-child {
+    grid-column: auto;
+    justify-content: flex-start;
+    min-height: 70px;
+    padding: 12px 8px;
+    gap: 15px;
+    border-left: none;
+    border-bottom: 1px solid #cbdff4;
+  }
+
+  .fourbhk-feature:last-child {
+    border-bottom: none;
+  }
+
+  .fourbhk-feature__icon {
+    width: 29px;
+    height: 29px;
+    flex-basis: 29px;
+  }
+
+  .fourbhk-feature__text h3 {
+    margin-bottom: 4px;
+    font-size: 13px;
+  }
+
+  .fourbhk-feature__text p {
+    font-size: 11px;
+  }
+
+  /* Centered design heading */
+
+  .fourbhk-designs {
+    padding: 35px 14px 42px;
+  }
+
+  .fourbhk-designs__heading {
+    margin-bottom: 24px;
+  }
+
+  .fourbhk-designs__eyebrow {
+    gap: 9px;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+  }
+
+  .fourbhk-designs__eyebrow span {
+    width: 23px;
+  }
+
+  .fourbhk-designs__heading h2 {
+    font-size: clamp(25px, 7vw, 34px);
+    line-height: 1.35;
+  }
+
+  .fourbhk-designs__heading > p {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  /* One card per row on mobile */
+
+  .fourbhk-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    width: 100%;
+  }
+
+  .fourbhk-card {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+    border-radius: 12px;
+  }
+
+  .fourbhk-card__image {
+    aspect-ratio: 1.7 / 1;
+  }
+
+  .fourbhk-card__body {
+    padding: 15px 16px;
+  }
+
+  .fourbhk-card__title-row {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .fourbhk-card__title-row h3 {
+    font-size: 14px;
+  }
+
+  .fourbhk-card__area {
+    font-size: 10px;
+  }
+
+  .fourbhk-card__meta {
+    gap: 9px 13px;
+    margin-bottom: 12px;
+  }
+
+  .fourbhk-card__meta span {
+    font-size: 11px;
+  }
+
+  .fourbhk-card__description {
+    margin-bottom: 13px;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .fourbhk-card__details {
+    font-size: 12px;
+  }
+
+  .fourbhk-card__arrow {
+    width: 35px;
+    height: 35px;
+    flex-basis: 35px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .fourbhk-banner {
+    min-height: 670px;
+  }
+
+  .fourbhk-banner__content {
+    padding: 105px 16px 130px;
+  }
+
+  .fourbhk-banner__eyebrow {
+    gap: 4px;
+    font-size: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  .fourbhk-banner__title {
+    font-size: 39px;
+  }
+
+  .fourbhk-banner__subtitle {
+    font-size: 19px;
+  }
+
+  .fourbhk-banner__description {
+    font-size: 13px;
+  }
+
+  .fourbhk-banner__quality {
+    left: 16px;
+    gap: 8px;
+  }
+
+  .fourbhk-designs {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .fourbhk-card__body {
+    padding: 13px;
+  }
+
+  .fourbhk-card__meta {
+    gap: 8px;
+  }
+
+  .fourbhk-card__meta span {
+    font-size: 10px;
+  }
+
+  .fourbhk-card__title-row h3 {
+    font-size: 13px;
+  }
+
+  .fourbhk-quote {
+    width: calc(100% - 20px);
+  }
+
+  .fourbhk-quote__content {
+    padding: 24px 14px;
+  }
+
+  .fourbhk-quote__main h2 {
+    font-size: 21px;
+  }
+
+  .fourbhk-quote__benefit {
+    gap: 6px;
+    font-size: 10px;
+  }
+
+  .fourbhk-quote__benefit-icon {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .fourbhk-card,
+  .fourbhk-card__image img,
+  .fourbhk-card__arrow,
+  .fourbhk-banner__btn,
+  .fourbhk-quote__button {
+    transition: none;
+  }
+
+  .fourbhk-banner__btn:hover,
+  .fourbhk-quote__button:hover {
+    transform: none;
+  }
+}
