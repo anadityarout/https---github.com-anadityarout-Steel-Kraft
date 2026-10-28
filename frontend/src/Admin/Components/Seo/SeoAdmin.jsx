@@ -19,12 +19,18 @@ import "./SeoAdmin.css";
 const SEO_API =
   "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/seo";
 
+
 const PAGE_OPTIONS = [
   "Home",
   "Project",
   "Home & Cottage",
+  "One BHK",
+  "Two BHK",
+  "Three BHK",
+  "Four BHK",
   "Contact",
 ];
+
 
 const initialForm = {
   page: "",
