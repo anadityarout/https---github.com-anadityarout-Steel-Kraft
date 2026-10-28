@@ -7,8 +7,9 @@ const SEO_API =
 
 const DIST_DIR = path.resolve("dist");
 
-// Replace this with your actual production website URL.
 const SITE_URL = "https://www.steelcraftprefab.com";
+
+const GOOGLE_TAG_ID = "G-MK6E9HDEHC";
 
 const PAGES = [
   {
@@ -47,6 +48,7 @@ function escapeHTML(value = "") {
   });
 }
 
+// Add or update a meta tag.
 function setMeta(html, name, content) {
   const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -64,6 +66,7 @@ function setMeta(html, name, content) {
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
 
+// Add or update the canonical URL.
 function setCanonical(html, url) {
   const tag = `<link rel="canonical" href="${escapeHTML(url)}">`;
 
@@ -77,17 +80,64 @@ function setCanonical(html, url) {
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
 
+// Add or update the page title.
 function setTitle(html, title) {
   const tag = `<title>${escapeHTML(title)}</title>`;
 
-  if (/<title\b[^>]*>[\s\S]*?<\/title>/i.test(html)) {
-    return html.replace(
-      /<title\b[^>]*>[\s\S]*?<\/title>/i,
-      tag
-    );
+  const regex = /<title\b[^>]*>[\s\S]*?<\/title>/i;
+
+  if (regex.test(html)) {
+    return html.replace(regex, tag);
   }
 
   return html.replace("</head>", `  ${tag}\n</head>`);
+}
+
+// Add Google Analytics to the HTML source.
+function addGoogleTag(html) {
+  // Prevent duplicate installation of the same Google tag.
+  const googleScriptRegex =
+    /<script\b[^>]*src=["']https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=([^"'&]+)[^"']*["'][^>]*>\s*<\/script>/i;
+
+  if (googleScriptRegex.test(html)) {
+    // Ensure the correct measurement ID is configured.
+    const configRegex = new RegExp(
+      `gtag\\(\\s*['"]config['"]\\s*,\\s*['"]${GOOGLE_TAG_ID}['"]\\s*\\)`
+    );
+
+    if (configRegex.test(html)) {
+      return html;
+    }
+
+    // If the loader exists but the configuration does not,
+    // add the configuration without adding another loader.
+    const configScript = `
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GOOGLE_TAG_ID}');
+    </script>`;
+
+    return html.replace("</head>", `${configScript}\n</head>`);
+  }
+
+  const googleTag = `
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GOOGLE_TAG_ID}');
+    </script>
+  `;
+
+  if (!html.includes("</head>")) {
+    throw new Error("Cannot add Google tag: closing </head> was not found.");
+  }
+
+  return html.replace("</head>", `${googleTag}\n</head>`);
 }
 
 async function main() {
@@ -99,7 +149,14 @@ async function main() {
     );
   }
 
+  // Read the built HTML template.
   const template = fs.readFileSync(templatePath, "utf8");
+
+  if (!template.includes("</head>")) {
+    throw new Error(
+      "The closing </head> tag was not found in dist/index.html."
+    );
+  }
 
   console.log("Fetching SEO data from AWS...");
 
@@ -127,8 +184,13 @@ async function main() {
         item.page?.toLowerCase() === page.name.toLowerCase()
     );
 
+    // Start from the built template for each page.
     let html = template;
 
+    // Add the Google tag before writing the HTML.
+    html = addGoogleTag(html);
+
+    // Apply page-specific SEO information.
     const title = seo?.metaTitle?.trim() || "Steel Craft";
     const description = seo?.description?.trim() || "";
 
@@ -152,18 +214,21 @@ async function main() {
 
     html = setCanonical(html, canonical);
 
+    // Create the destination directory if needed.
     const outputPath = path.join(DIST_DIR, page.output);
 
     fs.mkdirSync(path.dirname(outputPath), {
       recursive: true,
     });
 
+    // Write the generated HTML to the dist folder.
     fs.writeFileSync(outputPath, html, "utf8");
 
     console.log(`Generated SEO HTML: ${page.output}`);
+    console.log(`Google tag included: ${GOOGLE_TAG_ID}`);
   }
 
-  console.log("SEO HTML generation completed.");
+  console.log("SEO HTML generation completed successfully.");
 }
 
 main().catch((error) => {
