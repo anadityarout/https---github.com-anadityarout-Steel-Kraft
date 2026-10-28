@@ -9,18 +9,13 @@ const DIST_DIR = path.resolve("dist");
 const SITE_URL = "https://www.steelcraftprefab.com";
 const GOOGLE_TAG_ID = "G-MK6E9HDEHC";
 
-// These routes must match App.jsx exactly.
+// =====================================================
+// ALL WEBSITE ROUTES
+// =====================================================
+
 const PAGES = [
-  {
-    name: "Home",
-    route: "/",
-    output: "index.html",
-  },
-  {
-    name: "Project",
-    route: "/projects",
-    output: "projects/index.html",
-  },
+  { name: "Home", route: "/", output: "index.html" },
+  { name: "Project", route: "/projects", output: "projects/index.html" },
   {
     name: "Home & Cottage",
     route: "/homes-cottages",
@@ -46,15 +41,11 @@ const PAGES = [
     route: "/work/4bhk",
     output: "work/4bhk/index.html",
   },
-  {
-    name: "Contact",
-    route: "/contact",
-    output: "contact/index.html",
-  },
+  { name: "Contact", route: "/contact", output: "contact/index.html" },
 ];
 
 // =====================================================
-// HTML ESCAPING
+// HELPERS
 // =====================================================
 
 function escapeHTML(value = "") {
@@ -71,14 +62,68 @@ function escapeHTML(value = "") {
   });
 }
 
+function normalizePage(value) {
+  return String(value ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+}
+
 // =====================================================
-// SET OR INSERT META TAG
+// REMOVE EXISTING PAGE SEO
+// Prevent the base HTML template's metadata or schema
+// from being copied to every page.
+// =====================================================
+
+function removePageSeo(html) {
+  // Remove existing title.
+  html = html.replace(
+    /<title\b[^>]*>[\s\S]*?<\/title>\s*/gi,
+    ""
+  );
+
+  // Remove standard SEO and Twitter metadata.
+  html = html.replace(
+    /<meta\b(?=[^>]*\bname=["'](?:description|keywords|twitter:[^"']+)["'])[^>]*>\s*/gi,
+    ""
+  );
+
+  // Remove Open Graph metadata.
+  html = html.replace(
+    /<meta\b(?=[^>]*\bproperty=["']og:[^"']+["'])[^>]*>\s*/gi,
+    ""
+  );
+
+  // Remove existing canonical link.
+  html = html.replace(
+    /<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>\s*/gi,
+    ""
+  );
+
+  // Remove existing JSON-LD so each page gets its own schema.
+  html = html.replace(
+    /<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>[\s\S]*?<\/script>\s*/gi,
+    ""
+  );
+
+  // Remove previous custom SEO alt-text attribute.
+  html = html.replace(
+    /\sdata-seo-alt-text=(["']).*?\1/gi,
+    ""
+  );
+
+  return html;
+}
+
+// =====================================================
+// SET OR INSERT META TAGS
 // =====================================================
 
 function setMeta(html, name, content) {
   const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  const tag = `<meta name="${name}" content="${escapeHTML(content)}">`;
+  const tag =
+    `<meta name="${name}" content="${escapeHTML(content)}">`;
 
   const regex = new RegExp(
     `<meta\\b(?=[^>]*\\bname=["']${escapedName}["'])[^>]*\\/?>`,
@@ -95,10 +140,6 @@ function setMeta(html, name, content) {
 
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
-
-// =====================================================
-// SET OR INSERT PROPERTY META TAG
-// =====================================================
 
 function setMetaProperty(html, property, content) {
   const escapedProperty = property.replace(
@@ -125,12 +166,9 @@ function setMetaProperty(html, property, content) {
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
 
-// =====================================================
-// SET OR INSERT CANONICAL URL
-// =====================================================
-
 function setCanonical(html, url) {
-  const tag = `<link rel="canonical" href="${escapeHTML(url)}">`;
+  const tag =
+    `<link rel="canonical" href="${escapeHTML(url)}">`;
 
   const regex =
     /<link\b(?=[^>]*\brel=["']canonical["'])[^>]*\/?>/i;
@@ -145,10 +183,6 @@ function setCanonical(html, url) {
 
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
-
-// =====================================================
-// SET OR INSERT PAGE TITLE
-// =====================================================
 
 function setTitle(html, title) {
   const tag = `<title>${escapeHTML(title)}</title>`;
@@ -170,19 +204,19 @@ function setTitle(html, title) {
 // =====================================================
 
 function addGoogleTag(html) {
-  // Remove existing gtag.js loaders and inline Google tag blocks.
-  // Then insert exactly one configuration for this measurement ID.
+  // Remove existing Google Analytics loaders.
   html = html.replace(
-    /<script\b(?=[^>]*\bsrc=["']https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"']+["'])[^>]*>\s*<\/script>/gi,
+    /<script\b(?=[^>]*\bsrc=["']https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"']+["'])[^>]*>[\s\S]*?<\/script>/gi,
     ""
   );
 
+  // Remove an existing Google tag block.
   html = html.replace(
     /<!-- Google tag \(gtag\.js\) -->[\s\S]*?<\/script>/gi,
     ""
   );
 
-  // Remove an existing inline gtag configuration to avoid duplicates.
+  // Remove an existing inline configuration.
   html = html.replace(
     /<script\b[^>]*>[\s\S]*?gtag\(\s*['"]config['"]\s*,[\s\S]*?<\/script>/gi,
     ""
@@ -234,42 +268,50 @@ ${json}
 }
 
 // =====================================================
-// FETCH SEO DATA FROM AWS LAMBDA
+// FETCH SEO DATA FROM AWS
+// If the API is unavailable, still generate page schemas.
 // =====================================================
 
 async function fetchSeoItems() {
   console.log("Fetching SEO data from AWS Lambda...");
 
-  const response = await fetch(SEO_API, {
-    headers: {
-      Accept: "application/json",
-    },
-    cache: "no-store",
-  });
+  try {
+    const response = await fetch(SEO_API, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+      signal: AbortSignal.timeout(15000),
+    });
 
-  if (!response.ok) {
-    throw new Error(`SEO API returned HTTP ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`SEO API returned HTTP ${response.status}`);
+    }
+
+    const result = await response.json();
+
+    const seoItems = Array.isArray(result)
+      ? result
+      : Array.isArray(result?.items)
+        ? result.items
+        : null;
+
+    if (!seoItems) {
+      throw new Error("SEO API returned an invalid data format.");
+    }
+
+    console.log(
+      "SEO records returned:",
+      seoItems.map((item) => item?.page)
+    );
+
+    return seoItems;
+  } catch (error) {
+    console.error(
+      "Could not fetch SEO records. Pages will still get schema:",
+      error.message
+    );
+
+    return [];
   }
-
-  const result = await response.json();
-
-  // Support a direct array or an object containing items.
-  const seoItems = Array.isArray(result)
-    ? result
-    : Array.isArray(result?.items)
-      ? result.items
-      : null;
-
-  if (!seoItems) {
-    throw new Error("SEO API returned an invalid data format.");
-  }
-
-  console.log(
-    "Page names returned by API:",
-    seoItems.map((item) => item?.page)
-  );
-
-  return seoItems;
 }
 
 // =====================================================
@@ -278,7 +320,6 @@ async function fetchSeoItems() {
 
 function getCanonicalUrl(seo, page) {
   const fallbackCanonical = `${SITE_URL}${page.route}`;
-
   const value = String(seo?.canonicalUrl ?? "").trim();
 
   if (!value) {
@@ -317,69 +358,61 @@ function getCanonicalUrl(seo, page) {
 }
 
 // =====================================================
-// GENERATE PAGE HTML
+// GENERATE HTML FOR EACH PAGE
+// Schema does not depend on saved SEO data.
 // =====================================================
 
-function generatePageHTML(template, page, seo) {
-  let html = template;
+function generatePageHTML(template, page, seo = {}) {
+  // Start with a clean copy of the base template.
+  let html = removePageSeo(template);
 
   const title = String(seo?.metaTitle ?? "").trim();
   const description = String(seo?.description ?? "").trim();
   const keywords = String(seo?.keywords ?? "").trim();
   const altText = String(seo?.altText ?? "").trim();
 
-  if (!title) {
-    throw new Error(
-      `SEO title is missing for "${page.name}". Add it in SEO Admin.`
-    );
-  }
-
-  if (!description) {
-    throw new Error(
-      `SEO description is missing for "${page.name}". Add it in SEO Admin.`
-    );
-  }
-
   const canonical = getCanonicalUrl(seo, page);
   const ogImage = `${SITE_URL}/assets/steel-craft-og-image.jpg`;
 
-  // Standard SEO metadata.
-  html = setTitle(html, title);
-  html = setMeta(html, "description", description);
-  html = setMeta(html, "keywords", keywords);
-  html = setCanonical(html, canonical);
-
-  // Store the Admin Dashboard alt text on the HTML element.
-  // This does not automatically change individual React image alt attributes.
-  if (/<html\b[^>]*>/i.test(html)) {
-    if (/data-seo-alt-text=["'][^"']*["']/i.test(html)) {
-      html = html.replace(
-        /data-seo-alt-text=["'][^"']*["']/i,
-        `data-seo-alt-text="${escapeHTML(altText)}"`
-      );
-    } else {
-      html = html.replace(
-        /<html\b([^>]*)>/i,
-        `<html$1 data-seo-alt-text="${escapeHTML(altText)}">`
-      );
-    }
+  // Only use custom SEO fields when saved in Admin Dashboard.
+  if (title) {
+    html = setTitle(html, title);
+    html = setMetaProperty(html, "og:title", title);
+    html = setMeta(html, "twitter:title", title);
   }
 
-  // Open Graph metadata.
-  html = setMetaProperty(html, "og:title", title);
-  html = setMetaProperty(html, "og:description", description);
+  if (description) {
+    html = setMeta(html, "description", description);
+    html = setMetaProperty(html, "og:description", description);
+    html = setMeta(html, "twitter:description", description);
+  }
+
+  if (keywords) {
+    html = setMeta(html, "keywords", keywords);
+  }
+
+  // Canonical belongs to the current page, even without SEO data.
+  html = setCanonical(html, canonical);
+
+  // Open Graph page identity and image.
   html = setMetaProperty(html, "og:type", "website");
   html = setMetaProperty(html, "og:url", canonical);
   html = setMetaProperty(html, "og:site_name", "Steel Craft Prefab");
   html = setMetaProperty(html, "og:image", ogImage);
 
-  // Twitter metadata.
+  // Twitter image metadata.
   html = setMeta(html, "twitter:card", "summary_large_image");
-  html = setMeta(html, "twitter:title", title);
-  html = setMeta(html, "twitter:description", description);
   html = setMeta(html, "twitter:image", ogImage);
 
-  // Organization and website schema.
+  // Store alt text only when supplied by Admin Dashboard.
+  if (altText) {
+    html = html.replace(
+      /<html\b([^>]*)>/i,
+      `<html$1 data-seo-alt-text="${escapeHTML(altText)}">`
+    );
+  }
+
+  // Organization schema.
   const organization = {
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
@@ -387,6 +420,7 @@ function generatePageHTML(template, page, seo) {
     url: `${SITE_URL}/`,
   };
 
+  // Website schema.
   const website = {
     "@type": "WebSite",
     "@id": `${SITE_URL}/#website`,
@@ -409,12 +443,12 @@ function generatePageHTML(template, page, seo) {
     pageType = "ContactPage";
   }
 
+  // Page schema is always generated.
+  // Name and description are included only when saved.
   const pageSchema = {
     "@type": pageType,
     "@id": `${canonical}#webpage`,
     url: canonical,
-    name: title,
-    description,
     isPartOf: {
       "@id": `${SITE_URL}/#website`,
     },
@@ -424,12 +458,20 @@ function generatePageHTML(template, page, seo) {
     inLanguage: "en-IN",
   };
 
+  if (title) {
+    pageSchema.name = title;
+  }
+
+  if (description) {
+    pageSchema.description = description;
+  }
+
   html = setSchema(html, {
     "@context": "https://schema.org",
     "@graph": [organization, website, pageSchema],
   });
 
-  // Google Analytics.
+  // Preserve Google Analytics.
   html = addGoogleTag(html);
 
   return html;
@@ -437,8 +479,8 @@ function generatePageHTML(template, page, seo) {
 
 // =====================================================
 // MAIN
+// Generate every configured page, with or without SEO.
 // =====================================================
-
 
 async function main() {
   const templatePath = path.join(DIST_DIR, "index.html");
@@ -457,39 +499,18 @@ async function main() {
 
   const seoItems = await fetchSeoItems();
 
-  const normalizePage = (value) =>
-    String(value ?? "").trim().toLowerCase().replace(/\s+/g, " ");
-
   let generatedCount = 0;
-  let skippedCount = 0;
+  let failedCount = 0;
 
   for (const page of PAGES) {
-    const seo = seoItems.find(
-      (item) => normalizePage(item?.page) === normalizePage(page.name)
-    );
-
-    // No record saved in the dashboard: skip this page.
-    if (!seo) {
-      console.log(
-        `SKIPPED: ${page.name} — no SEO record in Admin Dashboard.`
-      );
-      skippedCount++;
-      continue;
-    }
-
-    const title = String(seo.metaTitle ?? "").trim();
-    const description = String(seo.description ?? "").trim();
-
-    // Don't generate metadata from incomplete records.
-    if (!title || !description) {
-      console.warn(
-        `SKIPPED: ${page.name} — title or description is empty.`
-      );
-      skippedCount++;
-      continue;
-    }
+    const seo =
+      seoItems.find(
+        (item) =>
+          normalizePage(item?.page) === normalizePage(page.name)
+      ) || {};
 
     try {
+      // Never skip a page because SEO is missing.
       const html = generatePageHTML(template, page, seo);
       const outputPath = path.join(DIST_DIR, page.output);
 
@@ -499,24 +520,38 @@ async function main() {
 
       fs.writeFileSync(outputPath, html, "utf8");
 
-      console.log(`GENERATED: ${page.name}`);
-      console.log(`Title: ${title}`);
-      console.log(`File: ${page.output}`);
+      const hasSavedSeo =
+        Boolean(String(seo.metaTitle ?? "").trim()) ||
+        Boolean(String(seo.description ?? "").trim());
 
+      console.log(
+        `GENERATED: ${page.name} — ${
+          hasSavedSeo
+            ? "Saved SEO fields + schema"
+            : "Schema generated without saved SEO"
+        }`
+      );
+
+      console.log(`File: ${page.output}`);
       generatedCount++;
     } catch (error) {
       console.error(
-        `SKIPPED: ${page.name} — ${error.message}`
+        `FAILED: ${page.name} — ${error.message}`
       );
-      skippedCount++;
+
+      failedCount++;
     }
   }
 
   console.log("--------------------------------");
   console.log("SEO HTML generation finished.");
   console.log(`Generated pages: ${generatedCount}`);
-  console.log(`Skipped pages: ${skippedCount}`);
+  console.log(`Failed pages: ${failedCount}`);
   console.log("--------------------------------");
+
+  if (failedCount > 0 || generatedCount !== PAGES.length) {
+    throw new Error("Some page HTML files failed to generate.");
+  }
 }
 
 main().catch((error) => {

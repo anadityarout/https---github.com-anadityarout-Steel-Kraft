@@ -1,8 +1,10 @@
+
 <?php
 // =========================================================
 // STEEL CRAFT PREFAB
 // Dynamic SEO from Admin Dashboard
 // AWS Lambda + Open Graph + Twitter + Schema.org
+// Schema is generated even when SEO data is missing.
 // =========================================================
 
 $apiUrl = 'https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/seo';
@@ -71,7 +73,12 @@ function normalizeSeoPage($value)
 function replaceHeadTag(&$html, $pattern, $replacement)
 {
     if (preg_match($pattern, $html)) {
-        $html = preg_replace($pattern, $replacement, $html, 1);
+        $html = preg_replace(
+            $pattern,
+            $replacement,
+            $html,
+            1
+        );
     } else {
         $html = preg_replace(
             '~</head>~i',
@@ -132,43 +139,42 @@ function setCanonical(&$html, $url)
 
 function removePageSeo(&$html)
 {
-    // Remove title metadata so an unconfigured page
-    // does not inherit the Home page title.
+    // Remove page title.
     $html = preg_replace(
-        '~<title\b[^>]*>.*?</title>~is',
+        '~<title\b[^>]*>.*?</title>\s*~is',
         '',
         $html
     );
 
-    // Remove standard SEO tags.
+    // Remove standard SEO and Twitter metadata.
     $html = preg_replace(
         '~<meta\b(?=[^>]*\bname=["\'](?:description|keywords|twitter:[^"\']+)["\'])[^>]*>\s*~i',
         '',
         $html
     );
 
-    // Remove Open Graph tags.
+    // Remove Open Graph metadata.
     $html = preg_replace(
         '~<meta\b(?=[^>]*\bproperty=["\']og:[^"\']+["\'])[^>]*>\s*~i',
         '',
         $html
     );
 
-    // Remove canonical link.
+    // Remove existing canonical link.
     $html = preg_replace(
         '~<link\b(?=[^>]*\brel=["\']canonical["\'])[^>]*>\s*~i',
         '',
         $html
     );
 
-    // Remove existing JSON-LD schema to avoid incorrect page schema.
+    // Remove old JSON-LD so the correct page schema can be added.
     $html = preg_replace(
         '~<script\b(?=[^>]*\btype=["\']application/ld\+json["\'])[^>]*>.*?</script>\s*~is',
         '',
         $html
     );
 
-    // Remove the custom SEO alt-text attribute.
+    // Remove the previous SEO alt-text attribute.
     $html = preg_replace(
         '~\sdata-seo-alt-text=(["\']).*?\1~i',
         '',
@@ -190,7 +196,9 @@ function setSchema(&$html, $schema)
     );
 
     if ($json === false) {
-        error_log('SEO schema encoding failed: ' . json_last_error_msg());
+        error_log(
+            'SEO schema encoding failed: ' . json_last_error_msg()
+        );
         return;
     }
 
@@ -251,7 +259,8 @@ if ($html === false || stripos($html, '</head>') === false) {
 }
 
 // =========================================================
-// UNKNOWN ROUTE: DO NOT USE HOME SEO
+// UNKNOWN ROUTE
+// Do not reuse Home metadata or schema.
 // =========================================================
 
 if (!isset($routes[$path])) {
@@ -280,32 +289,33 @@ $response = @file_get_contents(
     $context
 );
 
-if ($response === false) {
-    error_log('SEO: AWS API request failed.');
-    sendHtml($html, 502);
-}
+// If the API is temporarily unavailable, still return
+// the page with its schema instead of returning an error.
+$items = [];
 
-$decoded = json_decode($response, true);
+if ($response !== false) {
+    $decoded = json_decode($response, true);
 
-// Support both a direct JSON array and {"items": [...]}.
-if (
-    is_array($decoded) &&
-    isset($decoded['items']) &&
-    is_array($decoded['items'])
-) {
-    $items = $decoded['items'];
-} elseif (
-    is_array($decoded) &&
-    array_is_list($decoded)
-) {
-    $items = $decoded;
+    if (
+        is_array($decoded) &&
+        isset($decoded['items']) &&
+        is_array($decoded['items'])
+    ) {
+        $items = $decoded['items'];
+    } elseif (
+        is_array($decoded) &&
+        array_is_list($decoded)
+    ) {
+        $items = $decoded;
+    } else {
+        error_log('SEO: AWS API returned invalid JSON.');
+    }
 } else {
-    error_log('SEO: AWS API returned invalid JSON.');
-    sendHtml($html, 502);
+    error_log('SEO: AWS API request failed; generating schema without saved SEO.');
 }
 
 // =========================================================
-// MATCH ONLY THE REQUESTED PAGE
+// MATCH THE REQUESTED PAGE
 // =========================================================
 
 $seoItem = null;
@@ -324,18 +334,16 @@ foreach ($items as $item) {
     }
 }
 
-// No saved record: do not show another page's metadata.
-if ($seoItem === null) {
-    error_log(
-        'SEO: No saved record for page ' . $route['page']
-    );
+// Missing record is allowed.
+// Schema will still be generated below.
+$seoItem = is_array($seoItem) ? $seoItem : [];
 
-    removePageSeo($html);
-    sendHtml($html);
-}
+// Remove metadata inherited from the base template.
+// Google Analytics is not removed.
+removePageSeo($html);
 
 // =========================================================
-// READ DASHBOARD DATA
+// READ SAVED DASHBOARD DATA
 // =========================================================
 
 $title = trim((string) ($seoItem['metaTitle'] ?? ''));
@@ -343,35 +351,40 @@ $description = trim((string) ($seoItem['description'] ?? ''));
 $keywords = trim((string) ($seoItem['keywords'] ?? ''));
 $altText = trim((string) ($seoItem['altText'] ?? ''));
 
-// An incomplete record must not inherit Home SEO.
-if ($title === '' || $description === '') {
-    error_log(
-        'SEO: Empty title or description for ' . $route['page']
-    );
-
-    removePageSeo($html);
-    sendHtml($html);
-}
-
-// Use the URL mapped to this route, not the Home canonical URL
-// saved in another record.
+// Use the canonical URL assigned to this route.
 $canonical = $route['canonical'];
 
 // =========================================================
 // STANDARD SEO METADATA
+// Only add fields that exist in Admin Dashboard.
 // =========================================================
 
-setPageTitle($html, $title);
-setMetaName($html, 'description', $description);
-setMetaName($html, 'keywords', $keywords);
+if ($title !== '') {
+    setPageTitle($html, $title);
+}
+
+if ($description !== '') {
+    setMetaName($html, 'description', $description);
+}
+
+if ($keywords !== '') {
+    setMetaName($html, 'keywords', $keywords);
+}
+
 setCanonical($html, $canonical);
 
 // =========================================================
-// OPEN GRAPH METADATA
+// OPEN GRAPH
 // =========================================================
 
-setMetaProperty($html, 'og:title', $title);
-setMetaProperty($html, 'og:description', $description);
+if ($title !== '') {
+    setMetaProperty($html, 'og:title', $title);
+}
+
+if ($description !== '') {
+    setMetaProperty($html, 'og:description', $description);
+}
+
 setMetaProperty($html, 'og:type', 'website');
 setMetaProperty($html, 'og:url', $canonical);
 setMetaProperty($html, 'og:site_name', 'Steel Craft Prefab');
@@ -382,35 +395,33 @@ setMetaProperty($html, 'og:image', $ogImage);
 // =========================================================
 
 setMetaName($html, 'twitter:card', 'summary_large_image');
-setMetaName($html, 'twitter:title', $title);
-setMetaName($html, 'twitter:description', $description);
+
+if ($title !== '') {
+    setMetaName($html, 'twitter:title', $title);
+}
+
+if ($description !== '') {
+    setMetaName($html, 'twitter:description', $description);
+}
+
 setMetaName($html, 'twitter:image', $ogImage);
 
 // =========================================================
-// ALT TEXT DATA ATTRIBUTE
-// Note: This does not change React image alt attributes.
+// ALT TEXT ATTRIBUTE
 // =========================================================
 
-if (preg_match('~<html\b[^>]*>~i', $html)) {
-    if (preg_match('~\sdata-seo-alt-text=["\'][^"\']*["\']~i', $html)) {
-        $html = preg_replace(
-            '~\sdata-seo-alt-text=["\'][^"\']*["\']~i',
-            ' data-seo-alt-text="' . seoEscape($altText) . '"',
-            $html,
-            1
-        );
-    } else {
-        $html = preg_replace(
-            '~<html\b([^>]*)>~i',
-            '<html$1 data-seo-alt-text="' . seoEscape($altText) . '">',
-            $html,
-            1
-        );
-    }
+if ($altText !== '') {
+    $html = preg_replace(
+        '~<html\b([^>]*)>~i',
+        '<html$1 data-seo-alt-text="' . seoEscape($altText) . '">',
+        $html,
+        1
+    );
 }
 
 // =========================================================
 // SCHEMA.ORG
+// ALWAYS GENERATED FOR EVERY CONFIGURED ROUTE
 // =========================================================
 
 $organization = [
@@ -446,8 +457,6 @@ $pageSchema = [
     '@type' => $pageType,
     '@id' => $canonical . '#webpage',
     'url' => $canonical,
-    'name' => $title,
-    'description' => $description,
     'isPartOf' => [
         '@id' => $siteUrl . '/#website',
     ],
@@ -456,6 +465,15 @@ $pageSchema = [
     ],
     'inLanguage' => 'en-IN',
 ];
+
+// Only include SEO fields that were actually saved.
+if ($title !== '') {
+    $pageSchema['name'] = $title;
+}
+
+if ($description !== '') {
+    $pageSchema['description'] = $description;
+}
 
 $schema = [
     '@context' => 'https://schema.org',
@@ -466,6 +484,7 @@ $schema = [
     ],
 ];
 
+// Always add schema, regardless of whether an SEO record exists.
 setSchema($html, $schema);
 
 // =========================================================
