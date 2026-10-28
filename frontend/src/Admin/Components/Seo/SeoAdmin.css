@@ -11,7 +11,6 @@
   min-height: 100vh;
   margin: 0;
   padding: 0;
-
   color: #172033;
   background: #f5f7fb;
   font-family: Arial, Helvetica, sans-serif;
@@ -33,7 +32,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-
   width: 100%;
   margin: 0 0 24px;
   padding: 0;
@@ -51,10 +49,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-
   width: 46px;
   height: 46px;
-
   border-radius: 10px;
   background: #e8eef7;
   color: #183654;
@@ -75,6 +71,16 @@
   line-height: 1.5;
 }
 
+/* Header action buttons */
+
+.seo-header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 /* ========================================
    ADD SEO BUTTON
 ======================================== */
@@ -85,29 +91,57 @@
   justify-content: center;
   gap: 8px;
   flex-shrink: 0;
-
   min-height: 42px;
   padding: 0 17px;
-
   border: 1px solid #1267f5;
   border-radius: 7px;
-
   background: #1267f5;
   color: #ffffff;
-
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-
   transition:
     background-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
-.seo-add-btn:hover {
+.seo-add-btn:hover:not(:disabled) {
   background: #0954d9;
   box-shadow: 0 3px 8px rgba(18, 103, 245, 0.2);
+}
+
+.seo-add-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   STATUS MESSAGES
+======================================== */
+
+.seo-error,
+.seo-success {
+  width: 100%;
+  margin: 0 0 18px;
+  padding: 12px 15px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.seo-error {
+  border-color: #fecaca;
+  background: #fff1f2;
+  color: #b42318;
+}
+
+.seo-success {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
 }
 
 /* ========================================
@@ -119,14 +153,11 @@
   width: 100%;
   max-width: none;
   min-width: 0;
-
   margin: 0 0 25px;
   padding: 0;
-
   overflow: hidden;
   border: 1px solid #e7ebf0;
   border-radius: 10px;
-
   background: #ffffff;
   box-shadow: 0 4px 15px rgba(15, 23, 42, 0.07);
 }
@@ -162,7 +193,6 @@
   display: flex;
   flex-direction: column;
   gap: 17px;
-
   width: 100%;
   min-width: 0;
   padding: 20px 22px;
@@ -172,7 +202,6 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
-
   width: 100%;
   min-width: 0;
   margin: 0;
@@ -191,25 +220,19 @@
 .seo-field select,
 .seo-field textarea {
   display: block;
-
   width: 100%;
   min-width: 0;
   min-height: 43px;
-
   margin: 0;
   padding: 11px 12px;
-
   border: 1px solid #d1d5db;
   border-radius: 6px;
   outline: none;
-
   background: #ffffff;
   color: #172033;
-
   font-family: inherit;
   font-size: 14px;
   line-height: 1.5;
-
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -230,13 +253,18 @@
   opacity: 1;
 }
 
-/* Focus */
-
 .seo-field input:focus,
 .seo-field select:focus,
 .seo-field textarea:focus {
   border-color: #1267f5;
   box-shadow: 0 0 0 3px rgba(18, 103, 245, 0.12);
+}
+
+.seo-field input:disabled,
+.seo-field select:disabled,
+.seo-field textarea:disabled {
+  background: #f8fafc;
+  cursor: not-allowed;
 }
 
 /* ========================================
@@ -249,7 +277,6 @@
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 12px;
-
   width: 100%;
   padding: 0 22px 22px;
 }
@@ -260,18 +287,14 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   min-height: 42px;
   padding: 0 18px;
-
   border: 1px solid transparent;
   border-radius: 6px;
-
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
@@ -285,22 +308,42 @@
   color: #ffffff;
 }
 
-.seo-save-btn:hover {
+.seo-save-btn:hover:not(:disabled) {
   border-color: #067114;
   background: #067114;
 }
 
-/* Cancel */
+/* Cancel and Refresh */
 
 .seo-cancel-btn {
-  border-color: #e9193e;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #e9193e;
+  border-radius: 6px;
   background: #e9193e;
   color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.seo-cancel-btn:hover {
+.seo-cancel-btn:hover:not(:disabled) {
   border-color: #c91032;
   background: #c91032;
+}
+
+.seo-save-btn:disabled,
+.seo-cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* ========================================
@@ -309,20 +352,15 @@
 
 .seo-table-wrapper {
   display: block;
-
   width: 100%;
   max-width: none;
   min-width: 0;
-
   margin: 0;
   padding: 0;
-
   overflow-x: auto;
   border-radius: 9px;
-
   background: #ffffff;
   box-shadow: 0 4px 15px rgba(15, 23, 42, 0.07);
-
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 #f1f5f9;
@@ -334,25 +372,21 @@
 
 .seo-table {
   width: 100%;
-  min-width: 1050px;
+  min-width: 1150px;
   max-width: none;
-
   margin: 0;
   padding: 0;
-
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
-
   background: #ffffff;
   color: #334155;
-
   font-family: inherit;
   font-size: 13px;
   text-align: center;
 }
 
-/* Blue table heading */
+/* Blue table header */
 
 .seo-table thead {
   background: #1267f5;
@@ -361,46 +395,47 @@
 
 .seo-table th {
   padding: 15px 10px;
-
   border: none;
   border-right: 1px solid rgba(255, 255, 255, 0.25);
-
   background: #1267f5;
   color: #ffffff;
-
   font-size: 13px;
   font-weight: 700;
   line-height: 1.4;
   text-align: center;
   vertical-align: middle;
-
   overflow-wrap: anywhere;
+}
+
+.seo-table th:first-child {
+  border-top-left-radius: 9px;
 }
 
 .seo-table th:last-child {
   border-right: none;
+  border-top-right-radius: 9px;
 }
 
 /* Column widths */
 
 .seo-table th:nth-child(1),
 .seo-table td:nth-child(1) {
-  width: 10%;
+  width: 9%;
 }
 
 .seo-table th:nth-child(2),
 .seo-table td:nth-child(2) {
-  width: 17%;
+  width: 16%;
 }
 
 .seo-table th:nth-child(3),
 .seo-table td:nth-child(3) {
-  width: 22%;
+  width: 20%;
 }
 
 .seo-table th:nth-child(4),
 .seo-table td:nth-child(4) {
-  width: 22%;
+  width: 19%;
 }
 
 .seo-table th:nth-child(5),
@@ -410,15 +445,15 @@
 
 .seo-table th:nth-child(6),
 .seo-table td:nth-child(6) {
-  width: 14%;
+  width: 10%;
 }
 
 .seo-table th:nth-child(7),
 .seo-table td:nth-child(7) {
-  width: 115px;
+  width: 175px;
 }
 
-/* Table body */
+/* Table rows */
 
 .seo-table tbody tr {
   background: #ffffff;
@@ -435,18 +470,14 @@
 
 .seo-table td {
   padding: 15px 10px;
-
   border: none;
   border-right: 1px solid #dedede;
   border-bottom: 1px solid #dedede;
-
   color: #334155;
   font-size: 13px;
   line-height: 1.55;
-
   text-align: center;
   vertical-align: middle;
-
   overflow-wrap: anywhere;
   word-break: normal;
 }
@@ -465,6 +496,7 @@
   color: #1457a6;
   text-decoration: none;
   overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .seo-url:hover {
@@ -472,44 +504,94 @@
 }
 
 /* ========================================
-   DELETE BUTTON
+   ACTION BUTTONS
 ======================================== */
 
+.seo-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 7px;
+  width: 100%;
+  min-width: 150px;
+}
+
+/* Shared Edit and Delete styles */
+
+.seo-edit-btn,
 .seo-delete-btn {
+  appearance: none;
+  -webkit-appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-
-  max-width: 100%;
+  flex-shrink: 0;
   min-height: 34px;
   padding: 0 9px;
-
-  border: 1px solid #fecaca;
+  border: 1px solid;
   border-radius: 6px;
-
-  background: #fff5f5;
-  color: #b42318;
-
   font-family: inherit;
   font-size: 12px;
   font-weight: 600;
+  line-height: 1.2;
   white-space: nowrap;
   cursor: pointer;
-
-  transition: background-color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
-.seo-delete-btn:hover {
-  background: #fee2e2;
+/* Edit button */
+
+.seo-edit-btn {
+  border-color: #b9d2ff;
+  background: #eff6ff;
+  color: #1267f5;
 }
 
+.seo-edit-btn:hover:not(:disabled) {
+  border-color: #1267f5;
+  background: #1267f5;
+  color: #ffffff;
+}
+
+/* Delete button */
+
+.seo-delete-btn {
+  border-color: #fecaca;
+  background: #fff5f5;
+  color: #b42318;
+}
+
+.seo-delete-btn:hover:not(:disabled) {
+  border-color: #dc2626;
+  background: #dc2626;
+  color: #ffffff;
+}
+
+/* Action button icons */
+
+.seo-edit-btn svg,
 .seo-delete-btn svg {
+  display: block;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
 }
 
+/* Disabled action buttons */
+
+.seo-edit-btn:disabled,
+.seo-delete-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 /* ========================================
-   EMPTY STATE
+   EMPTY AND LOADING STATE
 ======================================== */
 
 .seo-empty-state {
@@ -517,16 +599,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   width: 100%;
   min-height: 220px;
-
   margin: 0;
   padding: 28px 18px;
-
   border: 1px dashed #cbd5e1;
   border-radius: 10px;
-
   background: #ffffff;
   color: #94a3b8;
   text-align: center;
@@ -542,7 +620,6 @@
 .seo-empty-state p {
   max-width: 380px;
   margin: 0;
-
   color: #64748b;
   font-size: 13px;
   line-height: 1.7;
@@ -575,12 +652,23 @@
   }
 
   .seo-table {
-    min-width: 1050px;
+    min-width: 1150px;
   }
 
   .seo-table th,
   .seo-table td {
     padding: 12px 9px;
+  }
+
+  .seo-row-actions {
+    gap: 6px;
+  }
+
+  .seo-edit-btn,
+  .seo-delete-btn {
+    min-height: 33px;
+    padding: 0 8px;
+    font-size: 11px;
   }
 }
 
@@ -610,6 +698,10 @@
 
   .seo-heading p {
     font-size: 12px;
+  }
+
+  .seo-header-actions {
+    gap: 6px;
   }
 
   .seo-add-btn {
@@ -644,14 +736,14 @@
   }
 
   .seo-save-btn,
-  .seo-cancel-btn {
+  .seo-form-actions .seo-cancel-btn {
     flex: 1;
     padding: 0 10px;
     font-size: 13px;
   }
 
   .seo-table {
-    min-width: 1050px;
+    min-width: 1150px;
   }
 
   .seo-table th,
@@ -660,15 +752,31 @@
     font-size: 12px;
   }
 
+  .seo-row-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 7px;
+    min-width: 100px;
+  }
+
+  .seo-edit-btn,
   .seo-delete-btn {
-    min-height: 31px;
-    padding: 0 7px;
+    width: 100%;
+    min-height: 33px;
+    padding: 0 8px;
     font-size: 11px;
   }
 
   .seo-empty-state {
     min-height: 180px;
     padding: 22px 12px;
+  }
+
+  .seo-error,
+  .seo-success {
+    padding: 10px 12px;
+    font-size: 12px;
   }
 }
 
@@ -686,6 +794,7 @@
   }
 
   .seo-add-btn {
+    gap: 4px;
     padding: 0 8px;
     font-size: 11px;
   }
@@ -699,7 +808,7 @@
   }
 
   .seo-table {
-    min-width: 1050px;
+    min-width: 1150px;
   }
 }
 
@@ -710,6 +819,7 @@
 .seo-add-btn:focus-visible,
 .seo-save-btn:focus-visible,
 .seo-cancel-btn:focus-visible,
+.seo-edit-btn:focus-visible,
 .seo-delete-btn:focus-visible {
   outline: 2px solid #60a5fa;
   outline-offset: 3px;
@@ -723,6 +833,7 @@
   .seo-add-btn,
   .seo-save-btn,
   .seo-cancel-btn,
+  .seo-edit-btn,
   .seo-delete-btn,
   .seo-table tbody tr {
     transition: none;

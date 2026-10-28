@@ -6,13 +6,15 @@
 
 .fourbhk-page {
   width: 100%;
-  overflow: hidden;
-  background: #f1f8ff;
+  overflow-x: hidden;
+  background: #eef5fe;
   color: #10294d;
-  font-family: "Raleway", sans-serif;
+  font-family: "DM Sans", "Segoe UI", Arial, sans-serif;
 }
 
-.fourbhk-page * {
+.fourbhk-page *,
+.fourbhk-page *::before,
+.fourbhk-page *::after {
   box-sizing: border-box;
 }
 
@@ -226,7 +228,7 @@
 .fourbhk-features {
   width: 100%;
   padding: 20px;
-  background: #f1f8ff;
+  background: #eef5fe;
 }
 
 .fourbhk-features__container {
@@ -272,15 +274,15 @@
 .fourbhk-feature__text h3 {
   margin: 0 0 5px;
   color: #10294d;
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 14px;
+  font-weight: 700;
   line-height: 1.4;
 }
 
 .fourbhk-feature__text p {
   margin: 0;
   color: #7186a5;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -290,7 +292,7 @@
 
 .fourbhk-designs {
   width: 100%;
-  padding: 48px 24px 65px;
+  padding: 52px 24px 68px;
   background:
     radial-gradient(
       circle at 0% 30%,
@@ -302,19 +304,19 @@
       rgba(201, 231, 255, 0.5),
       transparent 25%
     ),
-    #f1f8ff;
+    #eef5fe;
   scroll-margin-top: 30px;
 }
 
 .fourbhk-designs__container {
   width: 100%;
-  max-width: 1440px;
+  max-width: 1320px;
   margin: 0 auto;
 }
 
 .fourbhk-designs__heading {
   max-width: 950px;
-  margin: 0 auto 30px;
+  margin: 0 auto 36px;
   text-align: center;
 }
 
@@ -323,10 +325,10 @@
   justify-content: center;
   align-items: center;
   gap: 13px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   color: #7189b0;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 2px;
 }
 
@@ -340,8 +342,8 @@
 .fourbhk-designs__heading h2 {
   margin: 0 0 12px;
   color: #10294d;
-  font-family: "Libre Baskerville", Georgia, serif;
-  font-size: clamp(28px, 3.2vw, 43px);
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(27px, 3.2vw, 42px);
   font-weight: 700;
   line-height: 1.3;
 }
@@ -365,7 +367,7 @@
 .fourbhk-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 24px;
   align-items: stretch;
 }
 
@@ -376,55 +378,55 @@
   overflow: hidden;
   border: 1px solid #dfebf8;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 7px 22px rgba(29, 73, 119, 0.07);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(29, 73, 119, 0.07);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .fourbhk-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(29, 73, 119, 0.13);
+  box-shadow: 0 14px 32px rgba(29, 73, 119, 0.13);
 }
 
-/* Card image */
+/* Card image: blurred copy fills the frame, sharp copy sits on top */
 
 .fourbhk-card__image {
   position: relative;
+  isolation: isolate;
   width: 100%;
-  aspect-ratio: 1.85 / 1;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: #dce8f3;
+  background: #1b2b3d;
 }
 
-.fourbhk-card__image img {
+.fourbhk-card__backdrop {
+  position: absolute;
+  inset: -24px;
+  z-index: 0;
+  display: block;
+  width: calc(100% + 48px);
+  height: calc(100% + 48px);
+  object-fit: cover;
+  filter: blur(18px) brightness(0.82);
+  pointer-events: none;
+  user-select: none;
+}
+
+.fourbhk-card__photo {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   transition: transform 0.4s ease;
 }
 
-.fourbhk-card:hover .fourbhk-card__image img {
-  transform: scale(1.045);
-}
-
-/* Heart icon */
-
-.fourbhk-card__heart {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  background: rgba(7, 24, 43, 0.45);
-  backdrop-filter: blur(4px);
+.fourbhk-card:hover .fourbhk-card__photo {
+  transform: scale(1.03);
 }
 
 /* Card body */
@@ -433,7 +435,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 16px 18px 14px;
+  padding: 20px 22px 22px;
 }
 
 .fourbhk-card__title-row {
@@ -441,25 +443,25 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .fourbhk-card__title-row h3 {
   min-width: 0;
   margin: 0;
   color: #10294d;
-  font-family: "Libre Baskerville", Georgia, serif;
-  font-size: 15px;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 19px;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.35;
 }
 
 .fourbhk-card__area {
   flex-shrink: 0;
   padding-top: 3px;
   color: #10294d;
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -469,31 +471,31 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 9px 15px;
-  margin-bottom: 12px;
+  gap: 8px 16px;
+  margin-bottom: 14px;
 }
 
 .fourbhk-card__meta span {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #7186a5;
-  font-size: 11px;
+  color: #637b9a;
+  font-size: 13px;
   line-height: 1.5;
 }
 
 .fourbhk-card__meta svg {
   flex-shrink: 0;
-  color: #7692ba;
-  stroke-width: 2;
+  color: #2f66b3;
+  stroke-width: 1.7;
 }
 
 /* Card description */
 
 .fourbhk-card__description {
-  margin: 0 0 14px;
-  color: #6b83a7;
-  font-size: 12px;
+  margin: 0 0 20px;
+  color: #6d82a0;
+  font-size: 14px;
   line-height: 1.7;
 }
 
@@ -505,10 +507,9 @@
   justify-content: space-between;
   gap: 12px;
   margin-top: auto;
-  padding-top: 2px;
-  color: #1454a3;
-  font-size: 13px;
-  font-weight: 800;
+  color: #1a5fc4;
+  font-size: 14px;
+  font-weight: 700;
   text-decoration: none;
 }
 
@@ -519,15 +520,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1454a3;
-  border: 1.5px solid #4784dc;
+  color: #1a5fc4;
+  border: 1px solid #1a5fc4;
   border-radius: 50%;
-  transition: color 0.25s ease, background 0.25s ease;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease;
 }
 
 .fourbhk-card__details:hover .fourbhk-card__arrow {
   color: #fff;
-  background: #1760b8;
+  background: #1a5fc4;
 }
 
 /* =========================================
@@ -538,8 +541,8 @@
   display: grid;
   grid-template-columns: 36% 64%;
   width: calc(100% - 48px);
-  max-width: 1440px;
-  min-height: 200px;
+  max-width: 1320px;
+  min-height: 210px;
   margin: 0 auto 55px;
   overflow: hidden;
   border: 1px solid rgba(176, 209, 244, 0.35);
@@ -551,7 +554,7 @@
 .fourbhk-quote__image {
   position: relative;
   min-width: 0;
-  min-height: 200px;
+  min-height: 210px;
   overflow: hidden;
   background: #102a4d;
 }
@@ -570,19 +573,14 @@
   position: relative;
   isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 190px;
+  grid-template-columns: minmax(0, 1fr) 200px;
   align-items: center;
   gap: 24px;
   min-width: 0;
   padding: 28px 34px 28px 40px;
   overflow: hidden;
   color: #ffffff;
-  background: linear-gradient(
-    115deg,
-    #073568 0%,
-    #052957 60%,
-    #073e79 100%
-  );
+  background: linear-gradient(115deg, #073568 0%, #052957 60%, #073e79 100%);
 }
 
 .fourbhk-quote__main,
@@ -592,16 +590,16 @@
 }
 
 .fourbhk-quote__eyebrow {
-  margin: 0 0 9px;
+  margin: 0 0 10px;
   color: #b8cce8;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.7px;
   line-height: 1.6;
 }
 
 .fourbhk-quote__main h2 {
-  margin: 0 0 9px;
+  margin: 0 0 10px;
   color: #ffffff;
   font-family: "Playfair Display", Georgia, serif;
   font-size: clamp(22px, 2.1vw, 31px);
@@ -614,10 +612,10 @@
 }
 
 .fourbhk-quote__description {
-  max-width: 500px;
-  margin: 0 0 17px;
+  max-width: 520px;
+  margin: 0 0 18px;
   color: #d1dfef;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.75;
 }
 
@@ -626,16 +624,18 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  min-height: 42px;
-  padding: 0 22px;
+  min-height: 44px;
+  padding: 0 24px;
   border: 1px solid #ffcb59;
   border-radius: 30px;
   background: linear-gradient(100deg, #ffd46f, #ffb92e);
   color: #142a45;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 700;
   text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .fourbhk-quote__button:hover {
@@ -656,7 +656,7 @@
   align-items: center;
   gap: 10px;
   color: #e5eefb;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.5;
 }
 
@@ -668,7 +668,7 @@
   width: 30px;
   height: 30px;
   border: 1px solid rgba(209, 228, 250, 0.55);
-  border-radius: 7px;
+  border-radius: 8px;
   color: #e0edff;
 }
 
@@ -689,7 +689,7 @@
 }
 
 /* =========================================
-   LAPTOP
+   LAPTOP  (≤ 1200px)
 ========================================= */
 
 @media (max-width: 1200px) {
@@ -705,23 +705,31 @@
   }
 
   .fourbhk-feature__text h3 {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .fourbhk-feature__text p {
-    font-size: 9px;
+    font-size: 10.5px;
   }
 
   .fourbhk-grid {
-    gap: 16px;
+    gap: 18px;
   }
 
   .fourbhk-card__body {
-    padding: 14px;
+    padding: 16px 16px 18px;
+  }
+
+  .fourbhk-card__title-row h3 {
+    font-size: 17px;
   }
 
   .fourbhk-card__meta {
-    gap: 8px 11px;
+    gap: 6px 12px;
+  }
+
+  .fourbhk-card__meta span {
+    font-size: 12px;
   }
 
   .fourbhk-quote {
@@ -729,17 +737,23 @@
   }
 
   .fourbhk-quote__content {
-    grid-template-columns: minmax(0, 1fr) 165px;
+    grid-template-columns: minmax(0, 1fr) 175px;
     gap: 16px;
     padding: 24px 24px 24px 28px;
+  }
+
+  .fourbhk-quote__benefit {
+    font-size: 12px;
   }
 }
 
 /* =========================================
-   TABLET BANNER (same as OneBHK.css)
+   TABLET  (≤ 900px) — 2 CARDS PER ROW
 ========================================= */
 
 @media (max-width: 900px) {
+  /* Banner */
+
   .fourbhk-banner {
     min-height: 540px;
   }
@@ -760,13 +774,9 @@
     right: 20px;
     bottom: 16px;
   }
-}
 
-/* =========================================
-   TABLET
-========================================= */
+  /* Features: 2 columns, last item centered */
 
-@media (max-width: 900px) {
   .fourbhk-features {
     padding: 16px;
   }
@@ -798,53 +808,77 @@
     grid-column: 1 / -1;
     justify-content: center;
     border-bottom: none;
+    border-left: none;
+  }
+
+  .fourbhk-feature__text h3 {
+    font-size: 13px;
+  }
+
+  .fourbhk-feature__text p {
+    font-size: 11px;
+  }
+
+  /* Cards: 2 per row */
+
+  .fourbhk-designs {
+    padding: 42px 18px 52px;
   }
 
   .fourbhk-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
+    gap: 20px;
   }
 
   .fourbhk-card__title-row h3 {
-    font-size: 14px;
+    font-size: 18px;
   }
 
-  .fourbhk-card__meta {
-    gap: 8px 12px;
+  .fourbhk-card__meta span {
+    font-size: 13px;
   }
 
-  .fourbhk-designs {
-    padding: 40px 20px 50px;
-  }
+  /* Quote: image left, text + benefits stacked on the right */
 
   .fourbhk-quote {
-    width: calc(100% - 40px);
+    grid-template-columns: 32% 68%;
+    width: calc(100% - 32px);
   }
 
   .fourbhk-quote__content {
-    grid-template-columns: minmax(0, 1fr) 150px;
-    padding: 22px 20px;
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 18px;
+    padding: 24px 22px;
   }
 
   .fourbhk-quote__main h2 {
-    font-size: 22px;
+    font-size: 23px;
   }
 
   .fourbhk-quote__description {
-    font-size: 11px;
+    font-size: 12.5px;
+  }
+
+  .fourbhk-quote__benefits {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 10px;
   }
 
   .fourbhk-quote__benefit {
     gap: 8px;
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 
 /* =========================================
-   MOBILE BANNER (same as OneBHK.css)
+   MOBILE  (≤ 600px) — 1 CARD PER ROW
 ========================================= */
 
 @media (max-width: 600px) {
+  /* ---------- Banner ---------- */
+
   .fourbhk-banner {
     min-height: 650px;
     align-items: flex-start;
@@ -870,7 +904,7 @@
   .fourbhk-banner__eyebrow {
     gap: 5px;
     margin-bottom: 18px;
-    font-size: 9px;
+    font-size: 9.5px;
     letter-spacing: 1px;
   }
 
@@ -927,13 +961,113 @@
     font-size: 10px;
   }
 
-  /* QUOTE BANNER: IMAGE ABOVE, CONTENT BELOW */
+  /* ---------- Design heading ---------- */
+
+  .fourbhk-designs {
+    padding: 36px 14px 44px;
+  }
+
+  .fourbhk-designs__heading {
+    margin-bottom: 24px;
+  }
+
+  .fourbhk-designs__eyebrow {
+    gap: 9px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+  }
+
+  .fourbhk-designs__eyebrow span {
+    width: 23px;
+  }
+
+  .fourbhk-designs__heading h2 {
+    font-size: clamp(25px, 7vw, 32px);
+    line-height: 1.35;
+  }
+
+  .fourbhk-designs__heading > p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* ---------- Cards: one per row ---------- */
+
+  .fourbhk-grid {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 480px;
+    margin: 0 auto;
+    gap: 20px;
+  }
+
+  .fourbhk-card {
+    width: 100%;
+    border-radius: 12px;
+  }
+
+  .fourbhk-card__image {
+    aspect-ratio: 4 / 3;
+  }
+
+  .fourbhk-card__body {
+    padding: 18px 18px 20px;
+  }
+
+  .fourbhk-card__title-row {
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .fourbhk-card__title-row h3 {
+    font-size: 19px;
+  }
+
+  .fourbhk-card__area {
+    font-size: 13px;
+  }
+
+  .fourbhk-card__meta {
+    gap: 8px 14px;
+    margin-bottom: 12px;
+  }
+
+  .fourbhk-card__meta span {
+    font-size: 13px;
+  }
+
+  .fourbhk-card__description {
+    margin-bottom: 18px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .fourbhk-card__details {
+    font-size: 14px;
+  }
+
+  .fourbhk-card__arrow {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  /* No hover lift on touch screens */
+  .fourbhk-card:hover {
+    transform: none;
+  }
+
+  .fourbhk-card:hover .fourbhk-card__photo {
+    transform: none;
+  }
+
+  /* ---------- Quote banner: image above, content below ---------- */
 
   .fourbhk-quote {
     grid-template-columns: minmax(0, 1fr);
-    width: calc(100% - 30px);
-    max-width: 440px;
-    margin: 0 auto 35px;
+    width: calc(100% - 28px);
+    max-width: 480px;
+    margin: 0 auto 36px;
     border-radius: 13px;
   }
 
@@ -946,7 +1080,7 @@
     grid-template-columns: minmax(0, 1fr);
     justify-items: center;
     gap: 25px;
-    padding: 28px 20px 25px;
+    padding: 28px 20px 26px;
     text-align: center;
   }
 
@@ -955,7 +1089,7 @@
   }
 
   .fourbhk-quote__eyebrow {
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 1.3px;
   }
 
@@ -969,12 +1103,14 @@
   .fourbhk-quote__description {
     max-width: 360px;
     margin: 0 auto 18px;
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.8;
   }
 
   .fourbhk-quote__button {
     min-height: 46px;
+    padding: 0 28px;
+    font-size: 14px;
   }
 
   .fourbhk-quote__benefits {
@@ -988,17 +1124,15 @@
 
   .fourbhk-quote__benefit {
     gap: 8px;
-    font-size: 11px;
+    font-size: 12px;
   }
 }
 
 /* =========================================
-   MOBILE
+   MOBILE  (≤ 520px) — FEATURES IN ONE COLUMN
 ========================================= */
 
 @media (max-width: 520px) {
-  /* Feature strip: five items in one column */
-
   .fourbhk-features {
     padding: 14px 12px;
   }
@@ -1020,6 +1154,10 @@
     border-bottom: 1px solid #cbdff4;
   }
 
+  .fourbhk-feature:nth-child(even) {
+    border-left: none;
+  }
+
   .fourbhk-feature:last-child {
     border-bottom: none;
   }
@@ -1032,107 +1170,16 @@
 
   .fourbhk-feature__text h3 {
     margin-bottom: 4px;
-    font-size: 13px;
-  }
-
-  .fourbhk-feature__text p {
-    font-size: 11px;
-  }
-
-  /* Centered design heading */
-
-  .fourbhk-designs {
-    padding: 35px 14px 42px;
-  }
-
-  .fourbhk-designs__heading {
-    margin-bottom: 24px;
-  }
-
-  .fourbhk-designs__eyebrow {
-    gap: 9px;
-    font-size: 9px;
-    letter-spacing: 1.5px;
-  }
-
-  .fourbhk-designs__eyebrow span {
-    width: 23px;
-  }
-
-  .fourbhk-designs__heading h2 {
-    font-size: clamp(25px, 7vw, 34px);
-    line-height: 1.35;
-  }
-
-  .fourbhk-designs__heading > p {
-    font-size: 12px;
-    line-height: 1.7;
-  }
-
-  /* One card per row on mobile */
-
-  .fourbhk-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-    width: 100%;
-  }
-
-  .fourbhk-card {
-    width: 100%;
-    max-width: 440px;
-    margin: 0 auto;
-    border-radius: 12px;
-  }
-
-  .fourbhk-card__image {
-    aspect-ratio: 1.7 / 1;
-  }
-
-  .fourbhk-card__body {
-    padding: 15px 16px;
-  }
-
-  .fourbhk-card__title-row {
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-
-  .fourbhk-card__title-row h3 {
     font-size: 14px;
   }
 
-  .fourbhk-card__area {
-    font-size: 10px;
-  }
-
-  .fourbhk-card__meta {
-    gap: 9px 13px;
-    margin-bottom: 12px;
-  }
-
-  .fourbhk-card__meta span {
-    font-size: 11px;
-  }
-
-  .fourbhk-card__description {
-    margin-bottom: 13px;
+  .fourbhk-feature__text p {
     font-size: 12px;
-    line-height: 1.7;
-  }
-
-  .fourbhk-card__details {
-    font-size: 12px;
-  }
-
-  .fourbhk-card__arrow {
-    width: 35px;
-    height: 35px;
-    flex-basis: 35px;
   }
 }
 
 /* =========================================
-   SMALL MOBILE
+   SMALL MOBILE  (≤ 360px)
 ========================================= */
 
 @media (max-width: 360px) {
@@ -1146,7 +1193,7 @@
 
   .fourbhk-banner__eyebrow {
     gap: 4px;
-    font-size: 8px;
+    font-size: 8.5px;
     letter-spacing: 0.7px;
   }
 
@@ -1173,18 +1220,27 @@
   }
 
   .fourbhk-card__body {
-    padding: 13px;
+    padding: 14px 14px 16px;
   }
 
-  .fourbhk-card__meta {
-    gap: 8px;
-  }
-
-  .fourbhk-card__meta span {
-    font-size: 10px;
+  .fourbhk-card__title-row {
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
   .fourbhk-card__title-row h3 {
+    font-size: 17px;
+  }
+
+  .fourbhk-card__meta {
+    gap: 6px 10px;
+  }
+
+  .fourbhk-card__meta span {
+    font-size: 12px;
+  }
+
+  .fourbhk-card__description {
     font-size: 13px;
   }
 
@@ -1202,7 +1258,7 @@
 
   .fourbhk-quote__benefit {
     gap: 6px;
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .fourbhk-quote__benefit-icon {
@@ -1217,7 +1273,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .fourbhk-card,
-  .fourbhk-card__image img,
+  .fourbhk-card__photo,
   .fourbhk-card__arrow,
   .fourbhk-banner__btn,
   .fourbhk-quote__button {

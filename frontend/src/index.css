@@ -1,0 +1,40 @@
+/* Custom Scrollbar */
+
+/* Chrome, Edge and Safari */
+::-webkit-scrollbar {
+  width: 18px;
+  height: 18px;
+}
+
+::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4C769E;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3D6388;
+}
+
+/* Firefox */
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: auto;
+  scrollbar-color: #4C769E #ffffff;
+}
+
+/* Text selection */
+::selection {
+  background: #4C769E;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+}

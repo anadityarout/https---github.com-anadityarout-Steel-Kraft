@@ -7,6 +7,7 @@ import {
   X,
   Trash2,
   RefreshCw,
+  Pencil,
 } from "lucide-react";
 
 import "./SeoAdmin.css";
@@ -41,11 +42,13 @@ const initialForm = {
 export default function SEOAdmin() {
   const [seoItems, setSeoItems] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState(initialForm);
+  const [editingPage, setEditingPage] = useState(null);
+  const [formData, setFormData] = useState({ ...initialForm });
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [deletingId, setDeletingId] = useState(null);
+  const [deletingPage, setDeletingPage] = useState(null);
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -58,21 +61,22 @@ export default function SEOAdmin() {
     setError("");
 
     try {
-      const res = await fetch(SEO_API, {
+      const response = await fetch(SEO_API, {
         method: "GET",
         headers: {
           Accept: "application/json",
         },
+        cache: "no-store",
       });
 
-      if (!res.ok) {
-        throw new Error(`Failed to load SEO (${res.status}).`);
+      if (!response.ok) {
+        throw new Error(
+          `Failed to load SEO data (${response.status}).`
+        );
       }
 
-      const data = await res.json();
+      const data = await response.json();
 
-      // Supports both an array response and
-      // { success: true, items: [...] }.
       const items = Array.isArray(data)
         ? data
         : Array.isArray(data.items)
@@ -80,15 +84,16 @@ export default function SEOAdmin() {
           : null;
 
       if (!items) {
-        throw new Error("Invalid SEO data returned by the API.");
+        throw new Error(
+          "Invalid SEO data returned by the API."
+        );
       }
 
       setSeoItems(items);
     } catch (err) {
       console.error("Load SEO error:", err);
       setError(
-        err.message ||
-          "Unable to load SEO data. Please try again."
+        err.message || "Unable to load SEO data."
       );
     } finally {
       setLoading(false);
@@ -115,21 +120,49 @@ export default function SEOAdmin() {
     setSuccess("");
   };
 
+  // Open a blank form to add SEO
   const handleAdd = () => {
+    setEditingPage(null);
     setFormData({ ...initialForm });
     setError("");
     setSuccess("");
     setShowForm(true);
   };
 
+  // Open the form with the selected SEO record
+  const handleEdit = (item) => {
+    setEditingPage(item.page);
+
+    setFormData({
+      page: item.page || "",
+      metaTitle: item.metaTitle || "",
+      description: item.description || "",
+      keywords: item.keywords || "",
+      canonicalUrl: item.canonicalUrl || "",
+      altText: item.altText || "",
+    });
+
+    setError("");
+    setSuccess("");
+    setShowForm(true);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // Cancel adding or editing
   const handleCancel = () => {
     setFormData({ ...initialForm });
+    setEditingPage(null);
     setShowForm(false);
     setError("");
+    setSuccess("");
   };
 
   // ==========================================
-  // SAVE SEO THROUGH API GATEWAY
+  // ADD OR EDIT SEO
   // ==========================================
 
   const handleSave = async (event) => {
@@ -143,33 +176,36 @@ export default function SEOAdmin() {
       return;
     }
 
-    const hasSEOContent = [
+    const fields = [
       formData.metaTitle,
       formData.description,
       formData.keywords,
       formData.canonicalUrl,
       formData.altText,
-    ].some((value) => value.trim() !== "");
+    ];
 
-    if (!hasSEOContent) {
+    if (!fields.some((value) => value.trim() !== "")) {
       setError("Please enter at least one SEO field.");
       return;
     }
 
-    // Warn before replacing the selected page's existing SEO.
-    const existing = seoItems.find(
-      (item) =>
-        item.page?.toLowerCase() ===
-        formData.page.toLowerCase()
-    );
+    // Only check for duplicates when adding a new record.
+    // Editing an existing page should not trigger this warning.
+    if (!editingPage) {
+      const existing = seoItems.find(
+        (item) =>
+          item.page?.toLowerCase() ===
+          formData.page.toLowerCase()
+      );
 
-    if (
-      existing &&
-      !window.confirm(
-        `SEO already exists for ${formData.page}. Replace it?`
-      )
-    ) {
-      return;
+      if (
+        existing &&
+        !window.confirm(
+          `SEO already exists for ${formData.page}. Replace it?`
+        )
+      ) {
+        return;
+      }
     }
 
     const payload = {
@@ -181,38 +217,48 @@ export default function SEOAdmin() {
       altText: formData.altText.trim(),
     };
 
+    // PUT updates an existing record.
+    // POST adds a record or follows your Lambda's add behavior.
+    const method = editingPage ? "PUT" : "POST";
+
     setSaving(true);
 
     try {
-      const res = await fetch(SEO_API, {
-        method: "POST",
+      const response = await fetch(SEO_API, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (!res.ok || data.success === false) {
+      if (!response.ok || data.success === false) {
         throw new Error(
-          data.message || "Failed to save SEO."
+          data.message ||
+            `Failed to ${editingPage ? "update" : "save"} SEO.`
         );
       }
 
-      // Reload the persisted data from S3 via Lambda.
+      // Reload the saved data from S3 through Lambda.
       await loadSEO();
 
       setFormData({ ...initialForm });
+      setEditingPage(null);
       setShowForm(false);
+
       setSuccess(
-        data.message || "SEO saved successfully."
+        data.message ||
+          (method === "PUT"
+            ? "SEO updated successfully."
+            : "SEO saved successfully.")
       );
     } catch (err) {
       console.error("Save SEO error:", err);
+
       setError(
-        err.message ||
-          "Unable to save SEO. Please try again."
+        err.message || "Unable to save SEO changes."
       );
     } finally {
       setSaving(false);
@@ -220,7 +266,7 @@ export default function SEOAdmin() {
   };
 
   // ==========================================
-  // DELETE SEO THROUGH API GATEWAY
+  // DELETE SEO
   // ==========================================
 
   const handleDelete = async (item) => {
@@ -232,28 +278,31 @@ export default function SEOAdmin() {
 
     setError("");
     setSuccess("");
-    setDeletingId(item.id);
+    setDeletingPage(item.page);
 
     try {
-      // The Lambda supports deleting by page or ID.
       const params = new URLSearchParams();
 
       if (item.page) {
         params.set("page", item.page);
-      } else {
+      } else if (item.id) {
         params.set("id", item.id);
+      } else {
+        throw new Error(
+          "The selected SEO record has no page or ID."
+        );
       }
 
-      const res = await fetch(
+      const response = await fetch(
         `${SEO_API}?${params.toString()}`,
         {
           method: "DELETE",
         }
       );
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (!res.ok || data.success === false) {
+      if (!response.ok || data.success === false) {
         throw new Error(
           data.message || "Failed to delete SEO."
         );
@@ -264,14 +313,18 @@ export default function SEOAdmin() {
       setSuccess(
         data.message || "SEO deleted successfully."
       );
+
+      if (editingPage === item.page) {
+        handleCancel();
+      }
     } catch (err) {
       console.error("Delete SEO error:", err);
+
       setError(
-        err.message ||
-          "Unable to delete SEO. Please try again."
+        err.message || "Unable to delete SEO."
       );
     } finally {
-      setDeletingId(null);
+      setDeletingPage(null);
     }
   };
 
@@ -301,7 +354,7 @@ export default function SEOAdmin() {
             type="button"
             className="seo-cancel-btn"
             onClick={loadSEO}
-            disabled={loading}
+            disabled={loading || saving}
           >
             <RefreshCw size={16} />
             Refresh
@@ -333,18 +386,26 @@ export default function SEOAdmin() {
         </div>
       )}
 
-      {/* ADD SEO FORM */}
+      {/* ADD / EDIT FORM */}
       {showForm && (
-        <form className="seo-form" onSubmit={handleSave}>
+        <form
+          className="seo-form"
+          onSubmit={handleSave}
+        >
           <div className="seo-form-heading">
-            <h2>Add SEO</h2>
+            <h2>
+              {editingPage ? "Edit SEO" : "Add SEO"}
+            </h2>
+
             <p>
-              Select a page and enter the SEO information you need.
+              {editingPage
+                ? `Update SEO metadata for ${editingPage}.`
+                : "Select a page and enter its SEO information."}
             </p>
           </div>
 
           <div className="seo-form-body">
-            {/* PAGE SELECT */}
+            {/* PAGE */}
             <div className="seo-field">
               <label htmlFor="seo-page">
                 Select Page
@@ -356,7 +417,7 @@ export default function SEOAdmin() {
                 value={formData.page}
                 onChange={handleChange}
                 required
-                disabled={saving}
+                disabled={saving || Boolean(editingPage)}
               >
                 <option value="">Select Page</option>
 
@@ -379,14 +440,14 @@ export default function SEOAdmin() {
                 name="metaTitle"
                 type="text"
                 maxLength={300}
-                placeholder="Meta Title"
+                placeholder="Enter meta title"
                 value={formData.metaTitle}
                 onChange={handleChange}
                 disabled={saving}
               />
             </div>
 
-            {/* META DESCRIPTION */}
+            {/* DESCRIPTION */}
             <div className="seo-field">
               <label htmlFor="seo-description">
                 Meta Description
@@ -397,14 +458,14 @@ export default function SEOAdmin() {
                 name="description"
                 rows={4}
                 maxLength={5000}
-                placeholder="Meta Description"
+                placeholder="Enter meta description"
                 value={formData.description}
                 onChange={handleChange}
                 disabled={saving}
               />
             </div>
 
-            {/* META KEYWORDS */}
+            {/* KEYWORDS */}
             <div className="seo-field">
               <label htmlFor="seo-keywords">
                 Meta Keywords
@@ -415,7 +476,7 @@ export default function SEOAdmin() {
                 name="keywords"
                 type="text"
                 maxLength={2000}
-                placeholder="Meta Keywords"
+                placeholder="Enter keywords separated by commas"
                 value={formData.keywords}
                 onChange={handleChange}
                 disabled={saving}
@@ -433,14 +494,14 @@ export default function SEOAdmin() {
                 name="canonicalUrl"
                 type="url"
                 maxLength={2048}
-                placeholder="https://yourwebsite.com/"
+                placeholder="https://www.example.com/"
                 value={formData.canonicalUrl}
                 onChange={handleChange}
                 disabled={saving}
               />
             </div>
 
-            {/* ALTERNATIVE TEXT */}
+            {/* ALT TEXT */}
             <div className="seo-field">
               <label htmlFor="seo-alt-text">
                 Alternative Text
@@ -451,7 +512,7 @@ export default function SEOAdmin() {
                 name="altText"
                 type="text"
                 maxLength={1000}
-                placeholder="Alternative Text"
+                placeholder="Enter image alternative text"
                 value={formData.altText}
                 onChange={handleChange}
                 disabled={saving}
@@ -467,7 +528,11 @@ export default function SEOAdmin() {
               disabled={saving}
             >
               <Save size={17} />
-              {saving ? "Saving..." : "Save SEO"}
+              {saving
+                ? "Saving..."
+                : editingPage
+                  ? "Save Changes"
+                  : "Save SEO"}
             </button>
 
             <button
@@ -488,7 +553,9 @@ export default function SEOAdmin() {
         <div className="seo-empty-state">
           <RefreshCw size={28} />
           <h3>Loading SEO data...</h3>
-          <p>Please wait while your saved entries load.</p>
+          <p>
+            Please wait while your saved entries load.
+          </p>
         </div>
       ) : seoItems.length > 0 ? (
         <div className="seo-table-wrapper">
@@ -531,18 +598,37 @@ export default function SEOAdmin() {
                   <td>{item.altText || "—"}</td>
 
                   <td>
-                    <button
-                      type="button"
-                      className="seo-delete-btn"
-                      onClick={() => handleDelete(item)}
-                      disabled={deletingId === item.id}
-                      aria-label={`Delete SEO for ${item.page}`}
-                    >
-                      <Trash2 size={15} />
-                      {deletingId === item.id
-                        ? "Deleting..."
-                        : "Delete"}
-                    </button>
+                    <div className="seo-row-actions">
+                      <button
+                        type="button"
+                        className="seo-edit-btn"
+                        onClick={() => handleEdit(item)}
+                        disabled={
+                          saving ||
+                          deletingPage === item.page
+                        }
+                        aria-label={`Edit SEO for ${item.page}`}
+                      >
+                        <Pencil size={15} />
+                        Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        className="seo-delete-btn"
+                        onClick={() => handleDelete(item)}
+                        disabled={
+                          deletingPage === item.page ||
+                          saving
+                        }
+                        aria-label={`Delete SEO for ${item.page}`}
+                      >
+                        <Trash2 size={15} />
+                        {deletingPage === item.page
+                          ? "Deleting..."
+                          : "Delete"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

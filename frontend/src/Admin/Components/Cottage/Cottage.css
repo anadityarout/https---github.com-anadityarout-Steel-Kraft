@@ -1,3 +1,4 @@
+
 /* ========================================
    HOME & COTTAGE ADMIN
 ======================================== */
@@ -198,9 +199,7 @@
   font-family: inherit;
   font-size: 14px;
   line-height: 1.5;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cottage-field textarea {
@@ -217,6 +216,12 @@
 .cottage-field textarea:focus {
   border-color: #315d87;
   box-shadow: 0 0 0 3px rgba(49, 93, 135, 0.12);
+}
+
+.cottage-field input:disabled,
+.cottage-field textarea:disabled {
+  background: #f8fafc;
+  cursor: not-allowed;
 }
 
 /* ========================================
@@ -271,8 +276,7 @@
 }
 
 .cottage-save-btn:disabled,
-.cottage-cancel-btn:disabled,
-.cottage-delete-btn:disabled {
+.cottage-cancel-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
@@ -343,7 +347,7 @@
   border-top-right-radius: 10px;
 }
 
-/* Seven column widths */
+/* Column widths */
 
 .cottage-table th:nth-child(1),
 .cottage-table td:nth-child(1) {
@@ -367,7 +371,7 @@
 
 .cottage-table th:nth-child(5),
 .cottage-table td:nth-child(5) {
-  width: 27%;
+  width: 25%;
 }
 
 .cottage-table th:nth-child(6),
@@ -377,7 +381,7 @@
 
 .cottage-table th:nth-child(7),
 .cottage-table td:nth-child(7) {
-  width: 14%;
+  width: 16%;
 }
 
 /* ========================================
@@ -431,35 +435,87 @@
 }
 
 /* ========================================
-   DELETE BUTTON
+   ACTION BUTTON CONTAINER
 ======================================== */
 
+.cottage-action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+  width: 100%;
+}
+
+/* ========================================
+   EDIT AND DELETE BUTTONS
+======================================== */
+
+.cottage-edit-btn,
 .cottage-delete-btn {
+  appearance: none;
+  -webkit-appearance: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  max-width: 100%;
-  min-height: 35px;
+  flex-shrink: 0;
+  min-height: 36px;
   padding: 0 10px;
-  border: 1px solid #fecaca;
   border-radius: 6px;
-  background: #fff5f5;
-  color: #b42318;
-  font-family: inherit;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
   font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.cottage-delete-btn:hover:not(:disabled) {
-  background: #fee2e2;
+/* Blue Edit button */
+
+.cottage-admin .cottage-edit-btn {
+  border: 1px solid #bfd7ff;
+  background: #eff6ff;
+  color: #1267f5;
 }
 
+.cottage-admin .cottage-edit-btn:hover:not(:disabled) {
+  border-color: #1267f5;
+  background: #1267f5;
+  color: #ffffff;
+}
+
+/* Red Delete button */
+
+.cottage-admin .cottage-delete-btn {
+  border: 1px solid #fecaca;
+  background: #fff5f5;
+  color: #dc2626;
+}
+
+.cottage-admin .cottage-delete-btn:hover:not(:disabled) {
+  border-color: #dc2626;
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.cottage-edit-btn svg,
 .cottage-delete-btn svg {
+  display: block;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
+}
+
+.cottage-edit-btn:disabled,
+.cottage-delete-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 /* ========================================
@@ -497,6 +553,25 @@
   line-height: 1.7;
 }
 
+.cottage-loading {
+  padding: 20px 0;
+  color: #64748b;
+  text-align: center;
+}
+
+/* ========================================
+   KEYBOARD ACCESSIBILITY
+======================================== */
+
+.cottage-add-btn:focus-visible,
+.cottage-save-btn:focus-visible,
+.cottage-cancel-btn:focus-visible,
+.cottage-edit-btn:focus-visible,
+.cottage-delete-btn:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+}
+
 /* ========================================
    TABLET
 ======================================== */
@@ -526,6 +601,18 @@
   .cottage-table th,
   .cottage-table td {
     padding: 12px 9px;
+  }
+
+  .cottage-action-buttons {
+    justify-content: flex-start;
+    gap: 6px;
+  }
+
+  .cottage-edit-btn,
+  .cottage-delete-btn {
+    min-height: 34px;
+    padding: 0 8px;
+    font-size: 11px;
   }
 }
 
@@ -603,9 +690,14 @@
     font-size: 12px;
   }
 
+  .cottage-action-buttons {
+    gap: 5px;
+  }
+
+  .cottage-edit-btn,
   .cottage-delete-btn {
     min-height: 32px;
-    padding: 0 8px;
+    padding: 0 7px;
     font-size: 11px;
   }
 
@@ -652,18 +744,6 @@
 }
 
 /* ========================================
-   ACCESSIBILITY
-======================================== */
-
-.cottage-add-btn:focus-visible,
-.cottage-save-btn:focus-visible,
-.cottage-cancel-btn:focus-visible,
-.cottage-delete-btn:focus-visible {
-  outline: 2px solid #60a5fa;
-  outline-offset: 3px;
-}
-
-/* ========================================
    REDUCED MOTION
 ======================================== */
 
@@ -671,6 +751,7 @@
   .cottage-add-btn,
   .cottage-save-btn,
   .cottage-cancel-btn,
+  .cottage-edit-btn,
   .cottage-delete-btn,
   .cottage-table tbody tr {
     transition: none;

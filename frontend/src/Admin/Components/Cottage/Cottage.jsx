@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Plus,
@@ -5,13 +6,10 @@ import {
   Trash2,
   Save,
   X,
+  Pencil,
 } from "lucide-react";
 
 import "./Cottage.css";
-
-// ==========================================
-// AWS API GATEWAY
-// ==========================================
 
 const COTTAGE_API_URL =
   "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/cottages";
@@ -19,6 +17,7 @@ const COTTAGE_API_URL =
 export default function Cottage() {
   const [items, setItems] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
   const [name, setName] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -31,25 +30,24 @@ export default function Cottage() {
   const [success, setSuccess] = useState("");
 
   // ==========================================
-  // API RESPONSE HANDLER
+  // HANDLE API RESPONSE
   // ==========================================
 
   const readResponse = async (response) => {
     const text = await response.text();
-
     let data = {};
 
     if (text) {
       try {
         data = JSON.parse(text);
       } catch {
-        throw new Error("The API returned an invalid JSON response.");
+        throw new Error("Invalid JSON response from API.");
       }
     }
 
     if (!response.ok) {
       throw new Error(
-        data.message || `Request failed with status ${response.status}.`
+        data.message || `Request failed: ${response.status}`
       );
     }
 
@@ -57,7 +55,7 @@ export default function Cottage() {
   };
 
   // ==========================================
-  // LOAD COTTAGES FROM AWS
+  // LOAD COTTAGES
   // ==========================================
 
   const fetchItems = useCallback(async (signal) => {
@@ -80,11 +78,14 @@ export default function Cottage() {
       }
 
       setItems(data);
+      return true;
     } catch (err) {
       if (err.name !== "AbortError") {
         console.error("Load cottages error:", err);
         setError(err.message || "Unable to load cottage data.");
       }
+
+      return false;
     } finally {
       if (!signal?.aborted) {
         setLoading(false);
@@ -108,11 +109,50 @@ export default function Cottage() {
     setName("");
     setSubtitle("");
     setDescription("");
+    setEditingId(null);
     setShowForm(false);
+    setError("");
   };
 
   // ==========================================
-  // SAVE COTTAGE TO AWS
+  // OPEN ADD FORM
+  // ==========================================
+
+  const handleAdd = () => {
+    resetForm();
+    setSuccess("");
+    setShowForm(true);
+  };
+
+  // ==========================================
+  // EDIT EXISTING COTTAGE
+  // ==========================================
+
+  const handleEdit = (item) => {
+    if (!item.id) {
+      setError("This record has no ID and cannot be edited.");
+      return;
+    }
+
+    setEditingId(item.id);
+    setName(item.name || "");
+    setSubtitle(item.subtitle || "");
+    setDescription(item.description || "");
+
+    setError("");
+    setSuccess("");
+    setShowForm(true);
+
+    window.setTimeout(() => {
+      document.getElementById("cottage-form")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 50);
+  };
+
+  // ==========================================
+  // ADD OR UPDATE COTTAGE
   // ==========================================
 
   const handleSave = async (event) => {
@@ -128,38 +168,55 @@ export default function Cottage() {
       setError("");
       setSuccess("");
 
+      const isEditing = editingId !== null;
+
+      const payload = {
+        name: name.trim(),
+        subtitle: subtitle.trim(),
+        description: description.trim(),
+      };
+
+      if (isEditing) {
+        payload.id = editingId;
+      }
+
       const response = await fetch(COTTAGE_API_URL, {
-        method: "POST",
+        method: isEditing ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({
-          name: name.trim(),
-          subtitle: subtitle.trim(),
-          description: description.trim(),
-        }),
+        body: JSON.stringify(payload),
       });
 
-      // Lambda should return success only after saving to S3.
       await readResponse(response);
 
-      // Reload the saved records from AWS rather than
-      // assuming the POST response has a particular shape.
-      await fetchItems();
+      // Reload records from S3 through the API.
+      const refreshed = await fetchItems();
+
+      if (!refreshed) {
+        throw new Error(
+          "The save request succeeded, but the table could not refresh. Please reload the page."
+        );
+      }
 
       resetForm();
-      setSuccess("Home & Cottage content saved successfully.");
+
+      setSuccess(
+        isEditing
+          ? "Cottage content updated successfully."
+          : "Cottage content added successfully."
+      );
     } catch (err) {
       console.error("Save cottage error:", err);
-      setError(err.message || "Unable to save cottage.");
+      setError(err.message || "Unable to save cottage content.");
     } finally {
       setSaving(false);
     }
   };
 
   // ==========================================
-  // DELETE COTTAGE FROM AWS
+  // DELETE COTTAGE
   // ==========================================
 
   const handleDelete = async (id) => {
@@ -168,11 +225,9 @@ export default function Cottage() {
       return;
     }
 
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this entry?"
-    );
-
-    if (!confirmed) return;
+    if (!window.confirm("Are you sure you want to delete this entry?")) {
+      return;
+    }
 
     try {
       setDeletingId(id);
@@ -195,7 +250,11 @@ export default function Cottage() {
         previous.filter((item) => String(item.id) !== String(id))
       );
 
-      setSuccess("Home & Cottage content deleted successfully.");
+      if (String(editingId) === String(id)) {
+        resetForm();
+      }
+
+      setSuccess("Cottage content deleted successfully.");
     } catch (err) {
       console.error("Delete cottage error:", err);
       setError(err.message || "Unable to delete cottage.");
@@ -210,8 +269,6 @@ export default function Cottage() {
 
   return (
     <section className="cottage-admin">
-      {/* PAGE HEADER */}
-
       <div className="cottage-header">
         <div className="cottage-heading">
           <div className="cottage-heading-icon">
@@ -228,19 +285,13 @@ export default function Cottage() {
           <button
             type="button"
             className="cottage-add-btn"
-            onClick={() => {
-              setError("");
-              setSuccess("");
-              setShowForm(true);
-            }}
+            onClick={handleAdd}
           >
             <Plus size={19} />
             Add
           </button>
         )}
       </div>
-
-      {/* STATUS MESSAGES */}
 
       {error && (
         <div className="cottage-error" role="alert">
@@ -254,58 +305,62 @@ export default function Cottage() {
         </div>
       )}
 
-      {/* ADD FORM */}
+      {/* ADD / EDIT FORM */}
 
       {showForm && (
-        <form className="cottage-form" onSubmit={handleSave}>
+        <form
+          id="cottage-form"
+          className="cottage-form"
+          onSubmit={handleSave}
+        >
           <div className="cottage-form-heading">
-            <h2>Add Home & Cottage Text</h2>
+            <h2>
+              {editingId !== null
+                ? "Edit Home & Cottage Content"
+                : "Add Home & Cottage Text"}
+            </h2>
+
             <p>
-              Enter a name, subtitle, description, or any combination
-              of these fields.
+              {editingId !== null
+                ? "Update the fields and save your changes."
+                : "Enter a name, subtitle, or description."}
             </p>
           </div>
 
           <div className="cottage-form-body">
             <div className="cottage-field">
-              <label htmlFor="cottage-name">Name (optional)</label>
-
+              <label htmlFor="cottage-name">Name</label>
               <input
                 id="cottage-name"
                 type="text"
                 placeholder="Enter name"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
+                disabled={saving}
               />
             </div>
 
             <div className="cottage-field">
-              <label htmlFor="cottage-subtitle">
-                Subtitle (optional)
-              </label>
-
+              <label htmlFor="cottage-subtitle">Subtitle</label>
               <input
                 id="cottage-subtitle"
                 type="text"
                 placeholder="Enter subtitle"
                 value={subtitle}
                 onChange={(event) => setSubtitle(event.target.value)}
+                disabled={saving}
               />
             </div>
 
             <div className="cottage-field">
-              <label htmlFor="cottage-description">
-                Description (optional)
-              </label>
-
+              <label htmlFor="cottage-description">Description</label>
               <textarea
                 id="cottage-description"
                 rows={4}
                 placeholder="Enter description"
                 value={description}
-                onChange={(event) =>
-                  setDescription(event.target.value)
-                }
+                onChange={(event) => setDescription(event.target.value)}
+                disabled={saving}
               />
             </div>
           </div>
@@ -317,7 +372,11 @@ export default function Cottage() {
               disabled={saving}
             >
               <Save size={17} />
-              {saving ? "Saving..." : "Save"}
+              {saving
+                ? "Saving..."
+                : editingId !== null
+                ? "Save Changes"
+                : "Save"}
             </button>
 
             <button
@@ -333,10 +392,12 @@ export default function Cottage() {
         </form>
       )}
 
-      {/* SAVED ENTRIES TABLE */}
+      {/* COTTAGE TABLE */}
 
       {loading ? (
-        <p>Loading Home & Cottage content...</p>
+        <p className="cottage-loading">
+          Loading Home & Cottage content...
+        </p>
       ) : items.length > 0 ? (
         <div className="cottage-table-wrapper">
           <table className="cottage-table">
@@ -354,7 +415,7 @@ export default function Cottage() {
 
             <tbody>
               {items.map((item, index) => (
-                <tr key={item.id}>
+                <tr key={item.id || index}>
                   <td>{index + 1}</td>
                   <td>{item.type || "Text"}</td>
 
@@ -373,16 +434,31 @@ export default function Cottage() {
                   <td>{item.created || "—"}</td>
 
                   <td>
-                    <button
-                      type="button"
-                      className="cottage-delete-btn"
-                      onClick={() => handleDelete(item.id)}
-                      disabled={deletingId === item.id}
-                      aria-label={`Delete entry ${index + 1}`}
-                    >
-                      <Trash2 size={16} />
-                      {deletingId === item.id ? "Deleting..." : "Delete"}
-                    </button>
+                    <div className="cottage-action-buttons">
+                      <button
+                        type="button"
+                        className="cottage-edit-btn"
+                        onClick={() => handleEdit(item)}
+                        disabled={saving || deletingId !== null}
+                        aria-label={`Edit entry ${index + 1}`}
+                      >
+                        <Pencil size={15} />
+                        Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        className="cottage-delete-btn"
+                        onClick={() => handleDelete(item.id)}
+                        disabled={saving || deletingId === item.id}
+                        aria-label={`Delete entry ${index + 1}`}
+                      >
+                        <Trash2 size={15} />
+                        {deletingId === item.id
+                          ? "Deleting..."
+                          : "Delete"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -393,9 +469,7 @@ export default function Cottage() {
         !showForm && (
           <div className="cottage-empty-state">
             <HousePlus size={36} strokeWidth={1.5} />
-
             <h3>No content added yet</h3>
-
             <p>Click Add to enter your cottage content.</p>
           </div>
         )

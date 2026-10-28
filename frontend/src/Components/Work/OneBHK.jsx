@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   ArrowRight,
@@ -18,7 +17,7 @@ import { Link } from "react-router-dom";
 import "./OneBHK.css";
 
 // Banner image
-import oneBHKBanner from "../../assets/Cottage_58.png";
+import oneBHKBanner from "../../assets/Cottage_47.png";
 
 // Cottage images
 import cottage03 from "../../assets/Cottage_03.png";
@@ -327,7 +326,12 @@ const OneBHK = () => {
                 className="onebhk-home-card"
                 key={home.id}
               >
-                <div className="onebhk-home-image">
+                <div
+                  className="onebhk-home-image"
+                  style={{
+                    "--home-bg": `url(${home.image})`,
+                  }}
+                >
                   <img
                     src={home.image}
                     alt={home.name}

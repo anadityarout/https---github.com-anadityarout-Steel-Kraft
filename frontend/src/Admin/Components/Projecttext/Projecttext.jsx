@@ -6,20 +6,18 @@ import {
   Trash2,
   Save,
   X,
+  Pencil,
 } from "lucide-react";
 
 import "./Projecttext.css";
 
-// Replace this with your actual Project Text API Gateway URL.
-// Do not use the homebanner URL unless that Lambda is configured
-// specifically to store Project Text records.
-
 const PROJECT_TEXT_API_URL =
   "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/projecttext";
-  
+
 export default function Projecttext() {
   const [projects, setProjects] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState(null);
 
   const [name, setName] = useState("");
   const [subtitle, setSubtitle] = useState("");
@@ -32,7 +30,10 @@ export default function Projecttext() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Read the API response safely.
+  // ==========================================
+  // HANDLE API RESPONSE
+  // ==========================================
+
   const readResponse = async (response) => {
     const text = await response.text();
     let data = {};
@@ -41,7 +42,7 @@ export default function Projecttext() {
       try {
         data = JSON.parse(text);
       } catch {
-        data = { message: text };
+        throw new Error("The API returned an invalid response.");
       }
     }
 
@@ -49,30 +50,27 @@ export default function Projecttext() {
       throw new Error(
         data.message ||
           data.error ||
-          `Request failed with status ${response.status}`
+          `Request failed with status ${response.status}.`
       );
     }
 
     return data;
   };
 
-  // Load project text records from the backend.
-  const fetchProjects = useCallback(async () => {
-    setLoading(true);
-    setError("");
+  // ==========================================
+  // LOAD PROJECT TEXT
+  // ==========================================
 
+  const fetchProjects = useCallback(async (showLoader = true) => {
     try {
-      if (
-        !PROJECT_TEXT_API_URL ||
-        PROJECT_TEXT_API_URL.includes("PASTE_YOUR")
-      ) {
-        throw new Error(
-          "Add your Project Text API Gateway URL in PROJECT_TEXT_API_URL."
-        );
-      }
+      if (showLoader) setLoading(true);
+      setError("");
 
       const response = await fetch(PROJECT_TEXT_API_URL, {
         method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
       });
 
       const data = await readResponse(response);
@@ -87,31 +85,84 @@ export default function Projecttext() {
 
       if (!records) {
         throw new Error(
-          "The API response is not an array. Check your Lambda GET response."
+          "The API did not return a valid project array."
         );
       }
 
       setProjects(records);
+      return true;
     } catch (err) {
+      console.error("Load project text error:", err);
       setError(err.message || "Unable to load project text.");
+      return false;
     } finally {
-      setLoading(false);
+      if (showLoader) setLoading(false);
     }
   }, []);
 
   useEffect(() => {
     fetchProjects();
+
   }, [fetchProjects]);
 
-  // Reset form.
+  // ==========================================
+  // RESET FORM
+  // ==========================================
+
   const resetForm = () => {
     setName("");
     setSubtitle("");
     setDescription("");
+    setEditingId(null);
     setShowForm(false);
+    setError("");
   };
 
-  // Save project text to the backend.
+  // ==========================================
+  // OPEN ADD FORM
+  // ==========================================
+
+  const handleAdd = () => {
+    resetForm();
+    setSuccess("");
+    setShowForm(true);
+  };
+
+  // ==========================================
+  // OPEN EDIT FORM
+  // ==========================================
+
+  const handleEdit = (project) => {
+    if (!project.id) {
+      setError(
+        "This record has no ID and cannot be edited."
+      );
+      return;
+    }
+
+    setEditingId(project.id);
+    setName(project.name || "");
+    setSubtitle(project.subtitle || "");
+    setDescription(project.description || "");
+
+    setError("");
+    setSuccess("");
+    setShowForm(true);
+
+    window.setTimeout(() => {
+      document
+        .getElementById("projecttext-form")
+        ?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+    }, 50);
+  };
+
+  // ==========================================
+  // ADD OR UPDATE PROJECT TEXT
+  // ==========================================
+
   const handleSave = async (event) => {
     event.preventDefault();
 
@@ -120,47 +171,78 @@ export default function Projecttext() {
       !subtitle.trim() &&
       !description.trim()
     ) {
-      setError("Please enter a name, subtitle, or description.");
+      setError(
+        "Please enter a name, subtitle, or description."
+      );
       return;
     }
 
-    setSaving(true);
-    setError("");
-    setSuccess("");
-
-    const newProject = {
-      type: "Text",
-      name: name.trim(),
-      subtitle: subtitle.trim(),
-      description: description.trim(),
-    };
+    const isEditing = editingId !== null;
 
     try {
+      setSaving(true);
+      setError("");
+      setSuccess("");
+
+      const payload = {
+        type: "Text",
+        name: name.trim(),
+        subtitle: subtitle.trim(),
+        description: description.trim(),
+      };
+
+      // Send the existing ID when editing.
+      if (isEditing) {
+        payload.id = editingId;
+      }
+
       const response = await fetch(PROJECT_TEXT_API_URL, {
-        method: "POST",
+        method: isEditing ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(newProject),
+        body: JSON.stringify(payload),
       });
 
-      await readResponse(response);
+      const result = await readResponse(response);
 
-      await fetchProjects();
+      // Refresh the table from the API after saving.
+      const refreshed = await fetchProjects(false);
+
+      if (!refreshed) {
+        throw new Error(
+          "The save request succeeded, but the table could not refresh. Reload the page to verify the saved data."
+        );
+      }
 
       resetForm();
-      setSuccess("Project text saved successfully.");
+
+      setSuccess(
+        result.message ||
+          (isEditing
+            ? "Project text updated successfully."
+            : "Project text added successfully.")
+      );
     } catch (err) {
-      setError(err.message || "Unable to save project text.");
+      console.error("Save project text error:", err);
+      setError(
+        err.message || "Unable to save project text."
+      );
     } finally {
       setSaving(false);
     }
   };
 
-  // Delete project text from the backend.
+  // ==========================================
+  // DELETE PROJECT TEXT
+  // ==========================================
+
   const handleDelete = async (id) => {
     if (!id) {
-      setError("This record has no ID. Check your Lambda GET response.");
+      setError(
+        "This record has no ID and cannot be deleted."
+      );
       return;
     }
 
@@ -170,32 +252,55 @@ export default function Projecttext() {
 
     if (!confirmed) return;
 
-    setDeletingId(id);
-    setError("");
-    setSuccess("");
-
     try {
+      setDeletingId(id);
+      setError("");
+      setSuccess("");
+
       const response = await fetch(
         `${PROJECT_TEXT_API_URL}?id=${encodeURIComponent(id)}`,
         {
           method: "DELETE",
+          headers: {
+            Accept: "application/json",
+          },
         }
       );
 
-      await readResponse(response);
+      const result = await readResponse(response);
 
-      await fetchProjects();
-      setSuccess("Project text deleted successfully.");
+      setProjects((previous) =>
+        previous.filter(
+          (project) => String(project.id) !== String(id)
+        )
+      );
+
+      if (String(editingId) === String(id)) {
+        resetForm();
+      }
+
+      setSuccess(
+        result.message || "Project text deleted successfully."
+      );
     } catch (err) {
-      setError(err.message || "Unable to delete project text.");
+      console.error("Delete project text error:", err);
+      setError(
+        err.message || "Unable to delete project text."
+      );
     } finally {
       setDeletingId(null);
     }
   };
 
+  // ==========================================
+  // RENDER
+  // ==========================================
+
   return (
     <section className="projecttext-admin">
+
       {/* PAGE HEADER */}
+
       <div className="projecttext-header">
         <div className="projecttext-heading">
           <div className="projecttext-heading-icon">
@@ -214,11 +319,7 @@ export default function Projecttext() {
           <button
             type="button"
             className="projecttext-add-btn"
-            onClick={() => {
-              setError("");
-              setSuccess("");
-              setShowForm(true);
-            }}
+            onClick={handleAdd}
           >
             <Plus size={19} />
             Add
@@ -227,6 +328,7 @@ export default function Projecttext() {
       </div>
 
       {/* STATUS MESSAGES */}
+
       {error && (
         <div className="projecttext-error" role="alert">
           {error}
@@ -239,21 +341,32 @@ export default function Projecttext() {
         </div>
       )}
 
-      {/* ADD FORM */}
+      {/* ADD / EDIT FORM */}
+
       {showForm && (
         <form
+          id="projecttext-form"
           className="projecttext-form"
           onSubmit={handleSave}
         >
           <div className="projecttext-form-header">
-            <h2>Add Project Text</h2>
+            <h2>
+              {editingId !== null
+                ? "Edit Project Text"
+                : "Add Project Text"}
+            </h2>
+
             <p>
-              Enter a name, subtitle, or description before saving.
+              {editingId !== null
+                ? "Update the fields below and save your changes."
+                : "Enter a name, subtitle, or description before saving."}
             </p>
           </div>
 
           <div className="projecttext-form-body">
+
             {/* NAME */}
+
             <div className="projecttext-field">
               <label htmlFor="projecttext-name">
                 Name
@@ -267,10 +380,12 @@ export default function Projecttext() {
                 onChange={(event) =>
                   setName(event.target.value)
                 }
+                disabled={saving}
               />
             </div>
 
             {/* SUBTITLE */}
+
             <div className="projecttext-field">
               <label htmlFor="projecttext-subtitle">
                 Subtitle
@@ -284,10 +399,12 @@ export default function Projecttext() {
                 onChange={(event) =>
                   setSubtitle(event.target.value)
                 }
+                disabled={saving}
               />
             </div>
 
             {/* DESCRIPTION */}
+
             <div className="projecttext-field">
               <label htmlFor="projecttext-description">
                 Description
@@ -301,11 +418,13 @@ export default function Projecttext() {
                 onChange={(event) =>
                   setDescription(event.target.value)
                 }
+                disabled={saving}
               />
             </div>
           </div>
 
           {/* FORM ACTIONS */}
+
           <div className="projecttext-form-actions">
             <button
               type="submit"
@@ -313,7 +432,12 @@ export default function Projecttext() {
               disabled={saving}
             >
               <Save size={17} />
-              {saving ? "Saving..." : "Save"}
+
+              {saving
+                ? "Saving..."
+                : editingId !== null
+                ? "Save Changes"
+                : "Save"}
             </button>
 
             <button
@@ -330,6 +454,7 @@ export default function Projecttext() {
       )}
 
       {/* PROJECT TABLE */}
+
       {loading ? (
         <div className="projecttext-empty-state">
           <p>Loading project text...</p>
@@ -370,19 +495,39 @@ export default function Projecttext() {
 
                   <td>{project.created || "—"}</td>
 
+                  {/* EDIT AND DELETE */}
+
                   <td>
-                    <button
-                      type="button"
-                      className="projecttext-delete-btn"
-                      onClick={() => handleDelete(project.id)}
-                      disabled={deletingId === project.id}
-                      aria-label={`Delete project text ${index + 1}`}
-                    >
-                      <Trash2 size={16} />
-                      {deletingId === project.id
-                        ? "Deleting..."
-                        : "Delete"}
-                    </button>
+                    <div className="projecttext-action-buttons">
+                      <button
+                        type="button"
+                        className="projecttext-edit-btn"
+                        onClick={() => handleEdit(project)}
+                        disabled={
+                          saving || deletingId !== null
+                        }
+                        aria-label={`Edit project text ${index + 1}`}
+                      >
+                        <Pencil size={15} />
+                        Edit
+                      </button>
+
+                      <button
+                        type="button"
+                        className="projecttext-delete-btn"
+                        onClick={() => handleDelete(project.id)}
+                        disabled={
+                          saving || deletingId === project.id
+                        }
+                        aria-label={`Delete project text ${index + 1}`}
+                      >
+                        <Trash2 size={15} />
+
+                        {deletingId === project.id
+                          ? "Deleting..."
+                          : "Delete"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -397,7 +542,8 @@ export default function Projecttext() {
             <h3>No project text added yet</h3>
 
             <p>
-              Click Add to enter a project name, subtitle, and description.
+              Click Add to enter a project name, subtitle,
+              and description.
             </p>
           </div>
         )

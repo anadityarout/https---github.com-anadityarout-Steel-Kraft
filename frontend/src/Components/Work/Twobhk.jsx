@@ -285,8 +285,17 @@ function Twobhk() {
           <div className="twobhk-grid">
             {homes.map((home, index) => (
               <article className="twobhk-card" key={home.name}>
+                {/* Image: blurred copy fills the frame, sharp copy sits on top */}
                 <div className="twobhk-card__image">
                   <img
+                    className="twobhk-card__backdrop"
+                    src={home.image}
+                    alt=""
+                    aria-hidden="true"
+                    loading={index < 3 ? "eager" : "lazy"}
+                  />
+                  <img
+                    className="twobhk-card__photo"
                     src={home.image}
                     alt={home.name}
                     loading={index < 3 ? "eager" : "lazy"}
@@ -301,17 +310,17 @@ function Twobhk() {
 
                   <div className="twobhk-card__meta">
                     <span>
-                      <BedDouble size={15} />
+                      <BedDouble size={16} />
                       2 Bedrooms
                     </span>
 
                     <span>
-                      <Bath size={15} />
+                      <Bath size={16} />
                       2 Bathrooms
                     </span>
 
                     <span>
-                      <MapPin size={15} />
+                      <MapPin size={16} />
                       {home.type}
                     </span>
                   </div>
@@ -327,7 +336,7 @@ function Twobhk() {
                   >
                     View Details
                     <span>
-                      <ArrowRight size={17} />
+                      <ArrowRight size={18} />
                     </span>
                   </Link>
                 </div>

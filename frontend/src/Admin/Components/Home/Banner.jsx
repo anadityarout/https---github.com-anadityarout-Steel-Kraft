@@ -6,13 +6,10 @@ import {
   Trash2,
   Save,
   X,
+  Pencil,
 } from "lucide-react";
 
 import "./Banner.css";
-
-// ==========================================
-// AWS API GATEWAY
-// ==========================================
 
 const API_URL =
   "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/homebanner";
@@ -25,6 +22,7 @@ export default function Banner() {
   const [subtitle, setSubtitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
@@ -73,11 +71,40 @@ export default function Banner() {
     setName("");
     setSubtitle("");
     setDescription("");
+    setEditingId(null);
     setShowForm(false);
+    setError("");
   };
 
   // ==========================================
-  // SAVE BANNER TO AWS
+  // OPEN ADD FORM
+  // ==========================================
+
+  const handleAdd = () => {
+    resetForm();
+    setShowForm(true);
+  };
+
+  // ==========================================
+  // OPEN EDIT FORM
+  // ==========================================
+
+  const handleEdit = (banner) => {
+    setEditingId(banner.id);
+    setName(banner.name || "");
+    setSubtitle(banner.subtitle || "");
+    setDescription(banner.description || "");
+    setError("");
+    setShowForm(true);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // ==========================================
+  // SAVE NEW BANNER OR UPDATE EXISTING BANNER
   // ==========================================
 
   const handleSave = async (event) => {
@@ -92,20 +119,25 @@ export default function Banner() {
       !trimmedSubtitle &&
       !trimmedDescription
     ) {
-      alert("Please enter a name, subtitle, or description.");
+      setError(
+        "Please enter a name, subtitle, or description."
+      );
       return;
     }
+
+    const isEditing = editingId !== null;
 
     setSaving(true);
     setError("");
 
     try {
       const response = await fetch(API_URL, {
-        method: "POST",
+        method: isEditing ? "PUT" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          ...(isEditing ? { id: editingId } : {}),
           name: trimmedName,
           subtitle: trimmedSubtitle,
           description: trimmedDescription,
@@ -116,31 +148,52 @@ export default function Banner() {
 
       if (!response.ok) {
         throw new Error(
-          data.message || "Failed to save banner."
+          data.message ||
+            (isEditing
+              ? "Failed to update banner."
+              : "Failed to save banner.")
         );
       }
 
+      // Update the existing row or add a new row.
       if (data.banner) {
-        setBanners((previous) => [
-          ...previous,
-          data.banner,
-        ]);
+        if (isEditing) {
+          setBanners((previous) =>
+            previous.map((banner) =>
+              String(banner.id) === String(editingId)
+                ? data.banner
+                : banner
+            )
+          );
+        } else {
+          setBanners((previous) => [
+            ...previous,
+            data.banner,
+          ]);
+        }
       } else {
         await fetchBanners();
       }
 
       resetForm();
-      alert("Banner content saved successfully!");
+
+      window.alert(
+        isEditing
+          ? "Banner updated successfully!"
+          : "Banner saved successfully!"
+      );
     } catch (err) {
       console.error("Save banner error:", err);
-      setError(err.message || "Unable to save banner.");
+      setError(
+        err.message || "Unable to save banner content."
+      );
     } finally {
       setSaving(false);
     }
   };
 
   // ==========================================
-  // DELETE BANNER FROM AWS
+  // DELETE BANNER
   // ==========================================
 
   const handleDelete = async (id) => {
@@ -172,9 +225,15 @@ export default function Banner() {
           (banner) => String(banner.id) !== String(id)
         )
       );
+
+      if (String(editingId) === String(id)) {
+        resetForm();
+      }
     } catch (err) {
       console.error("Delete banner error:", err);
-      setError(err.message || "Unable to delete banner.");
+      setError(
+        err.message || "Unable to delete banner."
+      );
     } finally {
       setDeletingId(null);
     }
@@ -204,10 +263,8 @@ export default function Banner() {
           <button
             type="button"
             className="banner-add-button"
-            onClick={() => {
-              setError("");
-              setShowForm(true);
-            }}
+            onClick={handleAdd}
+            disabled={loading}
           >
             <Plus size={19} />
             Add
@@ -219,47 +276,45 @@ export default function Banner() {
 
       {error && (
         <div
+          className="banner-error-message"
           role="alert"
-          style={{
-            margin: "16px 0",
-            padding: "12px 16px",
-            borderRadius: "8px",
-            background: "#fff1f0",
-            color: "#b42318",
-          }}
         >
-          {error}
+          <span>{error}</span>
 
           <button
             type="button"
             onClick={fetchBanners}
-            disabled={loading}
-            style={{ marginLeft: "12px", cursor: "pointer" }}
+            disabled={loading || saving}
           >
             Retry
           </button>
         </div>
       )}
 
-      {/* ADD FORM */}
+      {/* ADD / EDIT FORM */}
 
       {showForm && (
-        <form className="banner-form" onSubmit={handleSave}>
+        <form
+          className="banner-form"
+          onSubmit={handleSave}
+        >
           <div className="banner-form-header">
-            <h2>Add Banner Content</h2>
+            <h2>
+              {editingId !== null
+                ? "Edit Banner Content"
+                : "Add Banner Content"}
+            </h2>
+
             <p>
-              Enter a name, subtitle, description, or any
-              combination of these fields.
+              {editingId !== null
+                ? "Update the banner fields you want to change."
+                : "Enter a name, subtitle, or description."}
             </p>
           </div>
 
           <div className="banner-form-body">
-            {/* NAME */}
-
             <div className="banner-field">
-              <label htmlFor="banner-name">
-                Name
-              </label>
+              <label htmlFor="banner-name">Name</label>
 
               <input
                 id="banner-name"
@@ -272,8 +327,6 @@ export default function Banner() {
                 disabled={saving}
               />
             </div>
-
-            {/* SUBTITLE */}
 
             <div className="banner-field">
               <label htmlFor="banner-subtitle">
@@ -291,8 +344,6 @@ export default function Banner() {
                 disabled={saving}
               />
             </div>
-
-            {/* DESCRIPTION */}
 
             <div className="banner-field">
               <label htmlFor="banner-description">
@@ -321,7 +372,12 @@ export default function Banner() {
               disabled={saving}
             >
               <Save size={17} />
-              {saving ? "Saving..." : "Save"}
+
+              {saving
+                ? "Saving..."
+                : editingId !== null
+                  ? "Save Changes"
+                  : "Save"}
             </button>
 
             <button
@@ -337,7 +393,7 @@ export default function Banner() {
         </form>
       )}
 
-      {/* SAVED TABLE */}
+      {/* SAVED BANNERS TABLE */}
 
       {loading ? (
         <div className="banner-empty-state">
@@ -380,19 +436,38 @@ export default function Banner() {
                   <td>{banner.created || "—"}</td>
 
                   <td>
-                    <button
-                      type="button"
-                      className="banner-delete-button"
-                      onClick={() => handleDelete(banner.id)}
-                      disabled={deletingId === banner.id}
-                      aria-label={`Delete entry ${index + 1}`}
-                    >
-                      <Trash2 size={16} />
+                    <div className="banner-action-buttons">
+                      <button
+                        type="button"
+                        className="banner-edit-button"
+                        onClick={() => handleEdit(banner)}
+                        disabled={
+                          saving || deletingId !== null
+                        }
+                        aria-label={`Edit banner ${index + 1}`}
+                      >
+                        <Pencil size={15} />
+                        Edit
+                      </button>
 
-                      {deletingId === banner.id
-                        ? "Deleting..."
-                        : "Delete"}
-                    </button>
+                      <button
+                        type="button"
+                        className="banner-delete-button"
+                        onClick={() =>
+                          handleDelete(banner.id)
+                        }
+                        disabled={
+                          deletingId !== null || saving
+                        }
+                        aria-label={`Delete banner ${index + 1}`}
+                      >
+                        <Trash2 size={15} />
+
+                        {deletingId === banner.id
+                          ? "Deleting..."
+                          : "Delete"}
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -407,7 +482,8 @@ export default function Banner() {
             <h3>No banner content added yet</h3>
 
             <p>
-              Click Add to enter a name, subtitle, or description.
+              Click Add to enter a name, subtitle, or
+              description.
             </p>
           </div>
         )

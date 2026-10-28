@@ -7,7 +7,6 @@ import {
   Leaf,
   ShieldCheck,
   Settings,
-  Heart,
   BedDouble,
   Bath,
   MapPin,
@@ -232,14 +231,21 @@ const FourBhk = () => {
           <div className="fourbhk-grid">
             {homes.map((home, index) => (
               <article className="fourbhk-card" key={home.name}>
+                {/* Image: blurred copy fills the frame, sharp copy sits on top */}
                 <div className="fourbhk-card__image">
                   <img
+                    className="fourbhk-card__backdrop"
+                    src={home.image}
+                    alt=""
+                    aria-hidden="true"
+                    loading={index < 3 ? "eager" : "lazy"}
+                  />
+                  <img
+                    className="fourbhk-card__photo"
                     src={home.image}
                     alt={home.name}
                     loading={index < 3 ? "eager" : "lazy"}
                   />
-
-                
                 </div>
 
                 <div className="fourbhk-card__body">
@@ -250,17 +256,17 @@ const FourBhk = () => {
 
                   <div className="fourbhk-card__meta">
                     <span>
-                      <BedDouble size={17} />
+                      <BedDouble size={16} />
                       4 Bedrooms
                     </span>
 
                     <span>
-                      <Bath size={17} />
+                      <Bath size={16} />
                       4 Bathrooms
                     </span>
 
                     <span>
-                      <MapPin size={17} />
+                      <MapPin size={16} />
                       {home.type}
                     </span>
                   </div>
@@ -276,7 +282,7 @@ const FourBhk = () => {
                   >
                     <span>View Details</span>
                     <span className="fourbhk-card__arrow">
-                      <ArrowRight size={19} />
+                      <ArrowRight size={18} />
                     </span>
                   </Link>
                 </div>
