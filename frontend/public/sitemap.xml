@@ -1,15 +1,37 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
     <loc>https://www.steelcraftprefab.com/</loc>
   </url>
+
   <url>
     <loc>https://www.steelcraftprefab.com/projects</loc>
   </url>
+
   <url>
     <loc>https://www.steelcraftprefab.com/homes-cottages</loc>
   </url>
+
+  <url>
+    <loc>https://www.steelcraftprefab.com/onebhk</loc>
+  </url>
+
+  <url>
+    <loc>https://www.steelcraftprefab.com/twobhk</loc>
+  </url>
+
+  <url>
+    <loc>https://www.steelcraftprefab.com/threebhk</loc>
+  </url>
+
+  <url>
+    <loc>https://www.steelcraftprefab.com/fourbhk</loc>
+  </url>
+
   <url>
     <loc>https://www.steelcraftprefab.com/contact</loc>
   </url>
+
 </urlset>
