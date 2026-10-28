@@ -439,55 +439,84 @@ function generatePageHTML(template, page, seo) {
 // MAIN
 // =====================================================
 
+
 async function main() {
   const templatePath = path.join(DIST_DIR, "index.html");
 
   if (!fs.existsSync(templatePath)) {
     throw new Error(
-      "dist/index.html was not found. Run npm run build first."
+      "dist/index.html was not found. Run the Vite build first."
     );
   }
 
   const template = fs.readFileSync(templatePath, "utf8");
 
   if (!template.includes("</head>")) {
-    throw new Error(
-      "The closing </head> tag was not found in dist/index.html."
-    );
+    throw new Error("Closing </head> tag not found.");
   }
 
   const seoItems = await fetchSeoItems();
 
+  const normalizePage = (value) =>
+    String(value ?? "").trim().toLowerCase().replace(/\s+/g, " ");
+
+  let generatedCount = 0;
+  let skippedCount = 0;
+
   for (const page of PAGES) {
     const seo = seoItems.find(
-      (item) =>
-        String(item?.page ?? "").trim().toLowerCase() ===
-        page.name.trim().toLowerCase()
+      (item) => normalizePage(item?.page) === normalizePage(page.name)
     );
 
+    // No record saved in the dashboard: skip this page.
     if (!seo) {
-      throw new Error(
-        `SEO record not found for "${page.name}". ` +
-        "Check the page name in the SEO Admin Dashboard."
+      console.log(
+        `SKIPPED: ${page.name} — no SEO record in Admin Dashboard.`
       );
+      skippedCount++;
+      continue;
     }
 
-    const html = generatePageHTML(template, page, seo);
-    const outputPath = path.join(DIST_DIR, page.output);
+    const title = String(seo.metaTitle ?? "").trim();
+    const description = String(seo.description ?? "").trim();
 
-    fs.mkdirSync(path.dirname(outputPath), {
-      recursive: true,
-    });
+    // Don't generate metadata from incomplete records.
+    if (!title || !description) {
+      console.warn(
+        `SKIPPED: ${page.name} — title or description is empty.`
+      );
+      skippedCount++;
+      continue;
+    }
 
-    fs.writeFileSync(outputPath, html, "utf8");
+    try {
+      const html = generatePageHTML(template, page, seo);
+      const outputPath = path.join(DIST_DIR, page.output);
 
-    console.log(`Generated: ${page.output}`);
-    console.log(`SEO page: ${page.name}`);
-    console.log(`SEO title: ${seo.metaTitle}`);
-    console.log(`Canonical: ${getCanonicalUrl(seo, page)}`);
+      fs.mkdirSync(path.dirname(outputPath), {
+        recursive: true,
+      });
+
+      fs.writeFileSync(outputPath, html, "utf8");
+
+      console.log(`GENERATED: ${page.name}`);
+      console.log(`Title: ${title}`);
+      console.log(`File: ${page.output}`);
+
+      generatedCount++;
+    } catch (error) {
+      console.error(
+        `SKIPPED: ${page.name} — ${error.message}`
+      );
+      skippedCount++;
+    }
   }
 
-  console.log("All SEO HTML pages generated successfully.");
+  console.log("--------------------------------");
+  console.log("SEO HTML generation finished.");
+  console.log(`Generated pages: ${generatedCount}`);
+  console.log(`Skipped pages: ${skippedCount}`);
+  console.log("--------------------------------");
 }
 
 main().catch((error) => {
