@@ -1,3 +1,4 @@
+
 <?php
 // =========================================================
 // STEEL CRAFT PREFAB
@@ -7,8 +8,13 @@
 
 $apiUrl = 'https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/seo';
 $siteUrl = 'https://www.steelcraftprefab.com';
+$ogImage = $siteUrl . '/assets/steel-craft-og-image.jpg';
 
-// Make sure these paths match your React Router paths.
+// =========================================================
+// REACT ROUTES
+// Must match App.jsx exactly
+// =========================================================
+
 $routes = [
     '/' => [
         'page' => 'Home',
@@ -22,21 +28,21 @@ $routes = [
         'page' => 'Home & Cottage',
         'canonical' => $siteUrl . '/homes-cottages',
     ],
-    '/onebhk' => [
+    '/work/1bhk' => [
         'page' => 'One BHK',
-        'canonical' => $siteUrl . '/onebhk',
+        'canonical' => $siteUrl . '/work/1bhk',
     ],
-    '/twobhk' => [
+    '/work/2bhk' => [
         'page' => 'Two BHK',
-        'canonical' => $siteUrl . '/twobhk',
+        'canonical' => $siteUrl . '/work/2bhk',
     ],
-    '/threebhk' => [
+    '/work/3bhk' => [
         'page' => 'Three BHK',
-        'canonical' => $siteUrl . '/threebhk',
+        'canonical' => $siteUrl . '/work/3bhk',
     ],
-    '/fourbhk' => [
+    '/work/4bhk' => [
         'page' => 'Four BHK',
-        'canonical' => $siteUrl . '/fourbhk',
+        'canonical' => $siteUrl . '/work/4bhk',
     ],
     '/contact' => [
         'page' => 'Contact',
@@ -44,10 +50,9 @@ $routes = [
     ],
 ];
 
-
-/* =========================================================
-   HTML HELPERS
-========================================================= */
+// =========================================================
+// HTML ESCAPING
+// =========================================================
 
 function seoEscape($value)
 {
@@ -58,6 +63,9 @@ function seoEscape($value)
     );
 }
 
+// =========================================================
+// SET OR INSERT META TAG
+// =========================================================
 
 function setMetaName(&$html, $name, $content)
 {
@@ -81,6 +89,9 @@ function setMetaName(&$html, $name, $content)
     }
 }
 
+// =========================================================
+// SET OR INSERT PROPERTY META TAG
+// =========================================================
 
 function setMetaProperty(&$html, $property, $content)
 {
@@ -104,13 +115,17 @@ function setMetaProperty(&$html, $property, $content)
     }
 }
 
+// =========================================================
+// SET OR INSERT CANONICAL URL
+// =========================================================
 
 function setCanonical(&$html, $url)
 {
     $tag = '<link rel="canonical" href="' .
         seoEscape($url) . '">';
 
-    $pattern = '~<link\b(?=[^>]*\brel=["\']canonical["\'])[^>]*>~i';
+    $pattern =
+        '~<link\b(?=[^>]*\brel=["\']canonical["\'])[^>]*>~i';
 
     if (preg_match($pattern, $html)) {
         $html = preg_replace($pattern, $tag, $html, 1);
@@ -124,6 +139,9 @@ function setCanonical(&$html, $url)
     }
 }
 
+// =========================================================
+// SET OR INSERT TITLE
+// =========================================================
 
 function setPageTitle(&$html, $title)
 {
@@ -146,6 +164,9 @@ function setPageTitle(&$html, $title)
     }
 }
 
+// =========================================================
+// SET OR INSERT SCHEMA.ORG
+// =========================================================
 
 function setSchema(&$html, $schema)
 {
@@ -187,10 +208,9 @@ function setSchema(&$html, $schema)
     }
 }
 
-
-/* =========================================================
-   DETERMINE REQUESTED PAGE
-========================================================= */
+// =========================================================
+// DETERMINE REQUESTED PAGE
+// =========================================================
 
 $path = parse_url(
     $_SERVER['REQUEST_URI'] ?? '/',
@@ -205,10 +225,9 @@ if ($path !== '/') {
 
 $route = $routes[$path] ?? null;
 
-
-/* =========================================================
-   LOAD BUILT REACT HTML TEMPLATE
-========================================================= */
+// =========================================================
+// LOAD REACT HTML TEMPLATE
+// =========================================================
 
 $htmlFile = __DIR__ . '/index.html';
 
@@ -224,16 +243,14 @@ if ($html === false) {
     exit('Unable to load website HTML.');
 }
 
-
-/* =========================================================
-   FETCH SEO DATA FROM ADMIN DASHBOARD API
-========================================================= */
+// =========================================================
+// FETCH SEO DATA FROM AWS LAMBDA
+// =========================================================
 
 if ($route !== null) {
-
     $context = stream_context_create([
         'http' => [
-            'timeout' => 8,
+            'timeout' => 10,
             'ignore_errors' => true,
             'header' => "Accept: application/json\r\n",
         ],
@@ -245,13 +262,13 @@ if ($route !== null) {
         $context
     );
 
-    $decoded = is_string($response)
-        ? json_decode($response, true)
-        : null;
+    if ($response === false) {
+        error_log('Steel Craft SEO API request failed.');
+        http_response_code(502);
+        exit('Unable to retrieve SEO data.');
+    }
 
-    // Lambda may return either:
-    // 1. { "items": [...] }
-    // 2. [ {...}, {...} ]
+    $decoded = json_decode($response, true);
 
     if (
         is_array($decoded) &&
@@ -259,17 +276,15 @@ if ($route !== null) {
         is_array($decoded['items'])
     ) {
         $items = $decoded['items'];
-    } elseif (is_array($decoded)) {
+    } elseif (is_array($decoded) && array_is_list($decoded)) {
         $items = $decoded;
     } else {
-        $items = [];
-
-        error_log(
-            'Steel Craft SEO API returned an invalid response.'
-        );
+        error_log('Steel Craft SEO API returned invalid JSON data.');
+        http_response_code(502);
+        exit('Invalid SEO API response.');
     }
 
-    // Find the SEO record for the requested page.
+    // Find the exact Admin Dashboard record.
     $seoItem = null;
 
     foreach ($items as $item) {
@@ -285,70 +300,69 @@ if ($route !== null) {
         }
     }
 
+    if ($seoItem === null) {
+        error_log(
+            'SEO record not found for page: ' . $route['page']
+        );
 
-    /* =====================================================
-       SEO VALUES FROM ADMIN DASHBOARD ONLY
-    ===================================================== */
+        http_response_code(500);
+        exit('SEO record not found. Check the SEO Admin Dashboard.');
+    }
 
-    $title = trim(
-        (string) ($seoItem['metaTitle'] ?? '')
-    );
+    // =====================================================
+    // SEO DATA FROM ADMIN DASHBOARD
+    // =====================================================
 
-    $description = trim(
-        (string) ($seoItem['description'] ?? '')
-    );
+    $title = trim((string) ($seoItem['metaTitle'] ?? ''));
+    $description = trim((string) ($seoItem['description'] ?? ''));
+    $keywords = trim((string) ($seoItem['keywords'] ?? ''));
+    $altText = trim((string) ($seoItem['altText'] ?? ''));
 
-    $keywords = trim(
-        (string) ($seoItem['keywords'] ?? '')
-    );
+    if ($title === '' || $description === '') {
+        error_log(
+            'SEO title or description is empty for: ' .
+            $route['page']
+        );
 
-    $altText = trim(
-        (string) ($seoItem['altText'] ?? '')
-    );
+        http_response_code(500);
+        exit('SEO title or description is missing in the dashboard.');
+    }
 
-
-    /* =====================================================
-       CANONICAL URL
-    ===================================================== */
-
-    // Use the fixed canonical URL for the requested route.
-    // SEO title, description, keywords and alt text come
-    // from the Admin Dashboard.
-
+    // Use the canonical URL belonging to the requested route.
     $canonical = $route['canonical'];
 
-
-    /* =====================================================
-       STANDARD SEO METADATA
-    ===================================================== */
+    // =====================================================
+    // STANDARD SEO TAGS
+    // =====================================================
 
     setPageTitle($html, $title);
+    setMetaName($html, 'description', $description);
+    setMetaName($html, 'keywords', $keywords);
+    setCanonical($html, $canonical);
 
-    setMetaName(
-        $html,
-        'description',
-        $description
-    );
+    // =====================================================
+    // OPEN GRAPH AND TWITTER TAGS
+    // =====================================================
 
-    setMetaName(
-        $html,
-        'keywords',
-        $keywords
-    );
-
-    setCanonical(
-        $html,
-        $canonical
-    );
-
-
-    /* =====================================================
-       OPEN GRAPH AND TWITTER METADATA
-    ===================================================== */
-
-    // Replace this with the real, publicly accessible
-    // image URL if your website uses a different image.
-    $ogImage = $siteUrl . '/assets/steel-craft-og-image.jpg';
+    $socialTags = [
+        '<meta property="og:title" content="' .
+            seoEscape($title) . '">',
+        '<meta property="og:description" content="' .
+            seoEscape($description) . '">',
+        '<meta property="og:type" content="website">',
+        '<meta property="og:url" content="' .
+            seoEscape($canonical) . '">',
+        '<meta property="og:site_name" content="Steel Craft Prefab">',
+        '<meta property="og:image" content="' .
+            seoEscape($ogImage) . '">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        '<meta name="twitter:title" content="' .
+            seoEscape($title) . '">',
+        '<meta name="twitter:description" content="' .
+            seoEscape($description) . '">',
+        '<meta name="twitter:image" content="' .
+            seoEscape($ogImage) . '">',
+    ];
 
     // Remove existing Open Graph tags.
     $html = preg_replace(
@@ -364,29 +378,6 @@ if ($route !== null) {
         $html
     );
 
-    $socialTags = [
-        '<!-- Open Graph -->',
-        '<meta property="og:title" content="' .
-            seoEscape($title) . '">',
-        '<meta property="og:description" content="' .
-            seoEscape($description) . '">',
-        '<meta property="og:type" content="website">',
-        '<meta property="og:url" content="' .
-            seoEscape($canonical) . '">',
-        '<meta property="og:site_name" content="Steel Craft Prefab">',
-        '<meta property="og:image" content="' .
-            seoEscape($ogImage) . '">',
-
-        '<!-- Twitter -->',
-        '<meta name="twitter:card" content="summary_large_image">',
-        '<meta name="twitter:title" content="' .
-            seoEscape($title) . '">',
-        '<meta name="twitter:description" content="' .
-            seoEscape($description) . '">',
-        '<meta name="twitter:image" content="' .
-            seoEscape($ogImage) . '">',
-    ];
-
     $html = preg_replace(
         '~</head>~i',
         implode("\n    ", $socialTags) . "\n</head>",
@@ -394,17 +385,13 @@ if ($route !== null) {
         1
     );
 
+    // =====================================================
+    // ALT TEXT DATA ATTRIBUTE
+    // =====================================================
 
-    /* =====================================================
-       ALT TEXT FROM ADMIN DASHBOARD
-    ===================================================== */
-
-    // This exposes the saved alt text as an HTML attribute.
-    // It does not automatically change the alt attributes
-    // of individual images rendered by React.
-
+    // This attribute exposes the saved value.
+    // React image alt attributes must be updated separately.
     if (preg_match('~<html\b[^>]*>~i', $html)) {
-
         if (
             preg_match(
                 '~\sdata-seo-alt-text=["\'][^"\']*["\']~i',
@@ -429,10 +416,9 @@ if ($route !== null) {
         }
     }
 
-
-    /* =====================================================
-       SCHEMA.ORG SHARED ENTITIES
-    ===================================================== */
+    // =====================================================
+    // SCHEMA.ORG
+    // =====================================================
 
     $organization = [
         '@type' => 'Organization',
@@ -443,17 +429,6 @@ if ($route !== null) {
             '@type' => 'ImageObject',
             'url' => $siteUrl .
                 '/assets/Steel%20Kraft%20Logo--o4TBwkp.png',
-        ],
-    ];
-
-    $localBusiness = [
-        '@type' => 'LocalBusiness',
-        '@id' => $siteUrl . '/#localbusiness',
-        'name' => 'Steel Craft Prefab',
-        'url' => $siteUrl . '/',
-        'image' => $ogImage,
-        'parentOrganization' => [
-            '@id' => $siteUrl . '/#organization',
         ],
     ];
 
@@ -468,17 +443,18 @@ if ($route !== null) {
         'inLanguage' => 'en-IN',
     ];
 
-
-    /* =====================================================
-       PAGE-SPECIFIC SCHEMA
-    ===================================================== */
+    $localBusiness = [
+        '@type' => 'LocalBusiness',
+        '@id' => $siteUrl . '/#localbusiness',
+        'name' => 'Steel Craft Prefab',
+        'url' => $siteUrl . '/',
+        'image' => $ogImage,
+        'parentOrganization' => [
+            '@id' => $siteUrl . '/#organization',
+        ],
+    ];
 
     switch ($route['page']) {
-
-        case 'Home':
-            $pageType = 'WebPage';
-            break;
-
         case 'Project':
         case 'Home & Cottage':
             $pageType = 'CollectionPage';
@@ -488,10 +464,6 @@ if ($route !== null) {
             $pageType = 'ContactPage';
             break;
 
-        case 'One BHK':
-        case 'Two BHK':
-        case 'Three BHK':
-        case 'Four BHK':
         default:
             $pageType = 'WebPage';
             break;
@@ -515,11 +487,6 @@ if ($route !== null) {
         'inLanguage' => 'en-IN',
     ];
 
-
-    /* =====================================================
-       FINAL JSON-LD GRAPH
-    ===================================================== */
-
     $schema = [
         '@context' => 'https://schema.org',
         '@graph' => [
@@ -533,17 +500,13 @@ if ($route !== null) {
     setSchema($html, $schema);
 }
 
-
-/* =========================================================
-   RETURN HTML
-========================================================= */
+// =========================================================
+// RESPONSE HEADERS
+// =========================================================
 
 header('Content-Type: text/html; charset=UTF-8');
-
-header(
-    'Cache-Control: no-store, no-cache, must-revalidate, max-age=0'
-);
-
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Pragma: no-cache');
 
+// Return the HTML document.
 echo $html;

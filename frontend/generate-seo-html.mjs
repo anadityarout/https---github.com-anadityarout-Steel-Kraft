@@ -1,3 +1,4 @@
+
 import fs from "node:fs";
 import path from "node:path";
 
@@ -8,7 +9,7 @@ const DIST_DIR = path.resolve("dist");
 const SITE_URL = "https://www.steelcraftprefab.com";
 const GOOGLE_TAG_ID = "G-MK6E9HDEHC";
 
-// Make sure these routes match your React Router paths.
+// These routes must match App.jsx exactly.
 const PAGES = [
   {
     name: "Home",
@@ -27,23 +28,23 @@ const PAGES = [
   },
   {
     name: "One BHK",
-    route: "/onebhk",
-    output: "onebhk/index.html",
+    route: "/work/1bhk",
+    output: "work/1bhk/index.html",
   },
   {
     name: "Two BHK",
-    route: "/twobhk",
-    output: "twobhk/index.html",
+    route: "/work/2bhk",
+    output: "work/2bhk/index.html",
   },
   {
     name: "Three BHK",
-    route: "/threebhk",
-    output: "threebhk/index.html",
+    route: "/work/3bhk",
+    output: "work/3bhk/index.html",
   },
   {
     name: "Four BHK",
-    route: "/fourbhk",
-    output: "fourbhk/index.html",
+    route: "/work/4bhk",
+    output: "work/4bhk/index.html",
   },
   {
     name: "Contact",
@@ -52,10 +53,9 @@ const PAGES = [
   },
 ];
 
-
-/* =========================================================
-   HTML ESCAPING
-========================================================= */
+// =====================================================
+// HTML ESCAPING
+// =====================================================
 
 function escapeHTML(value = "") {
   return String(value).replace(/[&<>"']/g, (char) => {
@@ -71,16 +71,14 @@ function escapeHTML(value = "") {
   });
 }
 
-
-/* =========================================================
-   UPDATE OR INSERT META TAG
-========================================================= */
+// =====================================================
+// SET OR INSERT META TAG
+// =====================================================
 
 function setMeta(html, name, content) {
   const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  const tag =
-    `<meta name="${name}" content="${escapeHTML(content)}">`;
+  const tag = `<meta name="${name}" content="${escapeHTML(content)}">`;
 
   const regex = new RegExp(
     `<meta\\b(?=[^>]*\\bname=["']${escapedName}["'])[^>]*\\/?>`,
@@ -98,10 +96,9 @@ function setMeta(html, name, content) {
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
 
-
-/* =========================================================
-   UPDATE OR INSERT PROPERTY META TAG
-========================================================= */
+// =====================================================
+// SET OR INSERT PROPERTY META TAG
+// =====================================================
 
 function setMetaProperty(html, property, content) {
   const escapedProperty = property.replace(
@@ -128,14 +125,12 @@ function setMetaProperty(html, property, content) {
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
 
-
-/* =========================================================
-   UPDATE OR INSERT CANONICAL URL
-========================================================= */
+// =====================================================
+// SET OR INSERT CANONICAL URL
+// =====================================================
 
 function setCanonical(html, url) {
-  const tag =
-    `<link rel="canonical" href="${escapeHTML(url)}">`;
+  const tag = `<link rel="canonical" href="${escapeHTML(url)}">`;
 
   const regex =
     /<link\b(?=[^>]*\brel=["']canonical["'])[^>]*\/?>/i;
@@ -151,10 +146,9 @@ function setCanonical(html, url) {
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
 
-
-/* =========================================================
-   UPDATE OR INSERT PAGE TITLE
-========================================================= */
+// =====================================================
+// SET OR INSERT PAGE TITLE
+// =====================================================
 
 function setTitle(html, title) {
   const tag = `<title>${escapeHTML(title)}</title>`;
@@ -171,46 +165,32 @@ function setTitle(html, title) {
   return html.replace("</head>", `  ${tag}\n</head>`);
 }
 
-
-/* =========================================================
-   GOOGLE ANALYTICS
-========================================================= */
+// =====================================================
+// GOOGLE ANALYTICS
+// =====================================================
 
 function addGoogleTag(html) {
-  const loaderPattern =
-    /<script\b[^>]*src=["']https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"']+["'][^>]*>\s*<\/script>/i;
-
-  const configPattern = new RegExp(
-    `gtag\\(\\s*['"]config['"]\\s*,\\s*['"]${GOOGLE_TAG_ID}['"]\\s*\\)`
-  );
-
-  const loaderExists = loaderPattern.test(html);
-  const configExists = configPattern.test(html);
-
-  // Correct loader and configuration are already present.
-  if (loaderExists && configExists) {
-    return html;
-  }
-
-  // Loader exists, but our measurement ID is not configured.
-  if (loaderExists && !configExists) {
-    const configScript = `
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${GOOGLE_TAG_ID}');
-    </script>`;
-
-    return html.replace("</head>", `${configScript}\n</head>`);
-  }
-
-  // Remove a previously generated Google Analytics block
-  // before installing the correct measurement ID.
+  // Remove existing gtag.js loaders and inline Google tag blocks.
+  // Then insert exactly one configuration for this measurement ID.
   html = html.replace(
-    /<!-- Google tag \(gtag\.js\) -->[\s\S]*?<\/script>\s*<\/script>/i,
+    /<script\b(?=[^>]*\bsrc=["']https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"']+["'])[^>]*>\s*<\/script>/gi,
     ""
   );
+
+  html = html.replace(
+    /<!-- Google tag \(gtag\.js\) -->[\s\S]*?<\/script>/gi,
+    ""
+  );
+
+  // Remove an existing inline gtag configuration to avoid duplicates.
+  html = html.replace(
+    /<script\b[^>]*>[\s\S]*?gtag\(\s*['"]config['"]\s*,[\s\S]*?<\/script>/gi,
+    ""
+  );
+
+  if (!html.includes("</head>")) {
+    throw new Error("Cannot add Google Analytics: </head> not found.");
+  }
 
   const googleTag = `
     <!-- Google tag (gtag.js) -->
@@ -223,17 +203,12 @@ function addGoogleTag(html) {
     </script>
   `;
 
-  if (!html.includes("</head>")) {
-    throw new Error("Cannot add Google Analytics: </head> not found.");
-  }
-
   return html.replace("</head>", `${googleTag}\n</head>`);
 }
 
-
-/* =========================================================
-   SCHEMA.ORG
-========================================================= */
+// =====================================================
+// SCHEMA.ORG
+// =====================================================
 
 function setSchema(html, schema) {
   const json = JSON.stringify(schema, null, 2);
@@ -258,10 +233,9 @@ ${json}
   return html.replace("</head>", `${tag}\n</head>`);
 }
 
-
-/* =========================================================
-   FETCH SEO DATA
-========================================================= */
+// =====================================================
+// FETCH SEO DATA FROM AWS LAMBDA
+// =====================================================
 
 async function fetchSeoItems() {
   console.log("Fetching SEO data from AWS Lambda...");
@@ -270,6 +244,7 @@ async function fetchSeoItems() {
     headers: {
       Accept: "application/json",
     },
+    cache: "no-store",
   });
 
   if (!response.ok) {
@@ -278,7 +253,7 @@ async function fetchSeoItems() {
 
   const result = await response.json();
 
-  // Supports either a direct array or { items: [...] }.
+  // Support a direct array or an object containing items.
   const seoItems = Array.isArray(result)
     ? result
     : Array.isArray(result?.items)
@@ -289,76 +264,93 @@ async function fetchSeoItems() {
     throw new Error("SEO API returned an invalid data format.");
   }
 
+  console.log(
+    "Page names returned by API:",
+    seoItems.map((item) => item?.page)
+  );
+
   return seoItems;
 }
 
+// =====================================================
+// VALIDATE CANONICAL URL
+// =====================================================
 
-/* =========================================================
-   GENERATE PAGE HTML
-========================================================= */
+function getCanonicalUrl(seo, page) {
+  const fallbackCanonical = `${SITE_URL}${page.route}`;
+
+  const value = String(seo?.canonicalUrl ?? "").trim();
+
+  if (!value) {
+    return fallbackCanonical;
+  }
+
+  try {
+    const parsed = new URL(value);
+
+    const validHost = [
+      "www.steelcraftprefab.com",
+      "steelcraftprefab.com",
+    ].includes(parsed.hostname.toLowerCase());
+
+    if (
+      parsed.protocol !== "https:" ||
+      !validHost ||
+      parsed.pathname.replace(/\/+$/, "") !==
+        page.route.replace(/\/+$/, "")
+    ) {
+      console.warn(
+        `Invalid canonical URL for "${page.name}". Using ${fallbackCanonical}`
+      );
+
+      return fallbackCanonical;
+    }
+
+    return parsed.href;
+  } catch {
+    console.warn(
+      `Invalid canonical URL for "${page.name}". Using ${fallbackCanonical}`
+    );
+
+    return fallbackCanonical;
+  }
+}
+
+// =====================================================
+// GENERATE PAGE HTML
+// =====================================================
 
 function generatePageHTML(template, page, seo) {
   let html = template;
 
-  // SEO fields are sourced from the Admin Dashboard.
   const title = String(seo?.metaTitle ?? "").trim();
   const description = String(seo?.description ?? "").trim();
   const keywords = String(seo?.keywords ?? "").trim();
   const altText = String(seo?.altText ?? "").trim();
 
-  if (!seo) {
-    console.warn(
-      `Warning: No SEO record found for "${page.name}".`
-    );
-  }
-
   if (!title) {
-    console.warn(
-      `Warning: SEO title is empty for "${page.name}".`
+    throw new Error(
+      `SEO title is missing for "${page.name}". Add it in SEO Admin.`
     );
   }
 
   if (!description) {
-    console.warn(
-      `Warning: SEO description is empty for "${page.name}".`
+    throw new Error(
+      `SEO description is missing for "${page.name}". Add it in SEO Admin.`
     );
   }
 
-  // Prefer the canonical URL saved in the Admin Dashboard.
-  // Otherwise use the route's canonical URL.
-  const fallbackCanonical =
-    `${SITE_URL}${page.route === "/" ? "/" : page.route}`;
+  const canonical = getCanonicalUrl(seo, page);
+  const ogImage = `${SITE_URL}/assets/steel-craft-og-image.jpg`;
 
-  let canonical = String(seo?.canonicalUrl ?? "").trim();
-
-  // Accept only HTTPS URLs belonging to this website.
-  try {
-    const parsedCanonical = new URL(canonical);
-
-    const validHost = [
-      "www.steelcraftprefab.com",
-      "steelcraftprefab.com",
-    ].includes(parsedCanonical.hostname.toLowerCase());
-
-    if (
-      parsedCanonical.protocol !== "https:" ||
-      !validHost
-    ) {
-      canonical = fallbackCanonical;
-    }
-  } catch {
-    canonical = fallbackCanonical;
-  }
-
-  // Apply standard SEO metadata.
+  // Standard SEO metadata.
   html = setTitle(html, title);
   html = setMeta(html, "description", description);
   html = setMeta(html, "keywords", keywords);
   html = setCanonical(html, canonical);
 
-  // Expose the saved alt-text setting in the HTML.
-  // React image alt attributes must still be updated in React
-  // if you want this value to change individual image alt text.
+  // Store the Admin Dashboard alt text on the HTML element.
+  // This does not automatically change individual React image alt attributes.
   if (/<html\b[^>]*>/i.test(html)) {
     if (/data-seo-alt-text=["'][^"']*["']/i.test(html)) {
       html = html.replace(
@@ -379,10 +371,6 @@ function generatePageHTML(template, page, seo) {
   html = setMetaProperty(html, "og:type", "website");
   html = setMetaProperty(html, "og:url", canonical);
   html = setMetaProperty(html, "og:site_name", "Steel Craft Prefab");
-
-  // Replace this with your actual public social-sharing image URL.
-  const ogImage = `${SITE_URL}/assets/steel-craft-og-image.jpg`;
-
   html = setMetaProperty(html, "og:image", ogImage);
 
   // Twitter metadata.
@@ -391,7 +379,7 @@ function generatePageHTML(template, page, seo) {
   html = setMeta(html, "twitter:description", description);
   html = setMeta(html, "twitter:image", ogImage);
 
-  // Shared Schema.org entities.
+  // Organization and website schema.
   const organization = {
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
@@ -438,23 +426,18 @@ function generatePageHTML(template, page, seo) {
 
   html = setSchema(html, {
     "@context": "https://schema.org",
-    "@graph": [
-      organization,
-      website,
-      pageSchema,
-    ],
+    "@graph": [organization, website, pageSchema],
   });
 
-  // Keep Google Analytics in every generated page.
+  // Google Analytics.
   html = addGoogleTag(html);
 
   return html;
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
+// =====================================================
+// MAIN
+// =====================================================
 
 async function main() {
   const templatePath = path.join(DIST_DIR, "index.html");
@@ -479,8 +462,15 @@ async function main() {
     const seo = seoItems.find(
       (item) =>
         String(item?.page ?? "").trim().toLowerCase() ===
-        page.name.toLowerCase()
+        page.name.trim().toLowerCase()
     );
+
+    if (!seo) {
+      throw new Error(
+        `SEO record not found for "${page.name}". ` +
+        "Check the page name in the SEO Admin Dashboard."
+      );
+    }
 
     const html = generatePageHTML(template, page, seo);
     const outputPath = path.join(DIST_DIR, page.output);
@@ -492,14 +482,15 @@ async function main() {
     fs.writeFileSync(outputPath, html, "utf8");
 
     console.log(`Generated: ${page.output}`);
-    console.log(`SEO record: ${seo ? "Found" : "Missing"}`);
-    console.log(`Google Analytics: ${GOOGLE_TAG_ID}`);
+    console.log(`SEO page: ${page.name}`);
+    console.log(`SEO title: ${seo.metaTitle}`);
+    console.log(`Canonical: ${getCanonicalUrl(seo, page)}`);
   }
 
-  console.log("SEO HTML generation completed.");
+  console.log("All SEO HTML pages generated successfully.");
 }
 
 main().catch((error) => {
-  console.error("SEO HTML generation failed:", error);
+  console.error("SEO HTML generation failed:", error.message);
   process.exitCode = 1;
 });
