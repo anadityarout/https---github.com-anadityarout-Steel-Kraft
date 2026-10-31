@@ -237,8 +237,9 @@ function setTitle(html, title) {
 // (This assumes the app uses createRoot, not hydrateRoot.)
 // =====================================================
 
-function injectH1(html, text) {
+function injectH1(html, text, subtitle = "") {
   const heading = String(text ?? "").trim();
+  const sub = String(subtitle ?? "").trim();
 
   if (!heading) {
     throw new Error("Cannot add <h1>: heading text is empty.");
@@ -255,8 +256,13 @@ function injectH1(html, text) {
   const h1 =
     `<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">${escapeHTML(heading)}</h1>`;
 
+  // Subtitle becomes a static <h2> (same text the visitor sees).
+  const h2 = sub
+    ? `<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">${escapeHTML(sub)}</h2>`
+    : "";
+
   return html.replace(rootRegex, (match) =>
-    match.replace(/<\/div>\s*$/i, `${h1}</div>`)
+    match.replace(/<\/div>\s*$/i, `${h1}${h2}</div>`)
   );
 }
 
@@ -397,20 +403,21 @@ async function fetchHomeHeading() {
     const data = await response.json();
 
     if (!Array.isArray(data) || data.length === 0) {
-      return HOME_FALLBACK_H1;
+      return { h1: HOME_FALLBACK_H1, h2: "" };
     }
 
     const latest = data[data.length - 1];
     const name = String(latest?.name ?? "").trim();
+    const subtitle = String(latest?.subtitle ?? "").trim();
 
-    return name || HOME_FALLBACK_H1;
+    return { h1: name || HOME_FALLBACK_H1, h2: subtitle };
   } catch (error) {
     console.error(
       "Could not fetch home heading. Using fallback:",
       error.message
     );
 
-    return HOME_FALLBACK_H1;
+    return { h1: HOME_FALLBACK_H1, h2: "" };
   }
 }
 
@@ -572,7 +579,7 @@ function generatePageHTML(template, page, seo = {}) {
   });
 
   // Static <h1> for crawlers that do not run JavaScript.
-  html = injectH1(html, page.h1);
+  html = injectH1(html, page.h1, page.h2);
 
   // Preserve Google Analytics.
   html = addGoogleTag(html);
@@ -609,7 +616,8 @@ async function main() {
   const homePage = PAGES.find((page) => page.route === "/");
 
   if (homePage) {
-    homePage.h1 = homeHeading;
+    homePage.h1 = homeHeading.h1;
+    homePage.h2 = homeHeading.h2;
   }
 
   let generatedCount = 0;
@@ -647,6 +655,7 @@ async function main() {
 
       console.log(`File: ${page.output}`);
       console.log(`H1: ${page.h1}`);
+      if (page.h2) console.log(`H2: ${page.h2}`);
       generatedCount++;
     } catch (error) {
       console.error(
