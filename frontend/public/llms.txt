@@ -1,0 +1,23 @@
+# Steel Craft Prefab
+
+> Steel Craft designs and builds steel-framed prefab homes, modular villas and resort cottages, factory-finished and delivered across India.
+
+Steel Craft Prefab builds steel-framed structures in the factory while the plot is prepared, which shortens build time. Layouts, glazing and finishes can be customised. Typical uses are homes, farmhouses, villas and resort cottages.
+
+## Main pages
+
+- [Home](https://www.steelcraftprefab.com/): Overview of Steel Craft prefab homes, modular technology and services
+- [Projects](https://www.steelcraftprefab.com/projects): Completed prefab homes, villas and cottage projects
+- [Homes & Cottages](https://www.steelcraftprefab.com/homes-cottages): Prefab home and resort cottage range
+- [Contact](https://www.steelcraftprefab.com/contact): Request a quote or free consultation
+
+## Home designs
+
+- [1 BHK](https://www.steelcraftprefab.com/work/1bhk): One-bedroom prefab home designs
+- [2 BHK](https://www.steelcraftprefab.com/work/2bhk): Two-bedroom prefab home designs
+- [3 BHK](https://www.steelcraftprefab.com/work/3bhk): Three-bedroom prefab home designs
+- [4 BHK](https://www.steelcraftprefab.com/work/4bhk): Four-bedroom prefab home designs
+
+## Optional
+
+- [Sitemap](https://www.steelcraftprefab.com/sitemap.xml): List of all public pages

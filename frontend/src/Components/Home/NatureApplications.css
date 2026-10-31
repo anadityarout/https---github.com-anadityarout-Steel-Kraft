@@ -1,4 +1,11 @@
 /* =========================================================
+   GOOGLE FONTS  (Inter for body, Lora for headings)
+========================================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap");
+
+
+/* =========================================================
    NATURE APPLICATIONS SECTION
 ========================================================= */
 
@@ -304,7 +311,7 @@
 
 
 /* =========================================================
-   APPLICATION HEADING
+   APPLICATION HEADING  (bold Lora, same as other sections)
 ========================================================= */
 
 .nature-applications > h2 {
@@ -312,16 +319,15 @@
 
   color: #171717;
 
-  font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
+  font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
 
-  font-size: 25px;
+  font-size: clamp(22px, 2.6vw, 32px);
 
-  font-weight: 600;
+  font-weight: 700;
 
-  line-height: 1;
+  line-height: 1.2;
+
+  letter-spacing: -0.3px;
 
   text-align: center;
 }
@@ -626,11 +632,6 @@
   }
 
 
-  .nature-applications > h2 {
-    font-size: 22px;
-  }
-
-
   .nature-quote blockquote {
     font-size: 19px;
   }
@@ -787,8 +788,6 @@
 
   .nature-applications > h2 {
     margin-bottom: 26px;
-
-    font-size: 24px;
   }
 
 
@@ -905,11 +904,6 @@
   }
 
 
-  .nature-applications > h2 {
-    font-size: 21px;
-  }
-
-
   .nature-application-grid {
     gap: 18px 8px;
   }
@@ -967,11 +961,6 @@
 
   .nature-visual-content p {
     font-size: 10px;
-  }
-
-
-  .nature-applications > h2 {
-    font-size: 19px;
   }
 
 

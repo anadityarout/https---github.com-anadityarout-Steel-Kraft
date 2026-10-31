@@ -1,7 +1,8 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
 
 /* =========================================================
-   FASTER BY DESIGN SECTION  (same system as Range.css)
+   FASTER BY DESIGN SECTION
 ========================================================= */
 
 .fb-section {
@@ -13,17 +14,13 @@
   --fb-line: #dbe6ef;
 
   position: relative;
-
   width: 100%;
-
   padding: 84px 0 96px;
-
   overflow: hidden;
 
   background: linear-gradient(180deg, #f4f8fb 0%, #edf3f9 100%);
 
   box-sizing: border-box;
-
   font-family: "Poppins", "Segoe UI", sans-serif;
 }
 
@@ -33,30 +30,29 @@
   box-sizing: border-box;
 }
 
-
 /* =========================================================
-   CONTAINER (always centered on the page)
+   CONTAINER
 ========================================================= */
 
 .fb-container {
   width: min(92%, 1180px);
-
   margin: 0 auto;
 }
 
+/* =========================================================
+   MAIN LAYOUT
+   More width for heading on the left
+========================================================= */
+
 .fb-layout {
   display: grid;
-
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
-
-  gap: 64px;
-
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 36px;
   align-items: center;
 }
 
-
 /* =========================================================
-   TEXT
+   TEXT SECTION
 ========================================================= */
 
 .fb-eyebrow {
@@ -85,31 +81,55 @@
 
   border-radius: 50%;
 
-  background:
-    radial-gradient(circle at 35% 35%, #ffe08f 0%, var(--fb-gold) 70%);
+  background: radial-gradient(
+    circle at 35% 35%,
+    #ffe08f 0%,
+    var(--fb-gold) 70%
+  );
 
   box-shadow: 0 0 10px rgba(245, 185, 66, 0.55);
 }
 
+/* =========================================================
+   H2 HEADING
+   TEXT DIRECTLY INSIDE H2
+   EXACTLY TWO LINES ON DESKTOP
+========================================================= */
+
 .fb-title {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
   margin: 0 0 24px;
 
   color: var(--fb-ink);
 
   font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
-  font-size: clamp(30px, 3.4vw, 46px);
-  font-weight: 600;
+
+  font-size: 42px;
+  font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.4px;
+  letter-spacing: -0.5px;
+
+  text-wrap: initial;
 }
 
-/* three fixed lines on desktop, natural wrapping on smaller screens */
+/* Desktop heading */
 @media (min-width: 901px) {
-
-  .fb-title span {
-    display: block;
+  .fb-title {
+    white-space: nowrap;
   }
 }
+
+.fb-section .fb-title {
+  font-weight: 700;
+}
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
 
 .fb-lead {
   max-width: 27em;
@@ -122,7 +142,6 @@
   font-weight: 400;
   line-height: 1.65;
 }
-
 
 /* =========================================================
    FEATURE LIST
@@ -212,14 +231,15 @@
   line-height: 1.55;
 }
 
-
 /* =========================================================
    SCHEMATIC CARD
 ========================================================= */
 
 .fb-diagram {
-  margin: 0;
+  width: 100%;
+  min-width: 0;
 
+  margin: 0;
   padding: 32px;
 
   border: 1px solid var(--fb-line);
@@ -229,6 +249,10 @@
 
   box-shadow: 0 26px 50px -24px rgba(31, 58, 87, 0.35);
 }
+
+/* =========================================================
+   DIAGRAM LABELS
+========================================================= */
 
 .fb-label {
   display: flex;
@@ -257,8 +281,9 @@
   margin-top: 26px;
 }
 
-
-/* ---------- BLOCKS ---------- */
+/* =========================================================
+   DIAGRAM BLOCKS
+========================================================= */
 
 .fb-block {
   display: flex;
@@ -307,8 +332,9 @@
   text-align: center;
 }
 
-
-/* ---------- CONVENTIONAL ROW ---------- */
+/* =========================================================
+   CONVENTIONAL BUILD ROW
+========================================================= */
 
 .fb-row {
   display: flex;
@@ -319,14 +345,16 @@
   flex: var(--g, 1) 1 0;
 }
 
-
-/* ---------- PREFAB GRID ---------- */
+/* =========================================================
+   PREFAB GRID
+========================================================= */
 
 .fb-prefab {
   display: grid;
 
   grid-template-columns: 2.4fr 1fr 1fr 2.4fr;
   grid-template-rows: 44px 44px;
+
   grid-template-areas:
     "prep assembly finishes time"
     "fact assembly finishes time";
@@ -334,14 +362,29 @@
   gap: 5px 4px;
 }
 
-.fb-a-prep     { grid-area: prep; }
-.fb-a-fact     { grid-area: fact; }
-.fb-a-assembly { grid-area: assembly; }
-.fb-a-finishes { grid-area: finishes; }
-.fb-a-time     { grid-area: time; }
+.fb-a-prep {
+  grid-area: prep;
+}
 
+.fb-a-fact {
+  grid-area: fact;
+}
 
-/* ---------- CAPTION ---------- */
+.fb-a-assembly {
+  grid-area: assembly;
+}
+
+.fb-a-finishes {
+  grid-area: finishes;
+}
+
+.fb-a-time {
+  grid-area: time;
+}
+
+/* =========================================================
+   CAPTION
+========================================================= */
 
 .fb-caption {
   margin: 22px 0 0;
@@ -353,13 +396,11 @@
   line-height: 1.5;
 }
 
-
 /* =========================================================
    LARGE DESKTOP
 ========================================================= */
 
 @media (min-width: 1500px) {
-
   .fb-section {
     padding: 100px 0 112px;
   }
@@ -367,52 +408,63 @@
   .fb-container {
     width: min(88%, 1280px);
   }
-}
 
+  .fb-layout {
+    gap: 44px;
+  }
+
+  .fb-title {
+    font-size: 46px;
+  }
+}
 
 /* =========================================================
    LAPTOP
 ========================================================= */
 
-@media (max-width: 1100px) {
-
+@media (max-width: 1100px) and (min-width: 901px) {
   .fb-section {
     padding: 72px 0 80px;
   }
 
   .fb-layout {
-    gap: 40px;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .fb-title {
+    font-size: 38px;
   }
 
   .fb-diagram {
-    padding: 26px;
+    padding: 24px;
   }
 
   .fb-block {
-    padding: 8px 10px;
-
-    font-size: 12.5px;
+    padding: 8px 9px;
+    font-size: 12px;
   }
 
   .fb-feature {
-    padding: 14px 14px;
+    padding: 14px;
+  }
+
+  .fb-feature p {
+    font-size: 14.5px;
   }
 }
 
-
 /* =========================================================
-   TABLET (stacked, everything centered like Range.css)
+   TABLET
 ========================================================= */
 
 @media (max-width: 900px) {
-
   .fb-section {
     padding: 64px 0 72px;
   }
 
   .fb-layout {
     grid-template-columns: minmax(0, 1fr);
-
     gap: 44px;
   }
 
@@ -425,11 +477,17 @@
   }
 
   .fb-title {
-    max-width: 11em;
+    display: block;
 
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    max-width: 100%;
 
+    margin: 0 auto 24px;
+
+    font-size: 40px;
+    line-height: 1.15;
+
+    white-space: normal;
     text-wrap: balance;
   }
 
@@ -456,13 +514,11 @@
   }
 }
 
-
 /* =========================================================
    MOBILE
 ========================================================= */
 
 @media (max-width: 640px) {
-
   .fb-section {
     padding: 52px 0 60px;
   }
@@ -477,7 +533,6 @@
 
   .fb-eyebrow {
     margin-bottom: 14px;
-
     letter-spacing: 2px;
   }
 
@@ -486,6 +541,8 @@
 
     font-size: 28px;
     line-height: 1.2;
+
+    white-space: normal;
   }
 
   .fb-lead {
@@ -501,14 +558,12 @@
 
   .fb-feature {
     gap: 14px;
-
     padding: 14px 12px;
   }
 
   .fb-feature-icon {
     width: 40px;
     height: 40px;
-
     font-size: 18px;
   }
 
@@ -522,7 +577,6 @@
 
   .fb-diagram {
     padding: 22px 16px 20px;
-
     border-radius: 24px;
   }
 
@@ -536,11 +590,10 @@
 
   .fb-block {
     min-height: 42px;
-
     font-size: 12.5px;
   }
 
-  /* conventional blocks wrap: 2 per row, last one full width */
+  /* Conventional blocks */
   .fb-row {
     flex-wrap: wrap;
   }
@@ -549,11 +602,12 @@
     flex: 1 1 calc(50% - 4px);
   }
 
-  /* prefab blocks stack so every label stays readable */
+  /* Prefab blocks */
   .fb-prefab {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: none;
     grid-auto-rows: minmax(42px, auto);
+
     grid-template-areas:
       "prep prep"
       "fact fact"
@@ -572,18 +626,15 @@
 
   .fb-caption {
     margin-top: 18px;
-
     font-size: 12px;
   }
 }
-
 
 /* =========================================================
    VERY SMALL PHONES
 ========================================================= */
 
 @media (max-width: 360px) {
-
   .fb-title {
     font-size: 25px;
   }
@@ -597,13 +648,11 @@
   }
 }
 
-
 /* =========================================================
    REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   .fb-feature,
   .fb-feature-icon {
     transition: none;

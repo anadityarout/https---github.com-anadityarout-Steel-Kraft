@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import "./HomeSlider.css";
 import homeImage from "../../assets/home.jpg";
@@ -6,38 +7,35 @@ import home1Image from "../../assets/home1.jpg";
 const BANNER_API_URL =
   "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/homebanner";
 
-/* Banner text is cached for the browser session so clicking "Home"
-   does not show an empty heading while the API loads again. */
 const CACHE_KEY = "steelkraft_home_banner";
 
-/* Empty on purpose: all text comes from the admin dashboard (API). */
+// All banner content comes from Admin Dashboard.
 const DEFAULT_BANNER = {
   name: "",
   subtitle: "",
   description: "",
 };
 
+// Read previously saved banner content.
 function readCachedBanner() {
   try {
     const raw = sessionStorage.getItem(CACHE_KEY);
+
     if (!raw) return DEFAULT_BANNER;
+
     const parsed = JSON.parse(raw);
+
     return {
-      name: parsed.name || DEFAULT_BANNER.name,
-      subtitle: parsed.subtitle || DEFAULT_BANNER.subtitle,
-      description: parsed.description || DEFAULT_BANNER.description,
+      name: parsed.name || "",
+      subtitle: parsed.subtitle || "",
+      description: parsed.description || "",
     };
   } catch {
     return DEFAULT_BANNER;
   }
 }
 
-/* =========================================================
-   SLIDES
-   To add more slides, import another image above and add
-   one more object here. The progress bar, the counter
-   ("01 / 02") and the autoplay all adjust by themselves.
-========================================================= */
+// Banner slides
 const slides = [
   {
     image: homeImage,
@@ -51,8 +49,7 @@ const slides = [
   },
 ];
 
-/* Floating glass chips */
-/* "text" is shown when the chip is hovered (desktop) or tapped (mobile) */
+// Floating glass chips
 const chips = [
   {
     label: "Faster build",
@@ -76,14 +73,14 @@ const chips = [
   },
 ];
 
-/* Small feature row under the buttons */
+// Feature row
 const features = [
   { label: "Steel-framed", icon: "ruler" },
   { label: "Factory-finished", icon: "factory" },
   { label: "Delivered across India", icon: "truck" },
 ];
 
-/* Bottom scrolling strip */
+// Bottom scrolling strip
 const marqueeItems = [
   "Across India",
   "Prefab Homes",
@@ -94,9 +91,7 @@ const marqueeItems = [
   "Delivered Across India",
 ];
 
-/* =========================================================
-   ICONS (inline SVG, no extra package needed)
-========================================================= */
+// SVG component
 function Svg({ size = 20, fill = "none", children }) {
   return (
     <svg
@@ -116,6 +111,7 @@ function Svg({ size = 20, fill = "none", children }) {
   );
 }
 
+// Icons
 function Icon({ name, size }) {
   switch (name) {
     case "clock":
@@ -125,6 +121,7 @@ function Icon({ name, size }) {
           <polyline points="12 7 12 12 15 14" />
         </Svg>
       );
+
     case "shield":
       return (
         <Svg size={size}>
@@ -132,6 +129,7 @@ function Icon({ name, size }) {
           <polyline points="9 12 11 14 15 10" />
         </Svg>
       );
+
     case "leaf":
       return (
         <Svg size={size}>
@@ -139,6 +137,7 @@ function Icon({ name, size }) {
           <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
         </Svg>
       );
+
     case "layout":
       return (
         <Svg size={size}>
@@ -147,6 +146,7 @@ function Icon({ name, size }) {
           <line x1="9" y1="21" x2="9" y2="9" />
         </Svg>
       );
+
     case "ruler":
       return (
         <Svg size={size}>
@@ -154,6 +154,7 @@ function Icon({ name, size }) {
           <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
         </Svg>
       );
+
     case "factory":
       return (
         <Svg size={size}>
@@ -161,6 +162,7 @@ function Icon({ name, size }) {
           <path d="M4 20V10l5 3V10l5 3V6h6v14" />
         </Svg>
       );
+
     case "truck":
       return (
         <Svg size={size}>
@@ -170,12 +172,14 @@ function Icon({ name, size }) {
           <circle cx="17" cy="18" r="2" />
         </Svg>
       );
+
     case "star":
       return (
         <Svg size={size}>
           <polygon points="12 2 15.1 8.6 22 9.3 16.9 14 18.2 21 12 17.5 5.8 21 7.1 14 2 9.3 8.9 8.6" />
         </Svg>
       );
+
     case "arrow-right":
       return (
         <Svg size={size}>
@@ -183,6 +187,7 @@ function Icon({ name, size }) {
           <polyline points="12 5 19 12 12 19" />
         </Svg>
       );
+
     case "arrow-left":
       return (
         <Svg size={size}>
@@ -190,6 +195,7 @@ function Icon({ name, size }) {
           <polyline points="12 5 5 12 12 19" />
         </Svg>
       );
+
     case "pause":
       return (
         <Svg size={size} fill="currentColor">
@@ -197,41 +203,49 @@ function Icon({ name, size }) {
           <rect x="14" y="5" width="4" height="14" rx="1" />
         </Svg>
       );
+
     case "play":
       return (
         <Svg size={size} fill="currentColor">
           <polygon points="7 4 20 12 7 20" />
         </Svg>
       );
+
     default:
       return null;
   }
 }
 
-/* Splits the heading so the last 3 words get the gold accent */
+// Split heading to preserve the gold accent styling.
 function renderHeading(name) {
   const words = (name || "").trim().split(/\s+/).filter(Boolean);
+
   const normal = words.slice(0, -3).join(" ");
   const accent = words.slice(-3).join(" ");
 
   return (
     <>
       {normal && `${normal} `}
-      <span className="home-slider__heading-accent">{accent}</span>
+      <span className="home-slider__heading-accent">
+        {accent}
+      </span>
     </>
   );
 }
 
-/* =========================================================
-   COMPONENT
-========================================================= */
+// =====================================================
+// HOME SLIDER COMPONENT
+// =====================================================
+
 export default function HomeSlider() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  /* Starts with cached (or default) text, so there is no empty flash */
-  const [bannerContent, setBannerContent] = useState(readCachedBanner);
+  // Load cached banner content initially.
+  const [bannerContent, setBannerContent] =
+    useState(readCachedBanner);
 
+  // Fetch latest banner content from Admin Dashboard.
   useEffect(() => {
     const controller = new AbortController();
 
@@ -239,6 +253,10 @@ export default function HomeSlider() {
       try {
         const response = await fetch(BANNER_API_URL, {
           signal: controller.signal,
+          cache: "no-store",
+          headers: {
+            Accept: "application/json",
+          },
         });
 
         if (!response.ok) {
@@ -247,26 +265,36 @@ export default function HomeSlider() {
 
         const data = await response.json();
 
-        if (!Array.isArray(data) || data.length === 0) return;
+        if (!Array.isArray(data) || data.length === 0) {
+          return;
+        }
 
         const latestBanner = data[data.length - 1];
 
         const next = {
-          name: latestBanner.name || DEFAULT_BANNER.name,
-          subtitle: latestBanner.subtitle || DEFAULT_BANNER.subtitle,
-          description: latestBanner.description || DEFAULT_BANNER.description,
+          name: String(latestBanner.name || "").trim(),
+          subtitle: String(latestBanner.subtitle || "").trim(),
+          description: String(
+            latestBanner.description || ""
+          ).trim(),
         };
 
         setBannerContent(next);
 
         try {
-          sessionStorage.setItem(CACHE_KEY, JSON.stringify(next));
+          sessionStorage.setItem(
+            CACHE_KEY,
+            JSON.stringify(next)
+          );
         } catch {
-          /* storage may be blocked; ignore */
+          // Ignore storage errors.
         }
       } catch (error) {
         if (error.name !== "AbortError") {
-          console.error("Failed to load banner content:", error);
+          console.error(
+            "Failed to load banner content:",
+            error
+          );
         }
       }
     };
@@ -276,44 +304,55 @@ export default function HomeSlider() {
     return () => controller.abort();
   }, []);
 
-  /* Which floating chip is open (index) or null */
+  // Floating chip state.
   const [openChip, setOpenChip] = useState(null);
 
-  /* Tap anywhere outside a chip closes it */
+  // Close chip when clicking outside.
   useEffect(() => {
     if (openChip === null) return undefined;
 
     const closeOnOutside = (e) => {
-      if (!e.target.closest(".home-slider__chip")) setOpenChip(null);
+      if (!e.target.closest(".home-slider__chip")) {
+        setOpenChip(null);
+      }
     };
 
     document.addEventListener("pointerdown", closeOnOutside);
-    return () => document.removeEventListener("pointerdown", closeOnOutside);
+
+    return () => {
+      document.removeEventListener(
+        "pointerdown",
+        closeOnOutside
+      );
+    };
   }, [openChip]);
 
-  /* Mouse: hover opens/closes. Touch: tap toggles. */
+  // Detect hover support.
   const canHover = () =>
     typeof window !== "undefined" &&
     window.matchMedia("(hover: hover)").matches;
 
   const total = slides.length;
 
-  const goToNext = () => setActive((prev) => (prev + 1) % total);
-  const goToPrev = () => setActive((prev) => (prev - 1 + total) % total);
+  const goToNext = () =>
+    setActive((prev) => (prev + 1) % total);
+
+  const goToPrev = () =>
+    setActive((prev) => (prev - 1 + total) % total);
 
   const pad = (n) => String(n).padStart(2, "0");
 
   return (
     <section
-      className={"home-slider" + (paused ? " is-paused" : "")}
+      className={
+        "home-slider" + (paused ? " is-paused" : "")
+      }
       aria-roledescription="carousel"
       aria-label="Steel Kraft featured homes"
     >
       <div className="home-slider__stage">
 
-        {/* =====================================================
-            IMAGES (all stacked, active one fades in)
-        ===================================================== */}
+        {/* SLIDER IMAGES */}
         {slides.map((slide, index) => (
           <img
             key={index}
@@ -325,7 +364,7 @@ export default function HomeSlider() {
             alt={slide.alt}
             decoding="async"
             loading="eager"
-            fetchpriority={index === 0 ? "high" : "low"}
+            fetchPriority={index === 0 ? "high" : "low"}
             aria-hidden={index === active ? undefined : "true"}
           />
         ))}
@@ -333,9 +372,7 @@ export default function HomeSlider() {
         {/* DARK GRADIENT */}
         <div className="home-slider__overlay" />
 
-        {/* =====================================================
-            FLOATING GLASS CHIPS
-        ===================================================== */}
+        {/* FLOATING GLASS CHIPS */}
         <div className="home-slider__floats">
           {chips.map((chip, index) => {
             const isOpen = openChip === index;
@@ -350,22 +387,30 @@ export default function HomeSlider() {
                 }
                 aria-expanded={isOpen}
                 onPointerEnter={(e) =>
-                  e.pointerType === "mouse" && setOpenChip(index)
+                  e.pointerType === "mouse" &&
+                  setOpenChip(index)
                 }
                 onPointerLeave={(e) =>
                   e.pointerType === "mouse" &&
-                  setOpenChip((current) => (current === index ? null : current))
+                  setOpenChip((current) =>
+                    current === index ? null : current
+                  )
                 }
                 onClick={() => {
                   if (!canHover()) {
-                    setOpenChip((current) => (current === index ? null : index));
+                    setOpenChip((current) =>
+                      current === index ? null : index
+                    );
                   }
                 }}
                 onFocus={(e) =>
-                  e.currentTarget.matches(":focus-visible") && setOpenChip(index)
+                  e.currentTarget.matches(":focus-visible") &&
+                  setOpenChip(index)
                 }
                 onBlur={() =>
-                  setOpenChip((current) => (current === index ? null : current))
+                  setOpenChip((current) =>
+                    current === index ? null : current
+                  )
                 }
               >
                 <span className="home-slider__chip-icon">
@@ -373,7 +418,9 @@ export default function HomeSlider() {
                 </span>
 
                 <span className="home-slider__chip-text">
-                  <span className="home-slider__chip-label">{chip.label}</span>
+                  <span className="home-slider__chip-label">
+                    {chip.label}
+                  </span>
 
                   <span className="home-slider__chip-desc">
                     <span className="home-slider__chip-desc-inner">
@@ -386,27 +433,36 @@ export default function HomeSlider() {
           })}
         </div>
 
-        {/* =====================================================
-            CONTENT
-        ===================================================== */}
+        {/* MAIN CONTENT */}
         <div className="home-slider__content">
 
           <div className="home-slider__eyebrow">
             <span className="home-slider__eyebrow-dot" />
-            <span>MODERN | SUSTAINABLE | PREFABRICATED</span>
+            <span>
+              MODERN | SUSTAINABLE | PREFABRICATED
+            </span>
           </div>
 
-          <h1 className="home-slider__heading">
-            {renderHeading(bannerContent.name)}
-          </h1>
+          {/* H1: NAME FROM ADMIN DASHBOARD */}
+          {bannerContent.name && (
+            <h1 className="home-slider__heading">
+              {renderHeading(bannerContent.name)}
+            </h1>
+          )}
 
-          <p className="home-slider__subheading">
-            {bannerContent.subtitle}
-          </p>
+          {/* SUBTITLE FROM ADMIN DASHBOARD */}
+          {bannerContent.subtitle && (
+            <p className="home-slider__subheading">
+              {bannerContent.subtitle}
+            </p>
+          )}
 
-          <p className="home-slider__body">
-            {bannerContent.description}
-          </p>
+          {/* DESCRIPTION FROM ADMIN DASHBOARD */}
+          {bannerContent.description && (
+            <p className="home-slider__body">
+              {bannerContent.description}
+            </p>
+          )}
 
           {/* BUTTONS */}
           <div className="home-slider__actions">
@@ -415,6 +471,7 @@ export default function HomeSlider() {
               className="home-slider__btn home-slider__btn--light"
             >
               <span>Explore Our Designs</span>
+
               <span className="home-slider__btn-arrow">
                 <Icon name="arrow-right" size={16} />
               </span>
@@ -425,6 +482,7 @@ export default function HomeSlider() {
               className="home-slider__btn home-slider__btn--gold"
             >
               <span>Get a Quote</span>
+
               <span className="home-slider__btn-arrow">
                 <Icon name="arrow-right" size={16} />
               </span>
@@ -434,19 +492,22 @@ export default function HomeSlider() {
           {/* FEATURE ROW */}
           <ul className="home-slider__features">
             {features.map((feature) => (
-              <li key={feature.label} className="home-slider__feature">
+              <li
+                key={feature.label}
+                className="home-slider__feature"
+              >
                 <span className="home-slider__feature-icon">
                   <Icon name={feature.icon} size={15} />
                 </span>
+
                 <span>{feature.label}</span>
               </li>
             ))}
           </ul>
 
-          {/* =================================================
-              CONTROLS: prev | progress segments | next | pause
-          ================================================= */}
+          {/* SLIDER CONTROLS */}
           <div className="home-slider__controls">
+
             <button
               type="button"
               className="home-slider__round"
@@ -469,17 +530,26 @@ export default function HomeSlider() {
                   <button
                     key={index}
                     type="button"
-                    className={"home-slider__seg" + state}
+                    className={
+                      "home-slider__seg" + state
+                    }
                     onClick={() => setActive(index)}
                     aria-label={`Go to slide ${index + 1}`}
-                    aria-current={index === active ? "true" : undefined}
+                    aria-current={
+                      index === active ? "true" : undefined
+                    }
                   >
                     <span className="home-slider__seg-track">
-                      {/* key restarts the fill animation on every slide change */}
                       <span
-                        key={index === active ? `a-${active}` : `i-${index}`}
+                        key={
+                          index === active
+                            ? `a-${active}`
+                            : `i-${index}`
+                        }
                         className="home-slider__seg-fill"
-                        onAnimationEnd={index === active ? goToNext : undefined}
+                        onAnimationEnd={
+                          index === active ? goToNext : undefined
+                        }
                       />
                     </span>
                   </button>
@@ -500,36 +570,48 @@ export default function HomeSlider() {
               type="button"
               className="home-slider__round"
               onClick={() => setPaused((p) => !p)}
-              aria-label={paused ? "Play slideshow" : "Pause slideshow"}
+              aria-label={
+                paused ? "Play slideshow" : "Pause slideshow"
+              }
             >
-              <Icon name={paused ? "play" : "pause"} size={14} />
+              <Icon
+                name={paused ? "play" : "pause"}
+                size={14}
+              />
             </button>
           </div>
         </div>
 
-        {/* =====================================================
-            COUNTER + CAPTION
-        ===================================================== */}
+        {/* COUNTER + CAPTION */}
         <div className="home-slider__caption" aria-live="polite">
           <span className="home-slider__caption-count">
             {pad(active + 1)} / {pad(total)}
           </span>
+
           <span className="home-slider__caption-text">
             {slides[active].caption}
           </span>
         </div>
       </div>
 
-      {/* =======================================================
-          BOTTOM SCROLLING STRIP
-      ======================================================= */}
-      <div className="home-slider__marquee" aria-hidden="true">
+      {/* BOTTOM SCROLLING STRIP */}
+      <div
+        className="home-slider__marquee"
+        aria-hidden="true"
+      >
         <div className="home-slider__marquee-track">
           {[0, 1].map((copy) => (
-            <div key={copy} className="home-slider__marquee-group">
+            <div
+              key={copy}
+              className="home-slider__marquee-group"
+            >
               {marqueeItems.map((item) => (
-                <span key={item} className="home-slider__marquee-item">
+                <span
+                  key={item}
+                  className="home-slider__marquee-item"
+                >
                   <span>{item}</span>
+
                   <span className="home-slider__marquee-star">
                     <Icon name="star" size={14} />
                   </span>

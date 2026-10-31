@@ -84,16 +84,21 @@
   box-shadow: 0 0 10px rgba(245, 185, 66, 0.55);
 }
 
+/* same type as the other section titles: Lora, 48px, bold (700) */
 .gl-header h2 {
-  max-width: 18em;
+  max-width: none;
   margin: 0;
   color: var(--gl-ink);
   font-family: "Lora", Georgia, "Times New Roman", serif;
-  font-size: clamp(30px, 4.2vw, 50px);
-  font-weight: 600;
+  font-size: 48px;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.4px;
-  text-wrap: balance;
+}
+
+/* each span is one line, so the title is always two lines */
+.gl-header h2 span {
+  display: block;
 }
 
 .gl-rule {

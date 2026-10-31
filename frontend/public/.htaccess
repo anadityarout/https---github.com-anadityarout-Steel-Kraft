@@ -1,12 +1,52 @@
+# ==========================================
+# SECURITY HEADERS
+# ==========================================
+
+<IfModule mod_headers.c>
+
+    # Prevent MIME type sniffing
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Secure Referrer Policy
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # AI agent discovery files: correct type + open CORS
+    <FilesMatch "^(ard\.json|llms\.txt)$">
+        Header always set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+
+</IfModule>
+
+
+# ==========================================
+# CORRECT JAVASCRIPT MIME TYPE
+# ==========================================
+
+<IfModule mod_mime.c>
+    AddType application/javascript .js
+    AddType application/json .json
+    AddType "text/plain; charset=UTF-8" .txt
+</IfModule>
+
+
+# ==========================================
+# URL REWRITING AND SEO
+# ==========================================
 
 <IfModule mod_rewrite.c>
-  RewriteEngine On
 
-  # Allow existing assets and files, but not index.html.
-  RewriteCond %{REQUEST_URI} !^/index\.html$
-  RewriteCond %{REQUEST_FILENAME} -f
-  RewriteRule ^ - [L]
+    RewriteEngine On
 
-  # Route website pages through PHP for live SEO metadata.
-  RewriteRule ^ seo.php [L,QSA]
+    # Always serve discovery files directly (never route them to seo.php).
+    RewriteRule ^\.well-known/ard\.json$ - [L]
+    RewriteRule ^llms\.txt$ - [L]
+
+    # Allow existing assets and files, but not index.html.
+    RewriteCond %{REQUEST_URI} !^/index\.html$
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # Route website pages through PHP for live SEO metadata.
+    RewriteRule ^ seo.php [L,QSA]
+
 </IfModule>

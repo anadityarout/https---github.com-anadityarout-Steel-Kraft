@@ -204,15 +204,17 @@ const Range = () => {
             <span>HOMES &amp; COTTAGES</span>
           </div>
 
+          {/* Two lines on desktop: each span is one line */}
           <h2 className="sk-range__title">
-            Designs to start from, built around your plot
-          </h2>
+  Explore Prefab Homes,
+  <br />
+  Modular Villas, &amp; Resorts Cottages
+</h2>
 
           <span className="sk-range__rule" />
 
           <p className="sk-range__hint">
-            Every design below can be resized, re-planned and finished to
-            suit you. Pick one as a starting point and we will quote it.
+            Explore customizable prefab homes, villas, and resort cottages designs tailored to your plot and needs.
           </p>
 
         </header>

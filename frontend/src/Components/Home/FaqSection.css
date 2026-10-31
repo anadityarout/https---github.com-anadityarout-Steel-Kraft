@@ -1,10 +1,10 @@
 /* =====================================================
-   FONTS  (same as Gallery / Project sections)
+   FONTS
    Add once in public/index.html <head>:
 
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Playfair+Display:wght@700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
    Every class here starts with "fq-" so it cannot
    clash with other CSS files on your site.
@@ -21,7 +21,7 @@
   --fq-text: #51607a;
   --fq-navy: linear-gradient(135deg, #2c4263 0%, #14233b 100%);
   --fq-line: #d3e0ec;
-  --fq-gap: 16px;
+  --fq-gap: 12px;
 
   position: relative;
   width: 100%;
@@ -83,13 +83,16 @@
   box-shadow: 0 0 10px rgba(245, 185, 66, 0.55);
 }
 
+/* BOLD HEADING
+   Lora tops out at 700. For an even heavier look, swap the
+   font-family to "Playfair Display" and use 800 or 900. */
 .fq-header h2 {
   max-width: 18em;
   margin: 0;
   color: var(--fq-ink);
-  font-family: "Lora", Georgia, "Times New Roman", serif;
+  font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
   font-size: clamp(30px, 4.2vw, 50px);
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.4px;
   text-wrap: balance;
@@ -167,7 +170,7 @@
 .fq-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--fq-gap);
   width: 100%;
   min-width: 0;
 }
@@ -359,6 +362,7 @@
 
   .fq-list {
     max-width: 680px;
+    margin: 0 auto;
   }
 
   .fq-cta {
@@ -372,7 +376,7 @@
 
 @media (max-width: 600px) {
   .fq-section {
-    --fq-gap: 14px;
+    --fq-gap: 10px;
 
     padding: 52px 0 60px;
   }
@@ -407,10 +411,6 @@
   .fq-media {
     border-radius: 18px;
     aspect-ratio: 4 / 3;
-  }
-
-  .fq-list {
-    gap: 10px;
   }
 
   .fq-item,

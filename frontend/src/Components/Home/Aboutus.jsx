@@ -170,15 +170,11 @@ const Aboutus = () => {
           </div>
 
           <h2 className="aboutus-title">
-            Building more, in less time and with less waste
+            Innovative Prefabricated Construction Solutions
           </h2>
 
           <p className="aboutus-description">
-            Steel Craft designs and delivers prefabricated homes, modular
-            villas and hospitality cottages across India. Frames and panels
-            are made in a controlled factory, then assembled on your plot, so
-            the site stays cleaner, the schedule stays shorter and the finish
-            stays consistent.
+            Steel Craft specializes in modern prefabricated construction for residential, commercial, and hospitality projects. From contemporary prefab homes and modular villas to holiday cottages and resort accommodations, we provide customized building solutions that combine quality, functionality, and attractive design. Our approach focuses on efficient installation, durability, and practical space utilization to meet diverse project requirements.
           </p>
 
           <ul className="aboutus-points">

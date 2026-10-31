@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
 
 /* =========================================================
@@ -13,11 +14,8 @@
   --sk-line: #d3e0ec;
 
   position: relative;
-
   width: 100%;
-
   padding: 84px 0 96px;
-
   overflow: hidden;
 
   background:
@@ -29,7 +27,6 @@
     linear-gradient(180deg, #f3f7fb 0%, #e4ecf5 100%);
 
   box-sizing: border-box;
-
   font-family: "Poppins", "Segoe UI", sans-serif;
 }
 
@@ -39,21 +36,22 @@
   box-sizing: border-box;
 }
 
-
 /* =========================================================
-   CONTAINER (always centered on the page)
+   CONTAINER
 ========================================================= */
 
 .sk-range__container {
   width: min(92%, 1180px);
-
   margin: 0 auto;
 }
-
 
 /* =========================================================
    HEADER
 ========================================================= */
+
+.sk-range__header {
+  width: 100%;
+}
 
 .sk-range__eyebrow {
   display: flex;
@@ -63,7 +61,6 @@
   margin: 0 0 18px;
 
   color: var(--sk-ink);
-
   font-size: 12px;
   font-weight: 600;
   line-height: 1;
@@ -73,27 +70,32 @@
 
 .sk-range__eyebrow-dot {
   flex: 0 0 auto;
-
   width: 11px;
   height: 11px;
-
   border-radius: 50%;
 
-  background:
-    radial-gradient(circle at 35% 35%, #ffe08f 0%, var(--sk-gold) 70%);
+  background: radial-gradient(
+    circle at 35% 35%,
+    #ffe08f 0%,
+    var(--sk-gold) 70%
+  );
 
   box-shadow: 0 0 10px rgba(245, 185, 66, 0.55);
 }
 
+/* H2 HEADING - TEXT DIRECTLY INSIDE H2 */
+
 .sk-range__title {
-  max-width: 11em;
+  display: block;
+  width: 100%;
+  max-width: 100%;
 
   margin: 0;
 
   color: var(--sk-ink);
 
   font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
-  font-size: clamp(30px, 3.6vw, 48px);
+  font-size: 48px;
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.4px;
@@ -110,7 +112,6 @@
   margin: 22px 0 18px;
 
   border-radius: 4px;
-
   background: var(--sk-gold-grad);
 }
 
@@ -126,7 +127,6 @@
   line-height: 1.65;
 }
 
-
 /* =========================================================
    FILTER PILLS
 ========================================================= */
@@ -141,7 +141,6 @@
 
 .sk-range__filter {
   height: 38px;
-
   padding: 0 20px;
 
   border: 1px solid #cfdbe8;
@@ -152,7 +151,7 @@
 
   font-family: inherit;
   font-size: 14.5px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
 
   cursor: pointer;
@@ -167,13 +166,11 @@
 
 .sk-range__filter:hover {
   border-color: #8aa0bb;
-
   transform: translateY(-1px);
 }
 
 .sk-range__filter.is-active {
   border-color: transparent;
-
   background: var(--sk-navy);
   color: #ffffff;
 
@@ -186,19 +183,15 @@
   outline-offset: 3px;
 }
 
-
 /* =========================================================
    GRID
 ========================================================= */
 
 .sk-range__grid {
   display: grid;
-
   grid-template-columns: repeat(3, minmax(0, 1fr));
-
   gap: 27px;
 }
-
 
 /* =========================================================
    CARD
@@ -209,7 +202,6 @@
   flex-direction: column;
 
   min-width: 0;
-
   overflow: hidden;
 
   border: 1px solid var(--sk-line);
@@ -222,16 +214,13 @@
     box-shadow 0.35s ease,
     border-color 0.35s ease;
 
-  /* backwards (not both) so hover can still lift the card */
   animation: sk-range-in 0.5s ease backwards;
   animation-delay: calc(var(--i, 0) * 70ms);
 }
 
 .sk-range__card:hover {
   border-color: #8ea4c0;
-
   transform: translateY(-5px);
-
   box-shadow: 0 24px 48px rgba(15, 26, 46, 0.18);
 }
 
@@ -247,18 +236,17 @@
   }
 }
 
-
-/* ---------- IMAGE ---------- */
+/* =========================================================
+   IMAGE
+========================================================= */
 
 .sk-range__media {
   position: relative;
-
   width: 100%;
 
   aspect-ratio: 375 / 234;
 
   overflow: hidden;
-
   background: #cfdbe8;
 }
 
@@ -280,12 +268,10 @@
 
 .sk-range__code {
   position: absolute;
-
   top: 12px;
   left: 12px;
 
   padding: 6px 12px;
-
   border-radius: 999px;
 
   background: rgba(15, 26, 46, 0.58);
@@ -305,7 +291,6 @@
 
 .sk-range__type {
   position: absolute;
-
   top: 12px;
   right: 12px;
 
@@ -324,8 +309,9 @@
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
-
-/* ---------- BODY ---------- */
+/* =========================================================
+   CARD BODY
+========================================================= */
 
 .sk-range__body {
   flex: 1 1 auto;
@@ -340,7 +326,6 @@
   align-self: flex-start;
 
   margin: 0 0 14px;
-
   padding: 6px 12px;
 
   border-radius: 999px;
@@ -362,7 +347,7 @@
 
   font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.25;
 }
 
@@ -418,7 +403,6 @@
   transform: translateX(4px);
 }
 
-
 /* =========================================================
    NOTE
 ========================================================= */
@@ -435,13 +419,11 @@
   line-height: 1.6;
 }
 
-
 /* =========================================================
    LARGE DESKTOP
 ========================================================= */
 
 @media (min-width: 1500px) {
-
   .sk-range {
     padding: 100px 0 112px;
   }
@@ -455,15 +437,17 @@
   }
 }
 
-
 /* =========================================================
    LAPTOP
 ========================================================= */
 
 @media (max-width: 1100px) {
-
   .sk-range {
     padding: 72px 0 80px;
+  }
+
+  .sk-range__title {
+    font-size: clamp(34px, 4.5vw, 48px);
   }
 
   .sk-range__grid {
@@ -483,13 +467,11 @@
   }
 }
 
-
 /* =========================================================
-   TABLET (2 columns, header centered)
+   TABLET
 ========================================================= */
 
 @media (max-width: 900px) {
-
   .sk-range {
     padding: 64px 0 72px;
   }
@@ -500,6 +482,10 @@
 
   .sk-range__eyebrow {
     justify-content: center;
+  }
+
+  .sk-range__title {
+    font-size: 40px;
   }
 
   .sk-range__title,
@@ -519,31 +505,26 @@
 
   .sk-range__filters {
     justify-content: center;
-
     margin: 40px 0 26px;
   }
 
   .sk-range__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-
     gap: 22px;
   }
 
   .sk-range__note {
     margin-left: auto;
     margin-right: auto;
-
     text-align: center;
   }
 }
 
-
 /* =========================================================
-   MOBILE (1 column)
+   MOBILE
 ========================================================= */
 
 @media (max-width: 640px) {
-
   .sk-range {
     padding: 52px 0 60px;
   }
@@ -554,7 +535,6 @@
 
   .sk-range__eyebrow {
     margin-bottom: 14px;
-
     font-size: 11px;
     letter-spacing: 2.6px;
   }
@@ -566,7 +546,6 @@
 
   .sk-range__rule {
     width: 52px;
-
     margin: 18px auto 14px;
   }
 
@@ -577,25 +556,19 @@
 
   .sk-range__filters {
     gap: 10px;
-
     margin: 30px 0 22px;
   }
 
   .sk-range__filter {
     height: 36px;
-
     padding: 0 16px;
-
     font-size: 13.5px;
   }
 
   .sk-range__grid {
     grid-template-columns: minmax(0, 1fr);
-
     gap: 20px;
-
     max-width: 480px;
-
     margin: 0 auto;
   }
 
@@ -617,31 +590,26 @@
 
   .sk-range__note {
     margin-top: 24px;
-
     font-size: 12.5px;
   }
 }
-
 
 /* =========================================================
    VERY SMALL PHONES
 ========================================================= */
 
 @media (max-width: 360px) {
-
   .sk-range__title {
     font-size: 25px;
   }
 
   .sk-range__filter {
     padding: 0 13px;
-
     font-size: 13px;
   }
 
   .sk-range__code {
     font-size: 10px;
-
     padding: 5px 10px;
   }
 
@@ -654,13 +622,11 @@
   }
 }
 
-
 /* =========================================================
    REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   .sk-range__card {
     animation: none;
   }

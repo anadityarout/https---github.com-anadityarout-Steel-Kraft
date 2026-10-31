@@ -1,8 +1,8 @@
 /* =====================================================
-   GOOGLE FONT
+   GOOGLE FONTS  (Inter for body, Lora for heading)
 ===================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@500;600;700&display=swap");
 
 
 /* =====================================================
@@ -44,7 +44,7 @@
 
 
 /* =====================================================
-   HEADING
+   HEADING  (bold serif, same style as FAQ heading)
 ===================================================== */
 
 .steel-why-header h2 {
@@ -52,13 +52,13 @@
 
   color: #111111;
 
-  font-family: "Inter", sans-serif;
+  font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
 
-  font-size: 29px;
+  font-size: clamp(26px, 3.6vw, 40px);
   line-height: 1.2;
   font-weight: 700;
 
-  letter-spacing: -0.8px;
+  letter-spacing: -0.4px;
 }
 
 
@@ -279,10 +279,6 @@
     margin-bottom: 18px;
   }
 
-  .steel-why-header h2 {
-    font-size: 25px;
-  }
-
   .steel-why-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
@@ -331,11 +327,9 @@
   }
 
   .steel-why-header h2 {
-    font-size: 23px;
-
     line-height: 1.25;
 
-    letter-spacing: -0.5px;
+    letter-spacing: -0.3px;
   }
 
   /*
@@ -391,10 +385,6 @@
 
   .steel-why-container {
     width: 92%;
-  }
-
-  .steel-why-header h2 {
-    font-size: 21px;
   }
 
   .steel-why-grid {

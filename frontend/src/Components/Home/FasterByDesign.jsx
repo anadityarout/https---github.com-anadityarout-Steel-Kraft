@@ -6,20 +6,20 @@ import "./FasterByDesign.css";
 const features = [
   {
     id: "indoors",
-    title: "Made indoors",
-    text: "Frame and panels are cut and finished in a factory.",
+    title: "Factory-Made Precision",
+    text: "Prefab components are manufactured and finished in a controlled environment.",
     Icon: LuFactory,
   },
   {
     id: "site",
-    title: "Shorter on site",
-    text: "Assembly takes a short window instead of a long build.",
+    title: "Faster On-Site Assembly",
+    text: "Efficient installation helps reduce on-site construction time.",
     Icon: LuClock,
   },
   {
     id: "change",
-    title: "Easier to change later",
-    text: "Bolted frames are simpler to extend.",
+    title: "Flexible Future Upgrades",
+    text: "Modular designs can offer greater flexibility for future extensions and modifications.",
     Icon: LuPanelsTopLeft,
   },
 ];
@@ -44,15 +44,15 @@ const FasterByDesign = () => {
           <div className="fb-copy">
             <span className="fb-eyebrow">Faster by design</span>
 
+            {/* Two lines on desktop: each span is one line */}
             <h2 className="fb-title">
-              <span>Work that used</span> <span>to queue up now</span>{" "}
-              <span>runs side by side</span>
-            </h2>
-
+  Faster Prefab Construction
+  <br />
+  with Smart Planning
+</h2>
+            
             <p className="fb-lead">
-              On a conventional site, each trade waits for the one before. With
-              prefab steel, the factory builds your frame while the site is
-              prepared.
+              Steel Craft combines factory fabrication with on-site preparation to deliver efficient prefab homes, cottages, villas, and resort buildings.
             </p>
 
             <ul className="fb-features">
