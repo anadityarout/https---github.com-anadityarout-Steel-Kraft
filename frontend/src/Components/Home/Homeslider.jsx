@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import "./HomeSlider.css";
 import homeImage from "../../assets/home.jpg";
@@ -8,14 +9,9 @@ const BANNER_API_URL =
 
 const CACHE_KEY = "steelkraft_home_banner";
 
-// Fallback heading so the <h1> is ALWAYS present (SEO).
-// The Admin Dashboard text replaces it once loaded.
-const FALLBACK_HEADING =
-  "Premium Prefab Homes, Modular Villas & Resort Cottages";
-
-// Banner content comes from Admin Dashboard.
+// All banner content comes from Admin Dashboard.
 const DEFAULT_BANNER = {
-  name: FALLBACK_HEADING,
+  name: "",
   subtitle: "",
   description: "",
 };
@@ -30,7 +26,7 @@ function readCachedBanner() {
     const parsed = JSON.parse(raw);
 
     return {
-      name: parsed.name || FALLBACK_HEADING,
+      name: parsed.name || "",
       subtitle: parsed.subtitle || "",
       description: parsed.description || "",
     };
@@ -276,10 +272,7 @@ export default function HomeSlider() {
         const latestBanner = data[data.length - 1];
 
         const next = {
-          // Keep the fallback if admin name is empty.
-          name:
-            String(latestBanner.name || "").trim() ||
-            FALLBACK_HEADING,
+          name: String(latestBanner.name || "").trim(),
           subtitle: String(latestBanner.subtitle || "").trim(),
           description: String(
             latestBanner.description || ""
@@ -450,10 +443,12 @@ export default function HomeSlider() {
             </span>
           </div>
 
-          {/* H1: ALWAYS RENDERED. Fallback text first, Admin Dashboard text once loaded. */}
-          <h1 className="home-slider__heading">
-            {renderHeading(bannerContent.name || FALLBACK_HEADING)}
-          </h1>
+          {/* H1: NAME FROM ADMIN DASHBOARD */}
+          {bannerContent.name && (
+            <h1 className="home-slider__heading">
+              {renderHeading(bannerContent.name)}
+            </h1>
+          )}
 
           {/* SUBTITLE FROM ADMIN DASHBOARD */}
           {bannerContent.subtitle && (
