@@ -455,11 +455,11 @@ export default function HomeSlider() {
             {renderHeading(bannerContent.name || FALLBACK_HEADING)}
           </h1>
 
-          {/* SUBTITLE FROM ADMIN DASHBOARD */}
+          {/* H2: SUBTITLE FROM ADMIN DASHBOARD */}
           {bannerContent.subtitle && (
-            <p className="home-slider__subheading">
+            <h2 className="home-slider__subheading">
               {bannerContent.subtitle}
-            </p>
+            </h2>
           )}
 
           {/* DESCRIPTION FROM ADMIN DASHBOARD */}
