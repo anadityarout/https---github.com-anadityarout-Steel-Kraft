@@ -1,47 +1,76 @@
-
 import fs from "node:fs";
 import path from "node:path";
 
 const SEO_API =
   "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/seo";
 
+const BANNER_API =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/homebanner";
+
 const DIST_DIR = path.resolve("dist");
 const SITE_URL = "https://www.steelcraftprefab.com";
 const GOOGLE_TAG_ID = "G-MK6E9HDEHC";
 
+// Keep this identical to FALLBACK_HEADING in HomeSlider.jsx.
+const HOME_FALLBACK_H1 =
+  "Premium Prefab Homes, Modular Villas & Resort Cottages";
+
 // =====================================================
 // ALL WEBSITE ROUTES
+// "h1" is written into the static HTML so crawlers that
+// do not run JavaScript still find exactly one <h1>.
+// React replaces it as soon as the app loads.
 // =====================================================
 
 const PAGES = [
-  { name: "Home", route: "/", output: "index.html" },
-  { name: "Project", route: "/projects", output: "projects/index.html" },
+  {
+    name: "Home",
+    route: "/",
+    output: "index.html",
+    h1: HOME_FALLBACK_H1,
+  },
+  {
+    name: "Project",
+    route: "/projects",
+    output: "projects/index.html",
+    h1: "Our Prefab Home & Villa Projects",
+  },
   {
     name: "Home & Cottage",
     route: "/homes-cottages",
     output: "homes-cottages/index.html",
+    h1: "Prefab Homes & Resort Cottages",
   },
   {
     name: "One BHK",
     route: "/work/1bhk",
     output: "work/1bhk/index.html",
+    h1: "1 BHK Prefab Home Designs",
   },
   {
     name: "Two BHK",
     route: "/work/2bhk",
     output: "work/2bhk/index.html",
+    h1: "2 BHK Prefab Home Designs",
   },
   {
     name: "Three BHK",
     route: "/work/3bhk",
     output: "work/3bhk/index.html",
+    h1: "3 BHK Prefab Home Designs",
   },
   {
     name: "Four BHK",
     route: "/work/4bhk",
     output: "work/4bhk/index.html",
+    h1: "4 BHK Prefab Home Designs",
   },
-  { name: "Contact", route: "/contact", output: "contact/index.html" },
+  {
+    name: "Contact",
+    route: "/contact",
+    output: "contact/index.html",
+    h1: "Contact Steel Craft Prefab",
+  },
 ];
 
 // =====================================================
@@ -200,6 +229,38 @@ function setTitle(html, title) {
 }
 
 // =====================================================
+// STATIC H1
+// Put an <h1> inside the empty React root so crawlers
+// that do not run JavaScript still see a heading.
+// It is visually hidden so there is no flash before
+// React mounts and replaces the root's contents.
+// (This assumes the app uses createRoot, not hydrateRoot.)
+// =====================================================
+
+function injectH1(html, text) {
+  const heading = String(text ?? "").trim();
+
+  if (!heading) {
+    throw new Error("Cannot add <h1>: heading text is empty.");
+  }
+
+  const rootRegex = /<div\b[^>]*\bid=["']root["'][^>]*>\s*<\/div>/i;
+
+  if (!rootRegex.test(html)) {
+    throw new Error(
+      'Cannot add <h1>: empty <div id="root"></div> not found.'
+    );
+  }
+
+  const h1 =
+    `<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">${escapeHTML(heading)}</h1>`;
+
+  return html.replace(rootRegex, (match) =>
+    match.replace(/<\/div>\s*$/i, `${h1}</div>`)
+  );
+}
+
+// =====================================================
 // GOOGLE ANALYTICS
 // =====================================================
 
@@ -311,6 +372,45 @@ async function fetchSeoItems() {
     );
 
     return [];
+  }
+}
+
+// =====================================================
+// FETCH HOME HEADING FROM ADMIN DASHBOARD
+// Uses the same banner API as HomeSlider.jsx so the
+// static <h1> matches the live heading. Falls back to
+// the default text if the API is unavailable.
+// =====================================================
+
+async function fetchHomeHeading() {
+  try {
+    const response = await fetch(BANNER_API, {
+      headers: { Accept: "application/json" },
+      cache: "no-store",
+      signal: AbortSignal.timeout(15000),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Banner API returned HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      return HOME_FALLBACK_H1;
+    }
+
+    const latest = data[data.length - 1];
+    const name = String(latest?.name ?? "").trim();
+
+    return name || HOME_FALLBACK_H1;
+  } catch (error) {
+    console.error(
+      "Could not fetch home heading. Using fallback:",
+      error.message
+    );
+
+    return HOME_FALLBACK_H1;
   }
 }
 
@@ -471,6 +571,9 @@ function generatePageHTML(template, page, seo = {}) {
     "@graph": [organization, website, pageSchema],
   });
 
+  // Static <h1> for crawlers that do not run JavaScript.
+  html = injectH1(html, page.h1);
+
   // Preserve Google Analytics.
   html = addGoogleTag(html);
 
@@ -497,7 +600,17 @@ async function main() {
     throw new Error("Closing </head> tag not found.");
   }
 
-  const seoItems = await fetchSeoItems();
+  const [seoItems, homeHeading] = await Promise.all([
+    fetchSeoItems(),
+    fetchHomeHeading(),
+  ]);
+
+  // The Home page heading comes from the Admin Dashboard.
+  const homePage = PAGES.find((page) => page.route === "/");
+
+  if (homePage) {
+    homePage.h1 = homeHeading;
+  }
 
   let generatedCount = 0;
   let failedCount = 0;
@@ -533,6 +646,7 @@ async function main() {
       );
 
       console.log(`File: ${page.output}`);
+      console.log(`H1: ${page.h1}`);
       generatedCount++;
     } catch (error) {
       console.error(
