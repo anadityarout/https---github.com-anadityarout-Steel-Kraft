@@ -261,8 +261,31 @@ function injectH1(html, text, subtitle = "") {
     ? `<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">${escapeHTML(sub)}</h2>`
     : "";
 
+  // Static menu links so crawlers that do not run JavaScript can
+  // find the other pages. Same links the visitor sees in the menu.
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "Homes & Cottages", href: "/homes-cottages" },
+    { label: "Projects", href: "/projects" },
+    { label: "1 BHK Homes", href: "/work/1bhk" },
+    { label: "2 BHK Homes", href: "/work/2bhk" },
+    { label: "3 BHK Homes", href: "/work/3bhk" },
+    { label: "4 BHK Homes", href: "/work/4bhk" },
+    { label: "Contact Us", href: "/contact" },
+  ];
+
+  const nav =
+    `<nav aria-label="Main" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">` +
+    navLinks
+      .map(
+        (link) =>
+          `<a href="${link.href}">${escapeHTML(link.label)}</a>`
+      )
+      .join("") +
+    `</nav>`;
+
   return html.replace(rootRegex, (match) =>
-    match.replace(/<\/div>\s*$/i, `${h1}${h2}</div>`)
+    match.replace(/<\/div>\s*$/i, `${nav}${h1}${h2}</div>`)
   );
 }
 
