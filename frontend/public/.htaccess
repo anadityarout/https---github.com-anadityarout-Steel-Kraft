@@ -1,3 +1,4 @@
+
 # ==========================================
 # SECURITY HEADERS
 # ==========================================
@@ -43,16 +44,21 @@
 
     RewriteEngine On
 
-    # Always serve discovery files directly (never route them to seo.php).
+    # Force HTTPS and remove WWW
+    RewriteCond %{HTTPS} !=on [OR]
+    RewriteCond %{HTTP_HOST} ^www\.steelcraftprefab\.com$ [NC]
+    RewriteRule ^ https://steelcraftprefab.com%{REQUEST_URI} [R=301,L,NE]
+
+    # Always serve discovery files directly
     RewriteRule ^\.well-known/ard\.json$ - [L]
     RewriteRule ^llms\.txt$ - [L]
 
-    # Allow existing assets and files, but not index.html.
+    # Allow existing assets and files, but not index.html
     RewriteCond %{REQUEST_URI} !^/index\.html$
     RewriteCond %{REQUEST_FILENAME} -f
     RewriteRule ^ - [L]
 
-    # Route website pages through PHP for live SEO metadata.
+    # Route website pages through PHP for live SEO metadata
     RewriteRule ^ seo.php [L,QSA]
 
 </IfModule>
