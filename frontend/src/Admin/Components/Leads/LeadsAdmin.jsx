@@ -34,9 +34,19 @@ const FILTER_OPTIONS = [
 const formatDate = (value) => {
   if (!value) return "-";
 
-  const date = new Date(value);
+  let date;
 
-  if (Number.isNaN(date.getTime())) return String(value);
+  if (typeof value === "number") {
+    date = new Date(
+      value < 1000000000000 ? value * 1000 : value
+    );
+  } else {
+    date = new Date(value);
+  }
+
+  if (Number.isNaN(date.getTime())) {
+    return String(value);
+  }
 
   return date.toLocaleString("en-IN", {
     dateStyle: "medium",
@@ -45,8 +55,29 @@ const formatDate = (value) => {
 };
 
 // =====================================================
+// DATE SORTING
+// =====================================================
+
+const getDateTimestamp = (value) => {
+  if (!value) return 0;
+
+  let date;
+
+  if (typeof value === "number") {
+    date = new Date(
+      value < 1000000000000 ? value * 1000 : value
+    );
+  } else {
+    date = new Date(value);
+  }
+
+  const timestamp = date.getTime();
+
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+};
+
+// =====================================================
 // NORMALIZE LEAD RECORDS
-// Keep original backend ID for delete requests.
 // =====================================================
 
 const normalizeLead = (lead, index, source) => {
@@ -70,33 +101,67 @@ const normalizeLead = (lead, index, source) => {
 
   const settings = sourceSettings[source];
 
+  const leadDate =
+    lead.date ||
+    lead.createdAt ||
+    lead.timestamp ||
+    "";
+
   return {
     ...lead,
+
     id: `${source}-${lead.id ?? lead.leadId ?? index}`,
+
     backendId: lead.id ?? lead.leadId ?? null,
+
     apiSource: source,
+
     type: settings.type,
+
     source: settings.source,
+
     name: lead.name || lead.fullName || "",
+
     email: lead.email || "",
+
     phone:
-      lead.phone || lead.phoneNumber || lead.mobile || "",
-    location: lead.location || lead.city || "",
+      lead.phone ||
+      lead.phoneNumber ||
+      lead.mobile ||
+      "",
+
+    location:
+      lead.location ||
+      lead.city ||
+      "",
+
     productService:
       lead.productService ||
       lead.service ||
       settings.productService,
-    projectType: lead.projectType || lead.project || "",
+
+    projectType:
+      lead.projectType ||
+      lead.project ||
+      "",
+
     designOfInterest:
-      lead.designOfInterest || lead.design || "",
+      lead.designOfInterest ||
+      lead.design ||
+      "",
+
     message:
       lead.message ||
       lead.notes ||
       lead.description ||
       lead.answersText ||
       "",
+
     status: lead.status || "New",
-    date: lead.date || lead.createdAt || lead.timestamp || "",
+
+    date: leadDate,
+
+    sortDate: getDateTimestamp(leadDate),
   };
 };
 
@@ -106,8 +171,15 @@ const normalizeLead = (lead, index, source) => {
 
 const matchesFilter = (lead, filter) => {
   if (filter === "All") return true;
-  if (filter === "Popup") return lead.apiSource === "popup";
-  if (filter === "Get a Quote") return lead.apiSource === "quote";
+
+  if (filter === "Popup") {
+    return lead.apiSource === "popup";
+  }
+
+  if (filter === "Get a Quote") {
+    return lead.apiSource === "quote";
+  }
+
   if (filter === "FloatingChat") {
     return lead.apiSource === "floatingchat";
   }
@@ -133,7 +205,12 @@ const getDetailRows = (lead) =>
     ["Status", lead.status],
     ["Source", lead.source],
     ["Date", formatDate(lead.date)],
-  ].filter(([, value]) => value !== undefined && value !== null && value !== "");
+  ].filter(
+    ([, value]) =>
+      value !== undefined &&
+      value !== null &&
+      value !== ""
+  );
 
 // =====================================================
 // FETCH API
@@ -142,18 +219,24 @@ const getDetailRows = (lead) =>
 const fetchLeadList = async (url, label) => {
   const response = await fetch(url, {
     method: "GET",
-    headers: { Accept: "application/json" },
+    headers: {
+      Accept: "application/json",
+    },
     cache: "no-store",
   });
 
   if (!response.ok) {
-    throw new Error(`${label}: HTTP ${response.status}`);
+    throw new Error(
+      `${label}: HTTP ${response.status}`
+    );
   }
 
   const data = await response.json();
 
   if (!Array.isArray(data)) {
-    throw new Error(`${label} API did not return a JSON array.`);
+    throw new Error(
+      `${label} API did not return a JSON array.`
+    );
   }
 
   return data;
@@ -165,11 +248,17 @@ const fetchLeadList = async (url, label) => {
 
 export default function LeadsAdmin() {
   const [leads, setLeads] = useState([]);
+
   const [filter, setFilter] = useState("All");
+
   const [selectedLead, setSelectedLead] = useState(null);
+
   const [loading, setLoading] = useState(true);
+
   const [deletingId, setDeletingId] = useState(null);
+
   const [error, setError] = useState("");
+
   const [deleteError, setDeleteError] = useState("");
 
   // ===================================================
@@ -190,9 +279,18 @@ export default function LeadsAdmin() {
     const errors = [];
 
     const sources = [
-      { key: "popup", label: "Popup" },
-      { key: "quote", label: "Get a Quote" },
-      { key: "floatingchat", label: "FloatingChat" },
+      {
+        key: "popup",
+        label: "Popup",
+      },
+      {
+        key: "quote",
+        label: "Get a Quote",
+      },
+      {
+        key: "floatingchat",
+        label: "FloatingChat",
+      },
     ];
 
     results.forEach((result, index) => {
@@ -201,7 +299,11 @@ export default function LeadsAdmin() {
       if (result.status === "fulfilled") {
         combined.push(
           ...result.value.map((lead, leadIndex) =>
-            normalizeLead(lead, leadIndex, source.key)
+            normalizeLead(
+              lead,
+              leadIndex,
+              source.key
+            )
           )
         );
       } else {
@@ -209,18 +311,22 @@ export default function LeadsAdmin() {
           `${source.label} API error:`,
           result.reason
         );
-        errors.push(`${source.label} leads could not load.`);
+
+        errors.push(
+          `${source.label} leads could not load.`
+        );
       }
     });
 
+    // NEWEST LEADS FIRST
     combined.sort((a, b) => {
-      const dateA = new Date(a.date).getTime() || 0;
-      const dateB = new Date(b.date).getTime() || 0;
-      return dateB - dateA;
+      return b.sortDate - a.sortDate;
     });
 
     setLeads(combined);
+
     setError(errors.join(" "));
+
     setLoading(false);
   }, []);
 
@@ -230,9 +336,6 @@ export default function LeadsAdmin() {
 
   // ===================================================
   // DELETE LEAD
-  //
-  // Requires DELETE support in the matching Lambda.
-  // The backend ID, not the prefixed UI ID, is sent.
   // ===================================================
 
   const handleDelete = async (lead) => {
@@ -250,11 +353,16 @@ export default function LeadsAdmin() {
     if (!confirmed) return;
 
     setDeletingId(lead.id);
+
     setDeleteError("");
 
     try {
       const url = new URL(API_URLS[lead.apiSource]);
-      url.searchParams.set("id", String(lead.backendId));
+
+      url.searchParams.set(
+        "id",
+        String(lead.backendId)
+      );
 
       const response = await fetch(url.toString(), {
         method: "DELETE",
@@ -264,7 +372,9 @@ export default function LeadsAdmin() {
         },
       });
 
-      const result = await response.json().catch(() => ({}));
+      const result = await response
+        .json()
+        .catch(() => ({}));
 
       if (!response.ok) {
         throw new Error(
@@ -273,9 +383,11 @@ export default function LeadsAdmin() {
         );
       }
 
-      // Remove from the UI only after the backend confirms success.
+      // UPDATE UI AFTER SUCCESSFUL DELETE
       setLeads((previous) =>
-        previous.filter((item) => item.id !== lead.id)
+        previous.filter(
+          (item) => item.id !== lead.id
+        )
       );
 
       setSelectedLead((previous) =>
@@ -283,6 +395,7 @@ export default function LeadsAdmin() {
       );
     } catch (err) {
       console.error("Delete lead error:", err);
+
       setDeleteError(
         err.message || "Unable to delete this lead."
       );
@@ -295,10 +408,11 @@ export default function LeadsAdmin() {
   // FILTERED LEADS
   // ===================================================
 
-  const filteredLeads = useMemo(
-    () => leads.filter((lead) => matchesFilter(lead, filter)),
-    [leads, filter]
-  );
+  const filteredLeads = useMemo(() => {
+    return leads.filter((lead) =>
+      matchesFilter(lead, filter)
+    );
+  }, [leads, filter]);
 
   // ===================================================
   // COUNTS
@@ -307,8 +421,15 @@ export default function LeadsAdmin() {
   const counts = useMemo(
     () => ({
       total: leads.length,
-      popup: leads.filter((lead) => lead.apiSource === "popup").length,
-      quote: leads.filter((lead) => lead.apiSource === "quote").length,
+
+      popup: leads.filter(
+        (lead) => lead.apiSource === "popup"
+      ).length,
+
+      quote: leads.filter(
+        (lead) => lead.apiSource === "quote"
+      ).length,
+
       floatingchat: leads.filter(
         (lead) => lead.apiSource === "floatingchat"
       ).length,
@@ -322,13 +443,20 @@ export default function LeadsAdmin() {
 
   return (
     <section className="leads-page">
-      <h1 className="leads-title">All Leads</h1>
+
+      <h1 className="leads-title">
+        All Leads
+      </h1>
+
+      {/* FILTER */}
 
       <div className="leads-filter-wrapper">
         <select
           className="leads-filter-select"
           value={filter}
-          onChange={(event) => setFilter(event.target.value)}
+          onChange={(event) =>
+            setFilter(event.target.value)
+          }
           aria-label="Filter leads"
         >
           {FILTER_OPTIONS.map((option) => (
@@ -339,13 +467,19 @@ export default function LeadsAdmin() {
         </select>
       </div>
 
+      {/* HEADER */}
+
       <div className="leads-header">
         <div>
           <h2 className="leads-subtitle">
-            {filter === "All" ? "All Leads" : `${filter} Leads`}
+            {filter === "All"
+              ? "All Leads"
+              : `${filter} Leads`}
           </h2>
+
           <p className="leads-description">
-            Consultation requests, Get a Quote enquiries and FloatingChat submissions
+            Consultation requests, Get a Quote enquiries
+            and FloatingChat submissions
           </p>
         </div>
 
@@ -359,9 +493,12 @@ export default function LeadsAdmin() {
         </button>
       </div>
 
+      {/* FETCH ERROR */}
+
       {error && (
         <div className="leads-error" role="alert">
           <span>{error}</span>
+
           <button
             type="button"
             className="leads-retry-btn"
@@ -373,9 +510,12 @@ export default function LeadsAdmin() {
         </div>
       )}
 
+      {/* DELETE ERROR */}
+
       {deleteError && (
         <div className="leads-error" role="alert">
           <span>{deleteError}</span>
+
           <button
             type="button"
             className="leads-retry-btn"
@@ -386,32 +526,58 @@ export default function LeadsAdmin() {
         </div>
       )}
 
+      {/* SUMMARY CARDS */}
+
       <div className="leads-stats">
+
         <div className="leads-stat-card">
-          <span className="leads-stat-label">Total Leads</span>
-          <strong className="leads-stat-value">{counts.total}</strong>
+          <span className="leads-stat-label">
+            Total Leads
+          </span>
+
+          <strong className="leads-stat-value">
+            {counts.total}
+          </strong>
         </div>
 
         <div className="leads-stat-card">
-          <span className="leads-stat-label">Popup</span>
-          <strong className="leads-stat-value">{counts.popup}</strong>
+          <span className="leads-stat-label">
+            Popup
+          </span>
+
+          <strong className="leads-stat-value">
+            {counts.popup}
+          </strong>
         </div>
 
         <div className="leads-stat-card">
-          <span className="leads-stat-label">Get a Quote</span>
-          <strong className="leads-stat-value">{counts.quote}</strong>
+          <span className="leads-stat-label">
+            Get a Quote
+          </span>
+
+          <strong className="leads-stat-value">
+            {counts.quote}
+          </strong>
         </div>
 
         <div className="leads-stat-card">
-          <span className="leads-stat-label">FloatingChat</span>
+          <span className="leads-stat-label">
+            FloatingChat
+          </span>
+
           <strong className="leads-stat-value">
             {counts.floatingchat}
           </strong>
         </div>
+
       </div>
 
+      {/* LEADS TABLE */}
+
       <div className="leads-table-wrap">
+
         <table className="leads-table">
+
           <thead>
             <tr>
               <th>No</th>
@@ -431,6 +597,7 @@ export default function LeadsAdmin() {
           </thead>
 
           <tbody>
+
             {loading ? (
               <tr>
                 <td colSpan={13} className="leads-empty">
@@ -445,8 +612,14 @@ export default function LeadsAdmin() {
               </tr>
             ) : (
               filteredLeads.map((lead, index) => (
+
                 <tr key={lead.id}>
-                  <td>{index + 1}</td>
+
+                  {/* DESCENDING SERIAL NUMBER */}
+
+                  <td className="leads-serial-number">
+                    {filteredLeads.length - index}
+                  </td>
 
                   <td>
                     <span
@@ -461,28 +634,42 @@ export default function LeadsAdmin() {
                   </td>
 
                   <td>{lead.name || "-"}</td>
+
                   <td>{lead.email || "-"}</td>
+
                   <td>{lead.phone || "-"}</td>
+
                   <td>{lead.location || "-"}</td>
+
                   <td>{lead.productService || "-"}</td>
+
                   <td>{lead.projectType || "-"}</td>
+
                   <td>{lead.designOfInterest || "-"}</td>
+
                   <td className="leads-message-cell">
                     {lead.message || "-"}
                   </td>
+
                   <td>
                     <span className="leads-badge leads-badge-status">
                       {lead.status}
                     </span>
                   </td>
-                  <td>{formatDate(lead.date)}</td>
+
+                  <td>
+                    {formatDate(lead.date)}
+                  </td>
 
                   <td>
                     <div className="leads-actions">
+
                       <button
                         type="button"
                         className="leads-btn leads-btn-view"
-                        onClick={() => setSelectedLead(lead)}
+                        onClick={() =>
+                          setSelectedLead(lead)
+                        }
                       >
                         View
                       </button>
@@ -490,46 +677,66 @@ export default function LeadsAdmin() {
                       <button
                         type="button"
                         className="leads-btn leads-btn-delete"
-                        onClick={() => handleDelete(lead)}
+                        onClick={() =>
+                          handleDelete(lead)
+                        }
                         disabled={deletingId !== null}
                       >
                         {deletingId === lead.id
                           ? "Deleting..."
                           : "Delete"}
                       </button>
+
                     </div>
                   </td>
+
                 </tr>
               ))
             )}
+
           </tbody>
+
         </table>
+
       </div>
+
+      {/* VIEW DETAILS MODAL */}
 
       {selectedLead && (
         <div
           className="leads-modal-overlay"
           onClick={() => setSelectedLead(null)}
         >
+
           <div
             className="leads-modal"
             role="dialog"
             aria-modal="true"
             aria-labelledby="leads-modal-title"
-            onClick={(event) => event.stopPropagation()}
+            onClick={(event) =>
+              event.stopPropagation()
+            }
           >
-            <h3 id="leads-modal-title">Lead Details</h3>
+
+            <h3 id="leads-modal-title">
+              Lead Details
+            </h3>
 
             <dl className="leads-details">
-              {getDetailRows(selectedLead).map(([label, value]) => (
-                <React.Fragment key={label}>
-                  <dt>{label}</dt>
-                  <dd>{String(value)}</dd>
-                </React.Fragment>
-              ))}
+
+              {getDetailRows(selectedLead).map(
+                ([label, value]) => (
+                  <React.Fragment key={label}>
+                    <dt>{label}</dt>
+                    <dd>{String(value)}</dd>
+                  </React.Fragment>
+                )
+              )}
+
             </dl>
 
             <div className="leads-modal-actions">
+
               <button
                 type="button"
                 className="leads-btn leads-btn-view"
@@ -541,17 +748,23 @@ export default function LeadsAdmin() {
               <button
                 type="button"
                 className="leads-btn leads-btn-delete"
-                onClick={() => handleDelete(selectedLead)}
+                onClick={() =>
+                  handleDelete(selectedLead)
+                }
                 disabled={deletingId !== null}
               >
                 {deletingId === selectedLead.id
                   ? "Deleting..."
                   : "Delete Lead"}
               </button>
+
             </div>
+
           </div>
+
         </div>
       )}
+
     </section>
   );
 }
