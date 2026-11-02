@@ -282,18 +282,20 @@ const Footer = () => {
             {/* QUOTE */}
 
             <button
-              className="footer-quote-button"
-              type="button"
-              onClick={() => scrollToSection("contact")}
-            >
+  className="footer-quote-button"
+  type="button"
+  onClick={() => {
+    window.dispatchEvent(
+      new Event("open-quote-popup")
+    );
+  }}
+>
+  <span>
+    Get a Quote
+  </span>
 
-              <span>
-                Get a Quote
-              </span>
-
-              <FaArrowRight />
-
-            </button>
+  <FaArrowRight />
+</button>
 
           </div>
 

@@ -1212,3 +1212,41 @@
     transition: opacity 0.3s ease;
   }
 }
+
+
+/* =========================================================
+   EXPLORE OUR DESIGNS LINK - CLICK / STACKING FIX
+   Keeps the existing design and makes the hero content
+   receive pointer interactions above the floating layer.
+   ========================================================= */
+
+.home-slider__content {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.home-slider__actions {
+  position: relative;
+  z-index: 11;
+  pointer-events: auto;
+}
+
+.home-slider__btn {
+  position: relative;
+  z-index: 12;
+  pointer-events: auto;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.home-slider__btn--light:hover,
+.home-slider__btn--light:focus {
+  text-decoration: none;
+}
+
+.home-slider__btn--light:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { createPortal } from "react-dom";
 import "./Project.css";
 
@@ -627,13 +628,13 @@ const Project = () => {
             </div>
 
             <div className="project-actions">
-              <a href="#contact" className="btn-gold">
-                Discuss this project
-                <Icon name="arrow" size={15} />
-              </a>
-              <a href="#designs" className="btn-outline">
-                See all designs
-              </a>
+             <Link to="/contact" className="btn-gold">
+  Discuss this project
+  <Icon name="arrow" size={15} />
+</Link>
+             <Link to="/projects" className="btn-outline">
+  See all designs
+</Link>
             </div>
           </div>
         </div>
@@ -717,10 +718,16 @@ const Project = () => {
             </p>
           </div>
 
-          <a href="#contact" className="pcta-btn">
-            Get a Quote
-            <Icon name="arrow" size={15} />
-          </a>
+           <button
+  type="button"
+  className="pcta-btn"
+  onClick={() => {
+    window.dispatchEvent(new Event("open-quote-popup"));
+  }}
+>
+  Get a Quote
+  <Icon name="arrow" size={15} />
+</button>
         </div>
       </div>
 

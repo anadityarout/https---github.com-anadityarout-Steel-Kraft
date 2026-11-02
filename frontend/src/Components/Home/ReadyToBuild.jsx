@@ -1,4 +1,6 @@
+
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./ReadyToBuild.css";
 
 import readyImage from "../../assets/ready-to-build.jpg";
@@ -9,20 +11,25 @@ import {
 } from "react-icons/fa";
 
 const ReadyToBuild = () => {
+  const navigate = useNavigate();
+
+  // =========================================
+  // GET A QUOTE - OPEN EXISTING POPUP
+  // =========================================
+
   const handleQuote = () => {
-    document
-      .getElementById("contact")
-      ?.scrollIntoView({
-        behavior: "smooth",
-      });
+    window.dispatchEvent(
+      new Event("open-quote-popup")
+    );
   };
 
+  // =========================================
+  // TALK TO EXPERT - OPEN CONTACT PAGE
+  // =========================================
+
   const handleExpert = () => {
-    document
-      .getElementById("contact")
-      ?.scrollIntoView({
-        behavior: "smooth",
-      });
+    navigate("/contact");
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -44,7 +51,6 @@ const ReadyToBuild = () => {
 
       <div className="ready-build-overlay"></div>
 
-
       {/* =========================================
           CONTENT
       ========================================= */}
@@ -53,7 +59,7 @@ const ReadyToBuild = () => {
 
         <div className="ready-build-content">
 
-          {/* Small heading */}
+          {/* SMALL HEADING */}
 
           <div className="ready-build-eyebrow">
 
@@ -65,25 +71,26 @@ const ReadyToBuild = () => {
 
           </div>
 
-
-          {/* Main heading */}
+          {/* MAIN HEADING */}
 
           <h2>
             Ready to Build Your Dream Space?
           </h2>
 
-
-          {/* Description */}
+          {/* DESCRIPTION */}
 
           <p>
             Get a free consultation and customized
             quote for your project today.
           </p>
 
-
-          {/* Buttons */}
+          {/* =========================================
+              BUTTONS
+          ========================================= */}
 
           <div className="ready-build-buttons">
+
+            {/* GET A QUOTE BUTTON */}
 
             <button
               type="button"
@@ -97,6 +104,7 @@ const ReadyToBuild = () => {
               <FaArrowRight />
             </button>
 
+            {/* TALK TO OUR EXPERT BUTTON */}
 
             <button
               type="button"

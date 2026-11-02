@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./HomeSlider.css";
 import homeImage from "../../assets/home.jpg";
 import home1Image from "../../assets/home1.jpg";
@@ -471,27 +472,32 @@ export default function HomeSlider() {
 
           {/* BUTTONS */}
           <div className="home-slider__actions">
+            <Link
+  to="/homes-cottages"
+  className="home-slider__btn home-slider__btn--light"
+>
+  <span>Explore Our Designs</span>
+
+  <span className="home-slider__btn-arrow">
+    <Icon name="arrow-right" size={16} />
+  </span>
+</Link>
+
             <button
-              type="button"
-              className="home-slider__btn home-slider__btn--light"
-            >
-              <span>Explore Our Designs</span>
+  type="button"
+  className="home-slider__btn home-slider__btn--gold"
+  onClick={() => {
+    window.dispatchEvent(
+      new Event("open-quote-popup")
+    );
+  }}
+>
+  <span>Get a Quote</span>
 
-              <span className="home-slider__btn-arrow">
-                <Icon name="arrow-right" size={16} />
-              </span>
-            </button>
-
-            <button
-              type="button"
-              className="home-slider__btn home-slider__btn--gold"
-            >
-              <span>Get a Quote</span>
-
-              <span className="home-slider__btn-arrow">
-                <Icon name="arrow-right" size={16} />
-              </span>
-            </button>
+  <span className="home-slider__btn-arrow">
+    <Icon name="arrow-right" size={16} />
+  </span>
+</button>
           </div>
 
           {/* FEATURE ROW */}
