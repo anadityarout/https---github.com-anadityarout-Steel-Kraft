@@ -3,9 +3,19 @@
 /* =========================================================
    HOME SLIDER
 
+   Stacking order (low -> high):
+   0  hero images
+   1  dark overlay
+   4  text content (heading, buttons, controls)
+   5  floating chips layer + caption
+   6  marquee strip
+
+   The chips layer ignores the mouse (pointer-events: none),
+   but each chip takes it back (pointer-events: auto), so the
+   chips open on hover/touch and the buttons below still work.
+
    Performance notes:
-   - No backdrop-filter blur on this hero (it was re-blurring
-     the photo every frame behind the floating chips).
+   - No backdrop-filter blur on this hero.
    - No image zoom; the slides only cross-fade.
    - Animated parts use will-change so they run on the GPU.
    ========================================================= */
@@ -13,7 +23,6 @@
 .home-slider {
   /*
     Space kept free at the top of the hero for the floating navbar.
-    If the navbar is taller/shorter, change this number.
     (Mobile sets its own value in the 900px block below.)
   */
   --navbar-offset: 88px;
@@ -112,6 +121,9 @@
 
   z-index: 1;
 
+  /* decorative only, never blocks clicks */
+  pointer-events: none;
+
   background:
     linear-gradient(
       90deg,
@@ -139,10 +151,11 @@
   position: absolute;
   inset: 0;
 
-  /* above .home-slider__content (z-index 4), otherwise the text block
-     sits on top of the chips and they never receive hover or touch */
+  /* ABOVE .home-slider__content (z-index 4), otherwise the text
+     block sits on top of the chips and they never get hover/touch */
   z-index: 5;
 
+  /* the layer itself ignores the mouse; the chips take it back */
   pointer-events: none;
 }
 
@@ -180,7 +193,7 @@
   font-family: inherit;
   text-align: left;
 
-  /* the floats layer ignores the mouse, the chips take it back */
+  /* chips receive hover / touch */
   pointer-events: auto;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -196,6 +209,12 @@
     border-color 0.35s ease,
     background-color 0.35s ease,
     box-shadow 0.35s ease;
+}
+
+/* Stop floating while the pointer is on the chip (prevents
+   hover flicker when the mouse rests near its edge) */
+.home-slider__chip:hover {
+  animation-play-state: paused;
 }
 
 /* Open state: chip grows into a small card and stops floating */
@@ -344,6 +363,7 @@
 
 /* =========================================================
    CONTENT
+   (z-index 4: stays BELOW the chips layer, which is 5)
    ========================================================= */
 
 .home-slider__content {
@@ -482,7 +502,11 @@
   font-weight: 600;
   line-height: 1;
 
+  /* the Explore button is a <Link> (an <a>), so no underline */
+  text-decoration: none;
+
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 
   transition:
     transform 0.25s ease,
@@ -510,11 +534,20 @@
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
 }
 
+.home-slider__btn--light:hover,
+.home-slider__btn--light:focus {
+  text-decoration: none;
+}
+
 .home-slider__btn:focus-visible,
 .home-slider__round:focus-visible,
 .home-slider__seg:focus-visible {
   outline: 2px solid #ffffff;
   outline-offset: 3px;
+}
+
+.home-slider__btn--light:focus-visible {
+  outline-offset: 4px;
 }
 
 .home-slider__btn-arrow {
@@ -1211,42 +1244,4 @@
   .home-slider__image {
     transition: opacity 0.3s ease;
   }
-}
-
-
-/* =========================================================
-   EXPLORE OUR DESIGNS LINK - CLICK / STACKING FIX
-   Keeps the existing design and makes the hero content
-   receive pointer interactions above the floating layer.
-   ========================================================= */
-
-.home-slider__content {
-  position: relative;
-  z-index: 10;
-  pointer-events: auto;
-}
-
-.home-slider__actions {
-  position: relative;
-  z-index: 11;
-  pointer-events: auto;
-}
-
-.home-slider__btn {
-  position: relative;
-  z-index: 12;
-  pointer-events: auto;
-  text-decoration: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.home-slider__btn--light:hover,
-.home-slider__btn--light:focus {
-  text-decoration: none;
-}
-
-.home-slider__btn--light:focus-visible {
-  outline: 2px solid #ffffff;
-  outline-offset: 4px;
 }
