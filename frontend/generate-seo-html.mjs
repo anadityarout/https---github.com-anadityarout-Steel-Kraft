@@ -229,10 +229,10 @@ function setTitle(html, title) {
 }
 
 // =====================================================
-// STATIC H1, H2 AND MENU LINKS
-// Put them inside the empty React root so crawlers that
-// do not run JavaScript still see headings and links.
-// They are visually hidden so there is no flash before
+// STATIC H1
+// Put an <h1> inside the empty React root so crawlers
+// that do not run JavaScript still see a heading.
+// It is visually hidden so there is no flash before
 // React mounts and replaces the root's contents.
 // (This assumes the app uses createRoot, not hydrateRoot.)
 // =====================================================
@@ -261,31 +261,8 @@ function injectH1(html, text, subtitle = "") {
     ? `<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">${escapeHTML(sub)}</h2>`
     : "";
 
-  // Static menu links so crawlers that do not run JavaScript can
-  // find the other pages. Same links the visitor sees in the menu.
-  const navLinks = [
-    { label: "Home", href: "/" },
-    { label: "Homes & Cottages", href: "/homes-cottages" },
-    { label: "Projects", href: "/projects" },
-    { label: "1 BHK Homes", href: "/work/1bhk" },
-    { label: "2 BHK Homes", href: "/work/2bhk" },
-    { label: "3 BHK Homes", href: "/work/3bhk" },
-    { label: "4 BHK Homes", href: "/work/4bhk" },
-    { label: "Contact Us", href: "/contact" },
-  ];
-
-  const nav =
-    `<nav aria-label="Main" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">` +
-    navLinks
-      .map(
-        (link) =>
-          `<a href="${link.href}">${escapeHTML(link.label)}</a>`
-      )
-      .join("") +
-    `</nav>`;
-
   return html.replace(rootRegex, (match) =>
-    match.replace(/<\/div>\s*$/i, `${nav}${h1}${h2}</div>`)
+    match.replace(/<\/div>\s*$/i, `${h1}${h2}</div>`)
   );
 }
 
@@ -601,7 +578,7 @@ function generatePageHTML(template, page, seo = {}) {
     "@graph": [organization, website, pageSchema],
   });
 
-  // Static h1, h2 and menu links for crawlers that do not run JavaScript.
+  // Static <h1> for crawlers that do not run JavaScript.
   html = injectH1(html, page.h1, page.h2);
 
   // Preserve Google Analytics.

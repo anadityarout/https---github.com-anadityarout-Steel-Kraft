@@ -1,65 +1,52 @@
+
 <?php
 // =========================================================
 // STEEL CRAFT PREFAB
 // Dynamic SEO from Admin Dashboard
 // AWS Lambda + Open Graph + Twitter + Schema.org
 // Schema is generated even when SEO data is missing.
-// Each page also gets its own static h1 and menu links.
 // =========================================================
 
 $apiUrl = 'https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/seo';
-$bannerApiUrl = 'https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/homebanner';
 $siteUrl = 'https://www.steelcraftprefab.com';
 $ogImage = $siteUrl . '/assets/steel-craft-og-image.jpg';
 
-// Keep this identical to FALLBACK_HEADING in HomeSlider.jsx.
-$homeFallbackH1 = 'Premium Prefab Homes, Modular Villas & Resort Cottages';
-
 // =========================================================
 // ROUTES FROM APP.JSX
-// "h1" is the heading written into the static HTML.
 // =========================================================
 
 $routes = [
     '/' => [
         'page' => 'Home',
         'canonical' => $siteUrl . '/',
-        'h1' => $homeFallbackH1,
     ],
     '/projects' => [
         'page' => 'Project',
         'canonical' => $siteUrl . '/projects',
-        'h1' => 'Our Prefab Home & Villa Projects',
     ],
     '/homes-cottages' => [
         'page' => 'Home & Cottage',
         'canonical' => $siteUrl . '/homes-cottages',
-        'h1' => 'Prefab Homes & Resort Cottages',
     ],
     '/work/1bhk' => [
         'page' => 'One BHK',
         'canonical' => $siteUrl . '/work/1bhk',
-        'h1' => '1 BHK Prefab Home Designs',
     ],
     '/work/2bhk' => [
         'page' => 'Two BHK',
         'canonical' => $siteUrl . '/work/2bhk',
-        'h1' => '2 BHK Prefab Home Designs',
     ],
     '/work/3bhk' => [
         'page' => 'Three BHK',
         'canonical' => $siteUrl . '/work/3bhk',
-        'h1' => '3 BHK Prefab Home Designs',
     ],
     '/work/4bhk' => [
         'page' => 'Four BHK',
         'canonical' => $siteUrl . '/work/4bhk',
-        'h1' => '4 BHK Prefab Home Designs',
     ],
     '/contact' => [
         'page' => 'Contact',
         'canonical' => $siteUrl . '/contact',
-        'h1' => 'Contact Steel Craft Prefab',
     ],
 ];
 
@@ -224,113 +211,6 @@ function setSchema(&$html, $schema)
     replaceHeadTag($html, $pattern, $tag);
 }
 
-// =========================================================
-// HOME HEADING FROM ADMIN DASHBOARD
-// Same banner API that HomeSlider.jsx uses.
-// =========================================================
-
-function getHomeBanner($url, $fallbackH1)
-{
-    $fallback = ['h1' => $fallbackH1, 'h2' => ''];
-
-    $context = stream_context_create([
-        'http' => [
-            'method' => 'GET',
-            'timeout' => 10,
-            'ignore_errors' => true,
-            'header' => "Accept: application/json\r\n",
-        ],
-    ]);
-
-    $response = @file_get_contents($url, false, $context);
-
-    if ($response === false) {
-        error_log('SEO: Home banner API request failed.');
-        return $fallback;
-    }
-
-    $data = json_decode($response, true);
-
-    if (!is_array($data) || count($data) === 0) {
-        return $fallback;
-    }
-
-    $latest = end($data);
-
-    if (!is_array($latest)) {
-        return $fallback;
-    }
-
-    $name = trim((string) ($latest['name'] ?? ''));
-    $subtitle = trim((string) ($latest['subtitle'] ?? ''));
-
-    return [
-        'h1' => $name !== '' ? $name : $fallbackH1,
-        'h2' => $subtitle,
-    ];
-}
-
-// =========================================================
-// STATIC H1, H2 AND MENU LINKS
-// Written inside the empty React root so crawlers that do
-// not run JavaScript see this page's own heading and links.
-// React replaces them when the app loads.
-// (Assumes the app uses createRoot, not hydrateRoot.)
-// =========================================================
-
-function setStaticContent(&$html, $h1, $h2)
-{
-    $hidden = 'position:absolute;width:1px;height:1px;' .
-        'overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap';
-
-    $links = [
-        ['Home', '/'],
-        ['Homes & Cottages', '/homes-cottages'],
-        ['Projects', '/projects'],
-        ['1 BHK Homes', '/work/1bhk'],
-        ['2 BHK Homes', '/work/2bhk'],
-        ['3 BHK Homes', '/work/3bhk'],
-        ['4 BHK Homes', '/work/4bhk'],
-        ['Contact Us', '/contact'],
-    ];
-
-    $content = '<nav aria-label="Main" style="' . $hidden . '">';
-
-    foreach ($links as $link) {
-        $content .= '<a href="' . seoEscape($link[1]) . '">' .
-            seoEscape($link[0]) . '</a>';
-    }
-
-    $content .= '</nav>';
-
-    $content .= '<h1 style="' . $hidden . '">' .
-        seoEscape($h1) . '</h1>';
-
-    if ($h2 !== '') {
-        $content .= '<h2 style="' . $hidden . '">' .
-            seoEscape($h2) . '</h2>';
-    }
-
-    $pattern =
-        '~(<div\b[^>]*\bid=["\']root["\'][^>]*>)(.*?)(</div>)~is';
-
-    $count = 0;
-
-    $html = preg_replace_callback(
-        $pattern,
-        function ($match) use ($content) {
-            return $match[1] . $content . $match[3];
-        },
-        $html,
-        1,
-        $count
-    );
-
-    if ($count === 0) {
-        error_log('SEO: <div id="root"> was not found.');
-    }
-}
-
 function sendHtml($html, $statusCode = 200)
 {
     http_response_code($statusCode);
@@ -461,23 +341,6 @@ $seoItem = is_array($seoItem) ? $seoItem : [];
 // Remove metadata inherited from the base template.
 // Google Analytics is not removed.
 removePageSeo($html);
-
-// =========================================================
-// STATIC H1, H2 AND MENU LINKS FOR THIS PAGE
-// Replaces whatever heading the template already contains,
-// so every page gets its own heading.
-// =========================================================
-
-$staticH1 = $route['h1'];
-$staticH2 = '';
-
-if ($path === '/') {
-    $banner = getHomeBanner($bannerApiUrl, $route['h1']);
-    $staticH1 = $banner['h1'];
-    $staticH2 = $banner['h2'];
-}
-
-setStaticContent($html, $staticH1, $staticH2);
 
 // =========================================================
 // READ SAVED DASHBOARD DATA
