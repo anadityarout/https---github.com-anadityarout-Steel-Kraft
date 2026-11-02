@@ -1,4 +1,3 @@
-
 # ==========================================
 # SECURITY HEADERS
 # ==========================================
@@ -48,6 +47,10 @@
     RewriteCond %{HTTPS} !=on [OR]
     RewriteCond %{HTTP_HOST} ^www\.steelcraftprefab\.com$ [NC]
     RewriteRule ^ https://steelcraftprefab.com%{REQUEST_URI} [R=301,L,NE]
+
+    # Redirect direct visits to /index.html and /seo.php to the homepage
+    RewriteCond %{THE_REQUEST} \s/+(index\.html|seo\.php)[\s?] [NC]
+    RewriteRule ^ https://steelcraftprefab.com/ [R=301,L]
 
     # Always serve discovery files directly
     RewriteRule ^\.well-known/ard\.json$ - [L]

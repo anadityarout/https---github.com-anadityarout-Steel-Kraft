@@ -1,4 +1,3 @@
-
 <?php
 // =========================================================
 // STEEL CRAFT PREFAB
@@ -8,7 +7,7 @@
 // =========================================================
 
 $apiUrl = 'https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/seo';
-$siteUrl = 'https://www.steelcraftprefab.com';
+$siteUrl = 'https://steelcraftprefab.com';
 $ogImage = $siteUrl . '/assets/steel-craft-og-image.jpg';
 
 // =========================================================
