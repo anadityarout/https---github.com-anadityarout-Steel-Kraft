@@ -50,22 +50,6 @@ $routes = [
 ];
 
 // =========================================================
-// CRAWLABLE LINKS (shown only when JavaScript is off)
-// Label text for each route in the <noscript> navigation.
-// =========================================================
-
-$navLabels = [
-    '/' => 'Home',
-    '/projects' => 'Projects',
-    '/homes-cottages' => 'Homes & Cottages',
-    '/work/1bhk' => '1 BHK',
-    '/work/2bhk' => '2 BHK',
-    '/work/3bhk' => '3 BHK',
-    '/work/4bhk' => '4 BHK',
-    '/contact' => 'Contact',
-];
-
-// =========================================================
 // HELPERS
 // =========================================================
 
@@ -226,44 +210,6 @@ function setSchema(&$html, $schema)
     replaceHeadTag($html, $pattern, $tag);
 }
 
-// Adds real <a href> links to the raw HTML for crawlers
-// that do not run JavaScript. Hidden from normal visitors.
-function addNoscriptLinks(&$html, $siteUrl, $navLabels)
-{
-    // Do not add twice.
-    if (stripos($html, 'data-seo-nav') !== false) {
-        return;
-    }
-
-    $links = '';
-
-    foreach ($navLabels as $path => $label) {
-        $href = $siteUrl . ($path === '/' ? '/' : $path);
-
-        $links .= '<a href="' . seoEscape($href) . '">' .
-            seoEscape($label) . '</a> ';
-    }
-
-    $block = '<noscript data-seo-nav><nav>' .
-        trim($links) . '</nav></noscript>';
-
-    if (preg_match('~<body\b[^>]*>~i', $html)) {
-        $html = preg_replace(
-            '~(<body\b[^>]*>)~i',
-            '$1' . "\n" . $block,
-            $html,
-            1
-        );
-    } else {
-        $html = preg_replace(
-            '~</body>~i',
-            $block . "\n</body>",
-            $html,
-            1
-        );
-    }
-}
-
 function sendHtml($html, $statusCode = 200)
 {
     http_response_code($statusCode);
@@ -318,7 +264,6 @@ if ($html === false || stripos($html, '</head>') === false) {
 
 if (!isset($routes[$path])) {
     removePageSeo($html);
-    addNoscriptLinks($html, $siteUrl, $navLabels);
     sendHtml($html);
 }
 
@@ -472,12 +417,6 @@ if ($altText !== '') {
         1
     );
 }
-
-// =========================================================
-// CRAWLABLE LINKS FOR NON-JAVASCRIPT CRAWLERS
-// =========================================================
-
-addNoscriptLinks($html, $siteUrl, $navLabels);
 
 // =========================================================
 // SCHEMA.ORG
