@@ -5,8 +5,13 @@ import "./Navbar.css";
 
 import steelKraftLogo from "../../assets/logo2.png";
 
+// =====================================================
+// NAVIGATION LINKS
+// =====================================================
+
 const NAV_LINKS = [
   { key: "home", label: "Home", href: "/" },
+  { key: "about", label: "About Us", href: "/about" },
   {
     key: "homes",
     label: "Homes & Cottages",
@@ -17,6 +22,10 @@ const NAV_LINKS = [
   { key: "contact", label: "Contact Us", href: "/contact" },
 ];
 
+// =====================================================
+// WORK DROPDOWN LINKS
+// =====================================================
+
 const WORK_LINKS = [
   { key: "1bhk", label: "1 BHK", href: "/work/1bhk" },
   { key: "2bhk", label: "2 BHK", href: "/work/2bhk" },
@@ -24,8 +33,13 @@ const WORK_LINKS = [
   { key: "4bhk", label: "4 BHK", href: "/work/4bhk" },
 ];
 
+// =====================================================
+// ACTIVE NAVIGATION
+// =====================================================
+
 const getActiveKey = (pathname, hash) => {
   if (pathname === "/contact") return "contact";
+  if (pathname === "/about") return "about";
   if (pathname === "/projects") return "projects";
   if (pathname === "/homes-cottages") return "homes";
   if (pathname.startsWith("/work")) return "work";
@@ -44,6 +58,10 @@ const getActiveKey = (pathname, hash) => {
   return "home";
 };
 
+// =====================================================
+// HOME ICONS
+// =====================================================
+
 const HomeIcon = ({ type }) => {
   const paths = {
     "1bhk": (
@@ -53,6 +71,7 @@ const HomeIcon = ({ type }) => {
         <path d="M9 20v-6h6v6" />
       </>
     ),
+
     "2bhk": (
       <>
         <path d="M3 10 12 3l9 7" />
@@ -61,6 +80,7 @@ const HomeIcon = ({ type }) => {
         <path d="M14 13h2v3h-2z" />
       </>
     ),
+
     "3bhk": (
       <>
         <path d="M3 10 12 3l9 7" />
@@ -70,6 +90,7 @@ const HomeIcon = ({ type }) => {
         <path d="M10 20v-4h4v4" />
       </>
     ),
+
     "4bhk": (
       <>
         <path d="M3 10 12 3l9 7" />
@@ -99,6 +120,10 @@ const HomeIcon = ({ type }) => {
   );
 };
 
+// =====================================================
+// NAVBAR COMPONENT
+// =====================================================
+
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -111,10 +136,18 @@ const Navbar = () => {
     getActiveKey(location.pathname, location.hash)
   );
 
+  // =====================================================
+  // CLOSE MENU
+  // =====================================================
+
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
     setWorkOpen(false);
   }, []);
+
+  // =====================================================
+  // SCROLL TO TOP
+  // =====================================================
 
   const scrollToTop = useCallback(() => {
     window.scrollTo({
@@ -131,6 +164,10 @@ const Navbar = () => {
       });
     });
   }, []);
+
+  // =====================================================
+  // HANDLE NAVIGATION CLICK
+  // =====================================================
 
   const handleLinkClick = (key, event) => {
     setActiveKey(key);
@@ -153,12 +190,19 @@ const Navbar = () => {
     }
   };
 
+  // =====================================================
+  // GET A QUOTE POPUP
+  // =====================================================
+
   const openQuotePopup = () => {
     closeMenu();
     window.dispatchEvent(new Event("open-quote-popup"));
   };
 
-  // Keep the page at the top when navigating to another route.
+  // =====================================================
+  // SCROLL RESTORATION
+  // =====================================================
+
   useEffect(() => {
     if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
@@ -167,19 +211,28 @@ const Navbar = () => {
     scrollToTop();
   }, [location.pathname, scrollToTop]);
 
-  // Update the active navigation link.
+  // =====================================================
+  // UPDATE ACTIVE NAVIGATION
+  // =====================================================
+
   useEffect(() => {
     setActiveKey(
       getActiveKey(location.pathname, location.hash)
     );
   }, [location.pathname, location.hash]);
 
-  // Close the mobile menu after navigation.
+  // =====================================================
+  // CLOSE MOBILE MENU AFTER NAVIGATION
+  // =====================================================
+
   useEffect(() => {
     closeMenu();
   }, [location.pathname, location.hash, closeMenu]);
 
-  // Track navbar scroll position.
+  // =====================================================
+  // NAVBAR SCROLL EFFECT
+  // =====================================================
+
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 40);
@@ -196,7 +249,10 @@ const Navbar = () => {
     };
   }, []);
 
-  // Lock background scrolling while the mobile menu is open.
+  // =====================================================
+  // LOCK BACKGROUND SCROLL ON MOBILE MENU
+  // =====================================================
+
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
 
@@ -213,6 +269,10 @@ const Navbar = () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [menuOpen, closeMenu]);
+
+  // =====================================================
+  // WORK DROPDOWN
+  // =====================================================
 
   const renderWorkDropdown = (isMobile = false) => (
     <div
@@ -288,6 +348,10 @@ const Navbar = () => {
     </div>
   );
 
+  // =====================================================
+  // RENDER NAVIGATION LINKS
+  // =====================================================
+
   const renderNavLinks = (isMobile = false) =>
     NAV_LINKS.map((link) => {
       if (link.key === "work") {
@@ -317,12 +381,19 @@ const Navbar = () => {
       );
     });
 
+  // =====================================================
+  // NAVBAR JSX
+  // =====================================================
+
   return (
     <>
       <header
         className={`sk-navbar ${scrolled ? "scrolled" : ""}`}
       >
         <div className="sk-navbar-container">
+
+          {/* LOGO */}
+
           <Link
             to="/"
             className="sk-logo"
@@ -334,12 +405,16 @@ const Navbar = () => {
             <img src={steelKraftLogo} alt="Steel Kraft" />
           </Link>
 
+          {/* DESKTOP NAVIGATION */}
+
           <nav
             className="sk-desktop-menu"
             aria-label="Main navigation"
           >
             {renderNavLinks()}
           </nav>
+
+          {/* DESKTOP GET A QUOTE */}
 
           <button
             type="button"
@@ -349,6 +424,8 @@ const Navbar = () => {
             <span>Get a Quote</span>
             <span aria-hidden="true">→</span>
           </button>
+
+          {/* MOBILE MENU BUTTON */}
 
           <button
             type="button"
@@ -374,6 +451,8 @@ const Navbar = () => {
         </div>
       </header>
 
+      {/* MOBILE OVERLAY */}
+
       <div
         className={`sk-mobile-overlay ${
           menuOpen ? "active" : ""
@@ -381,6 +460,8 @@ const Navbar = () => {
         onClick={closeMenu}
         aria-hidden="true"
       />
+
+      {/* MOBILE MENU */}
 
       <aside
         id="sk-mobile-menu"
@@ -390,6 +471,8 @@ const Navbar = () => {
         aria-hidden={!menuOpen}
         inert={!menuOpen}
       >
+        {/* MOBILE HEADER */}
+
         <div className="sk-mobile-header">
           <Link
             to="/"
@@ -412,12 +495,16 @@ const Navbar = () => {
           </button>
         </div>
 
+        {/* MOBILE NAVIGATION */}
+
         <nav
           className="sk-mobile-links"
           aria-label="Mobile navigation"
         >
           {renderNavLinks(true)}
         </nav>
+
+        {/* MOBILE GET A QUOTE */}
 
         <div className="sk-mobile-cta">
           <button type="button" onClick={openQuotePopup}>

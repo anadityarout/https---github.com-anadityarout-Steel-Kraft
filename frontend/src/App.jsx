@@ -43,6 +43,7 @@ import OneBHK from "./Components/Work/OneBHK";
 import Twobhk from "./Components/Work/Twobhk";
 import Threebhk from "./Components/Work/Threebhk";
 import FourBhk from "./Components/Work/FourBhk";
+import AboutPage from "./Components/About/Aboutpage";
 
 
 // =====================================================
@@ -154,6 +155,7 @@ function AppLayout() {
   // Website pages that show the Navbar and Footer.
   const websiteRoutes = [
     "/",
+      "/about",
     "/contact",
     "/projects",
     "/homes-cottages",
@@ -200,6 +202,12 @@ function AppLayout() {
       {/* WEBSITE AND ADMIN ROUTES */}
       <Routes>
         <Route path="/" element={<Home />} />
+
+        {/* ABOUT US PAGE */}
+  <Route
+    path="/about"
+    element={<AboutPage />}
+  />
 
         <Route
           path="/contact"
