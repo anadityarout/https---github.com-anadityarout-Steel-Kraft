@@ -1,4 +1,3 @@
-
 @import url("https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
 
 /* =========================================================
@@ -7,7 +6,6 @@
 
 .fb-section {
   --fb-gold: #f5b942;
-  --fb-gold-grad: linear-gradient(90deg, #fbd06a 0%, #e9a233 100%);
   --fb-ink: #0f1a2e;
   --fb-text: #51607a;
   --fb-label: #2c3e55;
@@ -41,7 +39,6 @@
 
 /* =========================================================
    MAIN LAYOUT
-   More width for heading on the left
 ========================================================= */
 
 .fb-layout {
@@ -52,7 +49,7 @@
 }
 
 /* =========================================================
-   TEXT SECTION
+   EYEBROW
 ========================================================= */
 
 .fb-eyebrow {
@@ -69,6 +66,11 @@
   line-height: 1;
   letter-spacing: 2.4px;
   text-transform: uppercase;
+}
+
+/* Hide completely if there is no text */
+.fb-eyebrow:empty {
+  display: none;
 }
 
 .fb-eyebrow::before {
@@ -92,8 +94,12 @@
 
 /* =========================================================
    H2 HEADING
-   TEXT DIRECTLY INSIDE H2
-   EXACTLY TWO LINES ON DESKTOP
+   Desktop: two lines
+     Faster Prefab Construction
+     with Smart Planning
+   - Text wraps naturally inside the left column
+   - text-wrap: balance splits the lines evenly
+   - pre-line lets a new line typed in the admin force a break
 ========================================================= */
 
 .fb-title {
@@ -108,23 +114,14 @@
 
   font-family: "Lora", "Playfair Display", Georgia, "Times New Roman", serif;
 
-  font-size: 42px;
+  /* scales with the screen so the first line always fits the column */
+  font-size: clamp(28px, 3.3vw, 42px);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.5px;
 
-  text-wrap: initial;
-}
-
-/* Desktop heading */
-@media (min-width: 901px) {
-  .fb-title {
-    white-space: nowrap;
-  }
-}
-
-.fb-section .fb-title {
-  font-weight: 700;
+  white-space: pre-line;
+  text-wrap: balance;
 }
 
 /* =========================================================
@@ -167,12 +164,17 @@
   border: 1px solid transparent;
   border-radius: 18px;
 
-  cursor: default;
+  cursor: pointer;
 
   transition:
     background 0.3s ease,
     border-color 0.3s ease,
     box-shadow 0.3s ease;
+}
+
+.fb-feature:focus-visible {
+  outline: 2px solid var(--fb-gold);
+  outline-offset: 2px;
 }
 
 .fb-feature.is-active {
@@ -353,7 +355,7 @@
   display: grid;
 
   grid-template-columns: 2.4fr 1fr 1fr 2.4fr;
-  grid-template-rows: 44px 44px;
+  grid-template-rows: repeat(2, minmax(44px, auto));
 
   grid-template-areas:
     "prep assembly finishes time"
@@ -432,10 +434,6 @@
     gap: 28px;
   }
 
-  .fb-title {
-    font-size: 38px;
-  }
-
   .fb-diagram {
     padding: 24px;
   }
@@ -477,18 +475,10 @@
   }
 
   .fb-title {
-    display: block;
-
-    width: 100%;
-    max-width: 100%;
-
     margin: 0 auto 24px;
 
     font-size: 40px;
     line-height: 1.15;
-
-    white-space: normal;
-    text-wrap: balance;
   }
 
   .fb-lead {
@@ -541,8 +531,6 @@
 
     font-size: 28px;
     line-height: 1.2;
-
-    white-space: normal;
   }
 
   .fb-lead {
@@ -616,10 +604,7 @@
   }
 
   .fb-a-assembly,
-  .fb-a-finishes {
-    min-height: 52px;
-  }
-
+  .fb-a-finishes,
   .fb-a-time {
     min-height: 52px;
   }

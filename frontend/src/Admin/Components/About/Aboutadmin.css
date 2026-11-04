@@ -1,0 +1,412 @@
+
+/* =========================================
+   ABOUT ADMIN MAIN CONTAINER
+========================================= */
+
+.about-admin {
+  width: 100%;
+  min-height: 100vh;
+  padding: 25px;
+  background: #ffffff;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.about-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.about-admin-header h2 {
+  margin: 0 0 7px;
+  color: #10243a;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.about-admin-header p {
+  margin: 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+/* =========================================
+   ADD BUTTON
+========================================= */
+
+.about-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  padding: 11px 20px;
+  min-width: 90px;
+
+  background: #071a2e;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 7px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.about-add-btn:hover {
+  background: #1264ef;
+}
+
+/* =========================================
+   FORM CONTAINER
+========================================= */
+
+.about-form {
+  width: 100%;
+  margin-bottom: 25px;
+
+  border: 1px solid #dce4ee;
+  border-radius: 5px;
+
+  background: #ffffff;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.about-form-body {
+  padding: 25px 22px 22px;
+}
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.about-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.about-form-group:last-child {
+  margin-bottom: 0;
+}
+
+.about-form-group label {
+  color: #15263b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.about-form-group input,
+.about-form-group textarea {
+  width: 100%;
+  padding: 14px;
+
+  border: 1px solid #cbd7e6;
+  border-radius: 6px;
+
+  outline: none;
+  box-sizing: border-box;
+
+  color: #26384d;
+  background: #ffffff;
+
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+
+  transition: border-color 0.2s ease;
+}
+
+.about-form-group input {
+  height: 48px;
+}
+
+.about-form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.about-form-group input::placeholder,
+.about-form-group textarea::placeholder {
+  color: #8b9bb2;
+}
+
+.about-form-group input:focus,
+.about-form-group textarea:focus {
+  border-color: #1769f5;
+  box-shadow: 0 0 0 2px rgba(23, 105, 245, 0.08);
+}
+
+/* =========================================
+   FORM FOOTER
+========================================= */
+
+.about-form-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+
+  padding: 15px 22px;
+
+  border-top: 1px solid #e1e8f0;
+  background: #fafbfd;
+}
+
+.about-save-btn,
+.about-cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  height: 40px;
+  padding: 0 17px;
+
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.about-save-btn {
+  color: #ffffff;
+  background: #071a2e;
+  border: 1px solid #071a2e;
+}
+
+.about-save-btn:hover {
+  background: #1769f5;
+  border-color: #1769f5;
+}
+
+.about-cancel-btn {
+  color: #26384d;
+  background: #ffffff;
+  border: 1px solid #cbd7e6;
+}
+
+.about-cancel-btn:hover {
+  background: #edf2f7;
+}
+
+/* =========================================
+   TABLE CONTAINER
+========================================= */
+
+.about-table-container {
+  width: 100%;
+  overflow-x: auto;
+
+  border-radius: 9px;
+  background: #ffffff;
+
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.about-table {
+  width: 100%;
+  min-width: 1050px;
+
+  border-collapse: separate;
+  border-spacing: 0;
+
+  color: #26384d;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Table Header */
+
+.about-table thead {
+  background: #1764ed;
+}
+
+.about-table thead th {
+  padding: 19px 14px;
+
+  background: #1764ed;
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.about-table thead th:first-child {
+  border-top-left-radius: 8px;
+}
+
+.about-table thead th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* Table Body */
+
+.about-table tbody td {
+  padding: 18px 14px;
+
+  background: #ffffff;
+
+  border-bottom: 1px solid #edf0f5;
+
+  vertical-align: middle;
+  line-height: 1.6;
+}
+
+.about-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.about-name-cell {
+  font-weight: 600;
+  color: #15263b;
+}
+
+.about-description-cell {
+  max-width: 350px;
+  min-width: 250px;
+}
+
+/* Empty Message */
+
+.about-empty {
+  padding: 35px !important;
+  color: #718096;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.about-action-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.about-edit-btn,
+.about-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 8px 11px;
+
+  border-radius: 6px;
+  background: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+  white-space: nowrap;
+}
+
+.about-edit-btn {
+  color: #1764ed;
+  border: 1px solid #b9d2ff;
+}
+
+.about-edit-btn:hover {
+  background: #1764ed;
+  color: #ffffff;
+}
+
+.about-delete-btn {
+  color: #e33434;
+  border: 1px solid #ffc4c4;
+}
+
+.about-delete-btn:hover {
+  background: #e33434;
+  color: #ffffff;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 768px) {
+  .about-admin {
+    padding: 15px;
+  }
+
+  .about-admin-header h2 {
+    font-size: 20px;
+  }
+
+  .about-form-body {
+    padding: 18px 14px;
+  }
+
+  .about-form-footer {
+    padding: 13px 14px;
+  }
+
+  .about-table {
+    min-width: 950px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-admin {
+    padding: 12px;
+  }
+
+  .about-admin-header {
+    align-items: flex-start;
+  }
+
+  .about-admin-header h2 {
+    font-size: 18px;
+  }
+
+  .about-admin-header p {
+    font-size: 12px;
+  }
+
+  .about-add-btn {
+    padding: 10px 13px;
+    font-size: 13px;
+  }
+
+  .about-form-group input {
+    height: 44px;
+  }
+
+  .about-form-group textarea {
+    min-height: 100px;
+  }
+
+  .about-form-footer {
+    flex-wrap: wrap;
+  }
+
+  .about-save-btn,
+  .about-cancel-btn {
+    flex: 1;
+  }
+}

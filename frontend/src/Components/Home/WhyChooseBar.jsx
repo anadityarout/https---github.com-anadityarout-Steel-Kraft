@@ -1,27 +1,29 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import "./WhyChooseBar.css";
 
-/* =========================================================
-   IMAGES  -  CHANGE THESE 6 LINES ONLY
+// ========================================
+// AWS API
+// ========================================
 
-   1. Copy your 6 pictures into the  src/assets  folder.
-   2. Replace the file name inside the quotes with your own
-      file name (keep the "../../assets/" part).
+const API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/prefabadmin";
 
-   Right now they all point to home.jpg / home1.jpg so the
-   page works straight away. Swap them for your real pictures.
-========================================================= */
-import imgFaster from "../../assets/why1.png";        // 1. Faster to build
-import imgPrecision from "../../assets/why2.png";    // 2. Precision-made
-import imgDurable from "../../assets/why3.png";       // 3. Strong and durable
-import imgSustainable from "../../assets/why4.png";  // 4. More sustainable
-import imgCustom from "../../assets/why5.png";        // 5. Fully customisable
-import imgLight from "../../assets/why6.png";        // 6. Light on the site
+// ========================================
+// IMAGES
+// ========================================
 
-/* =========================================================
-   CONTENT
-   Change the text here, the layout updates by itself.
-========================================================= */
+import imgFaster from "../../assets/why1.png";
+import imgPrecision from "../../assets/why2.png";
+import imgDurable from "../../assets/why3.png";
+import imgSustainable from "../../assets/why4.png";
+import imgCustom from "../../assets/why5.png";
+import imgLight from "../../assets/why6.png";
+
+// ========================================
+// BENEFITS DATA
+// ========================================
+
 const benefits = [
   {
     label: "Faster to build",
@@ -103,9 +105,10 @@ const benefits = [
   },
 ];
 
-/* =========================================================
-   ICONS (inline SVG, no extra package needed)
-========================================================= */
+// ========================================
+// ICONS
+// ========================================
+
 function Icon({ name, size = 22, strokeWidth = 2 }) {
   let shapes = null;
 
@@ -203,46 +206,107 @@ function Icon({ name, size = 22, strokeWidth = 2 }) {
   );
 }
 
-/* =========================================================
-   COMPONENT
-========================================================= */
+// ========================================
+// MAIN COMPONENT
+// ========================================
+
 const WhyChooseBar = () => {
   const [active, setActive] = useState(0);
 
+  // ========================================
+  // ADMIN HEADER CONTENT
+  // ========================================
+
+  const [headerContent, setHeaderContent] = useState({
+    name: "",
+    subtitle: "",
+    description: "",
+  });
+
+  // ========================================
+  // FETCH CONTENT FROM AWS
+  // ========================================
+
+  useEffect(() => {
+    const fetchPrefabContent = async () => {
+      try {
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+          throw new Error("Unable to fetch prefab content");
+        }
+
+        const data = await response.json();
+
+        // Get the latest admin entry
+        const latestItem = Array.isArray(data)
+          ? data[0]
+          : data;
+
+        if (latestItem) {
+          setHeaderContent({
+            name: latestItem.name || "",
+            subtitle: latestItem.subtitle || "",
+            description: latestItem.description || "",
+          });
+        }
+      } catch (error) {
+        console.error("Prefab content error:", error);
+      }
+    };
+
+    fetchPrefabContent();
+  }, []);
+
   const current = benefits[active];
+
+  // ========================================
+  // JSX
+  // ========================================
 
   return (
     <section className="sk-why" id="why-prefab-steel">
       <div className="sk-why__container">
 
-        {/* =====================================================
-            HEADER
-        ===================================================== */}
+        {/* ==================================
+            HEADER - FROM ADMIN DASHBOARD
+        ================================== */}
+
         <header className="sk-why__header">
 
-          <div className="sk-why__eyebrow">
-            <span className="sk-why__eyebrow-dot" />
-            <span>WHY PREFAB STEEL</span>
-          </div>
+          {headerContent.name && (
+            <div className="sk-why__eyebrow">
+              <span className="sk-why__eyebrow-dot" />
+              <span>{headerContent.name}</span>
+            </div>
+          )}
 
-          <h2 className="sk-why__title">
-            A better frame for the way you want to build
-          </h2>
+          {headerContent.subtitle && (
+            <h2 className="sk-why__title">
+              {headerContent.subtitle}
+            </h2>
+          )}
 
-          <span className="sk-why__rule" />
+          {headerContent.description && (
+            <>
+              <span className="sk-why__rule" />
 
-          <p className="sk-why__hint">
-            Hover or tap a benefit to see what it means for your project.
-          </p>
+              <p className="sk-why__hint">
+                {headerContent.description}
+              </p>
+            </>
+          )}
 
         </header>
 
-        {/* =====================================================
-            LIST (left) + CARD (right)
-        ===================================================== */}
+        {/* ==================================
+            BENEFIT LIST + DETAIL CARD
+        ================================== */}
+
         <div className="sk-why__layout">
 
-          {/* ---------- BENEFIT LIST ---------- */}
+          {/* BENEFIT LIST */}
+
           <div
             className="sk-why__list"
             role="tablist"
@@ -268,12 +332,15 @@ const WhyChooseBar = () => {
                   <Icon name={benefit.icon} size={20} />
                 </span>
 
-                <span className="sk-why__item-label">{benefit.label}</span>
+                <span className="sk-why__item-label">
+                  {benefit.label}
+                </span>
               </button>
             ))}
           </div>
 
-          {/* ---------- DETAIL CARD ---------- */}
+          {/* DETAIL CARD */}
+
           <div
             className="sk-why__card"
             role="tabpanel"
@@ -282,6 +349,7 @@ const WhyChooseBar = () => {
           >
 
             {/* IMAGE AREA */}
+
             <div className="sk-why__media">
 
               {benefits.map((benefit, index) => (
@@ -293,52 +361,82 @@ const WhyChooseBar = () => {
                   }
                   src={benefit.image}
                   alt={index === active ? benefit.title : ""}
-                  aria-hidden={index === active ? undefined : "true"}
+                  aria-hidden={
+                    index === active ? undefined : "true"
+                  }
                   decoding="async"
                 />
               ))}
 
               <div className="sk-why__media-shade" />
 
-              {/* floating decorations */}
-              <span className="sk-why__float sk-why__float--a" aria-hidden="true">
+              {/* FLOATING DECORATIONS */}
+
+              <span
+                className="sk-why__float sk-why__float--a"
+                aria-hidden="true"
+              >
                 <Icon name="check" size={18} strokeWidth={2.4} />
               </span>
 
-              <span className="sk-why__float sk-why__float--b" aria-hidden="true">
+              <span
+                className="sk-why__float sk-why__float--b"
+                aria-hidden="true"
+              >
                 <Icon name="plus" size={16} strokeWidth={2.4} />
               </span>
 
-              <span className="sk-why__float sk-why__float--c" aria-hidden="true">
+              <span
+                className="sk-why__float sk-why__float--c"
+                aria-hidden="true"
+              >
                 <Icon name="check" size={18} strokeWidth={2.4} />
               </span>
 
-              {/* big icon tile in the middle */}
+              {/* MAIN ICON */}
+
               <div className="sk-why__badge" aria-hidden="true">
                 <span className="sk-why__badge-ring" />
+
                 <span className="sk-why__badge-tile" key={active}>
-                  <Icon name={current.icon} size={44} strokeWidth={1.8} />
+                  <Icon
+                    name={current.icon}
+                    size={44}
+                    strokeWidth={1.8}
+                  />
                 </span>
               </div>
 
             </div>
 
-            {/* TEXT AREA (re-animates on every change) */}
-            <div className="sk-why__body" key={active}>
-              <h3 className="sk-why__card-title">{current.title}</h3>
+            {/* TEXT AREA */}
 
-              <p className="sk-why__card-text">{current.description}</p>
+            <div className="sk-why__body" key={active}>
+
+              <h3 className="sk-why__card-title">
+                {current.title}
+              </h3>
+
+              <p className="sk-why__card-text">
+                {current.description}
+              </p>
 
               <ul className="sk-why__points">
                 {current.points.map((point) => (
                   <li key={point}>
                     <span className="sk-why__point-icon">
-                      <Icon name="check" size={16} strokeWidth={2.2} />
+                      <Icon
+                        name="check"
+                        size={16}
+                        strokeWidth={2.2}
+                      />
                     </span>
+
                     <span>{point}</span>
                   </li>
                 ))}
               </ul>
+
             </div>
 
           </div>

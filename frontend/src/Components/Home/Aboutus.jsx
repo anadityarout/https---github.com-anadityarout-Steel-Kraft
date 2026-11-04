@@ -1,25 +1,11 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import "./Aboutus.css";
 
-/* =========================================================
-   IMAGES
+// ========================================
+// IMAGES
+// ========================================
 
-   MODE 1 (works right now)
-   Uses your existing aboutmain.jpg (big photo + small photo
-   together in one picture). The badge floats, the small photo
-   cannot float because it is part of the same picture.
-
-   MODE 2 (both small photo and badge float)
-   Put these 2 files in src/assets and everything switches on
-   automatically, no code change needed:
-
-     about-main.jpg   -> the BIG photo only (no small photo,
-                         no white frame, no shadow)
-     about-inset.jpg  -> the SMALL interior photo only
-                         (no white frame, CSS adds the frame)
-
-   .png and .webp also work.
-========================================================= */
 import aboutMain from "../../assets/aboutmain.jpg";
 
 const splitMainFiles = import.meta.glob(
@@ -34,12 +20,20 @@ const splitInsetFiles = import.meta.glob(
 
 const splitMain = Object.values(splitMainFiles)[0];
 const splitInset = Object.values(splitInsetFiles)[0];
+
 const isSplit = Boolean(splitMain && splitInset);
 
-/* =========================================================
-   CONTENT
-   Change the text here, the layout updates by itself.
-========================================================= */
+// ========================================
+// AWS API
+// ========================================
+
+const ABOUT_API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/aboutadmin";
+
+// ========================================
+// STATIC POINTS
+// ========================================
+
 const points = [
   {
     title: "One team, drawing to handover",
@@ -53,13 +47,15 @@ const points = [
   },
   {
     title: "Designed to be extended",
-    description: "Bolted steel frames make later additions simpler.",
+    description:
+      "Bolted steel frames make later additions simpler.",
   },
 ];
 
-/* =========================================================
-   ICONS (inline SVG, no extra package needed)
-========================================================= */
+// ========================================
+// ICONS
+// ========================================
+
 function FactoryIcon() {
   return (
     <svg
@@ -99,17 +95,84 @@ function CheckIcon() {
   );
 }
 
-/* =========================================================
-   COMPONENT
-========================================================= */
+// ========================================
+// ABOUT US COMPONENT
+// ========================================
+
 const Aboutus = () => {
+  const [aboutData, setAboutData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // ======================================
+  // FETCH ABOUT CONTENT FROM AWS
+  // ======================================
+
+  useEffect(() => {
+    const fetchAboutData = async () => {
+      try {
+        const response = await fetch(ABOUT_API_URL, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+          },
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `About API failed: ${response.status}`
+          );
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid About API response.");
+        }
+
+        // Get the latest saved About banner
+        if (data.length > 0) {
+          setAboutData(data[data.length - 1]);
+        } else {
+          setAboutData(null);
+        }
+      } catch (error) {
+        console.error("Error fetching About content:", error);
+        setAboutData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAboutData();
+  }, []);
+
+  // ======================================
+  // LOADING STATE
+  // ======================================
+
+  if (loading) {
+    return null;
+  }
+
+  // ======================================
+  // NO ABOUT CONTENT
+  // ======================================
+
+  if (!aboutData) {
+    return null;
+  }
+
+  // ======================================
+  // MAIN JSX
+  // ======================================
+
   return (
     <section className="aboutus-section" id="about">
       <div className="aboutus-container">
 
-        {/* =========================
-            LEFT: IMAGE + FLOATING ITEMS
-        ========================= */}
+        {/* LEFT: IMAGE AND FLOATING ITEMS */}
+
         <div className="aboutus-visual">
           <div
             className={
@@ -117,7 +180,6 @@ const Aboutus = () => {
               (isSplit ? " aboutus-image-wrap--split" : "")
             }
           >
-
             {isSplit ? (
               <div className="aboutus-photo">
                 <img
@@ -134,7 +196,8 @@ const Aboutus = () => {
               />
             )}
 
-            {/* FLOATING 1: small photo (only in MODE 2) */}
+            {/* FLOATING SMALL IMAGE */}
+
             {isSplit && (
               <div className="aboutus-inset">
                 <img
@@ -145,7 +208,8 @@ const Aboutus = () => {
               </div>
             )}
 
-            {/* FLOATING 2: badge */}
+            {/* FLOATING BADGE */}
+
             <div className="aboutus-badge">
               <span className="aboutus-badge-icon">
                 <FactoryIcon />
@@ -155,32 +219,34 @@ const Aboutus = () => {
                 Made in the factory, assembled on your plot
               </span>
             </div>
-
           </div>
         </div>
 
-        {/* =========================
-            RIGHT: CONTENT
-        ========================= */}
+        {/* RIGHT: ADMIN DASHBOARD CONTENT */}
+
         <div className="aboutus-content">
 
           <div className="aboutus-label">
             <span className="aboutus-label-dot" />
-            <span>ABOUT STEEL CRAFT</span>
+            <span>{aboutData.name}</span>
           </div>
 
           <h2 className="aboutus-title">
-            Innovative Prefabricated Construction Solutions
+            {aboutData.subtitle}
           </h2>
 
           <p className="aboutus-description">
-            Steel Craft specializes in modern prefabricated construction for residential, commercial, and hospitality projects. From contemporary prefab homes and modular villas to holiday cottages and resort accommodations, we provide customized building solutions that combine quality, functionality, and attractive design. Our approach focuses on efficient installation, durability, and practical space utilization to meet diverse project requirements.
+            {aboutData.description}
           </p>
+
+          {/* EXISTING POINTS */}
 
           <ul className="aboutus-points">
             {points.map((point) => (
-              <li className="aboutus-point" key={point.title}>
-
+              <li
+                className="aboutus-point"
+                key={point.title}
+              >
                 <span className="aboutus-point-icon">
                   <CheckIcon />
                 </span>
@@ -189,13 +255,11 @@ const Aboutus = () => {
                   <h3>{point.title}</h3>
                   <p>{point.description}</p>
                 </div>
-
               </li>
             ))}
           </ul>
 
         </div>
-
       </div>
     </section>
   );

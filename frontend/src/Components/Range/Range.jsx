@@ -1,28 +1,29 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import "./Range.css";
 
-/* =========================================================
-   IMAGES  -  CHANGE THESE 6 LINES ONLY
+// ============================================
+// IMAGES
+// ============================================
 
-   1. Copy your 6 pictures into the  src/assets  folder.
-   2. Replace the file name inside the quotes with your own
-      file name (keep the "../../assets/" part).
+import imgAFrame from "../../assets/gal1.png";
+import imgStudio from "../../assets/ran2.png";
+import imgVilla from "../../assets/ran3.jpg";
+import imgDuplex from "../../assets/ran4.png";
+import imgPavilion from "../../assets/why5.png";
+import imgPool from "../../assets/why1.png";
 
-   Right now they point to your old 1 to 6 pictures so the
-   page works straight away. Swap them for the real ones.
-========================================================= */
-import imgAFrame from "../../assets/gal1.png";   // SC-01  A-Frame Cottage
-import imgStudio from "../../assets/ran2.png";   // SC-02  Studio Cabin
-import imgVilla from "../../assets/ran3.jpg";    // SC-03  Modular Villa
-import imgDuplex from "../../assets/ran4.png";   // SC-04  Skyline Duplex
-import imgPavilion from "../../assets/why5.png"; // SC-05  Resort Pavilion
-import imgPool from "../../assets/why1.png";     // SC-06  Pool Villa
+// ============================================
+// AWS API GATEWAY
+// ============================================
 
-/* =========================================================
-   CONTENT
-   Change the text here, the layout updates by itself.
-   category must be one of: "cottage", "villa", "resort"
-========================================================= */
+const API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/cottageadmin";
+
+// ============================================
+// FILTERS
+// ============================================
+
 const filters = [
   { id: "all", label: "All designs" },
   { id: "cottage", label: "Cottages" },
@@ -41,6 +42,10 @@ const categoryIcons = {
   villa: "home",
   resort: "building",
 };
+
+// ============================================
+// DESIGN CARDS
+// ============================================
 
 const designs = [
   {
@@ -99,9 +104,10 @@ const designs = [
   },
 ];
 
-/* =========================================================
-   ICONS (inline SVG, no extra package needed)
-========================================================= */
+// ============================================
+// ICONS
+// ============================================
+
 function Icon({ name, size = 18 }) {
   let shapes = null;
 
@@ -179,49 +185,105 @@ function Icon({ name, size = 18 }) {
   );
 }
 
-/* =========================================================
-   COMPONENT
-========================================================= */
+// ============================================
+// RANGE COMPONENT
+// ============================================
+
 const Range = () => {
   const [filter, setFilter] = useState("all");
+
+  // ABOUT COTTAGES CONTENT FROM AWS
+  const [headerContent, setHeaderContent] = useState(null);
+
+  // ==========================================
+  // FETCH COTTAGE CONTENT FROM LAMBDA
+  // ==========================================
+
+  useEffect(() => {
+    const fetchCottageContent = async () => {
+      try {
+        const response = await fetch(API_URL, {
+          method: "GET",
+        });
+
+        if (!response.ok) {
+          throw new Error("Unable to fetch cottage content.");
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          // Latest saved record
+          setHeaderContent(data[0]);
+        } else {
+          setHeaderContent(null);
+        }
+      } catch (error) {
+        console.error(
+          "Error loading Home Cottages content:",
+          error
+        );
+      }
+    };
+
+    fetchCottageContent();
+  }, []);
+
+  // ==========================================
+  // FILTER DESIGNS
+  // ==========================================
 
   const visibleDesigns =
     filter === "all"
       ? designs
-      : designs.filter((design) => design.category === filter);
+      : designs.filter(
+          (design) => design.category === filter
+        );
+
+  // ==========================================
+  // JSX
+  // ==========================================
 
   return (
     <section className="sk-range" id="homes-cottages">
+
       <div className="sk-range__container">
 
-        {/* =====================================================
-            HEADER
-        ===================================================== */}
+        {/* ==================================
+            HEADER - DYNAMIC FROM ADMIN
+        ================================== */}
+
         <header className="sk-range__header">
 
-          <div className="sk-range__eyebrow">
-            <span className="sk-range__eyebrow-dot" />
-            <span>HOMES &amp; COTTAGES</span>
-          </div>
+          {headerContent?.name && (
+            <div className="sk-range__eyebrow">
+              <span className="sk-range__eyebrow-dot" />
+              <span>{headerContent.name}</span>
+            </div>
+          )}
 
-          {/* Two lines on desktop: each span is one line */}
-          <h2 className="sk-range__title">
-  Explore Prefab Homes,
-  <br />
-  Modular Villas, &amp; Resorts Cottages
-</h2>
+          {headerContent?.subtitle && (
+            <h2 className="sk-range__title">
+              {headerContent.subtitle}
+            </h2>
+          )}
 
-          <span className="sk-range__rule" />
+          {headerContent?.subtitle && (
+            <span className="sk-range__rule" />
+          )}
 
-          <p className="sk-range__hint">
-            Explore customizable prefab homes, villas, and resort cottages designs tailored to your plot and needs.
-          </p>
+          {headerContent?.description && (
+            <p className="sk-range__hint">
+              {headerContent.description}
+            </p>
+          )}
 
         </header>
 
-        {/* =====================================================
+        {/* ==================================
             FILTERS
-        ===================================================== */}
+        ================================== */}
+
         <div
           className="sk-range__filters"
           role="group"
@@ -243,10 +305,12 @@ const Range = () => {
           ))}
         </div>
 
-        {/* =====================================================
-            CARDS (key restarts the entrance animation)
-        ===================================================== */}
+        {/* ==================================
+            DESIGN CARDS
+        ================================== */}
+
         <div className="sk-range__grid" key={filter}>
+
           {visibleDesigns.map((design, index) => (
             <article
               className="sk-range__card"
@@ -255,6 +319,7 @@ const Range = () => {
             >
 
               <div className="sk-range__media">
+
                 <img
                   src={design.image}
                   alt={design.title}
@@ -263,11 +328,17 @@ const Range = () => {
                   decoding="async"
                 />
 
-                <span className="sk-range__code">{design.code}</span>
+                <span className="sk-range__code">
+                  {design.code}
+                </span>
 
                 <span className="sk-range__type" aria-hidden="true">
-                  <Icon name={categoryIcons[design.category]} size={20} />
+                  <Icon
+                    name={categoryIcons[design.category]}
+                    size={20}
+                  />
                 </span>
+
               </div>
 
               <div className="sk-range__body">
@@ -276,9 +347,13 @@ const Range = () => {
                   {categoryLabels[design.category]}
                 </span>
 
-                <h3 className="sk-range__card-title">{design.title}</h3>
+                <h3 className="sk-range__card-title">
+                  {design.title}
+                </h3>
 
-                <p className="sk-range__card-text">{design.description}</p>
+                <p className="sk-range__card-text">
+                  {design.description}
+                </p>
 
                 <div className="sk-range__size">
                   <Icon name="plan" size={16} />
@@ -294,11 +369,13 @@ const Range = () => {
 
             </article>
           ))}
+
         </div>
 
-        {/* =====================================================
+        {/* ==================================
             NOTE
-        ===================================================== */}
+        ================================== */}
+
         <p className="sk-range__note">
           Illustrations are artist impressions. Sizes are indicative
           starting points, and final plans depend on your plot, local

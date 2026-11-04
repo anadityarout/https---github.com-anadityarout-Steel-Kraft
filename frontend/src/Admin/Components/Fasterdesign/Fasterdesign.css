@@ -1,0 +1,329 @@
+
+/* MAIN CONTAINER */
+
+.faster-admin {
+  width: 100%;
+  min-width: 0;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #07182b;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER */
+
+.faster-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.faster-admin-header h2 {
+  margin: 0 0 6px;
+  color: #07182b;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.faster-admin-header p {
+  margin: 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+/* ADD BUTTON */
+
+.faster-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 95px;
+  padding: 11px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #07182b;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.faster-add-btn:hover,
+.faster-save-btn:hover {
+  background: #163b60;
+}
+
+/* FORM */
+
+.faster-form {
+  width: 100%;
+  border: 1px solid #d8e1ed;
+  border-radius: 5px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.faster-form-body {
+  padding: 25px 22px 20px;
+}
+
+.faster-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.faster-form-group:last-of-type {
+  margin-bottom: 15px;
+}
+
+.faster-form-group label {
+  color: #07182b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.faster-form-group input,
+.faster-form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid #cbd8e8;
+  border-radius: 7px;
+  outline: none;
+  background: #ffffff;
+  color: #07182b;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.faster-form-group input {
+  min-height: 48px;
+}
+
+.faster-form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.faster-form-group input:focus,
+.faster-form-group textarea:focus {
+  border-color: #2563eb;
+}
+
+.faster-form-group input::placeholder,
+.faster-form-group textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* OPTIONAL NOTE */
+
+.faster-optional-note {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+}
+
+/* FORM FOOTER */
+
+.faster-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 15px 20px;
+  border-top: 1px solid #d8e1ed;
+  background: #f8fafc;
+}
+
+.faster-save-btn,
+.faster-cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 95px;
+  padding: 11px 15px;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.faster-save-btn {
+  border: 1px solid #07182b;
+  background: #07182b;
+  color: #ffffff;
+}
+
+.faster-cancel-btn {
+  border: 1px solid #cbd8e8;
+  background: #ffffff;
+  color: #07182b;
+}
+
+.faster-cancel-btn:hover {
+  background: #edf2f7;
+}
+
+/* TABLE */
+
+.faster-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+}
+
+.faster-table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.faster-table thead {
+  background: #2161e9;
+  color: #ffffff;
+}
+
+.faster-table th {
+  padding: 17px 14px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.faster-table td {
+  padding: 15px 14px;
+  border-bottom: 1px solid #e5eaf1;
+  color: #334155;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.faster-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+/* NAME */
+
+.faster-name-cell {
+  min-width: 140px;
+  font-weight: 600;
+  color: #07182b !important;
+}
+
+/* DESCRIPTION */
+
+.faster-description-cell {
+  min-width: 180px;
+  max-width: 280px;
+  line-height: 1.6;
+}
+
+/* TYPE BADGE */
+
+.faster-type-badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ACTION BUTTONS */
+
+.faster-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.faster-edit-btn,
+.faster-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.faster-edit-btn {
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.faster-delete-btn {
+  border: 1px solid #fecaca;
+  background: #fff1f2;
+  color: #dc2626;
+}
+
+.faster-edit-btn:hover,
+.faster-delete-btn:hover {
+  opacity: 0.75;
+}
+
+/* EMPTY TABLE */
+
+.faster-empty {
+  padding: 35px !important;
+  text-align: center;
+  color: #718096 !important;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .faster-admin {
+    padding: 12px;
+  }
+
+  .faster-admin-header h2 {
+    font-size: 19px;
+  }
+
+  .faster-form-body {
+    padding: 18px 14px;
+  }
+
+  .faster-form-footer {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .faster-admin-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .faster-add-btn {
+    width: 100%;
+  }
+
+  .faster-form-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .faster-save-btn,
+  .faster-cancel-btn {
+    width: 100%;
+  }
+}

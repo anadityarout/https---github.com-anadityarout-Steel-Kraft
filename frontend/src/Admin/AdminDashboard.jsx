@@ -8,6 +8,10 @@ import Projecttext from "./Components/Projecttext/Projecttext";
 import Cottage from "./Components/Cottage/Cottage";
 import SeoAdmin from "./Components/Seo/SeoAdmin";
 import LeadsAdmin from "./Components/Leads/LeadsAdmin";
+import AboutAdmin from "./Components/About/Aboutadmin";
+import Prefabadmin from "./Components/Prefab/Prefabadmin";
+import Cottageadmin from "./Components/Cottage/Cottageadmin";
+import Fasterdesign from "./Components/Fasterdesign/Fasterdesign";
 
 export default function AdminDashboard() {
   const [activePage, setActivePage] = useState("Home Banner");
@@ -48,6 +52,11 @@ export default function AdminDashboard() {
         {activePage === "SEO Admin" && <SeoAdmin />}
 
         {activePage === "Customer Leads" && <LeadsAdmin />}
+
+        {activePage === "About Admin" && <AboutAdmin />}
+        {activePage === "Why Prefab Steel" && <Prefabadmin />}
+        {activePage === "Homecottages" && <Cottageadmin />}
+        {activePage === "Faster by design" && <Fasterdesign />}
       </main>
     </div>
   );
