@@ -8,7 +8,7 @@ import {
   X,
 } from "lucide-react";
 
-import "./AboutAdmin.css";
+import "./Aboutadmin.css";
 
 // ========================================
 // AWS API GATEWAY
