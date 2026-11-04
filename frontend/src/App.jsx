@@ -43,7 +43,7 @@ import OneBHK from "./Components/Work/OneBHK";
 import Twobhk from "./Components/Work/Twobhk";
 import Threebhk from "./Components/Work/Threebhk";
 import FourBhk from "./Components/Work/FourBhk";
-import AboutPage from "./Components/About/Aboutpage";
+import AboutPage from "./Components/About/About";
 
 
 // =====================================================
