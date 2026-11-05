@@ -410,6 +410,61 @@ const Project = () => {
   const tabRefs = useRef([]);
   const mounted = useRef(false);
 
+  // =====================================
+  // PROJECT HEADER CONTENT FROM AWS
+  // =====================================
+
+  const [projectContent, setProjectContent] = useState({
+    name: "",
+    subtitle: "",
+    description: "",
+  });
+
+  const [projectContentLoading, setProjectContentLoading] = useState(true);
+
+  // =====================================
+  // FETCH HEADER CONTENT FROM PROJECT ADMIN
+  // =====================================
+
+  useEffect(() => {
+    const fetchProjectContent = async () => {
+      try {
+        const response = await fetch(
+          "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/projectadmin"
+        );
+
+        if (!response.ok) {
+          throw new Error("Unable to fetch project content from AWS.");
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          // Lambda stores the newest project at the beginning of the array.
+          const latestProject = data[0];
+
+          setProjectContent({
+            name: latestProject.name || "",
+            subtitle: latestProject.subtitle || "",
+            description: latestProject.description || "",
+          });
+        } else {
+          setProjectContent({
+            name: "",
+            subtitle: "",
+            description: "",
+          });
+        }
+      } catch (error) {
+        console.error("Project header API error:", error);
+      } finally {
+        setProjectContentLoading(false);
+      }
+    };
+
+    fetchProjectContent();
+  }, []);
+
   const current = categories[active];
 
   // On mobile the tabs scroll sideways: keep the active one in view.
@@ -509,15 +564,25 @@ const Project = () => {
       <div className="projects-container">
         {/* ---------- HEADER (centered) ---------- */}
         <header className="projects-header">
-          <span className="projects-label">Projects</span>
+          {!projectContentLoading && (
+            <>
+              {projectContent.name && (
+                <span className="projects-label">
+                  {projectContent.name}
+                </span>
+              )}
 
-          <h2>Built for the places people live and stay</h2>
+              {projectContent.subtitle && (
+                <h2>{projectContent.subtitle}</h2>
+              )}
 
-          <p className="projects-intro">
-            We build private homes and hospitality sites where the same unit
-            has to be built many times. Pick a project type to see what we
-            deliver.
-          </p>
+              {projectContent.description && (
+                <p className="projects-intro">
+                  {projectContent.description}
+                </p>
+              )}
+            </>
+          )}
 
           <ul className="projects-stats">
             <li className="stat-card">

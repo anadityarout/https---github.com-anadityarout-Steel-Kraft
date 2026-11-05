@@ -12,6 +12,9 @@ import AboutAdmin from "./Components/About/Aboutadmin";
 import Prefabadmin from "./Components/Prefab/Prefabadmin";
 import Cottageadmin from "./Components/Cottage/Cottageadmin";
 import Fasterdesign from "./Components/Fasterdesign/Fasterdesign";
+import ProjectAdmin from "./Components/Projecttext/ProjectAdmin";
+import Galleryadmin from "./Components/Gallery/Galleryadmin";
+import Onebhkadmin from "./Components/Work/Onebhkadmin";
 
 export default function AdminDashboard() {
   const [activePage, setActivePage] = useState("Home Banner");
@@ -57,6 +60,9 @@ export default function AdminDashboard() {
         {activePage === "Why Prefab Steel" && <Prefabadmin />}
         {activePage === "Homecottages" && <Cottageadmin />}
         {activePage === "Faster by design" && <Fasterdesign />}
+        {activePage === "Home-project" && <ProjectAdmin />}
+        {activePage === "Home-gallery" && <Galleryadmin />}
+        {activePage === "1BHK" && <Onebhkadmin />}
       </main>
     </div>
   );

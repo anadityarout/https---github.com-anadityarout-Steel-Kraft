@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import {
   BrowserRouter,
@@ -45,7 +46,6 @@ import Threebhk from "./Components/Work/Threebhk";
 import FourBhk from "./Components/Work/FourBhk";
 import AboutPage from "./Components/About/About";
 
-
 // =====================================================
 // ADMIN DASHBOARD
 // =====================================================
@@ -60,7 +60,12 @@ import Popup from "./Components/Popup/Popup";
 import GetQuote from "./Components/Popup/GetQuote";
 import FloatingChat from "./Components/Popup/FloatingChat";
 
+// =====================================================
+// SEO
+// =====================================================
+
 import SeoMetadata from "./Components/Seomain/SeoMetadata";
+
 // =====================================================
 // SCROLL TO TOP ON ROUTE CHANGE
 // =====================================================
@@ -126,6 +131,7 @@ function NotFound() {
       }}
     >
       <h1>404</h1>
+
       <p>Page Not Found</p>
 
       <Link
@@ -152,108 +158,157 @@ function AppLayout() {
   const location = useLocation();
   const pathname = location.pathname;
 
-  // Website pages that show the Navbar and Footer.
+  // =====================================================
+  // WEBSITE ROUTES
+  // Navbar and Footer show only on website pages.
+  // =====================================================
+
   const websiteRoutes = [
     "/",
-      "/about",
+    "/about",
     "/contact",
     "/projects",
     "/homes-cottages",
-     "/work/1bhk",
-     "/work/2bhk",
-       "/work/3bhk",
-         "/work/4bhk", // Add this
+    "/work/1bhk",
+    "/work/2bhk",
+    "/work/3bhk",
+    "/work/4bhk",
   ];
 
   const isWebsitePage = websiteRoutes.includes(pathname);
 
-  // Pages where the GetQuote popup can be opened.
-  const quotePopupRoutes = [
-    "/",
-    "/projects",
-    "/homes-cottages",
-  ];
+  // =====================================================
+  // GET A QUOTE POPUP
+  // Available on ALL website pages.
+  // =====================================================
 
-  const showQuotePopup = quotePopupRoutes.includes(pathname);
+  const showQuotePopup = isWebsitePage;
 
-  // Consultation popup only on Home.
+  // =====================================================
+  // CONSULTATION POPUP
+  // Home page only.
+  // =====================================================
+
   const showConsultationPopup = pathname === "/";
 
-  // Floating chat icon only on Home.
+  // =====================================================
+  // FLOATING CHAT
+  // Home page only.
+  // =====================================================
+
   const showFloatingChat = pathname === "/";
 
   return (
-  <>
-      {/* DYNAMIC SEO METADATA */}
+    <>
+      {/* ================================================
+          DYNAMIC SEO METADATA
+      ================================================ */}
+
       {isWebsitePage && <SeoMetadata />}
 
-      {/* NAVBAR */}
+      {/* ================================================
+          NAVBAR
+      ================================================ */}
+
       {isWebsitePage && <Navbar />}
 
-      {/* EXISTING CONSULTATION POPUP - HOME ONLY */}
+      {/* ================================================
+          CONSULTATION POPUP - HOME ONLY
+      ================================================ */}
+
       {showConsultationPopup && <Popup />}
 
-      {/* GET A QUOTE POPUP */}
+      {/* ================================================
+          GET A QUOTE POPUP - ALL WEBSITE PAGES
+      ================================================ */}
+
       {showQuotePopup && <GetQuote />}
 
-      {/* FLOATING CHAT ICON - HOME ONLY */}
+      {/* ================================================
+          FLOATING CHAT - HOME ONLY
+      ================================================ */}
+
       {showFloatingChat && <FloatingChat />}
 
-      {/* WEBSITE AND ADMIN ROUTES */}
+      {/* ================================================
+          WEBSITE AND ADMIN ROUTES
+      ================================================ */}
+
       <Routes>
+        {/* HOME PAGE */}
         <Route path="/" element={<Home />} />
 
         {/* ABOUT US PAGE */}
-  <Route
-    path="/about"
-    element={<AboutPage />}
-  />
+        <Route
+          path="/about"
+          element={<AboutPage />}
+        />
 
+        {/* CONTACT PAGE */}
         <Route
           path="/contact"
           element={<Contact />}
         />
 
+        {/* PROJECT PAGE */}
         <Route
           path="/projects"
           element={<ProjectPage />}
         />
 
+        {/* HOMES & COTTAGES PAGE */}
         <Route
           path="/homes-cottages"
           element={<Homecottages />}
         />
-          <Route
-  path="/work/1bhk"
-  element={<OneBHK />}
-/>
 
-<Route
-  path="/work/2bhk"
-  element={<Twobhk />}
-/>
-<Route
-  path="/work/3bhk"
-  element={<Threebhk />}
-/>
-<Route
-  path="/work/4bhk"
-  element={<FourBhk />}
-/>
-        {/* ADMIN DASHBOARD */}
+        {/* 1 BHK PAGE */}
+        <Route
+          path="/work/1bhk"
+          element={<OneBHK />}
+        />
+
+        {/* 2 BHK PAGE */}
+        <Route
+          path="/work/2bhk"
+          element={<Twobhk />}
+        />
+
+        {/* 3 BHK PAGE */}
+        <Route
+          path="/work/3bhk"
+          element={<Threebhk />}
+        />
+
+        {/* 4 BHK PAGE */}
+        <Route
+          path="/work/4bhk"
+          element={<FourBhk />}
+        />
+
+        {/* ============================================
+            ADMIN DASHBOARD
+        ============================================ */}
+
         <Route
           path="/admin/*"
           element={<AdminDashboard />}
         />
 
-        {/* 404 PAGE */}
+        {/* ============================================
+            404 PAGE
+        ============================================ */}
+
         <Route
           path="*"
           element={<NotFound />}
         />
       </Routes>
 
-      {/* FOOTER */}
+      {/* ================================================
+          FOOTER - WEBSITE PAGES ONLY
+      ================================================ */}
+
       {isWebsitePage && <Footer />}
     </>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
   House,
@@ -33,6 +33,11 @@ import cottage47 from "../../assets/Cottage_47.png";
 import cottage48 from "../../assets/Cottage_48.png";
 import cottage50 from "../../assets/Cottage_50.png";
 import cottage60 from "../../assets/Cottage_60.png";
+
+// AWS API - 1BHK ADMIN CONTENT
+const ONEBHK_API =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/onebhkadmin";
+
 
 // =========================================
 // ONE BHK HOME DATA
@@ -176,6 +181,40 @@ const homes = [
 // =========================================
 
 const OneBHK = () => {
+  const [bannerContent, setBannerContent] = useState(null);
+
+  // GET NAME, SUBTITLE AND DESCRIPTION FROM AWS
+  useEffect(() => {
+    const fetchOneBHKContent = async () => {
+      try {
+        const response = await fetch(ONEBHK_API);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch 1BHK banner content");
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          // The latest item is the last item added by the Admin Dashboard.
+          setBannerContent(data[data.length - 1]);
+        } else {
+          setBannerContent(null);
+        }
+      } catch (error) {
+        console.error("Error loading 1BHK banner content:", error);
+        setBannerContent(null);
+      }
+    };
+
+    fetchOneBHKContent();
+  }, []);
+
+  // Keep the final word in the existing highlighted title style.
+  const titleWords = (bannerContent?.name || "").trim().split(/\s+/).filter(Boolean);
+  const titleAccent = titleWords.length > 1 ? titleWords.pop() : (titleWords[0] || "");
+  const titleMain = titleWords.join(" ");
+
   return (
     <main className="onebhk-page">
 
@@ -200,20 +239,28 @@ const OneBHK = () => {
             <span>PREFABRICATED</span>
           </p>
 
-          <h1 className="onebhk-title">
-            1 BHK Prefab
-            <span>Homes</span>
-          </h1>
+          {bannerContent && (
+            <>
+              {bannerContent.name?.trim() && (
+                <h1 className="onebhk-title">
+                  {titleMain && <>{titleMain} </>}
+                  <span>{titleAccent}</span>
+                </h1>
+              )}
 
-          <h2 className="onebhk-subtitle">
-            Smart Living. Built Better.
-          </h2>
+              {bannerContent.subtitle?.trim() && (
+                <h2 className="onebhk-subtitle">
+                  {bannerContent.subtitle}
+                </h2>
+              )}
 
-          <p className="onebhk-description">
-            Beautiful, affordable and sustainable 1 BHK prefab
-            homes designed for modern lifestyles. Perfect for
-            small families, couples or a peaceful getaway.
-          </p>
+              {bannerContent.description?.trim() && (
+                <p className="onebhk-description">
+                  {bannerContent.description}
+                </p>
+              )}
+            </>
+          )}
 
           <div className="onebhk-actions">
             <a

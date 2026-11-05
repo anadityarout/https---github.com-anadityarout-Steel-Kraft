@@ -39,6 +39,10 @@ import why4 from "../../assets/why4.png";
 import pro3 from "../../assets/pro3.png";
 import ran3 from "../../assets/ran3.jpg";
 
+// Gallery heading content is managed from Gallery Admin (AWS).
+const GALLERY_API =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/galleryadmin";
+
 // =====================================================
 // FILTER BUTTONS
 // -----------------------------------------------------
@@ -380,6 +384,32 @@ const Gallery = () => {
   const [filter, setFilter] = useState("all");
   const cols = useColumns();
 
+  // Content comes only from the Gallery Admin API.
+  const [galleryContent, setGalleryContent] = useState(null);
+
+  useEffect(() => {
+    const fetchGalleryContent = async () => {
+      try {
+        const response = await fetch(GALLERY_API, { method: "GET" });
+
+        if (!response.ok) {
+          throw new Error(`Gallery API request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        setGalleryContent(
+          Array.isArray(data) && data.length > 0 ? data[0] : null
+        );
+      } catch (error) {
+        console.error("Gallery content loading error:", error);
+        setGalleryContent(null);
+      }
+    };
+
+    fetchGalleryContent();
+  }, []);
+
   // ---------- data ----------
   const prepared = useMemo(
     () =>
@@ -472,19 +502,18 @@ const Gallery = () => {
   return (
     <section id="gallery" className="gl-section">
       <div className="gl-container">
-        {/* ---------- HEADER (centered) ---------- */}
-        <header className="gl-header">
-          <span className="gl-label">Gallery</span>
+        {/* ---------- HEADER FROM GALLERY ADMIN ---------- */}
+        {galleryContent && (
+          <header className="gl-header">
+            <span className="gl-label">{galleryContent.name}</span>
 
-          <h2>Glimpses of Steel Craft builds</h2>
+            <h2>{galleryContent.subtitle}</h2>
 
-          <span className="gl-rule" aria-hidden="true" />
+            <span className="gl-rule" aria-hidden="true" />
 
-          <p>
-            From the first footing to the finished stay: cottages, villas and
-            resorts in the hills and on open plots.
-          </p>
-        </header>
+            <p>{galleryContent.description}</p>
+          </header>
+        )}
 
         {/* ---------- FILTERS ---------- */}
         <div className="gl-filters" role="group" aria-label="Filter photos">

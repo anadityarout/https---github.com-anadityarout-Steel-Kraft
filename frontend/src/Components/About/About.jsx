@@ -1,9 +1,15 @@
+
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "./AboutPage.css";
 
 import aboutBanner from "../../assets/why4.png";
 import aboutGallery from "../../assets/Galres.png";
 import ctaImage from "../../assets/Resort34.png";
+
+// =====================================================
+// WHO WE ARE FEATURES
+// =====================================================
 
 const features = [
   {
@@ -37,7 +43,10 @@ const features = [
   },
 ];
 
-/* Shared SVG props for the new icons (24 x 24 grid) */
+// =====================================================
+// SHARED SVG PROPS
+// =====================================================
+
 const svgProps = {
   viewBox: "0 0 24 24",
   fill: "none",
@@ -47,11 +56,14 @@ const svgProps = {
   strokeLinejoin: "round",
 };
 
+// =====================================================
+// MISSION & VISION
+// =====================================================
+
 const missionVision = [
   {
     title: "Our Mission",
     text: "To make high-quality, sustainable and affordable prefab construction accessible across India.",
-    /* target with arrow */
     icon: (
       <svg {...svgProps} strokeWidth="1.9">
         <circle cx="12" cy="12" r="9" />
@@ -65,7 +77,6 @@ const missionVision = [
   {
     title: "Our Vision",
     text: "To be India’s most trusted prefab brand, known for innovation, quality and customer satisfaction.",
-    /* eye */
     icon: (
       <svg {...svgProps} strokeWidth="1.9">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
@@ -74,6 +85,10 @@ const missionVision = [
     ),
   },
 ];
+
+// =====================================================
+// WHAT MAKES US DIFFERENT
+// =====================================================
 
 const differences = [
   {
@@ -98,7 +113,6 @@ const differences = [
   {
     title: ["Customised", "Designs"],
     text: "Spaces designed around your requirements.",
-    /* horizontal sliders: 3 lines, each with a round knob */
     icon: (
       <svg {...svgProps}>
         <path d="M3 5h18" />
@@ -134,12 +148,15 @@ const differences = [
   },
 ];
 
+// =====================================================
+// OUR PROCESS
+// =====================================================
+
 const processSteps = [
   {
     number: "01",
     title: "Consultation",
     text: "Understand your needs and project goals.",
-    /* two chat bubbles */
     icon: (
       <svg {...svgProps} strokeWidth="1.6">
         <path d="M3 5.5A2.5 2.5 0 0 1 5.5 3h7A2.5 2.5 0 0 1 15 5.5v4a2.5 2.5 0 0 1-2.5 2.5H8l-3 2.5V12h0A2.5 2.5 0 0 1 3 9.5z" />
@@ -152,7 +169,6 @@ const processSteps = [
     number: "02",
     title: "Design",
     text: "Create a customised and practical design.",
-    /* pencil + ruler */
     icon: (
       <svg {...svgProps} strokeWidth="1.6">
         <path d="M14.5 3.5 20.5 9.5 9 21l-6 0 0-6z" />
@@ -168,7 +184,6 @@ const processSteps = [
     number: "03",
     title: "Fabrication",
     text: "Precision manufacturing in our advanced facilities.",
-    /* factory */
     icon: (
       <svg {...svgProps} strokeWidth="1.6">
         <path d="M3 21V11l6 4v-4l6 4V4h5v17z" />
@@ -181,7 +196,6 @@ const processSteps = [
     number: "04",
     title: "Installation",
     text: "Quick and efficient on-site assembly.",
-    /* hard hat */
     icon: (
       <svg {...svgProps} strokeWidth="1.6">
         <path d="M2 18h20v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
@@ -193,9 +207,25 @@ const processSteps = [
   },
 ];
 
+// =====================================================
+// ABOUT PAGE COMPONENT
+// =====================================================
+
 const AboutPage = () => {
-  /* which Mission / Vision card is "lit" (blue) after a tap or click */
   const [activeCard, setActiveCard] = useState(null);
+
+  // =====================================================
+  // OPEN GET A QUOTE POPUP
+  // Uses the same event as the Navbar.
+  // =====================================================
+
+  const openQuotePopup = () => {
+    window.dispatchEvent(new Event("open-quote-popup"));
+  };
+
+  // =====================================================
+  // MISSION / VISION CARD TOGGLE
+  // =====================================================
 
   const toggleCard = (index) => {
     setActiveCard((current) => (current === index ? null : index));
@@ -204,7 +234,10 @@ const AboutPage = () => {
   return (
     <main className="about-page">
 
-      {/* ABOUT PAGE HERO BANNER */}
+      {/* ================================================
+          ABOUT PAGE HERO BANNER
+      ================================================ */}
+
       <section
         className="about-hero"
         style={{
@@ -218,6 +251,7 @@ const AboutPage = () => {
           <div className="about-hero-content">
 
             {/* TOP LABEL */}
+
             <div className="about-hero-kicker">
               <span>ABOUT US</span>
               <i></i>
@@ -227,6 +261,7 @@ const AboutPage = () => {
             </div>
 
             {/* MAIN HEADING */}
+
             <h1>
               Building Better,
               <br />
@@ -234,6 +269,7 @@ const AboutPage = () => {
             </h1>
 
             {/* DESCRIPTION */}
+
             <p>
               We create modern, durable and sustainable prefab
               spaces that are faster to build, cost-effective and
@@ -241,22 +277,31 @@ const AboutPage = () => {
             </p>
 
             {/* BUTTONS */}
+
             <div className="about-hero-buttons">
 
+              {/* GET A QUOTE - OPEN POPUP */}
+
               <a
-                href="#about-content"
+                href="#get-quote"
                 className="about-btn-primary"
+                onClick={(event) => {
+                  event.preventDefault();
+                  openQuotePopup();
+                }}
               >
                 Get a Quote
                 <span>⟶</span>
               </a>
 
-              <a
-                href="#our-journey"
-                className="about-btn-secondary"
-              >
-                Our Journey
-              </a>
+              {/* OUR JOURNEY */}
+
+             <Link
+  to="/projects"
+  className="about-btn-secondary"
+>
+  Our Journey
+</Link>
 
             </div>
 
@@ -265,22 +310,35 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* WHO WE ARE SECTION */}
+      {/* ================================================
+          WHO WE ARE SECTION
+      ================================================ */}
+
       <section className="about-who" id="about-content">
+
         <div className="about-who-container">
 
           {/* IMAGE SIDE */}
+
           <div className="about-who-media">
+
             <span className="about-who-blob"></span>
 
             <div className="about-who-image-shadow">
+
               <div className="about-who-image">
-                <img src={aboutGallery} alt="SteelCraft Prefab steel structure" />
+                <img
+                  src={aboutGallery}
+                  alt="SteelCraft Prefab steel structure"
+                />
               </div>
+
             </div>
+
           </div>
 
           {/* TEXT SIDE */}
+
           <div className="about-who-content">
 
             <div className="about-who-kicker">
@@ -298,41 +356,62 @@ const AboutPage = () => {
             </p>
 
             <div className="about-who-features">
+
               {features.map((item, index) => (
                 <div className="about-who-feature" key={index}>
-                  <div className="about-who-icon">{item.icon}</div>
+
+                  <div className="about-who-icon">
+                    {item.icon}
+                  </div>
+
                   <h3>
                     {item.title[0]}
                     <br />
                     {item.title[1]}
                   </h3>
+
                 </div>
               ))}
+
             </div>
 
           </div>
 
         </div>
+
       </section>
 
-      {/* MISSION & VISION (dark section, cards turn blue on hover / tap) */}
+      {/* ================================================
+          MISSION & VISION SECTION
+      ================================================ */}
+
       <section className="about-mission" id="our-purpose">
+
         <div className="about-mission-container">
 
           <div className="about-heading">
+
             <div className="about-eyebrow">
               <i></i>
               <span>OUR PURPOSE</span>
               <i></i>
             </div>
+
             <h2>Our Mission &amp; Vision</h2>
-            <p>Building a smarter and more sustainable future.</p>
+
+            <p>
+              Building a smarter and more sustainable future.
+            </p>
+
           </div>
 
           <div className="about-mv-grid">
+
             {missionVision.map((item, index) => (
               <article
-                className={`about-mv-card${activeCard === index ? " is-active" : ""}`}
+                className={`about-mv-card${
+                  activeCard === index ? " is-active" : ""
+                }`}
                 key={index}
                 tabIndex={0}
                 onClick={() => toggleCard(index)}
@@ -343,90 +422,151 @@ const AboutPage = () => {
                   }
                 }}
               >
-                <div className="about-mv-icon">{item.icon}</div>
+
+                <div className="about-mv-icon">
+                  {item.icon}
+                </div>
+
                 <div className="about-mv-text">
                   <h3>{item.title}</h3>
                   <p>{item.text}</p>
                 </div>
+
               </article>
             ))}
+
           </div>
 
         </div>
+
       </section>
 
-      {/* WHAT MAKES US DIFFERENT (light section) */}
+      {/* ================================================
+          WHAT MAKES US DIFFERENT
+      ================================================ */}
+
       <section className="about-purpose">
+
         <div className="about-purpose-container">
 
           <div className="about-heading about-diff-heading">
+
             <div className="about-eyebrow">
               <i></i>
               <span>WHY CHOOSE STEELCRAFT</span>
               <i></i>
             </div>
+
             <h2>
               What Makes Us <span>Different</span>
             </h2>
-            <p>A smarter way to build — with speed, strength and style.</p>
+
+            <p>
+              A smarter way to build — with speed, strength and style.
+            </p>
+
           </div>
 
           <div className="about-diff-grid">
+
             {differences.map((item, index) => (
               <article className="about-diff-card" key={index}>
-                <div className="about-diff-icon">{item.icon}</div>
+
+                <div className="about-diff-icon">
+                  {item.icon}
+                </div>
+
                 <h3>
                   {item.title[0]}
                   <br />
                   {item.title[1]}
                 </h3>
-                <span className="about-diff-bar" aria-hidden="true"></span>
+
+                <span
+                  className="about-diff-bar"
+                  aria-hidden="true"
+                ></span>
+
                 <p>{item.text}</p>
+
               </article>
             ))}
+
           </div>
 
         </div>
+
       </section>
 
-      {/* OUR PROCESS SECTION */}
+      {/* ================================================
+          OUR PROCESS SECTION
+      ================================================ */}
+
       <section className="about-process" id="our-journey">
+
         <div className="about-process-container">
 
           <div className="about-heading">
+
             <div className="about-eyebrow">
               <i></i>
               <span>OUR PROCESS</span>
               <i></i>
             </div>
+
             <h2>
               From Planning to <span>Completion</span>
             </h2>
-            <p>A simple, transparent and hassle-free building journey.</p>
+
+            <p>
+              A simple, transparent and hassle-free building journey.
+            </p>
+
             <span className="about-dots" aria-hidden="true">
               <i></i>
               <i></i>
               <i></i>
             </span>
+
           </div>
 
           <div className="about-process-steps">
+
             {processSteps.map((step, index) => (
               <article className="about-step" key={index}>
 
                 <div className="about-step-head">
-                  <span className="about-step-number">{step.number}</span>
+                  <span className="about-step-number">
+                    {step.number}
+                  </span>
                 </div>
 
-                <div className="about-step-icon">{step.icon}</div>
+                <div className="about-step-icon">
+                  {step.icon}
+                </div>
 
                 <h3>{step.title}</h3>
-                <span className="about-step-bar" aria-hidden="true"></span>
+
+                <span
+                  className="about-step-bar"
+                  aria-hidden="true"
+                ></span>
+
                 <p>{step.text}</p>
 
                 {index < processSteps.length - 1 && (
-                  <span className="about-step-arrow" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <span
+                    className="about-step-arrow"
+                    aria-hidden="true"
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
                       <path d="m9 6 6 6-6 6" />
                     </svg>
                   </span>
@@ -434,23 +574,34 @@ const AboutPage = () => {
 
               </article>
             ))}
+
           </div>
 
         </div>
+
       </section>
 
-      {/* CALL TO ACTION BANNER */}
+      {/* ================================================
+          CALL TO ACTION BANNER
+      ================================================ */}
+
       <section className="about-cta">
+
         <div className="about-cta-container">
 
           <div className="about-cta-card">
 
             {/* IMAGE SIDE */}
+
             <div className="about-cta-media">
-              <img src={ctaImage} alt="Modern prefab villa at dusk" />
+              <img
+                src={ctaImage}
+                alt="Modern prefab villa at dusk"
+              />
             </div>
 
             {/* TEXT SIDE */}
+
             <div className="about-cta-content">
 
               <div className="about-cta-kicker">
@@ -472,20 +623,54 @@ const AboutPage = () => {
 
               <div className="about-cta-buttons">
 
-                {/* change the href values to your real pages */}
-                <a href="/contact" className="about-cta-btn-primary">
+                {/* GET A QUOTE - OPEN POPUP */}
+
+                <a
+                  href="#get-quote"
+                  className="about-cta-btn-primary"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    openQuotePopup();
+                  }}
+                >
                   Get a Quote
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
                     <path d="M4 12h16" />
                     <path d="m14 6 6 6-6 6" />
                   </svg>
+
                 </a>
 
-                <a href="/contact" className="about-cta-btn-secondary">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                {/* CONTACT US - NAVIGATE TO CONTACT PAGE */}
+
+                <a
+                  href="/contact"
+                  className="about-cta-btn-secondary"
+                >
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
+
                   Contact Us
+
                 </a>
 
               </div>
@@ -495,6 +680,7 @@ const AboutPage = () => {
           </div>
 
         </div>
+
       </section>
 
     </main>
