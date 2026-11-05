@@ -247,7 +247,7 @@ const AboutPage = () => {
                 href="#about-content"
                 className="about-btn-primary"
               >
-                Get to Know Us
+                Get a Quote
                 <span>⟶</span>
               </a>
 

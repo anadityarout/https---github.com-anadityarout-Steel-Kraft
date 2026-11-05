@@ -11,6 +11,10 @@ const DIST_DIR = path.resolve("dist");
 const SITE_URL = "https://www.steelcraftprefab.com";
 const GOOGLE_TAG_ID = "G-MK6E9HDEHC";
 
+// Open Graph image. The file lives in public/og/ so Vite copies it
+// to dist/og/ unchanged (no hashed name).
+const OG_IMAGE_PATH = "/og/steel-craft-prefab-og.jpg";
+
 // Keep this identical to FALLBACK_HEADING in HomeSlider.jsx.
 const HOME_FALLBACK_H1 =
   "Premium Prefab Homes, Modular Villas & Resort Cottages";
@@ -479,7 +483,7 @@ function generatePageHTML(template, page, seo = {}) {
   const altText = String(seo?.altText ?? "").trim();
 
   const canonical = getCanonicalUrl(seo, page);
-  const ogImage = `${SITE_URL}/assets/steel-craft-og-image.jpg`;
+  const ogImage = `${SITE_URL}${OG_IMAGE_PATH}`;
 
   // Only use custom SEO fields when saved in Admin Dashboard.
   if (title) {
@@ -605,6 +609,13 @@ async function main() {
 
   if (!template.includes("</head>")) {
     throw new Error("Closing </head> tag not found.");
+  }
+
+  // Fail the build if the OG image did not get copied into dist.
+  if (!fs.existsSync(path.join(DIST_DIR, OG_IMAGE_PATH))) {
+    throw new Error(
+      `OG image not found at dist${OG_IMAGE_PATH}. Put it in public/og/ and rebuild.`
+    );
   }
 
   const [seoItems, homeHeading] = await Promise.all([
