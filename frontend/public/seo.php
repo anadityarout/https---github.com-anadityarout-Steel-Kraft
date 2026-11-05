@@ -8,7 +8,10 @@
 
 $apiUrl = 'https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/seo';
 $siteUrl = 'https://steelcraftprefab.com';
-$ogImage = $siteUrl . '/assets/steel-craft-og-image.jpg';
+
+// Open Graph image. The file lives in public/og/ so Vite copies it
+// to dist/og/ unchanged.
+$ogImage = $siteUrl . '/og/steel-craft-prefab-og.jpg';
 
 // =========================================================
 // ROUTES FROM APP.JSX
@@ -490,4 +493,4 @@ setSchema($html, $schema);
 // OUTPUT HTML
 // =========================================================
 
-sendHtml($html);
+sendHtml($html);  
