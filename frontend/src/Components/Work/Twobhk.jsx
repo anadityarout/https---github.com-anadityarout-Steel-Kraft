@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -34,6 +34,9 @@ import cottage60 from "../../assets/Cottage_53.png";
 import cottage54 from "../../assets/Cottage_54.png";
 import cottage55 from "../../assets/Cottage_55.jpeg";
 import cottage56 from "../../assets/Cottage_56.png";
+
+const API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/twobhkadmin";
 
 const homes = [
   {
@@ -167,6 +170,40 @@ const homes = [
 ];
 
 function Twobhk() {
+  const [bannerContent, setBannerContent] = useState(null);
+
+  // Load Name, Subtitle and Description from the 2BHK Admin API
+  useEffect(() => {
+    const fetchBannerContent = async () => {
+      try {
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch 2BHK banner content.");
+        }
+
+        const data = await response.json();
+        setBannerContent(
+          Array.isArray(data) && data.length > 0
+            ? data[data.length - 1]
+            : null
+        );
+      } catch (error) {
+        console.error("Error loading 2BHK banner content:", error);
+        setBannerContent(null);
+      }
+    };
+
+    fetchBannerContent();
+  }, []);
+
+  const bannerName = (bannerContent?.name || "").trim();
+  const lastSpaceIndex = bannerName.lastIndexOf(" ");
+  const bannerTitle =
+    lastSpaceIndex >= 0 ? bannerName.slice(0, lastSpaceIndex) : "";
+  const bannerHighlight =
+    lastSpaceIndex >= 0 ? bannerName.slice(lastSpaceIndex + 1) : bannerName;
+
   return (
     <main className="twobhk-page">
       {/* HERO BANNER */}
@@ -186,20 +223,24 @@ function Twobhk() {
             PREFABRICATED
           </p>
 
-          <h1 className="twobhk-banner__title">
-            2 BHK Prefab
-            <span>Homes</span>
-          </h1>
+          {bannerName && (
+            <h1 className="twobhk-banner__title">
+              {bannerTitle && <>{bannerTitle} </>}
+              <span>{bannerHighlight}</span>
+            </h1>
+          )}
 
-          <h2 className="twobhk-banner__subtitle">
-            Spacious Living. Built Better.
-          </h2>
+          {bannerContent?.subtitle?.trim() && (
+            <h2 className="twobhk-banner__subtitle">
+              {bannerContent.subtitle}
+            </h2>
+          )}
 
-          <p className="twobhk-banner__description">
-            Beautiful, affordable and sustainable 2 BHK prefab homes designed
-            for modern lifestyles. Perfect for families, holiday homes or a
-            peaceful getaway.
-          </p>
+          {bannerContent?.description?.trim() && (
+            <p className="twobhk-banner__description">
+              {bannerContent.description}
+            </p>
+          )}
 
           <div className="twobhk-banner__buttons">
             <a

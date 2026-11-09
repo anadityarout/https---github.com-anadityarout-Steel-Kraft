@@ -1,0 +1,359 @@
+
+/* =====================================
+   3BHK ADMIN MAIN
+===================================== */
+
+.threebhk-admin {
+  width: 100%;
+  min-height: 100vh;
+  padding: 25px 28px;
+  box-sizing: border-box;
+  background: #ffffff;
+  color: #101828;
+  font-family: Arial, sans-serif;
+}
+
+/* HEADER */
+
+.threebhk-admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.threebhk-admin-header h2 {
+  margin: 0 0 7px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.threebhk-admin-header p {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+}
+
+/* ADD BUTTON */
+
+.threebhk-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.threebhk-add-btn:hover {
+  background: #1d4ed8;
+}
+
+/* FORM CARD */
+
+.threebhk-form-card {
+  width: 100%;
+  border: 1px solid #d3deec;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.threebhk-form-body {
+  padding: 30px 28px 24px;
+}
+
+.threebhk-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-bottom: 26px;
+}
+
+.threebhk-form-group label {
+  color: #101828;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.threebhk-form-group input,
+.threebhk-form-group textarea {
+  width: 100%;
+  padding: 17px;
+  box-sizing: border-box;
+  border: 1px solid #cbd7e8;
+  border-radius: 9px;
+  outline: none;
+  background: #ffffff;
+  color: #101828;
+  font-family: inherit;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+.threebhk-form-group input {
+  height: 60px;
+}
+
+.threebhk-form-group textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.threebhk-form-group input::placeholder,
+.threebhk-form-group textarea::placeholder {
+  color: #94a3b8;
+}
+
+.threebhk-form-group input:focus,
+.threebhk-form-group textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+.threebhk-optional-text {
+  margin: -5px 0 0;
+  color: #6682a8;
+  font-size: 14px;
+}
+
+/* FORM FOOTER */
+
+.threebhk-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 18px 28px;
+  background: #f8fafc;
+  border-top: 1px solid #d3deec;
+}
+
+.threebhk-save-btn,
+.threebhk-cancel-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 118px;
+  height: 51px;
+  padding: 0 20px;
+  border-radius: 9px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.threebhk-save-btn {
+  background: #081a2e;
+  color: #ffffff;
+  border: 1px solid #081a2e;
+}
+
+.threebhk-save-btn:hover {
+  background: #173451;
+}
+
+.threebhk-cancel-btn {
+  background: #ffffff;
+  color: #101828;
+  border: 1px solid #cbd7e8;
+}
+
+.threebhk-cancel-btn:hover {
+  background: #f1f5f9;
+}
+
+/* TABLE */
+
+.threebhk-table-card {
+  width: 100%;
+  margin-top: 10px;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.threebhk-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.threebhk-table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+.threebhk-table thead {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.threebhk-table thead th {
+  padding: 20px 17px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.threebhk-table thead th:first-child {
+  border-radius: 9px 0 0 0;
+}
+
+.threebhk-table thead th:last-child {
+  border-radius: 0 9px 0 0;
+}
+
+.threebhk-table tbody td {
+  padding: 25px 17px;
+  border-bottom: 1px solid #e5eaf1;
+  color: #344054;
+  font-size: 14px;
+  line-height: 1.8;
+  vertical-align: middle;
+}
+
+.threebhk-name-cell {
+  color: #101828 !important;
+  font-weight: 700;
+}
+
+.threebhk-description-cell {
+  min-width: 220px;
+  max-width: 350px;
+  overflow-wrap: anywhere;
+}
+
+/* TYPE BADGE */
+
+.threebhk-type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 15px;
+  border-radius: 30px;
+  background: #f0f4f8;
+  color: #344054;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ACTION BUTTONS */
+
+.threebhk-action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.threebhk-edit-btn,
+.threebhk-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.threebhk-edit-btn {
+  background: #f0f2ff;
+  border: 1px solid #c7d2fe;
+  color: #4f46e5;
+}
+
+.threebhk-edit-btn:hover {
+  background: #e0e7ff;
+}
+
+.threebhk-delete-btn {
+  background: #fff1f2;
+  border: 1px solid #fecaca;
+  color: #ef4444;
+}
+
+.threebhk-delete-btn:hover {
+  background: #ffe4e6;
+}
+
+/* EMPTY TABLE */
+
+.threebhk-empty {
+  padding: 45px 15px !important;
+  text-align: center;
+  color: #8490a2 !important;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+
+  .threebhk-admin {
+    padding: 18px 12px;
+  }
+
+  .threebhk-admin-header h2 {
+    font-size: 20px;
+  }
+
+  .threebhk-form-body {
+    padding: 22px 16px;
+  }
+
+  .threebhk-form-group input {
+    height: 52px;
+  }
+
+  .threebhk-form-group input,
+  .threebhk-form-group textarea {
+    font-size: 14px;
+  }
+
+  .threebhk-form-footer {
+    padding: 14px 16px;
+  }
+
+  .threebhk-save-btn,
+  .threebhk-cancel-btn {
+    min-width: 100px;
+    height: 46px;
+    padding: 0 13px;
+    font-size: 14px;
+  }
+
+  .threebhk-table thead th,
+  .threebhk-table tbody td {
+    padding: 15px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .threebhk-admin-header {
+    flex-wrap: wrap;
+  }
+
+  .threebhk-form-footer {
+    gap: 8px;
+  }
+
+  .threebhk-save-btn,
+  .threebhk-cancel-btn {
+    flex: 1;
+  }
+}

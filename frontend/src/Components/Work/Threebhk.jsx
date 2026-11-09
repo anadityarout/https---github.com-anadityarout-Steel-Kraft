@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -13,6 +13,10 @@ import {
 } from "lucide-react";
 
 import "./Threebhk.css";
+
+// AWS API URL for 3BHK banner content
+const API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/threebhkadmin";
 
 // Banner and home images
 import cottage01 from "../../assets/Cottage_01.png";
@@ -168,6 +172,41 @@ const features = [
 ];
 
 function Threebhk() {
+  const [threeBhkContent, setThreeBhkContent] = useState(null);
+
+  // Load 3BHK banner content from the Admin Dashboard
+  useEffect(() => {
+    const fetchThreeBhkContent = async () => {
+      try {
+        const response = await fetch(API_URL, {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load 3BHK banner content.");
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+          setThreeBhkContent(data[0]);
+        } else {
+          setThreeBhkContent(null);
+        }
+      } catch (error) {
+        console.error("Error loading 3BHK banner content:", error);
+        setThreeBhkContent(null);
+      }
+    };
+
+    fetchThreeBhkContent();
+  }, []);
+
+  const bannerName = threeBhkContent?.name?.trim() || "";
+  const nameWords = bannerName.split(/\s+/).filter(Boolean);
+  const nameFirstPart = nameWords.slice(0, -1).join(" ");
+  const nameLastWord = nameWords.length > 0 ? nameWords[nameWords.length - 1] : "";
+
   return (
     <main className="threebhk-page">
       {/* HERO BANNER */}
@@ -189,20 +228,24 @@ function Threebhk() {
             PREFABRICATED
           </p>
 
-          <h1 className="threebhk-banner__title">
-            3 BHK Prefab
-            <span>Homes</span>
-          </h1>
+          {bannerName && (
+            <h1 className="threebhk-banner__title">
+              {nameFirstPart && <>{nameFirstPart} </>}
+              <span>{nameLastWord}</span>
+            </h1>
+          )}
 
-          <h2 className="threebhk-banner__subtitle">
-            Spacious Living. Built Better.
-          </h2>
+          {threeBhkContent?.subtitle?.trim() && (
+            <h2 className="threebhk-banner__subtitle">
+              {threeBhkContent.subtitle}
+            </h2>
+          )}
 
-          <p className="threebhk-banner__description">
-            Beautiful, affordable and sustainable 3 BHK prefab homes designed
-            for modern lifestyles. Perfect for families, holiday homes or a
-            peaceful getaway.
-          </p>
+          {threeBhkContent?.description?.trim() && (
+            <p className="threebhk-banner__description">
+              {threeBhkContent.description}
+            </p>
+          )}
 
           <div className="threebhk-banner__buttons">
             <a

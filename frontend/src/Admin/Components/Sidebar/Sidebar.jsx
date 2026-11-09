@@ -35,17 +35,22 @@ const MENU = [
   },
 
   // ABOUT
-  {
-    label: "About",
-    icon: Info,
-    children: [
-      {
-        page: "About Admin",
-        label: "About Admin",
-        icon: Info,
-      },
-    ],
-  },
+{
+  label: "About",
+  icon: Info,
+  children: [
+    {
+      page: "About Admin",
+      label: "About Admin",
+      icon: Info,
+    },
+    {
+      page: "About Page Admin",
+      label: "About Page Admin",
+      icon: Info,
+    },
+  ],
+},
 
   // WHY PREFAB STEEL - SEPARATE MENU
   {

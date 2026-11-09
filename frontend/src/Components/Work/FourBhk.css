@@ -908,10 +908,12 @@
     letter-spacing: 1px;
   }
 
+  /* Smaller title so "4 BHK Prefab" stays on ONE line
+     and only "Homes" (gold span) goes to the second line */
   .fourbhk-banner__title {
-    font-size: clamp(40px, 10vw, 54px);
-    line-height: 1.03;
-    letter-spacing: -1px;
+    font-size: clamp(30px, 8.6vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
   }
 
   .fourbhk-banner__subtitle {
@@ -1198,7 +1200,7 @@
   }
 
   .fourbhk-banner__title {
-    font-size: 39px;
+    font-size: 30px;
   }
 
   .fourbhk-banner__subtitle {

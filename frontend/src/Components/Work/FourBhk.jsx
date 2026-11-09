@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -16,6 +16,10 @@ import {
 } from "lucide-react";
 
 import "./FourBhk.css";
+
+// AWS API for 4BHK content managed from the Admin Dashboard
+const API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/fourbhkadmin";
 
 // Banner image
 import fourBhkBanner from "../../assets/Cottage_35.png";
@@ -98,7 +102,56 @@ const homes = [
   },
 ];
 
+// Splits the banner title so the LAST word goes in a <span>.
+// CSS makes that span gold and puts it on its own line.
+// Example: "4 BHK Prefab Homes" -> "4 BHK Prefab" + gold "Homes"
+const renderBannerTitle = (title) => {
+  const words = String(title).trim().split(/\s+/);
+
+  if (words.length < 2) {
+    return title;
+  }
+
+  const lastWord = words.pop();
+
+  return (
+    <>
+      {words.join(" ")} <span>{lastWord}</span>
+    </>
+  );
+};
+
 const FourBhk = () => {
+  const [fourBhkContent, setFourBhkContent] = useState(null);
+
+  // Load Name, Subtitle and Description from AWS
+  useEffect(() => {
+    const loadFourBhkContent = async () => {
+      try {
+        const response = await fetch(API_URL, {
+          method: "GET",
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to load 4BHK content");
+        }
+
+        const data = await response.json();
+
+        // Admin API stores records as an array; use the latest record.
+        setFourBhkContent(
+          Array.isArray(data) && data.length > 0 ? data[data.length - 1] : null
+        );
+      } catch (error) {
+        console.error("Error loading 4BHK content:", error);
+        setFourBhkContent(null);
+      }
+    };
+
+    loadFourBhkContent();
+  }, []);
+
   return (
     <main className="fourbhk-page">
       {/* ================= HERO BANNER ================= */}
@@ -118,20 +171,23 @@ const FourBhk = () => {
             PREFABRICATED
           </p>
 
-          <h1 className="fourbhk-banner__title">
-            4 BHK Prefab
-            <span>Homes</span>
-          </h1>
+          {fourBhkContent?.name && (
+            <h1 className="fourbhk-banner__title">
+              {renderBannerTitle(fourBhkContent.name)}
+            </h1>
+          )}
 
-          <h2 className="fourbhk-banner__subtitle">
-            Spacious Living. Built Better.
-          </h2>
+          {fourBhkContent?.subtitle && (
+            <h2 className="fourbhk-banner__subtitle">
+              {fourBhkContent.subtitle}
+            </h2>
+          )}
 
-          <p className="fourbhk-banner__description">
-            Discover spacious and sustainable 4 BHK prefab homes designed for
-            modern family living. Enjoy comfortable interiors, practical
-            layouts and timeless design.
-          </p>
+          {fourBhkContent?.description && (
+            <p className="fourbhk-banner__description">
+              {fourBhkContent.description}
+            </p>
+          )}
 
           <div className="fourbhk-banner__buttons">
             <a

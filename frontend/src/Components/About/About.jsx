@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./AboutPage.css";
 
@@ -211,8 +211,54 @@ const processSteps = [
 // ABOUT PAGE COMPONENT
 // =====================================================
 
+const ABOUT_API_URL =
+  "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/aboutpageadmin";
+
 const AboutPage = () => {
   const [activeCard, setActiveCard] = useState(null);
+  const [bannerContent, setBannerContent] = useState(null);
+  const [whoContent, setWhoContent] = useState(null);
+
+  // LOAD BANNER AND WHO WE ARE CONTENT FROM AWS
+  useEffect(() => {
+    const loadAboutContent = async () => {
+      try {
+        const response = await fetch(ABOUT_API_URL, {
+          cache: "no-store",
+        });
+
+        if (!response.ok) {
+          throw new Error(`About API request failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const aboutItems = Array.isArray(data) ? data : [];
+
+        setBannerContent(
+          aboutItems.find(
+            (item) => item.type?.trim().toUpperCase() === "BANNER"
+          ) || null
+        );
+
+        setWhoContent(
+          aboutItems.find(
+            (item) => item.type?.trim().toUpperCase() === "WHO WE ARE"
+          ) || null
+        );
+      } catch (error) {
+        console.error("Error loading About page content:", error);
+        setBannerContent(null);
+        setWhoContent(null);
+      }
+    };
+
+    loadAboutContent();
+  }, []);
+
+  // Keep the existing two-line banner design and highlight its final word.
+  const bannerTitleParts = (bannerContent?.name || "").split(",");
+  const bannerSecondLine = (bannerTitleParts[1] || "").trim().split(" ");
+  const bannerLastWord = bannerSecondLine.pop() || "";
 
   // =====================================================
   // OPEN GET A QUOTE POPUP
@@ -262,19 +308,35 @@ const AboutPage = () => {
 
             {/* MAIN HEADING */}
 
-            <h1>
-              Building Better,
-              <br />
-              Living <span>Smarter</span>
-            </h1>
+            {bannerContent?.name && (
+              <h1>
+                {bannerTitleParts.length > 1 ? (
+                  <>
+                    {bannerTitleParts[0].trim()},
+                    <br />
+                    {bannerSecondLine.join(" ")}
+                    {bannerSecondLine.length > 0 ? " " : ""}
+                    <span>{bannerLastWord}</span>
+                  </>
+                ) : (
+                  bannerContent.name
+                )}
+              </h1>
+            )}
+
+            {/* BANNER SUBTITLE */}
+
+            {bannerContent?.subtitle && (
+              <h2 className="about-hero-subtitle">
+                {bannerContent.subtitle}
+              </h2>
+            )}
 
             {/* DESCRIPTION */}
 
-            <p>
-              We create modern, durable and sustainable prefab
-              spaces that are faster to build, cost-effective and
-              designed for the way you live and work today.
-            </p>
+            {bannerContent?.description && (
+              <p>{bannerContent.description}</p>
+            )}
 
             {/* BUTTONS */}
 
@@ -341,19 +403,18 @@ const AboutPage = () => {
 
           <div className="about-who-content">
 
-            <div className="about-who-kicker">
-              <i></i>
-              <span>WHO WE ARE</span>
-            </div>
+            {whoContent?.name && (
+              <div className="about-who-kicker">
+                <i></i>
+                <span>{whoContent.name}</span>
+              </div>
+            )}
 
-            <h2>About SteelCraft Prefab</h2>
+            {whoContent?.subtitle && <h2>{whoContent.subtitle}</h2>}
 
-            <p>
-              SteelCraft Prefab is a leading provider of modern
-              prefabricated construction solutions in India. We design,
-              manufacture and deliver high-quality, ready-to-assemble
-              spaces for homes, resorts, and commercial use.
-            </p>
+            {whoContent?.description && (
+              <p>{whoContent.description}</p>
+            )}
 
             <div className="about-who-features">
 
