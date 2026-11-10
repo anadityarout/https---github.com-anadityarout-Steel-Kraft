@@ -51,6 +51,7 @@ $routes = [
         'page' => 'About',
         'canonical' => $siteUrl . '/about',
         'h1' => 'About Steel Kraft Prefab',
+        'h2' => 'Who We Are and How We Build',
         'title' => 'About Us | Steel Craft Prefab',
         'description' => 'Learn about Steel Craft Prefab, our team and how we build prefab homes, modular villas and resort cottages.',
     ],
@@ -59,6 +60,7 @@ $routes = [
         'page' => 'Project',
         'canonical' => $siteUrl . '/projects',
         'h1' => 'Our Prefab Home & Villa Projects',
+        'h2' => 'Completed Prefab Homes, Villas and Resorts',
         'title' => 'Our Projects | Steel Craft Prefab',
         'description' => 'Explore completed prefab homes, modular villas and resort cottages built by Steel Craft Prefab.',
     ],
@@ -67,6 +69,7 @@ $routes = [
         'page' => 'Home & Cottage',
         'canonical' => $siteUrl . '/homes-cottages',
         'h1' => 'Prefab Homes & Resort Cottages',
+        'h2' => 'Explore Prefab Home and Cottage Designs',
         'title' => 'Prefab Homes & Cottages | Steel Craft Prefab',
         'description' => 'Browse prefab homes and cottages designed and built by Steel Craft Prefab.',
     ],
@@ -75,6 +78,7 @@ $routes = [
         'page' => 'One BHK',
         'canonical' => $siteUrl . '/work/1bhk',
         'h1' => '1 BHK Prefab Home Designs',
+        'h2' => 'Compact 1 BHK Prefab Living Solutions',
         'title' => '1 BHK Prefab Home | Steel Craft Prefab',
         'description' => 'See our 1 BHK prefab home designs by Steel Craft Prefab.',
     ],
@@ -83,6 +87,7 @@ $routes = [
         'page' => 'Two BHK',
         'canonical' => $siteUrl . '/work/2bhk',
         'h1' => '2 BHK Prefab Home Designs',
+        'h2' => 'Comfortable 2 BHK Prefab Living Solutions',
         'title' => '2 BHK Prefab Home | Steel Craft Prefab',
         'description' => 'See our 2 BHK prefab home designs by Steel Craft Prefab.',
     ],
@@ -91,6 +96,7 @@ $routes = [
         'page' => 'Three BHK',
         'canonical' => $siteUrl . '/work/3bhk',
         'h1' => '3 BHK Prefab Home Designs',
+        'h2' => 'Spacious 3 BHK Prefab Living Solutions',
         'title' => '3 BHK Prefab Home | Steel Craft Prefab',
         'description' => 'See our 3 BHK prefab home designs by Steel Craft Prefab.',
     ],
@@ -99,6 +105,7 @@ $routes = [
         'page' => 'Four BHK',
         'canonical' => $siteUrl . '/work/4bhk',
         'h1' => '4 BHK Prefab Home Designs',
+        'h2' => 'Premium 4 BHK Prefab Living Solutions',
         'title' => '4 BHK Prefab Home | Steel Craft Prefab',
         'description' => 'See our 4 BHK prefab home designs by Steel Craft Prefab.',
     ],
@@ -107,6 +114,7 @@ $routes = [
         'page' => 'Contact',
         'canonical' => $siteUrl . '/contact',
         'h1' => 'Contact Steel Craft Prefab',
+        'h2' => 'Talk to Our Prefab Experts',
         'title' => 'Contact Us | Steel Craft Prefab',
         'description' => 'Get in touch with Steel Craft Prefab for prefab homes, modular villas and resort cottages.',
     ],
@@ -1040,7 +1048,7 @@ setSchema($html, $schema);
 // =========================================================
 
 $h1 = $route['h1'];
-$h2 = '';
+$h2 = $route['h2'] ?? '';
 
 if ($path === '/') {
 
