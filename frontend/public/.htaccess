@@ -4,19 +4,11 @@
 
 <IfModule mod_headers.c>
 
-    # Always use HTTPS for this website (1 year)
     Header always set Strict-Transport-Security "max-age=31536000"
-
-    # Stop other websites from showing your pages inside a frame
     Header always set X-Frame-Options "SAMEORIGIN"
-
-    # Prevent MIME type sniffing
     Header always set X-Content-Type-Options "nosniff"
-
-    # Secure Referrer Policy
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
 
-    # AI agent discovery files: correct type + open CORS
     <FilesMatch "^(ard\.json|llms\.txt)$">
         Header always set Access-Control-Allow-Origin "*"
     </FilesMatch>
@@ -25,13 +17,15 @@
 
 
 # ==========================================
-# CORRECT JAVASCRIPT MIME TYPE
+# JAVASCRIPT AND JSON MIME TYPES
 # ==========================================
 
 <IfModule mod_mime.c>
+
     AddType application/javascript .js
     AddType application/json .json
     AddType "text/plain; charset=UTF-8" .txt
+
 </IfModule>
 
 
@@ -43,25 +37,51 @@
 
     RewriteEngine On
 
-    # Force HTTPS and remove WWW
+    # Disable MultiViews for React routes.
+    Options -MultiViews
+
+    # --------------------------------------
+    # FORCE HTTPS AND NON-WWW
+    # --------------------------------------
+
     RewriteCond %{HTTPS} !=on [OR]
     RewriteCond %{HTTP_HOST} ^www\.steelcraftprefab\.com$ [NC]
+
     RewriteRule ^ https://steelcraftprefab.com%{REQUEST_URI} [R=301,L,NE]
 
-    # Redirect direct visits to /index.html and /seo.php to the homepage
+
+    # --------------------------------------
+    # REDIRECT DIRECT INDEX AND PHP ACCESS
+    # --------------------------------------
+
     RewriteCond %{THE_REQUEST} \s/+(index\.html|seo\.php)[\s?] [NC]
+
     RewriteRule ^ https://steelcraftprefab.com/ [R=301,L]
 
-    # Always serve discovery files directly
+
+    # --------------------------------------
+    # ALLOW DISCOVERY FILES
+    # --------------------------------------
+
     RewriteRule ^\.well-known/ard\.json$ - [L]
     RewriteRule ^llms\.txt$ - [L]
 
-    # Allow existing assets and files, but not index.html
-    RewriteCond %{REQUEST_URI} !^/index\.html$
+
+    # --------------------------------------
+    # ALLOW EXISTING ASSETS AND FILES
+    # EXCEPT index.html
+    # --------------------------------------
+
+    RewriteCond %{REQUEST_URI} !^/index\.html$ [NC]
     RewriteCond %{REQUEST_FILENAME} -f
+
     RewriteRule ^ - [L]
 
-    # Route website pages through PHP for live SEO metadata
+
+    # --------------------------------------
+    # SEND WEBSITE ROUTES THROUGH SEO.PHP
+    # --------------------------------------
+
     RewriteRule ^ seo.php [L,QSA]
 
 </IfModule>

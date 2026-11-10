@@ -9,21 +9,15 @@ const BANNER_API =
 
 const DIST_DIR = path.resolve("dist");
 const SITE_URL = "https://www.steelcraftprefab.com";
-const GOOGLE_TAG_ID = "G-MK6E9HDEHC";
 
-// Open Graph image. The file lives in public/og/ so Vite copies it
-// to dist/og/ unchanged (no hashed name).
+const GOOGLE_TAG_ID = "G-MK6E9HDEHC";
 const OG_IMAGE_PATH = "/og/steel-craft-prefab-og.jpg";
 
-// Keep this identical to FALLBACK_HEADING in HomeSlider.jsx.
 const HOME_FALLBACK_H1 =
   "Premium Prefab Homes, Modular Villas & Resort Cottages";
 
 // =====================================================
 // ALL WEBSITE ROUTES
-// "h1" is written into the static HTML so crawlers that
-// do not run JavaScript still find exactly one <h1>.
-// React replaces it as soon as the app loads.
 // =====================================================
 
 const PAGES = [
@@ -32,6 +26,12 @@ const PAGES = [
     route: "/",
     output: "index.html",
     h1: HOME_FALLBACK_H1,
+  },
+  {
+    name: "About",
+    route: "/about",
+    output: "about/index.html",
+    h1: "About Steel Kraft Prefab",
   },
   {
     name: "Project",
@@ -102,44 +102,40 @@ function normalizePage(value) {
     .replace(/\s+/g, " ");
 }
 
+function escapeRegExp(value) {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 // =====================================================
 // REMOVE EXISTING PAGE SEO
-// Prevent the base HTML template's metadata or schema
-// from being copied to every page.
 // =====================================================
 
 function removePageSeo(html) {
-  // Remove existing title.
   html = html.replace(
-    /<title\b[^>]*>[\s\S]*?<\/title>\s*/gi,
+    /<title\b[^>]*>[\s\S]*?<\/title>/i,
     ""
   );
 
-  // Remove standard SEO and Twitter metadata.
   html = html.replace(
     /<meta\b(?=[^>]*\bname=["'](?:description|keywords|twitter:[^"']+)["'])[^>]*>\s*/gi,
     ""
   );
 
-  // Remove Open Graph metadata.
   html = html.replace(
     /<meta\b(?=[^>]*\bproperty=["']og:[^"']+["'])[^>]*>\s*/gi,
     ""
   );
 
-  // Remove existing canonical link.
   html = html.replace(
     /<link\b(?=[^>]*\brel=["']canonical["'])[^>]*>\s*/gi,
     ""
   );
 
-  // Remove existing JSON-LD so each page gets its own schema.
   html = html.replace(
     /<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>[\s\S]*?<\/script>\s*/gi,
     ""
   );
 
-  // Remove previous custom SEO alt-text attribute.
   html = html.replace(
     /\sdata-seo-alt-text=(["']).*?\1/gi,
     ""
@@ -153,10 +149,10 @@ function removePageSeo(html) {
 // =====================================================
 
 function setMeta(html, name, content) {
-  const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const escapedName = escapeRegExp(name);
 
   const tag =
-    `<meta name="${name}" content="${escapeHTML(content)}">`;
+    `<meta name="${escapeHTML(name)}" content="${escapeHTML(content)}">`;
 
   const regex = new RegExp(
     `<meta\\b(?=[^>]*\\bname=["']${escapedName}["'])[^>]*\\/?>`,
@@ -175,13 +171,10 @@ function setMeta(html, name, content) {
 }
 
 function setMetaProperty(html, property, content) {
-  const escapedProperty = property.replace(
-    /[.*+?^${}()|[\]\\]/g,
-    "\\$&"
-  );
+  const escapedProperty = escapeRegExp(property);
 
   const tag =
-    `<meta property="${property}" content="${escapeHTML(content)}">`;
+    `<meta property="${escapeHTML(property)}" content="${escapeHTML(content)}">`;
 
   const regex = new RegExp(
     `<meta\\b(?=[^>]*\\bproperty=["']${escapedProperty}["'])[^>]*\\/?>`,
@@ -219,7 +212,9 @@ function setCanonical(html, url) {
 
 function setTitle(html, title) {
   const tag = `<title>${escapeHTML(title)}</title>`;
-  const regex = /<title\b[^>]*>[\s\S]*?<\/title>/i;
+
+  const regex =
+    /<title\b[^>]*>[\s\S]*?<\/title>/i;
 
   if (regex.test(html)) {
     return html.replace(regex, tag);
@@ -233,40 +228,53 @@ function setTitle(html, title) {
 }
 
 // =====================================================
-// STATIC H1
-// Put an <h1> inside the empty React root so crawlers
-// that do not run JavaScript still see a heading.
-// It is visually hidden so there is no flash before
-// React mounts and replaces the root's contents.
-// (This assumes the app uses createRoot, not hydrateRoot.)
+// STATIC INTERNAL NAVIGATION + H1
 // =====================================================
 
-function injectH1(html, text, subtitle = "") {
-  const heading = String(text ?? "").trim();
-  const sub = String(subtitle ?? "").trim();
+function injectStaticContent(html, page) {
+  const heading = String(page.h1 ?? "").trim();
+  const subtitle = String(page.h2 ?? "").trim();
 
   if (!heading) {
-    throw new Error("Cannot add <h1>: heading text is empty.");
-  }
-
-  const rootRegex = /<div\b[^>]*\bid=["']root["'][^>]*>\s*<\/div>/i;
-
-  if (!rootRegex.test(html)) {
     throw new Error(
-      'Cannot add <h1>: empty <div id="root"></div> not found.'
+      `Cannot add H1 for "${page.name}": heading is empty.`
     );
   }
 
-  const h1 =
-    `<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">${escapeHTML(heading)}</h1>`;
+  // Generate links to all other website pages.
+  const internalLinks = PAGES
+    .filter((item) => item.route !== page.route)
+    .map(
+      (item) =>
+        `<li><a href="${item.route}">${escapeHTML(item.name)}</a></li>`
+    )
+    .join("\n");
 
-  // Subtitle becomes a static <h2> (same text the visitor sees).
-  const h2 = sub
-    ? `<h2 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap">${escapeHTML(sub)}</h2>`
-    : "";
+  const staticContent = `
+    <nav aria-label="Website navigation">
+      <ul>
+        ${internalLinks}
+      </ul>
+    </nav>
 
-  return html.replace(rootRegex, (match) =>
-    match.replace(/<\/div>\s*$/i, `${h1}${h2}</div>`)
+    <main>
+      <h1>${escapeHTML(heading)}</h1>
+      ${subtitle ? `<h2>${escapeHTML(subtitle)}</h2>` : ""}
+    </main>
+  `;
+
+  const rootRegex =
+    /<div\b[^>]*\bid=["']root["'][^>]*>\s*<\/div>/i;
+
+  if (!rootRegex.test(html)) {
+    throw new Error(
+      'Cannot add static content: empty <div id="root"></div> not found.'
+    );
+  }
+
+  return html.replace(
+    rootRegex,
+    `<div id="root">${staticContent}</div>`
   );
 }
 
@@ -275,26 +283,14 @@ function injectH1(html, text, subtitle = "") {
 // =====================================================
 
 function addGoogleTag(html) {
-  // Remove existing Google Analytics loaders.
-  html = html.replace(
-    /<script\b(?=[^>]*\bsrc=["']https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=[^"']+["'])[^>]*>[\s\S]*?<\/script>/gi,
-    ""
-  );
-
-  // Remove an existing Google tag block.
-  html = html.replace(
-    /<!-- Google tag \(gtag\.js\) -->[\s\S]*?<\/script>/gi,
-    ""
-  );
-
-  // Remove an existing inline configuration.
-  html = html.replace(
-    /<script\b[^>]*>[\s\S]*?gtag\(\s*['"]config['"]\s*,[\s\S]*?<\/script>/gi,
-    ""
-  );
+  if (html.includes(`gtag/js?id=${GOOGLE_TAG_ID}`)) {
+    return html;
+  }
 
   if (!html.includes("</head>")) {
-    throw new Error("Cannot add Google Analytics: </head> not found.");
+    throw new Error(
+      "Cannot add Google Analytics: </head> not found."
+    );
   }
 
   const googleTag = `
@@ -308,7 +304,10 @@ function addGoogleTag(html) {
     </script>
   `;
 
-  return html.replace("</head>", `${googleTag}\n</head>`);
+  return html.replace(
+    "</head>",
+    `${googleTag}\n</head>`
+  );
 }
 
 // =====================================================
@@ -322,17 +321,20 @@ function setSchema(html, schema) {
     <!-- Schema.org -->
     <script type="application/ld+json">
 ${json}
-    </script>`;
+    </script>
+  `;
 
   const regex =
-    /<script\b(?=[^>]*type=["']application\/ld\+json["'])[^>]*>[\s\S]*?<\/script>/i;
+    /<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>[\s\S]*?<\/script>/i;
 
   if (regex.test(html)) {
     return html.replace(regex, tag);
   }
 
   if (!html.includes("</head>")) {
-    throw new Error("Cannot add Schema.org: </head> not found.");
+    throw new Error(
+      "Cannot add Schema.org: </head> not found."
+    );
   }
 
   return html.replace("</head>", `${tag}\n</head>`);
@@ -340,7 +342,6 @@ ${json}
 
 // =====================================================
 // FETCH SEO DATA FROM AWS
-// If the API is unavailable, still generate page schemas.
 // =====================================================
 
 async function fetchSeoItems() {
@@ -348,13 +349,17 @@ async function fetchSeoItems() {
 
   try {
     const response = await fetch(SEO_API, {
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+      },
       cache: "no-store",
       signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {
-      throw new Error(`SEO API returned HTTP ${response.status}`);
+      throw new Error(
+        `SEO API returned HTTP ${response.status}`
+      );
     }
 
     const result = await response.json();
@@ -366,7 +371,9 @@ async function fetchSeoItems() {
         : null;
 
     if (!seoItems) {
-      throw new Error("SEO API returned an invalid data format.");
+      throw new Error(
+        "SEO API returned an invalid data format."
+      );
     }
 
     console.log(
@@ -387,41 +394,52 @@ async function fetchSeoItems() {
 
 // =====================================================
 // FETCH HOME HEADING FROM ADMIN DASHBOARD
-// Uses the same banner API as HomeSlider.jsx so the
-// static <h1> matches the live heading. Falls back to
-// the default text if the API is unavailable.
 // =====================================================
 
 async function fetchHomeHeading() {
   try {
     const response = await fetch(BANNER_API, {
-      headers: { Accept: "application/json" },
+      headers: {
+        Accept: "application/json",
+      },
       cache: "no-store",
       signal: AbortSignal.timeout(15000),
     });
 
     if (!response.ok) {
-      throw new Error(`Banner API returned HTTP ${response.status}`);
+      throw new Error(
+        `Banner API returned HTTP ${response.status}`
+      );
     }
 
     const data = await response.json();
 
     if (!Array.isArray(data) || data.length === 0) {
-      return { h1: HOME_FALLBACK_H1, h2: "" };
+      return {
+        h1: HOME_FALLBACK_H1,
+        h2: "",
+      };
     }
 
     const latest = data[data.length - 1];
+
     const name = String(latest?.name ?? "").trim();
     const subtitle = String(latest?.subtitle ?? "").trim();
 
-    return { h1: name || HOME_FALLBACK_H1, h2: subtitle };
+    return {
+      h1: name || HOME_FALLBACK_H1,
+      h2: subtitle,
+    };
   } catch (error) {
     console.error(
       "Could not fetch home heading. Using fallback:",
       error.message
     );
 
-    return { h1: HOME_FALLBACK_H1, h2: "" };
+    return {
+      h1: HOME_FALLBACK_H1,
+      h2: "",
+    };
   }
 }
 
@@ -430,8 +448,11 @@ async function fetchHomeHeading() {
 // =====================================================
 
 function getCanonicalUrl(seo, page) {
-  const fallbackCanonical = `${SITE_URL}${page.route}`;
-  const value = String(seo?.canonicalUrl ?? "").trim();
+  const fallbackCanonical =
+    `${SITE_URL}${page.route}`;
+
+  const value =
+    String(seo?.canonicalUrl ?? "").trim();
 
   if (!value) {
     return fallbackCanonical;
@@ -445,11 +466,16 @@ function getCanonicalUrl(seo, page) {
       "steelcraftprefab.com",
     ].includes(parsed.hostname.toLowerCase());
 
+    const actualPath =
+      parsed.pathname.replace(/\/+$/, "") || "/";
+
+    const expectedPath =
+      page.route.replace(/\/+$/, "") || "/";
+
     if (
       parsed.protocol !== "https:" ||
       !validHost ||
-      parsed.pathname.replace(/\/+$/, "") !==
-        page.route.replace(/\/+$/, "")
+      actualPath !== expectedPath
     ) {
       console.warn(
         `Invalid canonical URL for "${page.name}". Using ${fallbackCanonical}`
@@ -470,56 +496,82 @@ function getCanonicalUrl(seo, page) {
 
 // =====================================================
 // GENERATE HTML FOR EACH PAGE
-// Schema does not depend on saved SEO data.
 // =====================================================
 
 function generatePageHTML(template, page, seo = {}) {
-  // Start with a clean copy of the base template.
   let html = removePageSeo(template);
 
-  const title = String(seo?.metaTitle ?? "").trim();
-  const description = String(seo?.description ?? "").trim();
-  const keywords = String(seo?.keywords ?? "").trim();
-  const altText = String(seo?.altText ?? "").trim();
+  const title =
+    String(seo?.metaTitle ?? "").trim();
 
-  const canonical = getCanonicalUrl(seo, page);
-  const ogImage = `${SITE_URL}${OG_IMAGE_PATH}`;
+  const description =
+    String(seo?.description ?? "").trim();
 
-  // Only use custom SEO fields when saved in Admin Dashboard.
+  const keywords =
+    String(seo?.keywords ?? "").trim();
+
+  const altText =
+    String(seo?.altText ?? "").trim();
+
+  const canonical =
+    getCanonicalUrl(seo, page);
+
+  const ogImage =
+    `${SITE_URL}${OG_IMAGE_PATH}`;
+
+  // SEO title.
   if (title) {
     html = setTitle(html, title);
     html = setMetaProperty(html, "og:title", title);
     html = setMeta(html, "twitter:title", title);
   }
 
+  // Meta description.
   if (description) {
     html = setMeta(html, "description", description);
     html = setMetaProperty(html, "og:description", description);
     html = setMeta(html, "twitter:description", description);
   }
 
+  // Keywords.
   if (keywords) {
     html = setMeta(html, "keywords", keywords);
   }
 
-  // Canonical belongs to the current page, even without SEO data.
+  // Canonical URL.
   html = setCanonical(html, canonical);
 
-  // Open Graph page identity and image.
+  // Open Graph tags.
   html = setMetaProperty(html, "og:type", "website");
   html = setMetaProperty(html, "og:url", canonical);
-  html = setMetaProperty(html, "og:site_name", "Steel Craft Prefab");
+  html = setMetaProperty(
+    html,
+    "og:site_name",
+    "Steel Craft Prefab"
+  );
   html = setMetaProperty(html, "og:image", ogImage);
 
-  // Twitter image metadata.
-  html = setMeta(html, "twitter:card", "summary_large_image");
+  // Twitter tags.
+  html = setMeta(
+    html,
+    "twitter:card",
+    "summary_large_image"
+  );
+
   html = setMeta(html, "twitter:image", ogImage);
 
-  // Store alt text only when supplied by Admin Dashboard.
+  // SEO alt-text attribute.
   if (altText) {
     html = html.replace(
       /<html\b([^>]*)>/i,
-      `<html$1 data-seo-alt-text="${escapeHTML(altText)}">`
+      (match, attributes) => {
+        const cleanAttributes = attributes.replace(
+          /\sdata-seo-alt-text=(["']).*?\1/gi,
+          ""
+        );
+
+        return `<html${cleanAttributes} data-seo-alt-text="${escapeHTML(altText)}">`;
+      }
     );
   }
 
@@ -543,6 +595,7 @@ function generatePageHTML(template, page, seo = {}) {
     inLanguage: "en-IN",
   };
 
+  // Page schema type.
   let pageType = "WebPage";
 
   if (
@@ -554,8 +607,6 @@ function generatePageHTML(template, page, seo = {}) {
     pageType = "ContactPage";
   }
 
-  // Page schema is always generated.
-  // Name and description are included only when saved.
   const pageSchema = {
     "@type": pageType,
     "@id": `${canonical}#webpage`,
@@ -579,13 +630,17 @@ function generatePageHTML(template, page, seo = {}) {
 
   html = setSchema(html, {
     "@context": "https://schema.org",
-    "@graph": [organization, website, pageSchema],
+    "@graph": [
+      organization,
+      website,
+      pageSchema,
+    ],
   });
 
-  // Static <h1> for crawlers that do not run JavaScript.
-  html = injectH1(html, page.h1, page.h2);
+  // Static H1 and internal links.
+  html = injectStaticContent(html, page);
 
-  // Preserve Google Analytics.
+  // Google Analytics.
   html = addGoogleTag(html);
 
   return html;
@@ -593,11 +648,11 @@ function generatePageHTML(template, page, seo = {}) {
 
 // =====================================================
 // MAIN
-// Generate every configured page, with or without SEO.
 // =====================================================
 
 async function main() {
-  const templatePath = path.join(DIST_DIR, "index.html");
+  const templatePath =
+    path.join(DIST_DIR, "index.html");
 
   if (!fs.existsSync(templatePath)) {
     throw new Error(
@@ -605,26 +660,35 @@ async function main() {
     );
   }
 
-  const template = fs.readFileSync(templatePath, "utf8");
+  const template =
+    fs.readFileSync(templatePath, "utf8");
 
   if (!template.includes("</head>")) {
-    throw new Error("Closing </head> tag not found.");
+    throw new Error(
+      "Closing </head> tag not found."
+    );
   }
 
-  // Fail the build if the OG image did not get copied into dist.
-  if (!fs.existsSync(path.join(DIST_DIR, OG_IMAGE_PATH))) {
+  // Check Open Graph image.
+  if (
+    !fs.existsSync(
+      path.join(DIST_DIR, OG_IMAGE_PATH)
+    )
+  ) {
     throw new Error(
       `OG image not found at dist${OG_IMAGE_PATH}. Put it in public/og/ and rebuild.`
     );
   }
 
-  const [seoItems, homeHeading] = await Promise.all([
-    fetchSeoItems(),
-    fetchHomeHeading(),
-  ]);
+  const [seoItems, homeHeading] =
+    await Promise.all([
+      fetchSeoItems(),
+      fetchHomeHeading(),
+    ]);
 
-  // The Home page heading comes from the Admin Dashboard.
-  const homePage = PAGES.find((page) => page.route === "/");
+  // Update Home page heading.
+  const homePage =
+    PAGES.find((page) => page.route === "/");
 
   if (homePage) {
     homePage.h1 = homeHeading.h1;
@@ -634,39 +698,58 @@ async function main() {
   let generatedCount = 0;
   let failedCount = 0;
 
+  // Generate all pages.
   for (const page of PAGES) {
     const seo =
       seoItems.find(
         (item) =>
-          normalizePage(item?.page) === normalizePage(page.name)
+          normalizePage(item?.page) ===
+          normalizePage(page.name)
       ) || {};
 
     try {
-      // Never skip a page because SEO is missing.
-      const html = generatePageHTML(template, page, seo);
-      const outputPath = path.join(DIST_DIR, page.output);
+      const html =
+        generatePageHTML(template, page, seo);
 
-      fs.mkdirSync(path.dirname(outputPath), {
-        recursive: true,
-      });
+      const outputPath =
+        path.join(DIST_DIR, page.output);
 
-      fs.writeFileSync(outputPath, html, "utf8");
+      fs.mkdirSync(
+        path.dirname(outputPath),
+        {
+          recursive: true,
+        }
+      );
+
+      fs.writeFileSync(
+        outputPath,
+        html,
+        "utf8"
+      );
 
       const hasSavedSeo =
-        Boolean(String(seo.metaTitle ?? "").trim()) ||
-        Boolean(String(seo.description ?? "").trim());
+        Boolean(
+          String(seo.metaTitle ?? "").trim()
+        ) ||
+        Boolean(
+          String(seo.description ?? "").trim()
+        );
 
       console.log(
         `GENERATED: ${page.name} — ${
           hasSavedSeo
-            ? "Saved SEO fields + schema"
-            : "Schema generated without saved SEO"
+            ? "Saved SEO fields + schema + internal links"
+            : "Schema + internal links generated without saved SEO"
         }`
       );
 
       console.log(`File: ${page.output}`);
       console.log(`H1: ${page.h1}`);
-      if (page.h2) console.log(`H2: ${page.h2}`);
+
+      if (page.h2) {
+        console.log(`H2: ${page.h2}`);
+      }
+
       generatedCount++;
     } catch (error) {
       console.error(
@@ -683,12 +766,25 @@ async function main() {
   console.log(`Failed pages: ${failedCount}`);
   console.log("--------------------------------");
 
-  if (failedCount > 0 || generatedCount !== PAGES.length) {
-    throw new Error("Some page HTML files failed to generate.");
+  if (
+    failedCount > 0 ||
+    generatedCount !== PAGES.length
+  ) {
+    throw new Error(
+      "Some page HTML files failed to generate."
+    );
   }
 }
 
+// =====================================================
+// RUN
+// =====================================================
+
 main().catch((error) => {
-  console.error("SEO HTML generation failed:", error.message);
+  console.error(
+    "SEO HTML generation failed:",
+    error.message
+  );
+
   process.exitCode = 1;
 });
