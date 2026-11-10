@@ -480,7 +480,7 @@ function addStaticInternalLinks(&$html, $currentPath, $routes)
         }
 
         $links .= '<li style="margin:8px 0;">'
-            . '<a href="' . seoEscape($route) . '">'
+            . '<a href="' . seoEscape($route) . '" tabindex="-1">'
             . seoEscape($data['page'])
             . '</a>'
             . '</li>';
@@ -488,7 +488,7 @@ function addStaticInternalLinks(&$html, $currentPath, $routes)
 
     $navigation = '
         <section aria-label="Explore more pages"
-            style="padding:20px; text-align:center;">
+            style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">
 
             <p style="font-size:1.5em; font-weight:700; margin:0 0 12px;">Explore More Pages</p>
 
