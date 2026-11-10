@@ -482,7 +482,7 @@ function addStaticInternalLinks(&$html, $currentPath, $routes)
         <section aria-label="Explore more pages"
             style="padding:20px; text-align:center;">
 
-            <h2>Explore More Pages</h2>
+            <p style="font-size:1.5em; font-weight:700; margin:0 0 12px;">Explore More Pages</p>
 
             <nav aria-label="Website internal links">
 
