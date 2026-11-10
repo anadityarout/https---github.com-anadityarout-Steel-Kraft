@@ -18,6 +18,10 @@ const HOME_FALLBACK_H1 =
 
 // =====================================================
 // ALL WEBSITE ROUTES
+//
+// "title" and "description" are FALLBACKS. They are used
+// only when the Admin Dashboard has no saved value, so a
+// page never ships without a <title> or meta description.
 // =====================================================
 
 const PAGES = [
@@ -26,54 +30,78 @@ const PAGES = [
     route: "/",
     output: "index.html",
     h1: HOME_FALLBACK_H1,
+    title:
+      "Steel Craft Prefab | Prefab Homes, Modular Villas & Resort Cottages",
+    description:
+      "Steel Craft Prefab builds prefabricated steel homes, modular villas and resort cottages with fast construction and durable quality.",
   },
   {
     name: "About",
     route: "/about",
     output: "about/index.html",
     h1: "About Steel Kraft Prefab",
+    title: "About Us | Steel Craft Prefab",
+    description:
+      "Learn about Steel Craft Prefab, our team and how we build prefab homes, modular villas and resort cottages.",
   },
   {
     name: "Project",
     route: "/projects",
     output: "projects/index.html",
     h1: "Our Prefab Home & Villa Projects",
+    title: "Our Projects | Steel Craft Prefab",
+    description:
+      "Explore completed prefab homes, modular villas and resort cottages built by Steel Craft Prefab.",
   },
   {
     name: "Home & Cottage",
     route: "/homes-cottages",
     output: "homes-cottages/index.html",
     h1: "Prefab Homes & Resort Cottages",
+    title: "Prefab Homes & Cottages | Steel Craft Prefab",
+    description:
+      "Browse prefab homes and cottages designed and built by Steel Craft Prefab.",
   },
   {
     name: "One BHK",
     route: "/work/1bhk",
     output: "work/1bhk/index.html",
     h1: "1 BHK Prefab Home Designs",
+    title: "1 BHK Prefab Home | Steel Craft Prefab",
+    description: "See our 1 BHK prefab home designs by Steel Craft Prefab.",
   },
   {
     name: "Two BHK",
     route: "/work/2bhk",
     output: "work/2bhk/index.html",
     h1: "2 BHK Prefab Home Designs",
+    title: "2 BHK Prefab Home | Steel Craft Prefab",
+    description: "See our 2 BHK prefab home designs by Steel Craft Prefab.",
   },
   {
     name: "Three BHK",
     route: "/work/3bhk",
     output: "work/3bhk/index.html",
     h1: "3 BHK Prefab Home Designs",
+    title: "3 BHK Prefab Home | Steel Craft Prefab",
+    description: "See our 3 BHK prefab home designs by Steel Craft Prefab.",
   },
   {
     name: "Four BHK",
     route: "/work/4bhk",
     output: "work/4bhk/index.html",
     h1: "4 BHK Prefab Home Designs",
+    title: "4 BHK Prefab Home | Steel Craft Prefab",
+    description: "See our 4 BHK prefab home designs by Steel Craft Prefab.",
   },
   {
     name: "Contact",
     route: "/contact",
     output: "contact/index.html",
     h1: "Contact Steel Craft Prefab",
+    title: "Contact Us | Steel Craft Prefab",
+    description:
+      "Get in touch with Steel Craft Prefab for prefab homes, modular villas and resort cottages.",
   },
 ];
 
@@ -112,7 +140,7 @@ function escapeRegExp(value) {
 
 function removePageSeo(html) {
   html = html.replace(
-    /<title\b[^>]*>[\s\S]*?<\/title>/i,
+    /<title\b[^>]*>[\s\S]*?<\/title>\s*/gi,
     ""
   );
 
@@ -229,7 +257,19 @@ function setTitle(html, title) {
 
 // =====================================================
 // STATIC INTERNAL NAVIGATION + H1
+//
+// Crawlers that do not run JavaScript see these links and
+// the heading. The block is visually hidden so visitors do
+// not see an unstyled list flash before React mounts.
+// React replaces the contents of #root when it loads.
+//
+// To make it visible instead, set HIDE_STATIC_CONTENT to false.
 // =====================================================
+
+const HIDE_STATIC_CONTENT = true;
+
+const HIDDEN_STYLE =
+  "position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap";
 
 function injectStaticContent(html, page) {
   const heading = String(page.h1 ?? "").trim();
@@ -241,7 +281,7 @@ function injectStaticContent(html, page) {
     );
   }
 
-  // Generate links to all other website pages.
+  // Links to all other website pages.
   const internalLinks = PAGES
     .filter((item) => item.route !== page.route)
     .map(
@@ -250,17 +290,23 @@ function injectStaticContent(html, page) {
     )
     .join("\n");
 
-  const staticContent = `
-    <nav aria-label="Website navigation">
-      <ul>
-        ${internalLinks}
-      </ul>
-    </nav>
+  const wrapperStyle = HIDE_STATIC_CONTENT
+    ? ` style="${HIDDEN_STYLE}"`
+    : "";
 
-    <main>
-      <h1>${escapeHTML(heading)}</h1>
-      ${subtitle ? `<h2>${escapeHTML(subtitle)}</h2>` : ""}
-    </main>
+  const staticContent = `
+    <div${wrapperStyle}>
+      <nav aria-label="Website navigation">
+        <ul>
+          ${internalLinks}
+        </ul>
+      </nav>
+
+      <main>
+        <h1>${escapeHTML(heading)}</h1>
+        ${subtitle ? `<h2>${escapeHTML(subtitle)}</h2>` : ""}
+      </main>
+    </div>
   `;
 
   const rootRegex =
@@ -384,7 +430,7 @@ async function fetchSeoItems() {
     return seoItems;
   } catch (error) {
     console.error(
-      "Could not fetch SEO records. Pages will still get schema:",
+      "Could not fetch SEO records. Fallback titles and descriptions will be used:",
       error.message
     );
 
@@ -445,6 +491,8 @@ async function fetchHomeHeading() {
 
 // =====================================================
 // VALIDATE CANONICAL URL
+// Only the www host is accepted, so the canonical always
+// matches the sitemap, robots.txt and Search Console.
 // =====================================================
 
 function getCanonicalUrl(seo, page) {
@@ -461,10 +509,9 @@ function getCanonicalUrl(seo, page) {
   try {
     const parsed = new URL(value);
 
-    const validHost = [
-      "www.steelcraftprefab.com",
-      "steelcraftprefab.com",
-    ].includes(parsed.hostname.toLowerCase());
+    const validHost =
+      parsed.hostname.toLowerCase() ===
+      "www.steelcraftprefab.com";
 
     const actualPath =
       parsed.pathname.replace(/\/+$/, "") || "/";
@@ -496,16 +543,18 @@ function getCanonicalUrl(seo, page) {
 
 // =====================================================
 // GENERATE HTML FOR EACH PAGE
+// Saved dashboard values win; route fallbacks fill gaps.
 // =====================================================
 
 function generatePageHTML(template, page, seo = {}) {
   let html = removePageSeo(template);
 
   const title =
-    String(seo?.metaTitle ?? "").trim();
+    String(seo?.metaTitle ?? "").trim() || page.title;
 
   const description =
-    String(seo?.description ?? "").trim();
+    String(seo?.description ?? "").trim() ||
+    page.description;
 
   const keywords =
     String(seo?.keywords ?? "").trim();
@@ -519,21 +568,16 @@ function generatePageHTML(template, page, seo = {}) {
   const ogImage =
     `${SITE_URL}${OG_IMAGE_PATH}`;
 
-  // SEO title.
-  if (title) {
-    html = setTitle(html, title);
-    html = setMetaProperty(html, "og:title", title);
-    html = setMeta(html, "twitter:title", title);
-  }
+  // Title and description are always present.
+  html = setTitle(html, title);
+  html = setMetaProperty(html, "og:title", title);
+  html = setMeta(html, "twitter:title", title);
 
-  // Meta description.
-  if (description) {
-    html = setMeta(html, "description", description);
-    html = setMetaProperty(html, "og:description", description);
-    html = setMeta(html, "twitter:description", description);
-  }
+  html = setMeta(html, "description", description);
+  html = setMetaProperty(html, "og:description", description);
+  html = setMeta(html, "twitter:description", description);
 
-  // Keywords.
+  // Keywords (only when saved).
   if (keywords) {
     html = setMeta(html, "keywords", keywords);
   }
@@ -605,12 +649,16 @@ function generatePageHTML(template, page, seo = {}) {
     pageType = "CollectionPage";
   } else if (page.name === "Contact") {
     pageType = "ContactPage";
+  } else if (page.name === "About") {
+    pageType = "AboutPage";
   }
 
   const pageSchema = {
     "@type": pageType,
     "@id": `${canonical}#webpage`,
     url: canonical,
+    name: title,
+    description,
     isPartOf: {
       "@id": `${SITE_URL}/#website`,
     },
@@ -619,14 +667,6 @@ function generatePageHTML(template, page, seo = {}) {
     },
     inLanguage: "en-IN",
   };
-
-  if (title) {
-    pageSchema.name = title;
-  }
-
-  if (description) {
-    pageSchema.description = description;
-  }
 
   html = setSchema(html, {
     "@context": "https://schema.org",
@@ -644,6 +684,41 @@ function generatePageHTML(template, page, seo = {}) {
   html = addGoogleTag(html);
 
   return html;
+}
+
+// =====================================================
+// SITEMAP
+// Generated from the PAGES list above, so it always uses
+// the www host and always matches the real routes.
+// This overwrites any sitemap.xml copied from public/.
+// =====================================================
+
+function generateSitemap() {
+  const lastmod = new Date().toISOString().slice(0, 10);
+
+  const urls = PAGES.map(
+    (page) =>
+      `  <url>\n` +
+      `    <loc>${escapeHTML(`${SITE_URL}${page.route}`)}</loc>\n` +
+      `    <lastmod>${lastmod}</lastmod>\n` +
+      `  </url>`
+  ).join("\n\n");
+
+  const xml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n\n` +
+    `${urls}\n\n` +
+    `</urlset>\n`;
+
+  fs.writeFileSync(
+    path.join(DIST_DIR, "sitemap.xml"),
+    xml,
+    "utf8"
+  );
+
+  console.log(
+    `GENERATED: sitemap.xml (${PAGES.length} URLs, ${SITE_URL})`
+  );
 }
 
 // =====================================================
@@ -739,7 +814,7 @@ async function main() {
         `GENERATED: ${page.name} — ${
           hasSavedSeo
             ? "Saved SEO fields + schema + internal links"
-            : "Schema + internal links generated without saved SEO"
+            : "Fallback title/description + schema + internal links"
         }`
       );
 
@@ -759,6 +834,9 @@ async function main() {
       failedCount++;
     }
   }
+
+  // Sitemap always matches the PAGES list.
+  generateSitemap();
 
   console.log("--------------------------------");
   console.log("SEO HTML generation finished.");
