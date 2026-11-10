@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Range.css";
 
 // ============================================
@@ -360,10 +361,10 @@ const Range = () => {
                   <span>{design.size}</span>
                 </div>
 
-                <a href="#contact" className="sk-range__link">
-                  <span>Request details</span>
-                  <Icon name="arrow" size={16} />
-                </a>
+                <Link to="/homes-cottages" className="sk-range__link">
+  <span>Request details</span>
+  <Icon name="arrow" size={16} />
+</Link>
 
               </div>
 
