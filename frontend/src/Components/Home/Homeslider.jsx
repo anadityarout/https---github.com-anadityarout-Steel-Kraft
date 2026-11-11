@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import "./HomeSlider.css";
 import homeImage from "../../assets/home.jpg";
 import home1Image from "../../assets/home1.jpg";
+
+// -----------------------------------------------------
+// OPTIONAL (recommended): small WebP versions for phones.
+// 1) Create 800px-wide WebP files and put them in /assets
+// 2) Uncomment these two imports
+// 3) Uncomment the `mobileImage` lines in `slides` below
+// -----------------------------------------------------
+// import homeMobile from "../../assets/home-mobile.webp";
+// import home1Mobile from "../../assets/home1-mobile.webp";
 
 const BANNER_API_URL =
   "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/homebanner";
@@ -22,9 +31,10 @@ const DEFAULT_BANNER = {
 };
 
 // Read previously saved banner content.
+// localStorage (not sessionStorage) so returning visitors get it instantly.
 function readCachedBanner() {
   try {
-    const raw = sessionStorage.getItem(CACHE_KEY);
+    const raw = localStorage.getItem(CACHE_KEY);
 
     if (!raw) return DEFAULT_BANNER;
 
@@ -44,11 +54,13 @@ function readCachedBanner() {
 const slides = [
   {
     image: homeImage,
+    // mobileImage: homeMobile,
     alt: "Modern prefabricated villa beside a pool at sunset",
     caption: "Poolside Prefab Villa",
   },
   {
     image: home1Image,
+    // mobileImage: home1Mobile,
     alt: "Luxury lakeside resort villa",
     caption: "Lakeside Resort Villa",
   },
@@ -231,9 +243,7 @@ function renderHeading(name) {
   return (
     <>
       {normal && `${normal} `}
-      <span className="home-slider__heading-accent">
-        {accent}
-      </span>
+      <span className="home-slider__heading-accent">{accent}</span>
     </>
   );
 }
@@ -246,11 +256,44 @@ export default function HomeSlider() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // Load cached banner content initially.
-  const [bannerContent, setBannerContent] =
-    useState(readCachedBanner);
+  // PERFORMANCE: only slide 1 loads at first. The other slides are
+  // added after the page has finished loading (or when the visitor
+  // uses the arrows / dots), so they never compete with the first image.
+  const [loadRest, setLoadRest] = useState(false);
 
-  // Fetch latest banner content from Admin Dashboard.
+  // Load cached banner content initially.
+  const [bannerContent, setBannerContent] = useState(readCachedBanner);
+
+  // ---------------------------------------------------
+  // Allow the remaining slides + autoplay after page load
+  // ---------------------------------------------------
+  useEffect(() => {
+    let timer;
+
+    const start = () => {
+      timer = setTimeout(() => setLoadRest(true), 600);
+    };
+
+    if (document.readyState === "complete") {
+      start();
+    } else {
+      window.addEventListener("load", start, { once: true });
+    }
+
+    // Safety net in case the load event is very late.
+    const safety = setTimeout(() => setLoadRest(true), 5000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(safety);
+      window.removeEventListener("load", start);
+    };
+  }, []);
+
+  // ---------------------------------------------------
+  // Fetch latest banner content from Admin Dashboard
+  // (small delay so it never competes with the hero image)
+  // ---------------------------------------------------
   useEffect(() => {
     const controller = new AbortController();
 
@@ -258,7 +301,6 @@ export default function HomeSlider() {
       try {
         const response = await fetch(BANNER_API_URL, {
           signal: controller.signal,
-          cache: "no-store",
           headers: {
             Accept: "application/json",
           },
@@ -278,38 +320,39 @@ export default function HomeSlider() {
 
         const next = {
           // Keep the fallback if admin name is empty.
-          name:
-            String(latestBanner.name || "").trim() ||
-            FALLBACK_HEADING,
+          name: String(latestBanner.name || "").trim() || FALLBACK_HEADING,
           subtitle: String(latestBanner.subtitle || "").trim(),
-          description: String(
-            latestBanner.description || ""
-          ).trim(),
+          description: String(latestBanner.description || "").trim(),
         };
 
-        setBannerContent(next);
+        // Only update the screen if something actually changed
+        // (avoids a needless re-render / layout shift).
+        setBannerContent((current) =>
+          current.name === next.name &&
+          current.subtitle === next.subtitle &&
+          current.description === next.description
+            ? current
+            : next
+        );
 
         try {
-          sessionStorage.setItem(
-            CACHE_KEY,
-            JSON.stringify(next)
-          );
+          localStorage.setItem(CACHE_KEY, JSON.stringify(next));
         } catch {
           // Ignore storage errors.
         }
       } catch (error) {
         if (error.name !== "AbortError") {
-          console.error(
-            "Failed to load banner content:",
-            error
-          );
+          console.error("Failed to load banner content:", error);
         }
       }
     };
 
-    fetchBannerContent();
+    const timer = setTimeout(fetchBannerContent, 300);
 
-    return () => controller.abort();
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
   }, []);
 
   // Floating chip state.
@@ -328,10 +371,7 @@ export default function HomeSlider() {
     document.addEventListener("pointerdown", closeOnOutside);
 
     return () => {
-      document.removeEventListener(
-        "pointerdown",
-        closeOnOutside
-      );
+      document.removeEventListener("pointerdown", closeOnOutside);
     };
   }, [openChip]);
 
@@ -342,40 +382,74 @@ export default function HomeSlider() {
 
   const total = slides.length;
 
-  const goToNext = () =>
+  // Any manual navigation makes sure the other slides are loaded.
+  const goToNext = useCallback(() => {
+    setLoadRest(true);
     setActive((prev) => (prev + 1) % total);
+  }, [total]);
 
-  const goToPrev = () =>
+  const goToPrev = () => {
+    setLoadRest(true);
     setActive((prev) => (prev - 1 + total) % total);
+  };
+
+  const goTo = (index) => {
+    setLoadRest(true);
+    setActive(index);
+  };
 
   const pad = (n) => String(n).padStart(2, "0");
 
   return (
     <section
       className={
-        "home-slider" + (paused ? " is-paused" : "")
+        "home-slider" +
+        (paused ? " is-paused" : "") +
+        (loadRest ? " is-ready" : "")
       }
       aria-roledescription="carousel"
       aria-label="Steel Kraft featured homes"
     >
       <div className="home-slider__stage">
-
         {/* SLIDER IMAGES */}
-        {slides.map((slide, index) => (
-          <img
-            key={index}
-            className={
-              "home-slider__image" +
-              (index === active ? " is-active" : "")
-            }
-            src={slide.image}
-            alt={slide.alt}
-            decoding="async"
-            loading="eager"
-            fetchPriority={index === 0 ? "high" : "low"}
-            aria-hidden={index === active ? undefined : "true"}
-          />
-        ))}
+        {slides.map((slide, index) => {
+          // Slide 2+ are not rendered until the page has loaded.
+          if (index > 0 && !loadRest) return null;
+
+          const isFirst = index === 0;
+
+          const img = (
+            <img
+              className={
+                "home-slider__image" +
+                (index === active ? " is-active" : "")
+              }
+              src={slide.image}
+              alt={slide.alt}
+              width="1600"
+              height="900"
+              decoding={isFirst ? "sync" : "async"}
+              loading={isFirst ? "eager" : "lazy"}
+              fetchPriority={isFirst ? "high" : "low"}
+              aria-hidden={index === active ? undefined : "true"}
+            />
+          );
+
+          // If a small mobile image is provided, phones download that one.
+          if (slide.mobileImage) {
+            return (
+              <picture key={index}>
+                <source
+                  media="(max-width: 700px)"
+                  srcSet={slide.mobileImage}
+                />
+                {img}
+              </picture>
+            );
+          }
+
+          return React.cloneElement(img, { key: index });
+        })}
 
         {/* DARK GRADIENT */}
         <div className="home-slider__overlay" />
@@ -395,8 +469,7 @@ export default function HomeSlider() {
                 }
                 aria-expanded={isOpen}
                 onPointerEnter={(e) =>
-                  e.pointerType === "mouse" &&
-                  setOpenChip(index)
+                  e.pointerType === "mouse" && setOpenChip(index)
                 }
                 onPointerLeave={(e) =>
                   e.pointerType === "mouse" &&
@@ -443,12 +516,9 @@ export default function HomeSlider() {
 
         {/* MAIN CONTENT */}
         <div className="home-slider__content">
-
           <div className="home-slider__eyebrow">
             <span className="home-slider__eyebrow-dot" />
-            <span>
-              MODERN | SUSTAINABLE | PREFABRICATED
-            </span>
+            <span>MODERN | SUSTAINABLE | PREFABRICATED</span>
           </div>
 
           {/* H1: ALWAYS RENDERED. Fallback text first, Admin Dashboard text once loaded. */}
@@ -473,40 +543,35 @@ export default function HomeSlider() {
           {/* BUTTONS */}
           <div className="home-slider__actions">
             <Link
-  to="/homes-cottages"
-  className="home-slider__btn home-slider__btn--light"
->
-  <span>Explore Our Designs</span>
+              to="/homes-cottages"
+              className="home-slider__btn home-slider__btn--light"
+            >
+              <span>Explore Our Designs</span>
 
-  <span className="home-slider__btn-arrow">
-    <Icon name="arrow-right" size={16} />
-  </span>
-</Link>
+              <span className="home-slider__btn-arrow">
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </Link>
 
             <button
-  type="button"
-  className="home-slider__btn home-slider__btn--gold"
-  onClick={() => {
-    window.dispatchEvent(
-      new Event("open-quote-popup")
-    );
-  }}
->
-  <span>Get a Quote</span>
+              type="button"
+              className="home-slider__btn home-slider__btn--gold"
+              onClick={() => {
+                window.dispatchEvent(new Event("open-quote-popup"));
+              }}
+            >
+              <span>Get a Quote</span>
 
-  <span className="home-slider__btn-arrow">
-    <Icon name="arrow-right" size={16} />
-  </span>
-</button>
+              <span className="home-slider__btn-arrow">
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </button>
           </div>
 
           {/* FEATURE ROW */}
           <ul className="home-slider__features">
             {features.map((feature) => (
-              <li
-                key={feature.label}
-                className="home-slider__feature"
-              >
+              <li key={feature.label} className="home-slider__feature">
                 <span className="home-slider__feature-icon">
                   <Icon name={feature.icon} size={15} />
                 </span>
@@ -518,7 +583,6 @@ export default function HomeSlider() {
 
           {/* SLIDER CONTROLS */}
           <div className="home-slider__controls">
-
             <button
               type="button"
               className="home-slider__round"
@@ -541,21 +605,15 @@ export default function HomeSlider() {
                   <button
                     key={index}
                     type="button"
-                    className={
-                      "home-slider__seg" + state
-                    }
-                    onClick={() => setActive(index)}
+                    className={"home-slider__seg" + state}
+                    onClick={() => goTo(index)}
                     aria-label={`Go to slide ${index + 1}`}
-                    aria-current={
-                      index === active ? "true" : undefined
-                    }
+                    aria-current={index === active ? "true" : undefined}
                   >
                     <span className="home-slider__seg-track">
                       <span
                         key={
-                          index === active
-                            ? `a-${active}`
-                            : `i-${index}`
+                          index === active ? `a-${active}` : `i-${index}`
                         }
                         className="home-slider__seg-fill"
                         onAnimationEnd={
@@ -581,14 +639,9 @@ export default function HomeSlider() {
               type="button"
               className="home-slider__round"
               onClick={() => setPaused((p) => !p)}
-              aria-label={
-                paused ? "Play slideshow" : "Pause slideshow"
-              }
+              aria-label={paused ? "Play slideshow" : "Pause slideshow"}
             >
-              <Icon
-                name={paused ? "play" : "pause"}
-                size={14}
-              />
+              <Icon name={paused ? "play" : "pause"} size={14} />
             </button>
           </div>
         </div>
@@ -606,21 +659,12 @@ export default function HomeSlider() {
       </div>
 
       {/* BOTTOM SCROLLING STRIP */}
-      <div
-        className="home-slider__marquee"
-        aria-hidden="true"
-      >
+      <div className="home-slider__marquee" aria-hidden="true">
         <div className="home-slider__marquee-track">
           {[0, 1].map((copy) => (
-            <div
-              key={copy}
-              className="home-slider__marquee-group"
-            >
+            <div key={copy} className="home-slider__marquee-group">
               {marqueeItems.map((item) => (
-                <span
-                  key={item}
-                  className="home-slider__marquee-item"
-                >
+                <span key={item} className="home-slider__marquee-item">
                   <span>{item}</span>
 
                   <span className="home-slider__marquee-star">

@@ -1,7 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap");
-
 /* =========================================================
-   HOME SLIDER
+   HOME SLIDER  (performance-optimised)
+
+   IMPORTANT: the Google Fonts @import was removed because it
+   blocks rendering. Add this to the <head> of index.html:
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link rel="stylesheet"
+     href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Poppins:wght@400;600&display=swap">
 
    Stacking order (low -> high):
    0  hero images
@@ -17,7 +23,8 @@
    Performance notes:
    - No backdrop-filter blur on this hero.
    - No image zoom; the slides only cross-fade.
-   - Animated parts use will-change so they run on the GPU.
+   - On phones: chips and marquee do not animate.
+   - Autoplay starts only after the page has loaded (.is-ready).
    ========================================================= */
 
 .home-slider {
@@ -55,7 +62,7 @@
 
   box-sizing: border-box;
 
-  font-family: "Poppins", "Segoe UI", sans-serif;
+  font-family: "Poppins", "Segoe UI", Arial, sans-serif;
 }
 
 .home-slider *,
@@ -78,6 +85,9 @@
   min-height: 700px;
 
   overflow: hidden;
+
+  /* keeps repaints inside the hero */
+  contain: paint;
 }
 
 
@@ -101,9 +111,12 @@
 
   transition: opacity 0.9s ease;
 
-  will-change: opacity;
-
   z-index: 0;
+}
+
+/* <picture> wrapper (used when a mobile image is provided) */
+.home-slider__stage > picture {
+  display: contents;
 }
 
 .home-slider__image.is-active {
@@ -197,8 +210,6 @@
   pointer-events: auto;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-
-  will-change: transform;
 
   animation: home-slider-float 6s ease-in-out infinite;
 
@@ -721,19 +732,19 @@
 
   transform: scaleX(0);
   transform-origin: left center;
-
-  will-change: transform;
 }
 
 .home-slider__seg.is-done .home-slider__seg-fill {
   transform: scaleX(1);
 }
 
-.home-slider__seg.is-active .home-slider__seg-fill {
+/* Autoplay progress only starts once the page has loaded (.is-ready),
+   so slide 2 is always available before the slider tries to show it. */
+.home-slider.is-ready .home-slider__seg.is-active .home-slider__seg-fill {
   animation: home-slider-fill var(--autoplay) linear forwards;
 }
 
-.home-slider.is-paused .home-slider__seg.is-active .home-slider__seg-fill {
+.home-slider.is-paused.is-ready .home-slider__seg.is-active .home-slider__seg-fill {
   animation-play-state: paused;
 }
 
@@ -822,8 +833,6 @@
   display: flex;
 
   width: max-content;
-
-  will-change: transform;
 
   animation: home-slider-marquee 34s linear infinite;
 }
@@ -953,9 +962,10 @@
    MOBILE (and small tablets)
 
    - image fills the whole hero
-   - floating chips sit in the upper area
+   - floating chips sit in the upper area (no floating animation)
    - text sits on the image, near the bottom
    - space kept free at the top for the floating navbar
+   - marquee does not animate (saves constant repaints)
    ========================================================= */
 
 @media (max-width: 900px) {
@@ -1005,6 +1015,10 @@
   .home-slider__chip {
     padding-right: 16px;
     gap: 10px;
+
+    /* PERFORMANCE: no endless floating on phones, lighter shadow */
+    animation: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   }
 
   .home-slider__chip-label {
@@ -1032,6 +1046,18 @@
     right: 4%;
     top: 74%;
   }
+
+  /* -------------------------------------------------------
+     OPTIONAL, FASTEST MOBILE HERO: hide the chips and pull
+     the text up. To use it, delete the line
+       "padding: calc(var(--navbar-offset) + 262px) 22px 18px;"
+     in .home-slider__content below, and uncomment this:
+
+  .home-slider__floats { display: none; }
+  .home-slider__content {
+    padding: calc(var(--navbar-offset) + 60px) 22px 18px;
+  }
+  ------------------------------------------------------- */
 
 
   /* ---------- CONTENT ---------- */
@@ -1127,6 +1153,13 @@
 
     font-size: 11px;
     letter-spacing: 1.6px;
+  }
+
+
+  /* ---------- MARQUEE: static on phones ---------- */
+
+  .home-slider__marquee-track {
+    animation: none;
   }
 }
 
