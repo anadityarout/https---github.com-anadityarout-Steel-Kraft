@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -33,24 +33,16 @@ import Gallery from "./Components/Home/Gallery";
 import FaqSection from "./Components/Home/FaqSection";
 
 // =====================================================
-// MAIN PAGES
+// SEO
 // =====================================================
 
-import Contact from "./Components/Contact/Contact";
-import ProjectPage from "./Components/ProjectPage/ProjectPage";
-import Homecottages from "./Components/HomeCottages/HomeCottages";
+import SeoMetadata from "./Components/Seomain/SeoMetadata";
+
+// =====================================================
+// FOOTER
+// =====================================================
+
 import Footer from "./Components/Footer/Footer";
-import OneBHK from "./Components/Work/OneBHK";
-import Twobhk from "./Components/Work/Twobhk";
-import Threebhk from "./Components/Work/Threebhk";
-import FourBhk from "./Components/Work/FourBhk";
-import AboutPage from "./Components/About/About";
-
-// =====================================================
-// ADMIN DASHBOARD
-// =====================================================
-
-import AdminDashboard from "./Admin/AdminDashboard";
 
 // =====================================================
 // POPUP COMPONENTS
@@ -61,10 +53,45 @@ import GetQuote from "./Components/Popup/GetQuote";
 import FloatingChat from "./Components/Popup/FloatingChat";
 
 // =====================================================
-// SEO
+// LAZY LOADED PAGES
+// These components load only when their routes are opened.
 // =====================================================
 
-import SeoMetadata from "./Components/Seomain/SeoMetadata";
+const Contact = lazy(() =>
+  import("./Components/Contact/Contact")
+);
+
+const ProjectPage = lazy(() =>
+  import("./Components/ProjectPage/ProjectPage")
+);
+
+const Homecottages = lazy(() =>
+  import("./Components/HomeCottages/HomeCottages")
+);
+
+const OneBHK = lazy(() =>
+  import("./Components/Work/OneBHK")
+);
+
+const Twobhk = lazy(() =>
+  import("./Components/Work/Twobhk")
+);
+
+const Threebhk = lazy(() =>
+  import("./Components/Work/Threebhk")
+);
+
+const FourBhk = lazy(() =>
+  import("./Components/Work/FourBhk")
+);
+
+const AboutPage = lazy(() =>
+  import("./Components/About/About")
+);
+
+const AdminDashboard = lazy(() =>
+  import("./Admin/AdminDashboard")
+);
 
 // =====================================================
 // SCROLL TO TOP ON ROUTE CHANGE
@@ -96,17 +123,29 @@ function Home() {
   return (
     <>
       <Homeslider />
+
       <Aboutus />
+
       <WhyChooseBar />
+
       <Range />
+
       <WhoWeServe />
+
       <FasterByDesign />
+
       <Project />
+
       <Gallery />
+
       <FaqSection />
+
       <PanIndiaService />
+
       <WhyChooseSteelKraft />
+
       <NatureApplications />
+
       <ReadyToBuild />
     </>
   );
@@ -151,6 +190,18 @@ function NotFound() {
 }
 
 // =====================================================
+// ROUTE LOADING FALLBACK
+// =====================================================
+
+function RouteLoading() {
+  return (
+    <div className="route-loading">
+      Loading...
+    </div>
+  );
+}
+
+// =====================================================
 // APP LAYOUT
 // =====================================================
 
@@ -160,7 +211,6 @@ function AppLayout() {
 
   // =====================================================
   // WEBSITE ROUTES
-  // Navbar and Footer show only on website pages.
   // =====================================================
 
   const websiteRoutes = [
@@ -178,136 +228,123 @@ function AppLayout() {
   const isWebsitePage = websiteRoutes.includes(pathname);
 
   // =====================================================
-  // GET A QUOTE POPUP
-  // Available on ALL website pages.
+  // POPUPS
   // =====================================================
 
   const showQuotePopup = isWebsitePage;
 
-  // =====================================================
-  // CONSULTATION POPUP
-  // Home page only.
-  // =====================================================
-
   const showConsultationPopup = pathname === "/";
-
-  // =====================================================
-  // FLOATING CHAT
-  // Home page only.
-  // =====================================================
 
   const showFloatingChat = pathname === "/";
 
   return (
     <>
-      {/* ================================================
-          DYNAMIC SEO METADATA
-      ================================================ */}
+      {/* SEO METADATA */}
 
       {isWebsitePage && <SeoMetadata />}
 
-      {/* ================================================
-          NAVBAR
-      ================================================ */}
+      {/* NAVBAR */}
 
       {isWebsitePage && <Navbar />}
 
-      {/* ================================================
-          CONSULTATION POPUP - HOME ONLY
-      ================================================ */}
+      {/* CONSULTATION POPUP - HOME ONLY */}
 
       {showConsultationPopup && <Popup />}
 
-      {/* ================================================
-          GET A QUOTE POPUP - ALL WEBSITE PAGES
-      ================================================ */}
+      {/* GET A QUOTE POPUP - WEBSITE PAGES */}
 
       {showQuotePopup && <GetQuote />}
 
-      {/* ================================================
-          FLOATING CHAT - HOME ONLY
-      ================================================ */}
+      {/* FLOATING CHAT - HOME ONLY */}
 
       {showFloatingChat && <FloatingChat />}
 
-      {/* ================================================
-          WEBSITE AND ADMIN ROUTES
-      ================================================ */}
+      {/* ROUTES WITH LAZY LOADING */}
 
-      <Routes>
-        {/* HOME PAGE */}
-        <Route path="/" element={<Home />} />
+      <Suspense fallback={<RouteLoading />}>
+        <Routes>
 
-        {/* ABOUT US PAGE */}
-        <Route
-          path="/about"
-          element={<AboutPage />}
-        />
+          {/* HOME PAGE */}
 
-        {/* CONTACT PAGE */}
-        <Route
-          path="/contact"
-          element={<Contact />}
-        />
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
-        {/* PROJECT PAGE */}
-        <Route
-          path="/projects"
-          element={<ProjectPage />}
-        />
+          {/* ABOUT US */}
 
-        {/* HOMES & COTTAGES PAGE */}
-        <Route
-          path="/homes-cottages"
-          element={<Homecottages />}
-        />
+          <Route
+            path="/about"
+            element={<AboutPage />}
+          />
 
-        {/* 1 BHK PAGE */}
-        <Route
-          path="/work/1bhk"
-          element={<OneBHK />}
-        />
+          {/* CONTACT */}
 
-        {/* 2 BHK PAGE */}
-        <Route
-          path="/work/2bhk"
-          element={<Twobhk />}
-        />
+          <Route
+            path="/contact"
+            element={<Contact />}
+          />
 
-        {/* 3 BHK PAGE */}
-        <Route
-          path="/work/3bhk"
-          element={<Threebhk />}
-        />
+          {/* PROJECTS */}
 
-        {/* 4 BHK PAGE */}
-        <Route
-          path="/work/4bhk"
-          element={<FourBhk />}
-        />
+          <Route
+            path="/projects"
+            element={<ProjectPage />}
+          />
 
-        {/* ============================================
-            ADMIN DASHBOARD
-        ============================================ */}
+          {/* HOMES & COTTAGES */}
 
-        <Route
-          path="/admin/*"
-          element={<AdminDashboard />}
-        />
+          <Route
+            path="/homes-cottages"
+            element={<Homecottages />}
+          />
 
-        {/* ============================================
-            404 PAGE
-        ============================================ */}
+          {/* 1 BHK */}
 
-        <Route
-          path="*"
-          element={<NotFound />}
-        />
-      </Routes>
+          <Route
+            path="/work/1bhk"
+            element={<OneBHK />}
+          />
 
-      {/* ================================================
-          FOOTER - WEBSITE PAGES ONLY
-      ================================================ */}
+          {/* 2 BHK */}
+
+          <Route
+            path="/work/2bhk"
+            element={<Twobhk />}
+          />
+
+          {/* 3 BHK */}
+
+          <Route
+            path="/work/3bhk"
+            element={<Threebhk />}
+          />
+
+          {/* 4 BHK */}
+
+          <Route
+            path="/work/4bhk"
+            element={<FourBhk />}
+          />
+
+          {/* ADMIN DASHBOARD */}
+
+          <Route
+            path="/admin/*"
+            element={<AdminDashboard />}
+          />
+
+          {/* 404 PAGE */}
+
+          <Route
+            path="*"
+            element={<NotFound />}
+          />
+
+        </Routes>
+      </Suspense>
+
+      {/* FOOTER */}
 
       {isWebsitePage && <Footer />}
     </>
@@ -322,6 +359,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+
       <AppLayout />
     </BrowserRouter>
   );
