@@ -40,34 +40,6 @@ function readCachedBanner() {
   }
 }
 
-// seo.php writes the saved banner text into the page as
-// window.__HOME_BANNER__, so the very first render already has the
-// final heading, subtitle and description. This avoids the text
-// changing (and the layout shifting) after the API call finishes.
-function readInitialBanner() {
-  try {
-    const injected =
-      typeof window !== "undefined" ? window.__HOME_BANNER__ : null;
-
-    if (injected && typeof injected === "object") {
-      return {
-        name: String(injected.name || "").trim() || FALLBACK_HEADING,
-        subtitle: String(injected.subtitle || "").trim(),
-        description: String(injected.description || "").trim(),
-      };
-    }
-  } catch {
-    // Fall through to the cached copy.
-  }
-
-  return readCachedBanner();
-}
-
-// The slideshow starts rotating this long after the page has loaded.
-// Until then the first slide stays still, so the page can finish
-// loading without the whole hero image changing underneath it.
-const AUTOPLAY_DELAY_MS = 6000;
-
 // Banner slides
 const slides = [
   {
@@ -274,40 +246,9 @@ export default function HomeSlider() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  // Second photo is only added after the page has loaded, so it
-  // never competes with the first photo for bandwidth.
-  const [secondReady, setSecondReady] = useState(false);
-
-  // Automatic rotation starts a few seconds after load.
-  const [autoplayReady, setAutoplayReady] = useState(false);
-
-  useEffect(() => {
-    let timer;
-
-    const onLoaded = () => {
-      setSecondReady(true);
-
-      timer = window.setTimeout(
-        () => setAutoplayReady(true),
-        AUTOPLAY_DELAY_MS
-      );
-    };
-
-    if (document.readyState === "complete") {
-      onLoaded();
-    } else {
-      window.addEventListener("load", onLoaded, { once: true });
-    }
-
-    return () => {
-      window.removeEventListener("load", onLoaded);
-      window.clearTimeout(timer);
-    };
-  }, []);
-
-  // Start from the text injected by the server, then the cached copy.
+  // Load cached banner content initially.
   const [bannerContent, setBannerContent] =
-    useState(readInitialBanner);
+    useState(readCachedBanner);
 
   // Fetch latest banner content from Admin Dashboard.
   useEffect(() => {
@@ -401,24 +342,18 @@ export default function HomeSlider() {
 
   const total = slides.length;
 
-  // Other slides do not exist until the page has loaded.
-  const goToNext = () => {
-    if (!secondReady) return;
+  const goToNext = () =>
     setActive((prev) => (prev + 1) % total);
-  };
 
-  const goToPrev = () => {
-    if (!secondReady) return;
+  const goToPrev = () =>
     setActive((prev) => (prev - 1 + total) % total);
-  };
 
   const pad = (n) => String(n).padStart(2, "0");
 
   return (
     <section
       className={
-        "home-slider" +
-        (paused || !autoplayReady ? " is-paused" : "")
+        "home-slider" + (paused ? " is-paused" : "")
       }
       aria-roledescription="carousel"
       aria-label="Steel Kraft featured homes"
@@ -426,23 +361,21 @@ export default function HomeSlider() {
       <div className="home-slider__stage">
 
         {/* SLIDER IMAGES */}
-        {slides.map((slide, index) =>
-          index === 0 || secondReady ? (
-            <img
-              key={index}
-              className={
-                "home-slider__image" +
-                (index === active ? " is-active" : "")
-              }
-              src={slide.image}
-              alt={slide.alt}
-              decoding="async"
-              loading="eager"
-              fetchPriority={index === 0 ? "high" : "low"}
-              aria-hidden={index === active ? undefined : "true"}
-            />
-          ) : null
-        )}
+        {slides.map((slide, index) => (
+          <img
+            key={index}
+            className={
+              "home-slider__image" +
+              (index === active ? " is-active" : "")
+            }
+            src={slide.image}
+            alt={slide.alt}
+            decoding="async"
+            loading="eager"
+            fetchPriority={index === 0 ? "high" : "low"}
+            aria-hidden={index === active ? undefined : "true"}
+          />
+        ))}
 
         {/* DARK GRADIENT */}
         <div className="home-slider__overlay" />
@@ -611,9 +544,7 @@ export default function HomeSlider() {
                     className={
                       "home-slider__seg" + state
                     }
-                    onClick={() => {
-                      if (secondReady) setActive(index);
-                    }}
+                    onClick={() => setActive(index)}
                     aria-label={`Go to slide ${index + 1}`}
                     aria-current={
                       index === active ? "true" : undefined

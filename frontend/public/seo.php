@@ -464,42 +464,6 @@ function injectRootHeading(&$html, $heading, $subtitle = '')
 
 
 // =========================================================
-// HOME BANNER DATA FOR REACT
-// Writes the saved banner text into the page so HomeSlider
-// renders the final heading, subtitle and description on the
-// very first paint. No text swap and no layout shift.
-// =========================================================
-
-function injectBannerData(&$html, $payload)
-{
-    $json = json_encode(
-        $payload,
-        JSON_UNESCAPED_SLASHES |
-        JSON_UNESCAPED_UNICODE |
-        JSON_HEX_TAG |
-        JSON_HEX_AMP |
-        JSON_HEX_APOS |
-        JSON_HEX_QUOT
-    );
-
-    if ($json === false) {
-        return;
-    }
-
-    $tag = '<script>window.__HOME_BANNER__=' . $json . ';</script>';
-
-    $html = preg_replace_callback(
-        '~</head>~i',
-        function () use ($tag) {
-            return $tag . "\n</head>";
-        },
-        $html,
-        1
-    );
-}
-
-
-// =========================================================
 // STATIC INTERNAL NAVIGATION
 // INSERTED OUTSIDE REACT ROOT
 // =========================================================
@@ -1087,7 +1051,6 @@ setSchema($html, $schema);
 
 $h1 = $route['h1'];
 $h2 = $route['h2'] ?? '';
-$bannerPayload = null;
 
 if ($path === '/') {
 
@@ -1107,21 +1070,11 @@ if ($path === '/') {
             }
 
             $h2 = $bannerSub;
-
-            $bannerPayload = [
-                'name' => $bannerName,
-                'subtitle' => $bannerSub,
-                'description' => trim((string) ($latest['description'] ?? '')),
-            ];
         }
     }
 }
 
 injectRootHeading($html, $h1, $h2);
-
-if ($bannerPayload !== null) {
-    injectBannerData($html, $bannerPayload);
-}
 
 
 // =========================================================
