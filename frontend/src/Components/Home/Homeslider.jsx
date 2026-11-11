@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./HomeSlider.css";
-import homeImage from "../../assets/home.webp";
-import home1Image from "../../assets/home1.webp";
+import homeImage from "../../assets/home.jpg";
+import home1Image from "../../assets/home1.jpg";
 
 const BANNER_API_URL =
   "https://u1mfaahkgg.execute-api.ap-south-1.amazonaws.com/prod/homebanner";
@@ -361,24 +361,21 @@ export default function HomeSlider() {
       <div className="home-slider__stage">
 
         {/* SLIDER IMAGES */}
-       {/* OPTIMIZED SLIDER IMAGES */}
-{slides.map((slide, index) => (
-  <img
-    key={index}
-    className={
-      "home-slider__image" +
-      (index === active ? " is-active" : "")
-    }
-    src={slide.image}
-    alt={slide.alt}
-    width="1920"
-    height="850"
-    decoding="async"
-    loading={index === 0 ? "eager" : "lazy"}
-    fetchPriority={index === 0 ? "high" : "low"}
-    aria-hidden={index === active ? undefined : "true"}
-  />
-))}
+        {slides.map((slide, index) => (
+          <img
+            key={index}
+            className={
+              "home-slider__image" +
+              (index === active ? " is-active" : "")
+            }
+            src={slide.image}
+            alt={slide.alt}
+            decoding="async"
+            loading="eager"
+            fetchPriority={index === 0 ? "high" : "low"}
+            aria-hidden={index === active ? undefined : "true"}
+          />
+        ))}
 
         {/* DARK GRADIENT */}
         <div className="home-slider__overlay" />
